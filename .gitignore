@@ -1,0 +1,51 @@
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Composer / npm (если есть)
+vendor/
+node_modules/
+package-lock.json
+yarn.lock
+
+# OpenCart system storage
+system/storage/cache/
+system/storage/logs/
+system/storage/download/
+system/storage/session/
+system/storage/upload/
+
+# OC 2.x legacy
+system/cache/
+system/logs/
+
+# Config files with secrets
+config.php
+admin/config.php
+
+# User uploads
+image/cache/
+image/catalog/demo/
+image/catalog/*/cache/
+
+# Installer (should be deleted after install)
+install/
+
+# Temporary / backups
+*.zip
+*.rar
+*.tar
+*.tar.gz
+*.bak
+*.tmp
+*.old
+
+# Env files
+.env
+.env.*
+
+# Laragon / local server
+.htaccess.local
