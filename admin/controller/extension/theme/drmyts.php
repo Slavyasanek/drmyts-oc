@@ -41,6 +41,13 @@ class ControllerExtensionThemeDrMyts extends Controller {
 			$data['error_image_category'] = '';
 		}
 
+		if (isset($this->error['image_manufacturer'])) {
+			$data['error_image_manufacturer'] = $this->error['image_manufacturer'];
+		} else {
+			$data['error_image_manufacturer'] = '';
+		}
+
+
 		if (isset($this->error['image_thumb'])) {
 			$data['error_image_thumb'] = $this->error['image_thumb'];
 		} else {
@@ -174,6 +181,22 @@ class ControllerExtensionThemeDrMyts extends Controller {
 			$data['theme_drmyts_image_category_height'] = $setting_info['theme_drmyts_image_category_height'];
 		} else {
 			$data['theme_drmyts_image_category_height'] = 80;
+		}
+        		
+		if (isset($this->request->post['theme_drmyts_image_manufacturer_width'])) {
+			$data['theme_drmyts_image_manufacturer_width'] = $this->request->post['theme_drmyts_image_manufacturer_width'];
+		} elseif (isset($setting_info['theme_drmyts_image_manufacturer_width'])) {
+			$data['theme_drmyts_image_manufacturer_width'] = $setting_info['theme_drmyts_image_manufacturer_width'];
+		} else {
+			$data['theme_drmyts_image_manufacturer_width'] = 80;		
+		}
+		
+		if (isset($this->request->post['theme_drmyts_image_manufacturer_height'])) {
+			$data['theme_drmyts_image_manufacturer_height'] = $this->request->post['theme_drmyts_image_manufacturer_height'];
+		} elseif (isset($setting_info['theme_drmyts_image_manufacturer_height'])) {
+			$data['theme_drmyts_image_manufacturer_height'] = $setting_info['theme_drmyts_image_manufacturer_height'];
+		} else {
+			$data['theme_drmyts_image_manufacturer_height'] = 80;
 		}
 		
 		if (isset($this->request->post['theme_drmyts_image_thumb_width'])) {
@@ -343,6 +366,11 @@ class ControllerExtensionThemeDrMyts extends Controller {
 		if (!$this->request->post['theme_drmyts_image_category_width'] || !$this->request->post['theme_drmyts_image_category_height']) {
 			$this->error['image_category'] = $this->language->get('error_image_category');
 		}
+
+		if (!$this->request->post['theme_drmyts_image_manufacturer_width'] || !$this->request->post['theme_drmyts_image_manufacturer_height']) {
+			$this->error['image_manufacturer'] = $this->language->get('error_image_manufacturer');
+		}
+
 
 		if (!$this->request->post['theme_drmyts_image_thumb_width'] || !$this->request->post['theme_drmyts_image_thumb_height']) {
 			$this->error['image_thumb'] = $this->language->get('error_image_thumb');

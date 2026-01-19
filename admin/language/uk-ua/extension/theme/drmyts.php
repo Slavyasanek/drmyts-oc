@@ -16,6 +16,7 @@ $_['entry_status']                     = 'Статус';
 $_['entry_product_limit']              = 'Кількість товарів на сторінці';
 $_['entry_product_description_length'] = 'Ліміт символів в описі списку';
 $_['entry_image_category']             = 'Розмір зображення категорії (Ш х В)';
+$_['entry_image_manufacturer']          = 'Розмір зображень виробника (Ш x В)';
 $_['entry_image_thumb']                = 'Розмір великого зображення товару (Ш х В)';
 $_['entry_image_popup']                = 'Розмір спливаючого зображення товару (Ш х В)';
 $_['entry_image_product']              = 'Розмір зображення у списку товарів (Ш х В)';
