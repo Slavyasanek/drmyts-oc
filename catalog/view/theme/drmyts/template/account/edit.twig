@@ -1,0 +1,212 @@
+{{ header }}
+
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<main>
+    <div class="page-title border--end">
+        <div class="container page-title__container">
+            <h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ heading_title }}</h1>
+            <div class="breadcrumbs text--color_gray page-title__breadcrumbs">
+                <div class="breadcrumbs__list flex-row">
+                    {% for breadcrumb in breadcrumbs %}
+                        <a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="account">
+        <div class="container account__container">
+            <div class="account__nav flex-col border--end">
+                <a class="flex-row account__nav-item text--upp active" href="{{ edit }}">
+                    <div class="icon account__nav-icon">
+                        {{ macros.svg('user', '') }}
+                    </div>
+                    <span>{{ text_edit }}</span>
+                </a>
+                <a class="flex-row account__nav-item text--upp" href="{{ wishlist }}">
+                    <div class="icon account__nav-icon">
+                        {{ macros.svg('heart', '') }}
+                    </div>
+                    <span>{{ text_wishlist }}</span>
+                </a>
+                <a class="flex-row account__nav-item text--upp" href="{{ order }}">
+                    <div class="icon account__nav-icon">
+                        {{ macros.svg('shopping-bag', '') }}
+                    </div>
+                    <span>{{ text_order }}</span>
+                </a>
+                <a class="flex-row account__nav-item text--upp" href="{{ logout }}">
+                    <div class="icon account__nav-icon">
+                        {{ macros.svg('logout', '') }}
+                    </div>
+                    <span>{{ text_logout }}</span>
+                </a>
+            </div>
+            <div class="account__content">
+                {% if success %}
+                    <div class="flex-row account__success">
+                        <div class="icon account__success-icon">
+                            {{ macros.svg('icon-check', '') }}
+                        </div>
+                        <span>{{ success }}</span>
+                    </div>
+                {% endif %}
+                <h2 class="account__subtitle text--size_h3-full">{{ text_edit }}</h2>
+                <form class="account-details d-grid" action="{{ action }}" method="post" enctype="multipart/form-data">
+
+                    <div class="account-details__col flex-col">
+                        <div class="account-details__field custom-input {% if error_firstname %} invalid {% endif %}">
+                            <label class="custom-input__label text--color_gray" for="input-firstname">{{ entry_firstname }}</label>
+                            <input class="custom-input__input"  type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname"  />
+                            {% if error_firstname %}
+                                <div class="custom-input__error">{{ error_firstname  }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="account-details__field custom-input {% if error_lastname %} invalid {% endif %}">
+                            <label class="custom-input__label text--color_gray" for="input-lastname">{{ entry_lastname }}</label>
+                            <input class="custom-input__input" type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname"  />
+                            {% if error_lastname %}
+                                <div class="custom-input__error ">{{ error_lastname }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="account-details__field custom-input {% if error_email %}invalid{% endif %}">
+                            <label class="custom-input__label text--color_gray" for="input-email">{{ entry_email }}</label>
+                            <input class="custom-input__input" type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" />
+                            {% if error_email %}
+                                <div class="custom-input__error">{{ error_email }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="account-details__field custom-input {% if error_telephone %}invalid{% endif %}">
+                            <label class="custom-input__label text--color_gray" for="user_tel">{{ entry_telephone }}</label>
+                            <input class="custom-input__input" type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone"  />
+                            {% if error_telephone %}
+                            <div class="custom-input__error d-none">{{ error_telephone }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="account-details__col flex-col">
+                        <div class="account-details__field custom-input custom-input--type_password rel">
+                            <label class="custom-input__label text--color_gray" for="old_pass">Старий пароль</label>
+                            <input class="custom-input__input" type="password" name="old_pass" placeholder="Пароль" id="old_pass" />
+                            <button class="btn flex-center custom-input__icon abs" type="button">
+                                {{ macros.svg('eye', 'anim') }}
+                            </button>
+                            <div class="custom-input__error d-none">Поле обов'язкове до заповнення</div>
+                        </div>
+                        <div class="account-details__field custom-input custom-input--type_password rel">
+                            <label class="custom-input__label text--color_gray" for="new_pass">Новий пароль</label>
+                            <input class="custom-input__input" type="password" name="new_pass" placeholder="Пароль" value="qwerty2025" id="new_pass" />
+                            <button class="btn flex-center custom-input__icon abs" type="button">
+                                {{ macros.svg('eye', 'anim') }}
+                            </button>
+                            <div class="custom-input__error d-none">Поле обов'язкове до заповнення</div>
+                        </div>
+                        <div class="account-details__field custom-input custom-input--type_password rel">
+                            <label class="custom-input__label text--color_gray" for="new_pass_again">Повторіть пароль</label>
+                            <input class="custom-input__input" type="password" name="new_pass_again" placeholder="Пароль" value="qwerty2025" id="new_pass_again" />
+                            <button class="btn flex-center custom-input__icon abs" type="button">
+                                {{ macros.svg('eye', 'anim') }}
+                            </button>
+                            <div class="custom-input__error d-none">Поле обов'язкове до заповнення</div>
+                        </div>
+                    </div>
+                    <button class="btn btn--theme btn--theme_accent text--upp btn--size_M d-block account-details__btn" type="submit">Зберегти</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script type="text/javascript"><!--
+// Sort the custom fields
+$('.form-group[data-sort]').detach().each(function() {
+	if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('.form-group').length) {
+		$('.form-group').eq($(this).attr('data-sort')).before(this);
+	}
+
+	if ($(this).attr('data-sort') > $('.form-group').length) {
+		$('.form-group:last').after(this);
+	}
+
+	if ($(this).attr('data-sort') == $('.form-group').length) {
+		$('.form-group:last').after(this);
+	}
+
+	if ($(this).attr('data-sort') < -$('.form-group').length) {
+		$('.form-group:first').before(this);
+	}
+});
+//--></script>
+<script type="text/javascript"><!--
+$('button[id^=\'button-custom-field\']').on('click', function() {
+	var element = this;
+
+	$('#form-upload').remove();
+
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+	$('#form-upload input[name=\'file\']').trigger('click');
+
+	if (typeof timer != 'undefined') {
+    	clearInterval(timer);
+	}
+
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=tool/upload',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$(element).button('loading');
+				},
+				complete: function() {
+					$(element).button('reset');
+				},
+				success: function(json) {
+					$(element).parent().find('.text-danger').remove();
+
+					if (json['error']) {
+						$(element).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
+					}
+
+					if (json['success']) {
+						alert(json['success']);
+
+						$(element).parent().find('input').val(json['code']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
+//--></script>
+<script type="text/javascript"><!--
+$('.date').datetimepicker({
+	language: '{{ datepicker }}',
+	pickTime: false
+});
+
+$('.datetime').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: true,
+	pickTime: true
+});
+
+$('.time').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: false
+});
+//--></script>
+{{ footer }}

@@ -1,0 +1,37 @@
+{{ header }}
+
+<main>
+    <div class="page-title border--end">
+        <div class="container page-title__container">
+            <h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ text_account }}</h1>
+            <div class="breadcrumbs text--color_gray page-title__breadcrumbs">
+                <div class="breadcrumbs__list flex-row">
+                    {% for breadcrumb in breadcrumbs %}
+                        <a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="sign-form">
+        <div class="container sign-form__container">
+            <h2 class="sign-form__title text--center text--size_h3-full">{{ heading_title }}</h2>
+            <form class="sign-form__form mx" action="{{ action }}" method="post" enctype="multipart/form-data">
+                <div class="sign-form__txt text--center">
+                    <p>{{ text_forgotten }}</p>
+                    <p>{{ text_email }}</p>
+                </div>
+                <div class="sign-form__fields flex-col">
+                    <div class="sign-form__field custom-input {% if error_warning %} invalid {% endif %}">
+                        <input class="custom-input__input" type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" required />
+                        {% if error_warning %}
+                            <div class="custom-input__error">{{ error_warning }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <button class="text--upp btn--theme btn--theme_accent w-full btn btn--size_M sign-form__submit" type="submit">{{ button_reset_password }}</button>
+            </form>
+        </div>
+    </section>
+</main>
+{{ footer }}

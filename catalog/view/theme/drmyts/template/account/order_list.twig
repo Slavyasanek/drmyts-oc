@@ -1,0 +1,249 @@
+{{ header }}
+
+{% import "drmyts/template/macro/macros.twig" as macros %}
+<main>
+	<div class="page-title border--end">
+		<div class="container page-title__container">
+			<h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ heading_title }}</h1>
+			<div class="breadcrumbs text--color_gray page-title__breadcrumbs">
+				<div class="breadcrumbs__list flex-row">
+					{% for breadcrumb in breadcrumbs %}
+                        <a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+                    {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<section class="account">
+		<div class="container account__container">
+			<div class="account__nav flex-col border--end">
+                <a class="flex-row account__nav-item text--upp" href="{{ edit }}">
+                    <div class="icon account__nav-icon">
+                        {{ macros.svg('user', '') }}
+                    </div>
+                    <span>{{ text_edit }}</span>
+                </a>
+                <a class="flex-row account__nav-item text--upp" href="{{ wishlist }}">
+                    <div class="icon account__nav-icon">
+                        {{ macros.svg('heart', '') }}
+                    </div>
+                    <span>{{ text_wishlist_nav }}</span>
+                </a>
+                <a class="flex-row account__nav-item text--upp active" href="{{ order }}">
+                    <div class="icon account__nav-icon">
+                        {{ macros.svg('shopping-bag', '') }}
+                    </div>
+                    <span>{{ text_order }}</span>
+                </a>
+                <a class="flex-row account__nav-item text--upp" href="{{ logout }}">
+                    <div class="icon account__nav-icon">
+                        {{ macros.svg('logout', '') }}
+                    </div>
+                    <span>{{ text_logout }}</span>
+                </a>
+            </div>
+			<div class="account__content">
+				<h2 class="account__subtitle text--size_h3-full">{{ text_history }}</h2>
+                {% if orders %}
+                    <div class="orders">
+						<div class="orders__types">
+							<div class="orders__row flex-row">
+								<button class="btn btn--full_gray btn--size_S orders__btn text--size_label active" type="button">Всі</button>
+								<button class="btn btn--full_gray btn--size_S orders__btn text--size_label" type="button">Цього місяця</button>
+								<button class="btn btn--full_gray btn--size_S orders__btn text--size_label" type="button">Минулого місяця</button>
+								<button class="btn btn--full_gray btn--size_S orders__btn text--size_label" type="button">Цього року</button>
+								<button class="btn btn--full_gray btn--size_S orders__btn text--size_label" type="button">Минулого року</button>
+							</div>
+						</div>
+						<div class="orders__tab flex-col">
+							<div class="order-item orders__order-item">
+								<div class="order-item__heading rel">
+									<button class="btn icon flex-center order-item__arrow icon--arrow abs" type="button">
+										<svg role="presentation">
+											<use href="./assets/svg/sprite.svg#arrow-down"></use>
+										</svg>
+									</button>
+									<div class="order-item__details flex-row-wrap j-between">
+										<div class="order-item__title text--color_gray">Замовлення № 28924896, 09.06.2025</div>
+										<div class="order-item__status order-item__status--success">Отримано</div>
+										<div class="order-item__price-wr flex-col">
+											<span class="text--color_gray d-none order-item__price-title">Сума</span>
+											<span>23 627 ₴</span>
+										</div>
+									</div>
+									<div class="order-item__previews flex-row-wrap">
+										<div class="order-item__preview bg--white">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="" width="40" height="40" loading="lazy"></picture>
+										</div>
+										<div class="order-item__preview bg--white">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="" width="40" height="40" loading="lazy"></picture>
+										</div>
+										<div class="order-item__preview bg--white">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="" width="40" height="40" loading="lazy"></picture>
+										</div>
+										<div class="order-item__preview bg--white">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="" width="40" height="40" loading="lazy"></picture>
+										</div>
+										<div class="order-item__more-items d-none">+1</div>
+									</div>
+								</div>
+								<div class="order-item__items-list flex-col">
+									<div class="cart-item order-item__item cart-item--type_order d-flex">
+										<div class="cart-item__img">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56"></picture>
+											<a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+										</div>
+										<div class="cart-item__content">
+											<div class="cart-item__details flex-col">
+												<a class="cart-item__title" href="/">Comfort Zone</a>
+												<span class="cart-item__type">Сироватка з гіалуроновою кислотою Hyaluronic Serum</span>
+											</div>
+											<div class="cart-item__footer flex-row-wrap j-between">
+												<div class="cart-item__count">1 шт.</div>
+												<div class="product-price cart-item__price flex-row">
+													<span class="product-price__full">1 711,5 ₴</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="cart-item order-item__item cart-item--type_order d-flex">
+										<div class="cart-item__img">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="Cosmedix – Eye Genius" loading="lazy" width="56" height="56"></picture>
+											<a class="cart-item__link abs inset wh-full" href="/">Cosmedix – Eye Genius</a>
+										</div>
+										<div class="cart-item__content">
+											<div class="cart-item__details flex-col">
+												<a class="cart-item__title" href="/">Cosmedix – Eye Genius</a>
+												<span class="cart-item__type">Сироватка для шкіри навколо очей з пептидами</span>
+											</div>
+											<div class="cart-item__footer flex-row-wrap j-between">
+												<div class="cart-item__count">1 шт.</div>
+												<div class="product-price cart-item__price flex-row">
+													<span class="product-price__full">1 711,5 ₴</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="cart-item order-item__item cart-item--type_order d-flex">
+										<div class="cart-item__img">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56"></picture>
+											<a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+										</div>
+										<div class="cart-item__content">
+											<div class="cart-item__details flex-col">
+												<a class="cart-item__title" href="/">Comfort Zone</a>
+												<span class="cart-item__type">Сироватка з гіалуроновою кислотою Hyaluronic Serum</span>
+											</div>
+											<div class="cart-item__footer flex-row-wrap j-between">
+												<div class="cart-item__count">1 шт.</div>
+												<div class="product-price cart-item__price flex-row">
+													<span class="product-price__full">1 711,5 ₴</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="order-item orders__order-item">
+								<div class="order-item__heading rel">
+									<button class="btn icon flex-center order-item__arrow icon--arrow abs" type="button">
+										<svg role="presentation">
+											<use href="./assets/svg/sprite.svg#arrow-down"></use>
+										</svg>
+									</button>
+									<div class="order-item__details flex-row-wrap j-between">
+										<div class="order-item__title text--color_gray">Замовлення № 89253131, 07.06.2025</div>
+										<div class="order-item__status">Скасовано</div>
+										<div class="order-item__price-wr flex-col">
+											<span class="text--color_gray d-none order-item__price-title">Сума</span>
+											<span>2 084 ₴</span>
+										</div>
+									</div>
+									<div class="order-item__previews flex-row-wrap">
+										<div class="order-item__preview bg--white">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="" width="40" height="40" loading="lazy"></picture>
+										</div>
+									</div>
+								</div>
+								<div class="order-item__items-list flex-col">
+									<div class="cart-item order-item__item cart-item--type_order d-flex">
+										<div class="cart-item__img">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56"></picture>
+											<a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+										</div>
+										<div class="cart-item__content">
+											<div class="cart-item__details flex-col">
+												<a class="cart-item__title" href="/">Comfort Zone</a>
+												<span class="cart-item__type">Сироватка з гіалуроновою кислотою Hyaluronic Serum</span>
+											</div>
+											<div class="cart-item__footer flex-row-wrap j-between">
+												<div class="cart-item__count">1 шт.</div>
+												<div class="product-price cart-item__price flex-row">
+													<span class="product-price__full">1 711,5 ₴</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="cart-item order-item__item cart-item--type_order d-flex">
+										<div class="cart-item__img">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56"></picture>
+											<a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+										</div>
+										<div class="cart-item__content">
+											<div class="cart-item__details flex-col">
+												<a class="cart-item__title" href="/">Comfort Zone</a>
+												<span class="cart-item__type">Сироватка з гіалуроновою кислотою Hyaluronic Serum</span>
+											</div>
+											<div class="cart-item__footer flex-row-wrap j-between">
+												<div class="cart-item__count">1 шт.</div>
+												<div class="product-price cart-item__price flex-row">
+													<span class="product-price__full">1 711,5 ₴</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="cart-item order-item__item cart-item--type_order d-flex">
+										<div class="cart-item__img">
+											<picture>
+												<img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56"></picture>
+											<a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+										</div>
+										<div class="cart-item__content">
+											<div class="cart-item__details flex-col">
+												<a class="cart-item__title" href="/">Comfort Zone</a>
+												<span class="cart-item__type">Сироватка з гіалуроновою кислотою Hyaluronic Serum</span>
+											</div>
+											<div class="cart-item__footer flex-row-wrap j-between">
+												<div class="cart-item__count">1 шт.</div>
+												<div class="product-price cart-item__price flex-row">
+													<span class="product-price__full">1 711,5 ₴</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                {% else %}
+				<div class="account-empty text--center flex-center flex-col">
+					<h3 class="account-empty__title">{{ text_empty }}</h3>
+					<p>{{ text_empty_instructions }}</p>
+				</div>
+                {% endif %}
+			</div>
+		</div>
+	</section>
+</main>
+
+{{ footer }}
