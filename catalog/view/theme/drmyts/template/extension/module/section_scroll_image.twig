@@ -1,0 +1,16 @@
+{% if rotate_image and static_image %}
+<div class="scroll-image">
+    <div class="scroll-image__img mx flex-center rel">
+        <div class="scroll-image__rotate-part">
+            <picture>
+                <img class="d-block contain-image" src="{{ rotate_image }}" alt="dr.myts label" loading="lazy" width="180" height="180" />
+            </picture>
+        </div>
+        <div class="scroll-image__static-part abs pos-center">
+            <picture>
+                <img class="d-block contain-image" src="{{ static_image }}" alt="Heart" loading="lazy" width="41" height="36" />
+            </picture>
+        </div>
+    </div>
+</div>
+{% endif %}
