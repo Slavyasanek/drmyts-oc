@@ -1,9 +1,9 @@
 <?php
-class ControllerExtensionModuleHeroSection extends Controller {
+class ControllerExtensionModuleSectionAbout extends Controller {
     private $error = array();
 
     public function index() {
-        $this->load->language('extension/module/hero_section');
+        $this->load->language('extension/module/section_about');
 
         $this->document->setTitle($this->language->get('heading_title'));
 
@@ -11,7 +11,7 @@ class ControllerExtensionModuleHeroSection extends Controller {
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST')  && $this->validate() ) {
             if (!isset($this->request->get['module_id'])) {
-                $this->model_setting_module->addModule('hero_section', $this->request->post);
+                $this->model_setting_module->addModule('section_about', $this->request->post);
             } else {
                 $this->model_setting_module->editModule($this->request->get['module_id'], $this->request->post);
             }
@@ -21,7 +21,19 @@ class ControllerExtensionModuleHeroSection extends Controller {
             $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true));
         }
 
-        $errors = ['warning', 'name', 'image', 'red_button_text', 'black_button_text'];
+        if (isset($this->error['warning'])) {
+			$data['error_warning'] = $this->error['warning'];
+		} else {
+			$data['error_warning'] = '';
+		}
+
+		if (isset($this->error['name'])) {
+			$data['error_name'] = $this->error['name'];
+		} else {
+			$data['error_name'] = '';
+		}
+
+        $errors = ['warning', 'name', 'image', 'red_button_text'];
 
         foreach ($errors as $error_key) {
             if (isset($this->error[$error_key])) {
@@ -49,11 +61,11 @@ class ControllerExtensionModuleHeroSection extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/module/hero_section', 'user_token=' . $this->session->data['user_token'], true)
+			'href' => $this->url->link('extension/module/section_about', 'user_token=' . $this->session->data['user_token'], true)
 		);
 
         $data['user_token'] = $this->session->data['user_token'];
-        $data['action'] = $this->url->link('extension/module/hero_section', 'user_token=' . $this->session->data['user_token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : ''), true);
+        $data['action'] = $this->url->link('extension/module/section_about', 'user_token=' . $this->session->data['user_token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : ''), true);
 		$data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true);
 
         // Основні дані
@@ -66,8 +78,10 @@ class ControllerExtensionModuleHeroSection extends Controller {
 			$data['name'] = '';
 		}
 
-        $data['title_accent'] = $this->request->post['title_accent'] ?? $module_info['title_accent'] ?? '';
-        $data['title_main'] = $this->request->post['title_main'] ?? $module_info['title_main'] ?? '';
+        $data['section_title_accent'] = $this->request->post['section_title_accent'] ?? $module_info['section_title_accent'] ?? '';
+        $data['section_title_main'] = $this->request->post['section_title_main'] ?? $module_info['section_title_main'] ?? '';
+        $data['subtitle'] = $this->request->post['subtitle'] ?? $module_info['subtitle'] ?? '';
+        $data['title'] = $this->request->post['title'] ?? $module_info['title'] ?? '';
 
         if (isset($this->request->post['status'])) {
 			$data['status'] = $this->request->post['status'];
@@ -77,17 +91,9 @@ class ControllerExtensionModuleHeroSection extends Controller {
 			$data['status'] = '';
 		}
 
-        for ($i = 1; $i <= 3; $i++) {
-            $data['badge_text_' . $i] = $this->request->post['badge_text_' . $i] ?? $module_info['badge_text_' . $i] ?? '';
-            $data['card_icon_' . $i] = $this->request->post['card_icon_' . $i] ?? $module_info['card_icon_' . $i] ?? 'note';
-            $data['card_num_' . $i] = $this->request->post['card_num_' . $i] ?? $module_info['card_num_' . $i] ?? '';
-            $data['card_text_' . $i] = $this->request->post['card_text_' . $i] ?? $module_info['card_text_' . $i] ?? '';
-        }
-
+        $data['help_block_text'] = $this->request->post['help_block_text'] ?? $module_info['help_block_text'] ?? '';
         $data['red_button_link'] = $this->request->post['red_button_link'] ?? $module_info['red_button_link'] ?? '';
         $data['red_button_text'] = $this->request->post['red_button_text'] ?? $module_info['red_button_text'] ?? '';
-        $data['black_button_link'] = $this->request->post['black_button_link'] ?? $module_info['black_button_link'] ?? '';
-        $data['black_button_text'] = $this->request->post['black_button_text'] ?? $module_info['black_button_text'] ?? '';
 
         // Зображення
         $this->load->model('tool/image');
@@ -108,12 +114,12 @@ class ControllerExtensionModuleHeroSection extends Controller {
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-        $this->response->setOutput($this->load->view('extension/module/hero_section', $data));
+        $this->response->setOutput($this->load->view('extension/module/section_about', $data));
     }
 
     
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'extension/module/hero_section')) {
+		if (!$this->user->hasPermission('modify', 'extension/module/section_about')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
@@ -128,9 +134,6 @@ class ControllerExtensionModuleHeroSection extends Controller {
             $this->error['red_button_text'] = $this->language->get('error_red_button_text');
         }
         
-        if (!empty($this->request->post['black_button_link']) && utf8_strlen($this->request->post['black_button_text']) < 1) {
-            $this->error['black_button_text'] = $this->language->get('error_black_button_text');
-        }
 		return !$this->error;
 	}
 }

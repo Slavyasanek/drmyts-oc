@@ -1,5 +1,5 @@
 <?php
-class ControllerExtensionModuleFaqSection extends Controller {
+class ControllerExtensionModuleSectionFaq extends Controller {
     public function index($setting) {
         $data['title_main'] = $setting['title_main'] ?? '';
         $data['title_accent'] = $setting['title_accent'] ?? '';
@@ -14,6 +14,6 @@ class ControllerExtensionModuleFaqSection extends Controller {
             }
         }
 
-        return $this->load->view('extension/module/faq_section', $data);
+        return $this->load->view('extension/module/section_faq', $data);
     }
 }

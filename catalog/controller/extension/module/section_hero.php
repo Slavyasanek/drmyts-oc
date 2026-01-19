@@ -1,5 +1,5 @@
 <?php
-class ControllerExtensionModuleHeroSection extends Controller {
+class ControllerExtensionModuleSectionHero extends Controller {
     public function index($setting) {
         $this->load->model('tool/image');
         $this->document->addScript('catalog/view/theme/drmyts/js/home-hero.js', 'footer');
@@ -50,6 +50,6 @@ class ControllerExtensionModuleHeroSection extends Controller {
             ];
         }
 
-        return $this->load->view('extension/module/hero_section', $data);
+        return $this->load->view('extension/module/section_hero', $data);
     }
 }

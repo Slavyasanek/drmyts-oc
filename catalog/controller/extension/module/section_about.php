@@ -1,5 +1,5 @@
 <?php
-class ControllerExtensionModuleAboutSection extends Controller {
+class ControllerExtensionModuleSectionAbout extends Controller {
     public function index($setting) {
 
         $this->load->model('tool/image');
@@ -20,6 +20,6 @@ class ControllerExtensionModuleAboutSection extends Controller {
         $data['red_button_text'] = $setting['red_button_text'] ?? '';
         $data['red_button_link'] = !empty($setting['red_button_link']) ? $setting['red_button_link'] : '#';
 
-        return $this->load->view('extension/module/about_section', $data);
+        return $this->load->view('extension/module/section_about', $data);
     }
 }

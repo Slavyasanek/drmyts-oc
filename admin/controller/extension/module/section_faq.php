@@ -1,15 +1,15 @@
 <?php
-class ControllerExtensionModuleFaqSection extends Controller {
+class ControllerExtensionModuleSectionFaq extends Controller {
     private $error = array();
 
     public function index() {
-        $this->load->language('extension/module/faq_section');
+        $this->load->language('extension/module/section_faq');
         $this->document->setTitle($this->language->get('heading_title'));
         $this->load->model('setting/module');
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             if (!isset($this->request->get['module_id'])) {
-                $this->model_setting_module->addModule('faq_section', $this->request->post);
+                $this->model_setting_module->addModule('section_faq', $this->request->post);
             } else {
                 $this->model_setting_module->editModule($this->request->get['module_id'], $this->request->post);
             }
@@ -44,11 +44,11 @@ class ControllerExtensionModuleFaqSection extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('extension/module/faq_section', 'user_token=' . $this->session->data['user_token'], true)
+			'href' => $this->url->link('extension/module/section_faq', 'user_token=' . $this->session->data['user_token'], true)
 		);
 
         $data['user_token'] = $this->session->data['user_token'];
-        $data['action'] = $this->url->link('extension/module/faq_section', 'user_token=' . $this->session->data['user_token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : ''), true);
+        $data['action'] = $this->url->link('extension/module/section_faq', 'user_token=' . $this->session->data['user_token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : ''), true);
 		$data['cancel'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true);
 
 
@@ -70,11 +70,11 @@ class ControllerExtensionModuleFaqSection extends Controller {
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-        $this->response->setOutput($this->load->view('extension/module/faq_section', $data));
+        $this->response->setOutput($this->load->view('extension/module/section_faq', $data));
     }
 
     protected function validate() {
-        if (!$this->user->hasPermission('modify', 'extension/module/faq_section')) {
+        if (!$this->user->hasPermission('modify', 'extension/module/section_faq')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
