@@ -1,0 +1,30 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<section class="faq">
+    <div class="container faq__container">
+        {% if title_main or title_accent %}
+        <h2 class="section-title faq__title">
+            <span class="text--upp text--size_h2-mob text--size_h2-desk">{{ title_main }}</span>
+            <span class="text--color_red text--ff_accent text--size_accent-h2 section-title__accent">{{ title_accent }}</span>
+        </h2>
+        {% endif %}
+
+        {% if faqs %}
+        <div class="faq__list flex-col">
+            {% for faq in faqs %}
+            <div class="accordion faq__item" aria-expanded="false">
+                <div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
+                    <p>{{ faq.question }}</p>
+                    <div class="icon icon--arrow accordion__icon">
+                        {{ macros.svg('arrow-down', '') }}
+                    </div>
+                </div>
+                <div class="accordion__content">
+                    <p>{{ faq.answer }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
