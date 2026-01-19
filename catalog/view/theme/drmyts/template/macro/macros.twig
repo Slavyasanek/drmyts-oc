@@ -1,0 +1,12 @@
+{% macro svg(name, class) %}
+    <svg class="{{ class }}" role="presentation">
+        <use href="catalog/view/theme/drmyts/assets/svg/sprite.svg#{{ name }}"></use>
+    </svg>
+{% endmacro %}
+
+{% macro ratingStar(val) %}
+<div class="form-rating__star" data-rating="{{ val }}">
+    {{ _self.svg('empty-star', 'form-rating__star-empty') }}
+    {{ _self.svg('full-star', 'form-rating__star-full d-none') }}
+</div>
+{% endmacro %}

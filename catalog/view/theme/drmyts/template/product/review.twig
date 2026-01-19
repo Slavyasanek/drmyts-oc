@@ -1,0 +1,40 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+{% if reviews %}
+{% for review in reviews %}
+<div class="product-review product-reviews__item bg--white">
+	{# <div class="product-review__imgs flex-row-wrap">
+		<div class="product-review__img o-hid">
+			<picture>
+				<img class="cover-image" src="./assets/pics/product-review.png" alt="" loading="lazy"></picture>
+		</div>
+	</div> #}
+	<div class="product-review__heading flex-row-wrap j-between">
+		<div class="product-review__author">
+			<p class="product-review__name">{{ review.author }}</p>
+			<date class="product-review__date text--color_gray text--size_label">{{ review.date_added }}</date>
+		</div>
+		<div class="product-review__rating product-rating text--color_gray flex-row text--size_label">
+            {% for i in 1..5 %}
+                {% if review.rating < i %}
+                    {{ macros.svg('empty-star', 'product-rating__star--empty') }}
+                {% else %}
+                    {{ macros.svg('full-star', 'product-rating__star') }}
+                {% endif %}
+            {% endfor %}
+			<span class="product-rating__val">{{ review.rating }}</span>
+		</div>
+	</div>
+	<div class="product-review__content">
+		<p>{{ review.text }}</p>
+	</div>
+</div>
+
+{% endfor %}
+<div class="row">
+  <div class="col-sm-6 text-left">{{ pagination }}</div>
+  <div class="col-sm-6 text-right">{{ results }}</div>
+</div>
+{% else %}
+<p>{{ text_no_reviews }}</p>
+{% endif %}

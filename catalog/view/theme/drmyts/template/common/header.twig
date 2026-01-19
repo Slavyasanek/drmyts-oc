@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<!--[if IE 8 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie8"><![endif]-->
+<!--[if IE 9 ]><html dir="{{ direction }}" lang="{{ lang }}" class="ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html dir="{{ direction }}" lang="{{ lang }}">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{{ title }}</title>
+{% if robots %}
+<meta name="robots" content="{{ robots }}" />
+{% endif %}
+<base href="{{ base }}" />
+{% if description %}
+<meta name="description" content="{{ description }}" />
+{% endif %}
+{% if keywords %}
+<meta name="keywords" content="{{ keywords }}" />
+{% endif %}
+<meta property="og:title" content="{{ title }}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ og_url }}" />
+{% if og_image %}
+<meta property="og:image" content="{{ og_image }}" />
+{% else %}
+<meta property="og:image" content="{{ logo }}" />
+{% endif %}
+<meta property="og:site_name" content="{{ name }}" />
+<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+{# <link href="catalog/view/javascript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen" />
+<script src="catalog/view/javascript/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="catalog/view/javascript/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,300,700" rel="stylesheet" type="text/css" />
+<link href="catalog/view/theme/default/stylesheet/stylesheet.css" rel="stylesheet"> #}
+
+{% for style in styles %}
+<link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+{% endfor %}
+
+{# STYLES #}
+<link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+<link href="catalog/view/theme/drmyts/stylesheet/home.css" rel="stylesheet">
+
+
+{% for script in scripts %}
+<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+
+{% for link in links %}
+<link href="{{ link.href }}" rel="{{ link.rel }}" />
+{% endfor %}
+{% for analytic in analytics %}
+{{ analytic }}
+{% endfor %}
+</head>
+<body>
+
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<header class="header flex-col">
+    <div class="header__main-content rel border--end">
+        <div class="container header__container flex-row">
+            <button class="header__toggler btn flex-center icon hamburger" type="button" aria-label="Open Mobile menu"><span class="d-block w-full rel"></span></button>
+            <div class="header-menu fixed w-full h-full header__menu">
+                <nav class="header-menu__inner h-full">
+                    <div class="header-menu__topbar flex-row j-between">
+                        {% if logo %}
+                            {% if home == og_url %}
+                                <div class="logo header-menu__logo">
+                                    <picture>      
+                                        <img src="{{ logo }}" title="{{ name}}" alt="{{ name}}" fetchpriority="high" />
+                                    </picture>
+                                </div>
+                            {% else %}
+                                <a class="logo header-menu__logo" href="{{ home }}">
+                                    <picture>
+                                        <img src="{{ logo }}" title="{{ name}}" alt="{{ name}}" fetchpriority="high" />
+                                    </picture>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        <button class="btn header-menu__close rel icon">
+                            {{ macros.svg('сlose', '') }}
+                        </button>
+                    </div>
+                    <ul class="header-menu__main flex-col">
+                        <li class="header-menu__item-general">
+                            <a class="header-menu__arrow-link flex-row j-between" href="#">
+                                Бренди
+                                {{ macros.svg('arrow-right', '') }}
+                            </a>
+                        </li>
+                        <li class="header-menu__item-general">
+                            <a class="header-menu__arrow-link flex-row j-between" href="#">
+                                Акції та знижки
+                                {{ macros.svg('arrow-right', '') }}
+                            </a>
+                        </li>
+                        <li class="header-menu__item-general">
+                            <a class="header-menu__arrow-link flex-row j-between" href="#">
+                                Улюблене Вероніки
+                                {{ macros.svg('arrow-right', '') }}
+                            </a>
+                        </li>
+                        <li class="header-menu__item-general">
+                            <a class="header-menu__arrow-link flex-row j-between" href="#">
+                                Обличчя
+                                {{ macros.svg('arrow-right', '') }}
+                            </a>
+                        </li>
+                        <li class="header-menu__item-general">
+                            <a class="header-menu__arrow-link flex-row j-between" href="#">
+                                Тіло
+                                {{ macros.svg('arrow-right', '') }}
+                            </a>
+                        </li>
+                        <li class="header-menu__item-general">
+                            <a class="header-menu__arrow-link flex-row j-between" href="#">
+                                Волосся
+                                {{ macros.svg('arrow-right', '') }}
+                            </a>
+                        </li>
+                        <li class="header-menu__item-general">
+                            <a class="header-menu__arrow-link flex-row j-between" href="#">
+                                Набори і подарунки
+                                {{ macros.svg('arrow-right', '') }}
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="header-menu__secondary flex-col">
+                        <li class="header-menu__item"><a class="header-menu__link" href="#">Про магазин</a></li>
+                        <li class="header-menu__item"><a class="header-menu__link" href="#">Консультація</a></li>
+                        <li class="header-menu__item"><a class="header-menu__link" href="#">Доставка та оплата</a></li>
+                        <li class="header-menu__item"><a class="header-menu__link" href="#">Контакти</a></li>
+                    </ul>
+                    <ul class="header-menu__secondary flex-col">
+                        <li class="header-menu__item"><a class="header-menu__link" href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                        <li class="header-menu__item"><a class="header-menu__link" href="#" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+                    </ul>
+                    <div class="header-menu__footer">
+                        <ul class="header-menu__footer-list flex-col">
+                            <li class="header-menu__item"><a class="header-menu__link" href="#">Політика конфіденційності</a></li>
+                            <li class="header-menu__item"><a class="header-menu__link" href="#">Договір оферти</a></li>
+                        </ul>
+                        <div class="header-menu__copy">
+                            <p>&#169;2025 dr.Myts Shop. All rights reserved.</p>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <a class="header__icon-link icon icon--profile" href="{{ account}}" title="{{ text_account }}">
+                {{ macros.svg('user', '') }}
+            </a>
+            {% if logo %}
+                {% if home == og_url %}
+                    <div class="logo header__logo">
+                        <picture>      
+                            <img src="{{ logo }}" title="{{ name}}" alt="{{ name}}" fetchpriority="high" />
+                        </picture>
+                    </div>
+                {% else %}
+                    <a class="logo header__logo" href="{{ home }}">
+                        <picture>
+                            <img src="{{ logo }}" title="{{ name}}" alt="{{ name}}" fetchpriority="high" />
+                        </picture>
+                    </a>
+                {% endif %}
+            {% endif %}
+            <a class="header__icon-link icon rel icon--likes" href="{{ wishlist }}" title="{{ text_wishlist  }}">
+                {{ macros.svg('heart', '') }}
+                {% if wishlist_total %}
+                    <span class="icon__count flex-center">{{ wishlist_total}}</span>
+                {% endif %}
+            </a>
+            <button class="header__icon-link rel cart-btn btn" type="button" data-modal-open="cart">
+                <div class="icon cart-btn__icon rel">
+                    {{ macros.svg('shopping-bag', '') }}
+                    {% if cart_total_items %}
+                        <span class="icon__count flex-center">{{ cart_total_items }}</span>
+                    {% endif %}
+                </div>
+                {% if cart_total_price %}
+                    <span class="cart-btn__sum d-none">{{ cart_total_prices }}</span>
+                {% endif %}
+            </button>
+        </div>
+    </div>
+    <div class="header__bottom">
+        <div class="container header__bottom-container">
+            <p class="header__slogan d-none m-0 text--color_gray">100 % оригінальна продукція!</p>
+            <ul class="header__menu d-none">
+                <li class="header__bottom-item"><a class="header__bottom-link" href="about-shop.html">Про магазин</a></li>
+                <li class="header__bottom-item"><a class="header__bottom-link" href="consult.html">Консультація</a></li>
+                <li class="header__bottom-item"><a class="header__bottom-link" href="delivery-pay.html">Доставка та оплата</a></li>
+                <li class="header__bottom-item"><a class="header__bottom-link" href="#">Контакти</a></li>
+            </ul>
+            <form class="search-form header__search rel" action="#">
+                <div class="search-form__header flex-row">
+                    <button class="btn flex-center search-form__close d-none search-form__back" type="button">
+                        {{ macros.svg('arrow-back', '') }}
+                    </button>
+                    <div class="search-form__input custom-input custom-input--type_with-icon rel">
+                        <input class="custom-input__input" name="search" type="text" placeholder="Пошук..." autocomplete="off" id="header-search" />
+                        <button class="btn flex-center icon custom-input__icon abs" type="submit">
+                            {{ macros.svg('search', '') }}
+                        </button>
+                    </div>
+                    <button class="btn flex-center search-form__close d-none search-form__cross" type="button">
+                        {{ macros.svg('close', '') }}
+                    </button>
+                </div>
+                <div class="live-search search-form__live-search abs d-none">
+                    <div class="live-search__content">
+                        <div class="live-search__history search-history d-none">
+                            <div class="search-history__heading flex-row j-between">
+                                <p class="search-history__title text--size_label text--color_gray">Історія пошуку</p>
+                                <button class="btn text--color_gray text--size_label search-history__clean-btn" type="button">Очистити історію</button>
+                            </div>
+                            <div class="search-history__items">
+                                <a class="search-text-item live-search__item flex-row j-between text--color_gray" href="/">
+                                    <div class="search-text-item__search-icon icon">
+                                        {{ macros.svg('search', '') }}
+                                    </div>
+                                    <div class="search-text-item__text">тонік</div>
+                                    <div class="search-text-item__icon">
+                                        {{ macros.svg('arrow-next', '') }}
+                                    </div>
+                                </a>
+                                <a class="search-text-item live-search__item flex-row j-between text--color_gray" href="/">
+                                    <div class="search-text-item__search-icon icon">
+                                        {{ macros.svg('search', '') }}
+                                    </div>
+                                    <div class="search-text-item__text">крем</div>
+                                    <div class="search-text-item__icon">
+                                        {{ macros.svg('arrow-next', '') }}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="live-search__searching text--color_gray d-none">Шукаємо...</div>
+                        <div class="live-search__no-results text--color_gray d-none">Результатів не знайдено</div>
+                        <div class="live-search__results d-none">
+                            <div class="live-search__text-items">
+                                <a class="search-text-item live-search__item flex-row j-between" href="/">
+                                    <div class="search-text-item__text text--color_gray"><strong>тонік</strong></div>
+                                    <div class="search-text-item__icon">
+                                        {{ macros.svg('arrow-next', '') }}
+                                    </div>
+                                </a>
+                                <a class="search-text-item live-search__item flex-row j-between" href="/">
+                                    <div class="search-text-item__text text--color_gray">
+                                        <strong>тонік</strong>
+                                        для
+                                    </div>
+                                    <div class="search-text-item__icon">
+                                        {{ macros.svg('arrow-next', '') }}
+                                    </div>
+                                </a>
+                                <a class="search-text-item live-search__item flex-row j-between" href="/">
+                                    <div class="search-text-item__text text--color_gray">
+                                        зволожуючий
+                                        <strong>тонік</strong>
+                                    </div>
+                                    <div class="search-text-item__icon">
+                                        {{ macros.svg('arrow-next', '') }}
+                                    </div>
+                                </a>
+                                <a class="search-text-item live-search__item flex-row j-between" href="/">
+                                    <div class="search-text-item__text text--color_gray">
+                                        <strong>тонік</strong>
+                                        кислотою
+                                    </div>
+                                    <div class="search-text-item__icon">
+                                        {{ macros.svg('arrow-next', '') }}
+                                    </div>
+                                </a>
+                                <a class="search-text-item live-search__item flex-row j-between" href="/">
+                                    <div class="search-text-item__text text--color_gray">
+                                        <strong>тонік</strong>
+                                        для обличчя
+                                    </div>
+                                    <div class="search-text-item__icon">
+                                        {{ macros.svg('arrow-next', '') }}
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="live-search__products search-products">
+                                <div class="search-products__heading flex-row j-between">
+                                    <p class="text--size_h3-full search-products__title">Продукти</p>
+                                    <a class="btn flex-row text--upp search-products__view-all text--size_label" href="/">
+                                        <span>Дивитися всі</span>
+                                        {{ macros.svg('arrow-next', '') }}
+                                    </a>
+                                </div>
+                                <div class="search-products__products d-grid">
+                                    <div class="cart-item live-search__product cart-item--type_search d-flex">
+                                        <div class="cart-item__img">
+                                            <picture><img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56" /></picture>
+                                            <a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+                                        </div>
+                                        <div class="cart-item__content">
+                                            <div class="cart-item__details flex-col">
+                                                <span class="cart-item__availability text--color_gray text--size_label d-block">В наявності</span>
+                                                <a class="cart-item__title" href="/">Comfort Zone</a>
+                                                <span class="cart-item__type text--size_label">Тонік</span>
+                                            </div>
+                                            <div class="cart-item__footer">
+                                                <div class="product-price cart-item__price flex-row"><span class="product-price__full">1 711,5 ₴</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cart-item live-search__product cart-item--type_search d-flex">
+                                        <div class="cart-item__img">
+                                            <picture><img class="contain-image" src="./assets/pics/search-item-2.jpg" alt="Cosmedix" loading="lazy" width="56" height="56" /></picture>
+                                            <a class="cart-item__link abs inset wh-full" href="/">Cosmedix</a>
+                                        </div>
+                                        <div class="cart-item__content">
+                                            <div class="cart-item__details flex-col">
+                                                <span class="cart-item__availability text--color_gray text--size_label d-block">В наявності</span>
+                                                <a class="cart-item__title" href="/">Cosmedix</a>
+                                                <span class="cart-item__type text--size_label">Відлущуючий тонік</span>
+                                            </div>
+                                            <div class="cart-item__footer">
+                                                <div class="product-price cart-item__price flex-row product-price--sale">
+                                                    <span class="product-price__full">2 084 ₴</span>
+                                                    <span class="product-price__sale">1 711,5 ₴</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cart-item live-search__product cart-item--type_search d-flex">
+                                        <div class="cart-item__img">
+                                            <picture><img class="contain-image" src="./assets/pics/search-item-3.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56" /></picture>
+                                            <a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+                                        </div>
+                                        <div class="cart-item__content">
+                                            <div class="cart-item__details flex-col">
+                                                <span class="cart-item__availability text--color_gray text--size_label d-block">В наявності</span>
+                                                <a class="cart-item__title" href="/">Comfort Zone</a>
+                                                <span class="cart-item__type text--size_label">Заспокійливий тонік</span>
+                                            </div>
+                                            <div class="cart-item__footer">
+                                                <div class="product-price cart-item__price flex-row"><span class="product-price__full">2 039,13 ₴</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cart-item live-search__product cart-item--type_search d-flex">
+                                        <div class="cart-item__img">
+                                            <picture><img class="contain-image" src="./assets/pics/search-item-4.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56" /></picture>
+                                            <a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+                                        </div>
+                                        <div class="cart-item__content">
+                                            <div class="cart-item__details flex-col">
+                                                <span class="cart-item__availability text--color_gray text--size_label d-block">В наявності</span>
+                                                <a class="cart-item__title" href="/">Comfort Zone</a>
+                                                <span class="cart-item__type text--size_label">Бустер-тонік</span>
+                                            </div>
+                                            <div class="cart-item__footer">
+                                                <div class="product-price cart-item__price flex-row"><span class="product-price__full">2 330 ₴</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="header__mob-menu border--end">
+                <ul class="header__mob-list text--upp flex-row">
+                    <li class="header__bottom-item"><a class="header__bottom-link active" href="#">Бренди</a></li>
+                    <li class="header__bottom-item"><a class="header__bottom-link" href="#">Акції та знижки</a></li>
+                    <li class="header__bottom-item"><a class="header__bottom-link" href="#">Улюблене Вероніки</a></li>
+                    <li class="header__bottom-item"><a class="header__bottom-link" href="#">Бренди</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+{{ menu }}
