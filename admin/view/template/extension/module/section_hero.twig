@@ -86,7 +86,7 @@
               <label class="col-sm-2 control-label">{{ entry_card_icon }}</label>
               <div class="col-sm-2">
                   <select name="card_icon_{{ i }}" class="form-control">
-                    {# Отримуємо поточне значення іконки для цієї картки #}
+
                     {% set current_icon = attribute(_context, 'card_icon_' ~ i) %}
                     
                     <option value="note" {% if current_icon == 'note' %}selected="selected"{% endif %}>{{ help_icon_note }}</option>

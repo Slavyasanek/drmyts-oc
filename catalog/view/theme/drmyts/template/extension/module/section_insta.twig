@@ -1,0 +1,68 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<section class="follow o-hid">
+    <div class="container follow__container">
+        <div class="follow__heading d-grid">
+            {% if title_main or title_accent %}
+                <h2 class="section-title follow__title">
+                    <span class="text--upp text--size_h2-mob text--size_h2-desk">{{ title_main }}</span>
+                    <span class="text--color_red text--ff_accent text--size_accent-h2 section-title__accent">{{ title_accent }}</span>
+                </h2>
+            {% endif %}
+            
+            {% if description or btn_link %}
+                <div class="follow__txt-block">
+                    {% if description %}
+                        <p>{{ description }}</p>
+                    {% endif %}
+                    
+                    {% if btn_link %}
+                        <a class="btn btn--theme btn--size_M btn--theme_accent text--upp follow__btn d-block" href="{{ btn_link }}" target="_blank" rel="noopener noreferrer">
+                            Підписатись
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        {% if posts %}
+            <div class="splide follow__slider">
+                <div class="splide__track follow__track">
+                    <div class="splide__list">
+                        {% for post in posts %}
+                            <div class="insta-card rel o-hid splide__slide">
+                                <div class="insta-card__img abs inset">
+                                    <picture>
+                                        {# Логіка для відео та звичайних постів #}
+                                        {% set post_image = (post.media_type == 'VIDEO' and post.thumbnail_url) ? post.thumbnail_url : post.media_url %}
+                                        <img class="cover-image" src="{{ post_image }}" alt="{{ post.caption|slice(0, 50) }}" loading="lazy" width="282" height="354" />
+                                    </picture>
+                                </div>
+                                <div class="insta-card__icon icon abs z1">
+                                    {# Вибір іконки залежно від типу контенту #}
+                                    {% if post.media_type == 'VIDEO' %}
+                                        {{ macros.svg('video-play', '') }}
+                                    {% else %}
+                                        {{ macros.svg('layers', '') }}
+                                    {% endif %}
+                                </div>
+                                <a class="insta-card__link abs inset wh-full z1" href="{{ post.permalink }}" target="_blank" rel="noopener noreferrer">
+                                    {{ post.caption }}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="splide__arrows slider__arrows flex-row follow__arrows">
+                    <button class="btn splide__arrow slider__btn slider__btn--prev splide__arrow--prev flex-center">
+                        <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+                    </button>
+                    <button class="btn splide__arrow splide__arrow--next slider__btn slider__btn--next flex-center">
+                        <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
