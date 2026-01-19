@@ -1,0 +1,67 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<section class="about bg--surface rel o-hid">
+    <div class="about__bg abs">
+        {{ macros.svg('tree', '' )}}
+    </div>
+    <div class="about__container container">
+        
+        {# Відображаємо шапку секції, тільки якщо заповнено хоча б один заголовок #}
+        {% if section_title_main or section_title_accent or subtitle or title %}
+            <div class="about__heading">
+                {% if section_title_main or section_title_accent %}
+                    <h2 class="section-title about__title">
+                        {% if section_title_main %}
+                            <span class="text--upp text--size_h2-mob text--size_h2-desk">{{ section_title_main }}</span>
+                        {% endif %}
+                        
+                        {% if section_title_accent %}
+                            <span class="text--color_red text--ff_accent text--size_accent-h2 section-title__accent">{{ section_title_accent }}</span>
+                        {% endif %}
+                    </h2>
+                {% endif %}
+
+                {% if subtitle %}
+                    <h3 class="text--upp text--color_gray text--size_label about__subtitle">{{ subtitle }}</h3>
+                {% endif %}
+
+                {% if title %}
+                    <h4 class="text--size_h3-full text--size_h2-desk about__txt">
+                        {{ title }}
+                    </h4>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="about__content flex-row-wrap">
+            {# Блок з фото #}
+            {% if image %}
+                <div class="about__img-wr flex-row">
+                    <div class="about__img">
+                        <img src="{{ image }}" alt="{{ section_title_accent|default('dr. Myts') }}" loading="lazy" width="175" height="224" />
+                    </div>
+                    <span class="text--upp text--color_gray about__sign text--size_label">// dr. Myts</span>
+                </div>
+            {% endif %}
+
+            {# Блок з цитатою та кнопкою #}
+            {% if help_block_text or red_button_text %}
+                <div class="about__quote">
+                    <div class="icon icon--quote about__icon">
+                        {{ macros.svg('quote', '' )}}
+                    </div>
+                    
+                    {% if help_block_text %}
+                        <p>{{ help_block_text }}</p>
+                    {% endif %}
+
+                    {% if red_button_text %}
+                        <a class="btn btn--theme_accent btn--size_M btn--theme text--upp about__btn d-block" href="{{ red_button_link|default('/') }}">
+                            {{ red_button_text }}
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
