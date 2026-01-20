@@ -3669,6 +3669,9 @@ input:checked + .product-variants__color-label::before {
     .products-slider__btn {
         margin-inline: auto;
     }
+    .slider.splide.is-initialized:not(.is-active) .products-slider__slide {
+        flex-basis: 25%;
+    }
 }
 .faq {
     padding-block: 3.6rem;

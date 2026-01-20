@@ -1,0 +1,40 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+{% import "drmyts/template/macro/product-card.twig" as card %}
+
+<section class="products-slider">
+    <div class="container products-slider__container">
+        {% if title_main or title_accent %}
+        <h2 class="section-title products-slider__title">
+            <span class="text--upp text--size_h2-mob text--size_h2-desk">{{ title_main }}</span>
+            <span class="text--color_red text--ff_accent text--size_accent-h2 section-title__accent">{{ title_accent }}</span>
+        </h2>
+        {% endif %}
+
+        {% if products %}
+        <div class="products splide product-slider slider" aria-label="Product Slider">
+            <div class="splide__track slider__track">
+                <div class="splide__list slider__list">
+                    {% for product in products %}
+                        {{ card.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide') }}
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="splide__arrows slider__arrows flex-row products-slider__arrows">
+                <button class="btn splide__arrow slider__btn slider__btn--prev splide__arrow--prev flex-center">
+                    <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+                </button>
+                <button class="btn splide__arrow splide__arrow--next slider__btn slider__btn--next flex-center">
+                    <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if btn_text %}
+            <a class="btn btn--theme btn--size_M btn--theme_accent text--upp products-slider__btn d-block" href="{{ btn_link|default('/') }}">
+                {{ btn_text }}
+            </a>
+        {% endif %}
+    </div>
+</section>

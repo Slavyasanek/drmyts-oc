@@ -1,0 +1,37 @@
+{% macro productCard(thumb, product_id, name, manufacturer, brand_href, price, special, discount, in_wishlist, href, class) %}
+    <div class="product-card flex-col {{ class }}">
+        <div class="product-card__image-wr bg--white rel w-full">
+            <div class="product-card__img rel w-full">
+                <picture class="abs inset wh-full">
+                    <img class="cover-image" src="{{ thumb }}" alt="{{ name }}" loading="lazy" width="143" height="143" />
+                </picture>
+            </div>
+            <div class="product-card__tools">
+                {% if special %}
+                    <span class="sale-badge product-card__sale abs text--color_white text--size_sm flex-center">{{ discount }}</span>
+                {% endif %}
+                <button class="btn icon product-card__add-to-wish abs {{ in_wishlist ? 'liked' : '' }}" type="button" onclick="wishlist.add('{{ product_id }}');">
+                    <svg role="presentation">
+                        <use href="catalog/view/theme/drmyts/assets/svg/sprite.svg#heart"></use>
+                    </svg>
+                </button>
+            </div>
+            <a class="product-card__link abs inset wh-full" href="{{ href }}">{{ manufacturer }}</a>
+        </div>
+        <div class="product-card__content text--center flex-col">
+            <a class="product-card__title" href="{{ brand_href }}">{{ manufacturer }}</a>
+            <a class="product-card__descr" href="{{ href }}">{{ name }}</a>
+            
+            <div class="product-price flex-row {{ special ? 'product-price--sale' : '' }} j-center product-card__price">
+                {% if not price %}
+                    <a class="product-card__no-price" href="{{ href }}">Дізнатися вартість</a>
+                {% elseif special %}
+                    <span class="product-price__full">{{ price }}</span>
+                    <span class="product-price__sale">{{ special }}</span>
+                {% else %}
+                    <span class="product-price__full">{{ price }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
