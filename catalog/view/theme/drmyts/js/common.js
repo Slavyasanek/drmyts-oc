@@ -284,10 +284,11 @@ var wishlist = {
 				}
 
 				if (json['success']) {
+                    $('[onclick="wishlist.add(\'' + product_id + '\');"]').addClass('liked');
 					$('#content').parent().before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 				}
 
-				$('#wishlist-total span').html(json['total']);
+				$('#wishlist-total').html(json['total']);
 				$('#wishlist-total').attr('title', json['total']);
 
 				$('html, body').animate({ scrollTop: 0 }, 'slow');

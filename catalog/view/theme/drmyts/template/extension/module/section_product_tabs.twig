@@ -1,0 +1,115 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<section class="product-cats" id="module-tabs-{{ random() }}">
+  <div class="container product-cats__container">
+    <h2 class="section-title product-cats__title">
+      <span class="text--upp text--size_h2-mob text--size_h2-desk">{{ title_main }}</span>
+      <span class="text--color_red text--ff_accent text--size_accent-h2 section-title__accent">{{ title_accent }}</span>
+    </h2>
+    
+    <div class="product-cats__cats-wr">
+      <div class="product-cats__cats-inner bg--white flex-row">
+        <button class="btn btn--size_S product-cats__cat-btn active" type="button" data-type="brands">Бренди</button>
+        {% for tab in tabs %}
+        <button class="btn btn--size_S product-cats__cat-btn" type="button" data-type="category" data-id="{{ tab.id }}">
+          {{ tab.name }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="splide product-cats__slider slider" id="tab-slider-main">
+      <div class="splide__track product-cats__track">
+        <div class="splide__list" id="tab-ajax-container">
+          {% for brand in brands %}
+          <div class="splide__slide brand-slide bg--white rel">
+            <picture>
+              <img class="brands-item__image" src="{{ brand.image }}" alt="{{ brand.name }}" loading="lazy" width="116" height="116">
+            </picture>
+            <a class="brand-slide__link abs inset wh-full" href="{{ brand.href }}">{{ brand.name }}</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="splide__arrows slider__arrows flex-row product-cats__arrows">
+        <button class="btn splide__arrow slider__btn slider__btn--prev splide__arrow--prev flex-center">
+          <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+        </button>
+        <button class="btn splide__arrow splide__arrow--next slider__btn slider__btn--next flex-center">
+          <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const ajaxContainer = document.getElementById('tab-ajax-container');
+    const tabSliderElement = document.getElementById('tab-slider-main');
+    const categoryButtons = document.querySelectorAll('.product-cats__cat-btn');
+    
+    let brandContent = ajaxContainer.innerHTML;
+
+    const productSliderOptions = {
+        perPage: 2,
+        gap: ".8rem",
+        pagination: false,
+        drag: true,
+        mediaQuery: 'min',
+        breakpoints: {
+            640: { 
+                perPage: 3,
+                gap: ".8rem",
+            },
+            960: {
+                destroy: true,
+            }
+        }
+    };
+
+    const brandSliderOptions = {
+        perPage: 6,
+        perMove: 1,
+        gap: "2.4rem",
+        pagination: false,
+        drag: true,
+        breakpoints: {
+            960: { perPage: 4, gap: ".8rem" }
+        }
+    };
+
+    let splideInstance = new Splide(tabSliderElement, brandSliderOptions).mount();
+
+    categoryButtons.forEach(btn => {
+        btn.addEventListener('click', async function() {
+            const type = this.getAttribute('data-type');
+            const id = this.getAttribute('data-id');
+
+            categoryButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            if (type === 'brands') {
+                splideInstance.destroy();
+                ajaxContainer.innerHTML = brandContent;
+                splideInstance = new Splide(tabSliderElement, brandSliderOptions).mount();
+            } else {
+                try {
+
+                    const response = await fetch(`index.php?route=extension/module/section_product_tabs/ajax&category_id=${id}`);
+                    
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    
+                    const html = await response.text();
+
+                    splideInstance.destroy();
+                    ajaxContainer.innerHTML = html;
+                    splideInstance = new Splide(tabSliderElement, productSliderOptions).mount();
+                } catch (error) {
+                    console.error('Помилка при завантаженні товарів:', error);
+                }
+            }
+        });
+    });
+});
+</script>

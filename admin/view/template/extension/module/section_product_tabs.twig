@@ -1,0 +1,93 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" id="form-module" class="form-horizontal">
+          <div class="form-group required">
+            <label class="col-sm-2 control-label">{{ entry_name }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" value="{{ name }}" class="form-control" />
+              {% if error_name %}<div class="text-danger">{{ error_name }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_title_main }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="title_main" value="{{ title_main }}" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_title_accent }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="title_accent" value="{{ title_accent }}" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_category }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="category_name" value="" placeholder="{{ help_category }}" id="input-category" class="form-control" />
+              <div id="product-category" class="well well-sm" style="height: 150px; overflow: auto;">
+                {% for category in selected_categories %}
+                <div id="product-category{{ category.category_id }}"><i class="fa fa-minus-circle"></i> {{ category.name }}
+                  <input type="hidden" name="selected_categories[]" value="{{ category.category_id }}" />
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <select name="status" class="form-control">
+                <option value="1" {{ status == '1' ? 'selected' : '' }}>{{ text_enabled }}</option>
+                <option value="0" {{ status == '0' ? 'selected' : '' }}>{{ text_disabled }}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$('input[name=\'category_name\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return { label: item['name'], value: item['category_id'] }
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'category_name\']').val('');
+		$('#product-category' + item['value']).remove();
+		$('#product-category').append('<div id="product-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="selected_categories[]" value="' + item['value'] + '" /></div>');
+	}
+});
+$('#product-category').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+</script>
+{{ footer }}

@@ -1090,7 +1090,6 @@ p {
 }
 .product-card__link {
     opacity: 0;
-    visibility: hidden;
 }
 .product-card__no-price {
     color: var(--color-red);
@@ -3515,6 +3514,9 @@ input:checked + .product-variants__color-label::before {
 }
 .product-cats__arrows {
     margin-block-start: 2.4rem;
+}
+.slider.splide.is-initialized:not(.is-active) .product-cats__product-slide {
+    flex-basis: 25%;
 }
 @media screen and (min-width: 960px) {
     .product-cats {

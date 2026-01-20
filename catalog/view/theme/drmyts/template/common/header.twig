@@ -172,7 +172,7 @@
             <a class="header__icon-link icon rel icon--likes" href="{{ wishlist }}" title="{{ text_wishlist  }}">
                 {{ macros.svg('heart', '') }}
                 {% if wishlist_total %}
-                    <span class="icon__count flex-center">{{ wishlist_total}}</span>
+                    <span class="icon__count flex-center" id="wishlist-total">{{ wishlist_total}}</span>
                 {% endif %}
             </a>
             <button class="header__icon-link rel cart-btn btn" type="button" data-modal-open="cart">

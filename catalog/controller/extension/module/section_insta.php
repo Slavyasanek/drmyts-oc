@@ -37,7 +37,7 @@ class ControllerExtensionModuleSectionInsta extends Controller {
                     $posts = array_slice($result['data'], 0, (int)$data['insta_limit']);
                     $this->cache->set($cache_key, $posts);
                 } else {
-                    $posts = array(); // Якщо помилка API, повертаємо пустий масив
+                    $posts = array(); 
                 }
             }
             

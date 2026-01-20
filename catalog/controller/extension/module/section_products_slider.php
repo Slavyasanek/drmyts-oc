@@ -40,10 +40,15 @@ class ControllerExtensionModuleSectionProductsSlider extends Controller {
                         $discount = false;
                     }
 
-                    // Перевірка чи товар в Wishlist (для класу liked)
                     $in_wishlist = false;
+                    
                     if ($this->customer->isLogged() && isset($this->session->data['wishlist'])) {
-                        $in_wishlist = in_array($product_id, $this->session->data['wishlist']);
+                        $this->load->model('account/wishlist');
+                        $wishlist_full_data = $this->model_account_wishlist->getWishlist();
+                        $wishlist_ids = array_column($wishlist_full_data, 'product_id');
+                        if (in_array($product_id, $wishlist_ids)) {
+                            $in_wishlist = true;
+                        }
                     }
 
                     $data['products'][] = array(
