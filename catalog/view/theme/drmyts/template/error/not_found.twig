@@ -1,25 +1,30 @@
 {{ header }}
-<div id="error-not-found" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
-  <div class="row">{{ column_left }}
-    {% if column_left and column_right %}
-    {% set class = 'col-sm-6' %}
-    {% elseif column_left or column_right %}
-    {% set class = 'col-sm-9' %}
-    {% else %}
-    {% set class = 'col-sm-12' %}
-    {% endif %}
-    <div id="content" class="{{ class }}">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      <p>{{ text_error }}</p>
-      <div class="buttons clearfix">
-        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
-      </div>
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
-</div>
+<section class="error"> 
+    <div class="container error__container rel"> 
+          <div class="error__bg rel"> 
+            <div class="abs error__flowers error__flowers--small"> 
+              <picture> <img class="contain-image" src="catalog/view/theme/drmyts/assets/pics/small-flowers.png" alt="" loading="lazy"></picture>
+            </div>
+            <div class="abs error__flowers error__flowers--left">
+              <picture> <img class="contain-image" src="catalog/view/theme/drmyts/assets/pics/flowers-left.png" alt="" loading="lazy"></picture>
+            </div>
+            <div class="abs error__flowers error__flowers--right">
+              <picture> <img class="contain-image" src="catalog/view/theme/drmyts/assets/pics/flowers-right.png" alt="" loading="lazy"></picture>
+            </div>
+            <div class="error__heading rel mx flex-center"> 
+              <div class="error__sign abs">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="wh-full" viewBox="0 0 190 140" fill="none"><path d="M176.095 42.4018C160.354 26.4432 136.313 24.0421 118.066 35.1824C115.132 29.157 111.21 23.5008 106.262 18.4842C81.953 -6.1614 42.5411 -6.1614 18.2319 18.4842C-6.0773 43.1298 -6.0773 83.087 18.2319 107.733C42.5411 132.378 81.953 132.378 106.262 107.733C106.302 107.692 106.338 107.65 106.376 107.61C107.197 108.585 108.048 109.543 108.957 110.465C119.168 120.817 132.87 125.454 146.219 124.403L151.082 137.706C152.15 140.625 156.157 140.802 157.469 137.985L166.898 117.74C170.176 115.75 173.27 113.328 176.095 110.464C194.635 91.6713 194.635 61.1986 176.095 42.4018Z" fill="url(#paint0_linear_221_11828)"/><defs><linearGradient id="paint0_linear_221_11828" x1="111.06" y1="204.815" x2="12.6322" y2="0.825765" gradientUnits="userSpaceOnUse"><stop stop-color="#C52226"/><stop offset="1" stop-color="#FB6262"/></linearGradient></defs></svg><span class="abs text--color_white z1">Oops...</span></div><svg class="wh-full" viewBox="0 0 588 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M141.672 1.4102C150.278 -1.50421 153.196 0.0987145 150.424 6.21898C147.653 12.3393 132.337 32.4487 104.477 66.5473C80.2641 92.0485 74.7214 102.467 87.849 97.8044L107.978 93.4328C142.402 83.5238 165.375 68.0045 176.898 46.875C186.233 34.6345 191.995 27.1299 194.183 24.3612C196.371 21.4468 199.434 18.8967 203.372 16.7109C207.456 14.5251 210.155 15.7637 211.468 20.4268C212.78 25.0898 211.905 28.9514 208.842 32.0115C205.779 34.926 200.82 40.9734 193.964 50.1538C187.109 59.1884 154.435 96.5658 95.9444 162.286C92.2978 165.929 88.7971 170.592 85.4423 176.275C79.0243 176.566 74.3567 173.069 71.4395 165.783L118.261 114.198L126.794 105.455L118.48 106.111C111.041 107.859 90.6204 111.429 57.2178 116.821C49.1954 118.278 45.4759 117.477 46.0593 114.417C46.4969 111.211 49.56 107.203 55.2487 102.395C67.2094 88.6969 78.5138 76.0192 89.1618 64.3615C102.289 46.4379 112.354 32.8859 119.355 23.7055C126.357 14.5251 133.796 7.09331 141.672 1.4102Z" fill="#EAB900"/>
+                    <path d="M345.588 1.4102C363.53 5.6361 373.521 13.5779 375.563 25.2355C377.605 36.8932 373.667 53.0682 363.748 73.7605C353.83 94.3071 332.68 115.218 300.298 136.493C268.062 157.768 246.11 170.3 234.441 174.089C222.918 177.732 212.999 179.699 204.685 179.991C196.517 180.137 189.078 178.534 182.368 175.182C175.658 171.685 172.304 164.253 172.304 152.887C216.792 51.9024 274.553 1.4102 345.588 1.4102ZM199.872 132.559C190.974 149.317 191.995 159.08 202.935 161.849C214.02 164.472 236.848 155.364 271.417 134.526C306.133 113.688 328.523 95.7643 338.587 80.7551C348.797 65.6002 353.83 51.611 353.684 38.7876C353.684 25.8184 342.307 19.9167 319.552 21.0825C296.797 22.2483 269.229 40.7548 236.848 76.6021C221.241 97.1487 208.915 115.801 199.872 132.559Z" fill="#EAB900"/>
+                    <path d="M471.614 1.4102C480.22 -1.50421 483.137 0.0987145 480.366 6.21898C477.594 12.3393 462.279 32.4487 434.419 66.5473C410.206 92.0485 404.663 102.467 417.791 97.8044L437.92 93.4328C472.343 83.5238 495.317 68.0045 506.84 46.875C516.175 34.6345 521.937 27.1299 524.125 24.3612C526.312 21.4468 529.376 18.8967 533.314 16.7109C537.398 14.5251 540.096 15.7637 541.409 20.4268C542.722 25.0898 541.847 28.9514 538.784 32.0115C535.721 34.926 530.761 40.9734 523.906 50.1538C517.05 59.1884 484.377 96.5658 425.886 162.286C422.239 165.929 418.739 170.592 415.384 176.275C408.966 176.566 404.298 173.069 401.381 165.783L448.203 114.198L456.736 105.455L448.422 106.111C440.983 107.859 420.562 111.429 387.159 116.821C379.137 118.278 375.417 117.477 376.001 114.417C376.438 111.211 379.502 107.203 385.19 102.395C397.151 88.6969 408.455 76.0192 419.103 64.3615C432.231 46.4379 442.296 32.8859 449.297 23.7055C456.298 14.5251 463.737 7.09331 471.614 1.4102Z" fill="#EAB900"/>
+                    </svg>
+            </div>
+          </div>
+          <div class="error__content flex-col flex-center text--center">
+            <h1 class="text--size_h3-full error__title text--w_300">{{ text_title }}</h1>
+            <p>{{ text_descr }}</p>
+            <a class="btn btn--theme btn--theme_accent text--upp btn--size_M error__btn d-block" href="{{ home }}">{{ text_button }}</a>
+          </div>
+    </div>
+</section>
 {{ footer }}
