@@ -1,0 +1,43 @@
+<section class="about-shop">
+  <div class="container about-shop__container">
+    {% if title_start or title_accent %}
+      <h2 class="about-shop__title text--size_h3-full">
+        {{ title_start }} <span class="text--color_red">{{ title_accent }}</span>
+      </h2>
+    {% endif %}
+    
+    <div class="d-grid mx about-shop__content-wr d-grid"> 
+      <div class="about-shop__img"> 
+        {% if image %}
+          <picture>
+            <img class="contain-image" src="{{ image }}" alt="Вероніка Миц" loading="lazy" />
+          </picture>
+        {% endif %}
+      </div>
+      
+      <div class="about-shop__content">
+        <div class="about-shop__txt-block">
+          {% for p in description %}
+            <p>{{ p }}</p>
+          {% endfor %}
+        </div>
+        
+        {% if btn_1_text or btn_2_text %}
+          <div class="about-shop__btns-wr flex-col">
+            {% if btn_1_text %}
+              <a class="btn btn--theme btn--theme_accent btn--size_M text--upp about-shop__btn" href="{{ btn_1_link }}">
+                {{ btn_1_text }}
+              </a>
+            {% endif %}
+            
+            {% if btn_2_text %}
+              <a class="btn btn--theme btn--theme_dark btn--size_M text--upp about-shop__btn" href="{{ btn_2_link }}">
+                {{ btn_2_text }}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
