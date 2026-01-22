@@ -1,0 +1,41 @@
+@use "../utils/mixins";
+
+.search-text-item {
+    padding: .8rem 1.6rem;
+    gap: 1rem;
+
+    &__icon {
+        @include mixins.square(1.6rem);
+
+        svg {
+            @include mixins.square(100%);
+            stroke: var(--color-dark);
+            opacity: .1;
+        }
+    }
+
+    &__search-icon svg {
+        opacity: .1;
+    }
+
+    &__text {
+        margin-inline-end: auto;
+    }
+
+    &__text strong {
+        font-weight: inherit;
+        color: var(--color-dark);
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .search-text-item {
+        padding-inline: 2.4rem;
+        transition: var(--transition-general);
+        @include mixins.hover {
+            background-color: rgba(#1C1C1C, 0.05);
+        }
+    }
+}
+// End L

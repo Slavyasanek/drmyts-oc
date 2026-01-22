@@ -1,0 +1,54 @@
+@use "../utils/mixins";
+
+.slider {
+    &__arrows {
+        gap: .8rem
+    }
+
+    &__btn {
+        @include mixins.square(6rem);
+        border-radius: 1.2rem;
+        border: .1rem solid rgba(#1C1C1C, 0.1);
+        position: static;
+        transform: none;
+
+        @include mixins.hover {
+            border-color: var(--color-red);
+            background-color: transparent;
+
+            svg {
+                stroke: var(--color-red);
+            }
+        }
+
+        &:disabled, &.disabled {
+            pointer-events: none;
+        }
+    }
+
+}
+// End inner
+
+@include mixins.min-LXL {
+    .slider {
+        
+        &.splide.is-initialized:not(.is-active)  {
+
+            .splide {
+                &__list {
+                    display: flex;
+                    gap: 2.4rem;
+                }
+
+                &__slide {
+                    flex-shrink: 1;
+                }
+
+                &__arrows {
+                    display: none;
+                }
+            }
+            
+        }
+    }
+}

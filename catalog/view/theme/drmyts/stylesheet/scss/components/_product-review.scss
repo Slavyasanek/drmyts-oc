@@ -1,0 +1,39 @@
+@use "../utils/mixins";
+
+.product-review {
+    padding: 2.4rem;
+    border-radius: 2.4rem;
+
+    &__imgs {
+        gap: .8rem;
+        margin-block-end: 1.6rem;
+    }
+
+    &__img {
+        @include mixins.square(8rem);
+        border-radius: .8rem;
+    }
+
+    &__heading {
+        align-items: flex-start;
+        gap: .8rem;
+        margin-block-end: 1.6rem;
+    }
+
+    &__name {
+        margin-block-end: .4rem;
+        font-size: 1.6rem;
+        line-height: 125%;
+    }
+
+    &__content {
+        p {
+            margin: 0;
+
+            &:not(:last-child) {
+                margin-block: 0 1em;
+            }
+        }
+    }
+}
+// End inners

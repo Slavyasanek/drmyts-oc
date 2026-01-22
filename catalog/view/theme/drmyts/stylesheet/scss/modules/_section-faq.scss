@@ -1,0 +1,114 @@
+.faq-section{
+
+    .faq-list{
+        display: flex;
+        flex-direction: column;
+        margin-top: rem-calc(30);
+
+        @include min-LXL{
+            margin-top: rem-calc(50);
+        }
+
+        &__item{
+
+            overflow: hidden;
+            border-bottom: 1px solid $divider-color;
+
+            &:first-child{
+                border-top: 1px solid $divider-color;
+            }
+
+            .title{
+                display: block;
+                font-weight: 500;
+                font-size: rem-calc(14);
+                padding: rem-calc(24) rem-calc(32) rem-calc(24) 0;
+                position: relative;
+                background-color: $bg-color;
+                z-index: 1;
+
+                svg{
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%) rotate(90deg);
+
+                    width: rem-calc(16);
+                    height: rem-calc(16);
+                    fill: none;
+                    stroke: $dark;
+                }
+            }
+
+            .content{
+                height: 0;
+                overflow: hidden;
+                z-index: 2;
+
+                font-size: rem-calc(14);
+                max-width: rem-calc(590);
+
+                a{
+                    text-decoration: underline;
+                }
+
+                >*{
+                    margin-bottom: rem-calc(17);
+
+                    &:last-child{
+                        margin-bottom: 0;
+                    }
+                }
+
+                ul, ol{
+                    list-style-type: disc;
+                    padding-left: rem-calc(21); 
+
+                    li{
+                        list-style-type: disc;
+                        margin-bottom: rem-calc(4);
+
+                        &::marker {
+                            font-size: rem-calc(10);
+                        }
+                    }
+                }
+            }
+
+            &.active{
+                .title{
+                    color: $red;
+                    padding-bottom: rem-calc(16);
+
+                    svg{
+                        stroke: $red;
+                        transform: translateY(-50%) rotate(-90deg);
+                    }
+                }
+
+                .content{
+                    padding-bottom: rem-calc(24);
+                    height: auto;
+                }
+            }
+        }
+    }
+
+    &__image{
+        margin: rem-calc(67) 0;
+        display: flex;
+        justify-content: center;
+
+        @include min-LXL{
+            margin: rem-calc(128) 0 rem-calc(64);
+        }
+
+        img{
+            width: rem-calc(180);
+            height: rem-calc(180);
+            max-width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: contain;
+        }
+    }
+}

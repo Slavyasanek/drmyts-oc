@@ -1,0 +1,40 @@
+@use "../utils/mixins";
+.icon {
+    width: 2.4rem;
+    height: 2.4rem;
+
+    svg {
+        @include mixins.square(100%);
+        transition: var(--transition-general);
+        stroke: var(--color-dark);
+    }
+
+    &__count {
+        position: absolute;
+        top: -.4rem;
+        right: -.4rem;
+        width: 1.6rem;
+        height: 1.6rem;
+        background: var(--gradient-red);
+        color: var(--color-white);
+        font-size: 1rem;
+        border-radius: 50%;
+        font-weight: 600;
+    }
+}
+// End inner
+
+.icon--quote {
+    width: 2rem;
+    height: 1.7rem;
+    
+    svg {
+        stroke: none;
+    }
+}
+
+
+.icon--arrow {
+    width: 1.6rem;
+    height: 1.6rem;
+}

@@ -1,0 +1,18 @@
+.bg {
+    &--white {
+        background-color: var(--color-white);
+    }
+
+    &--sec-bg {
+        background-color: var(--color-background);
+    }
+
+    &--surface {
+        background-color: var(--color-surface);
+    }
+
+    &--red {
+        background-color: var(--color-red);
+    }
+}
+// End inner

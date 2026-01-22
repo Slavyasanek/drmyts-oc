@@ -1,0 +1,101 @@
+@use "../utils/mixins";
+
+.consult-page {
+    padding-block: 1rem 3.6rem;
+
+    &__img {
+        max-width: 28.2rem;
+    }
+
+    &__title {
+        font-size: 4.8rem;
+        line-height: 100%;
+        margin-block-end: 1.2rem;
+    }
+
+    &__container {
+        gap:3.2rem;
+    }
+
+    &__content {
+        gap: 2.4rem;
+    }
+
+    &__icon {
+        width: 2rem;
+        height: 1.7rem;
+        flex-shrink: 0;
+    }
+
+    &__quote {
+        gap: 1.6rem;
+    }
+
+    &__list-title {
+        margin-block: 0 1.2rem;
+    }
+
+    &__list {
+        gap: .6rem;
+    }
+
+    &__option {
+        border-radius: 1.2rem;  
+        background: rgba(28, 28, 28, 0.05);
+        padding: 1rem 1.2rem;
+        gap: .8rem;
+    }
+
+    &__price span {
+        font-size: 1.8rem;
+    }
+
+    &__warning {
+        gap: .8rem;
+    }
+
+    &__warning-icon {
+        @include mixins.square(1.6rem);
+        flex-shrink: 0;
+    }
+
+    &__link {
+        gap: .8rem;
+
+        svg {
+            stroke: var(--color-red);
+        }
+    }
+
+}
+// End inner
+
+@include mixins.min-LXL {
+    .consult-page {
+        padding-block: 3.2rem 6.4rem;
+
+        &__img {
+            margin-inline-start: auto;
+        }
+
+        &__container {
+            gap: 2.4rem;
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 79.2rem;
+            align-items: flex-start;
+        }
+
+        &__content {
+            padding-block-start: 8.4rem;
+        }
+
+        &__link {
+            @include mixins.hover {
+                svg {
+                    transform: translateX(30%);
+                }
+            }
+        }
+    }
+}
+// End LXL

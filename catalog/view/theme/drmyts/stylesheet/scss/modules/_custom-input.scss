@@ -1,0 +1,178 @@
+@use "../utils/mixins";
+
+.custom-input {
+
+    &__input {
+        font-weight: 400;
+        font-size: 1.4rem;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+        font-family: var(--font-primary);
+        color: var(--color-dark);
+        background: transparent;
+        padding: 1.4rem 1.6rem;
+        border-radius: 1.2rem;
+        border: .1rem solid var(--color-divider);
+        width: 100%;
+        outline: none;
+        transition: var(--transition-general);
+
+        @include mixins.placeholder {
+            color: var(---color-secodnary-text);
+        }
+    }
+
+    &__label {
+        margin-block-end: .6rem;
+        display: block;
+    }
+
+    &__error {
+        color: #CB2929;
+        margin-block-start: .6rem;
+    }
+
+    &:focus-within {
+        .custom-input {
+            &__input {
+                border-color: var(--color-dark);
+            }
+
+            &__icon {
+                svg {
+                    stroke: var(--color-dark);
+                }
+            }
+        }
+    }
+
+    &.valid {
+        .custom-input {
+            &__input {
+                border-color: var(--color-dark);
+            }
+        }
+    }
+
+    &.invalid {
+        .custom-input {
+            &__input {
+                border-color: var(--color-red);
+            }
+
+            &__error {
+                display: block;
+            }
+        }
+    }
+}
+// End inner
+
+.custom-input--type {
+    &_with-icon {
+        .custom-input {
+            &__input {
+                padding: 1rem 1.6rem;
+                padding-inline-start: 4.4rem;
+                border-radius: 5rem;
+            }
+
+            &__icon {
+                @include mixins.push--middle;
+                left:.8rem;
+
+                svg {
+                    stroke: var(--color-dark);
+                }
+            }
+        }
+    }
+    // End with icon
+
+    &_password {
+        .custom-input {
+            &__icon {
+                @include mixins.square(1.6rem);
+                inset-inline-end: 1.6rem;
+                inset-block-start: 1.6rem;
+
+                svg {
+                    stroke: var(---color-secodnary-text);
+                    @include mixins.square(100%);
+                }
+            }
+        }
+    }
+    // End PASSWORD
+
+    &_textarea {
+        .custom-input {
+            &__input {
+                resize: none;
+                min-height: 10rem;
+            }
+
+            &__count {
+                inset-inline-end: 1.4rem;
+                inset-block-end: .8rem;
+            }
+        }
+    }
+    // End TEXTAREA
+
+    &_filter {
+        .custom-input {
+            &__input {
+                padding: .8rem 1.6rem;
+            }
+        }
+    }
+    // End FILTER
+
+    &_with-btn {
+        .custom-input {
+            &__input {
+                border-radius: 1.2rem 0 0 1.2rem;
+                height: 5rem;
+                flex-grow: 1;
+            }
+
+            &__btn {
+                border-radius: 0 1.2rem 1.2rem 0;
+                height: 5rem;
+                padding-inline: 2.4rem;
+            }
+        }
+    }
+    // WITH BUTTON
+}
+// End by TYPE
+
+@include mixins.min-L {
+    .custom-input {
+        &__input {
+            border-radius: 1.2rem;
+
+            @include mixins.hover {
+                border-color: var(--color-dark);
+            }
+        }
+
+
+    }
+    // End inner
+
+    .custom-input--type_with-icon {
+        .custom-input {
+            &__input {
+                max-height: 4rem;
+            }
+            &__icon {
+                svg {
+                    stroke: var(---color-secodnary-text);
+                }
+            }
+        }
+    }
+    // End by TYPE
+}

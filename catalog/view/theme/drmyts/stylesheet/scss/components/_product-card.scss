@@ -1,0 +1,109 @@
+@use "../utils/mixins";
+
+.product-card {
+    &__sale {
+        inset-block-start: .7rem;
+        inset-inline-start: 1.2rem;
+        z-index: 1;
+    }
+
+    &__add-to-wish {
+        inset-block-start: 1.6rem;
+        inset-inline-end: 1.6rem;
+        @include mixins.square(1.6rem);
+        z-index: 1;
+
+        &.liked {
+            svg {
+                fill: var(--color-red);
+                stroke: var(--color-red);
+            }
+        }
+    }
+
+    &__image-wr {
+        border-radius: 2.4rem;
+        padding: 1.6rem;
+    }
+    &__img {
+        &::after {
+            @include mixins.pseudo(block, relative);
+            width: 100%;
+            padding-block-start: 100%;
+        }
+    }
+
+    &__content {
+        margin-block-start: 1.6rem;
+        flex-grow: 1;
+        gap: .4rem;
+    }
+
+    &__title {
+        font-weight: 700;
+    }
+
+    &__descr {
+        line-height: 1.4;
+        margin: 0 0 auto;
+    }
+
+    &__price {
+        margin-block-start: 1.2rem;
+    }
+
+    &__link {
+        opacity: 0;
+        // visibility: hidden;
+    }
+
+    &__no-price {
+        color: var(--color-red);
+        
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .product-card {
+        &__sale {
+            inset-block-start: 1.6rem;
+            inset-inline-start: 1.6rem;
+        }
+
+        &__image-wr {
+            padding: 2.4rem;
+        }
+
+        &__add-to-wish {
+            @include mixins.square(2.4rem);
+
+            @include mixins.hover {
+                svg {
+                    stroke: var(--color-red);
+                }
+            }
+        }
+
+        &__descr {
+            line-height: 2;
+        }
+
+        &__content {
+            margin-block-start: 2.4rem;
+        }
+
+        &__title {
+            @include mixins.hover {
+                color: var(--color-red);
+            }
+        }
+
+        &__no-price {
+            @include mixins.hover {
+                color: var(--color-dark);
+            }
+        }
+    }
+}
+// End LXL

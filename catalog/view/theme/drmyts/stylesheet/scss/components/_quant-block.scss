@@ -1,0 +1,53 @@
+@use "../utils/mixins";
+
+.quant-block {
+    &__btn {
+        border-radius: 50%;
+        @include mixins.square(3.2rem);
+
+        svg {
+            stroke: var(--color-dark);
+            @include mixins.square(1.6rem);
+        }
+
+        &.disabled, &:disabled {
+            opacity: .5;
+            pointer-events: none;
+        }
+    }
+
+    &__input {
+        background-color: transparent;
+        outline: none;
+        border-radius: 0;
+        border: 0;
+        font-family: var(--font-primary);
+        width: 3.6rem;
+        font-size: 1.4rem;
+
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .quant-block:not(.quant-block--sm) {
+        .quant-block {
+            &__btn {
+                @include mixins.square(4rem);
+                svg {
+                    @include mixins.square(2.4rem);
+                }
+            }
+
+            &__input {
+                width: 4rem;
+            }
+        }
+    }
+}
+// eND lxl

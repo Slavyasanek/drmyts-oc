@@ -1,0 +1,163 @@
+@use "./mixins";
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 1.4rem;
+    font-family: var(--font-primary);
+    padding: 0;
+    margin: 0;
+    background-color: var(--color-background);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+
+    &.lock {
+        max-height: 100vh;
+        overflow: hidden;
+    }
+}
+
+.hidden {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    visibility: hidden;
+    margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+
+.rel {
+  position: relative;
+}
+
+.abs {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contain-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.scroll-stoped {
+  overflow-y: hidden;
+}
+
+.pos-center {
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+}
+
+main {
+    scroll-behavior: smooth;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.z1 {
+    z-index: 1;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.wh-full {
+    width: 100%;
+    height: 100%;
+}
+
+.inset {
+    inset: 0;
+}
+
+.o-hid {
+    overflow: hidden;
+}
+
+.mx {
+    margin-inline: auto;
+}
+
+.anim {
+    transition: var(--transition-general);
+}
+
+ul,
+li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    transition: var(--transition-general);
+    color: inherit;
+
+    &::before,
+    &::after {
+        transition: var(--transition-general);
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-weight: 400;
+    margin-block: 0 1.2rem;
+}
+
+// Headings
+
+
+
+// .breadcrumbs {
+//     .breadcrumbs__list {
+//         display: flex;
+//         gap: rem-calc(4);
+//         font-size: rem-calc(14);
+//         color: rgba($dark, 0.3);
+
+//         .breadcrumbs__item {
+//             .breadcrumbs__current {
+//                 color: $dark;
+//             }
+//         }
+//     }
+// }

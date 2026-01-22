@@ -1,0 +1,55 @@
+@use "../utils/mixins";
+
+.orders {
+    overflow: hidden;
+
+    &__types {
+        overflow-x: scroll;
+        margin-block-end: 3.2rem;
+
+        &::-webkit-scrollbar {
+            height: 0;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    &__tab {
+        gap: .8rem;
+    }
+
+    &__row {
+        width: fit-content;
+        gap: .6rem;
+    }
+
+    &__btn {
+        border-radius: 5rem;
+
+        &.active {
+            pointer-events: none;
+            background-color: var(--color-dark);
+            color: var(--color-white);
+        }
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .orders {
+        &__types {
+            overflow-x: visible;
+        }
+
+        &__row {
+            flex-wrap: wrap;
+        }
+
+        &__tab {
+            gap: 1.6rem;
+        }
+
+    }
+}
+// End LXL
+

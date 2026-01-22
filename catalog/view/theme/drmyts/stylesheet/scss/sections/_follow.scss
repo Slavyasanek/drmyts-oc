@@ -1,0 +1,71 @@
+@use "../utils/mixins";
+
+
+.follow {
+    padding-block: 3.6rem 7.2rem;
+
+    &__heading {
+        gap: 2.4rem;
+    }
+
+    &__title {
+        margin: 0;
+    }
+
+    &__txt-block {
+        max-width: 28.2rem;
+
+        p {
+            margin: 0;
+        }
+    }
+
+    &__btn {
+        margin-block-start: 2.4rem;
+    }
+    
+    &__slider {
+        max-width: 79%;
+        margin-block-start: 3.2rem;
+    }
+
+    &__track {
+        overflow: visible;
+    }
+
+    &__arrows {
+        margin-block-start: 2.4rem;
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .follow {
+        &__heading {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}
+
+@include mixins.min-LXL {
+    .follow {
+        padding-block: 6.4rem 12.8rem;
+
+        &__slider {
+            max-width: 100%;
+            margin-block-start: 4.8rem;
+        }
+
+        &__track {
+            overflow: hidden;
+        }
+
+        &__arrows {
+            width: calc(50% - 1rem);
+            margin-inline-start: auto;
+            margin-block-start: 4.8rem;
+        }
+    }
+    // End inner
+}
+// End LXL

@@ -1,0 +1,29 @@
+@use "../utils/mixins";
+
+.account-details {
+    &, &__col {
+        gap: 1.2rem;
+    }
+
+    &__btn {
+        width: 100%;
+        margin-block-start: 1.2rem;
+    }
+
+    &__field {
+        .custom-input {
+            &__icon {
+                inset-block-start: 4.2rem;
+            }
+        }
+    }
+}
+// End inner
+
+@include mixins.min-XL {
+    .account-details {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2.4rem;
+    }
+}
+// End XL

@@ -1,0 +1,55 @@
+@use "../utils/mixins";
+
+.product-gallery {
+    &__slide {
+        border-radius: 2.4rem;
+        outline: none;
+        overflow: hidden;
+        padding: 3.2rem;
+        border: none;
+    }
+
+    &__footing {
+        gap: .8rem;
+        margin-block-start: 1.6rem;
+    }
+
+
+    &__thumbs {
+        max-width: 18.8rem;
+    }
+
+    .splide__list &__thumb-slide.splide__slide {
+        border-radius: 1.2rem;
+        overflow: hidden;
+        border: none;
+        // max-width: 10rem;s
+
+        &.is-active {
+            border: none;
+        }
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .product-gallery {
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 2.4rem;
+        justify-content: center;
+
+        &__thumbs {
+            max-width: 6rem;
+        }
+
+        &__footing {
+            flex-direction: column;
+        }
+
+        &__main-gallery {
+            max-width: 48.6rem;
+        }
+    }
+}
+// End L

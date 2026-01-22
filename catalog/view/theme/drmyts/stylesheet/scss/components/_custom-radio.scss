@@ -1,0 +1,49 @@
+@use "../utils/mixins";
+
+.custom-radio {
+    gap: .8rem;
+
+    &__wrapper {
+        flex-shrink: 0;
+        border-radius: 50%;
+        @include mixins.square(1.6rem);
+        border: .1rem solid var(--color-half-dark);
+        cursor: pointer;
+        transition: var(--transition-general);
+
+        &::after {
+            @include mixins.pseudo;
+            border-radius: 50%;
+            background-color: var(--color-red);
+            @include mixins.square(.8rem);
+            @include mixins.push--center-middle;
+            transition: var(--transition-general);
+            @include mixins.el-hide;
+        }
+
+        &:has(input:checked) {
+            border-color: var(--color-red);
+
+            &::after {
+                @include mixins.el-show;
+            }
+        }
+
+        @include mixins.hover {
+            border-color: var(--color-red);
+        }
+    }
+
+    input {
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+        position: absolute;
+        @include mixins.push-full;
+    }
+
+    label {
+        cursor: pointer;
+    }
+}
+// End inner

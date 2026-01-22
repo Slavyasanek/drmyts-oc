@@ -1,0 +1,12 @@
+@use "../utils/mixins";
+
+.modal {
+    &__close {
+        @include mixins.hover {
+            svg {
+                stroke: var(--color-red);
+            }
+        }
+    }
+}
+// End inner

@@ -1,0 +1,122 @@
+@use "../utils/mixins";
+
+.footer {
+    border-block-start: .1rem solid var(--color-divider);
+
+    &__main {
+        padding: 2.4rem 0 3.2rem;
+    }
+
+    &__logo-block {
+        max-width: min(100%, 20rem);
+    }
+
+    &__menu-title {
+        text-transform: uppercase;
+        font-size: inherit;
+        font-weight: inherit;
+        margin-block: 0 1.6rem;
+    }
+
+    &__txt {
+        margin: 2.4rem 0 0;
+    }
+
+    &__nav {
+        align-items: flex-start;
+        gap: 2.4rem .8rem;
+        margin-block-start: 4.8rem;
+    }
+
+    &__menu, &__bottom-menu {
+        gap: .8rem;
+        
+    }
+
+    &__menu-wr {
+        width: calc((100% - .8rem) / 2);
+    }
+
+    &__copyright {
+        padding: 3.2rem 0 2.4rem;
+        color: var(---color-secodnary-text);
+        border-block-start: .1rem solid var(--color-divider);
+    }
+
+    &__copy {
+        margin-block: 3.2rem 0;
+    }
+}
+
+@include mixins.min-L {
+    .footer {
+        &__main {
+            display: flex;
+            gap: 3.2rem;
+            justify-content: space-between;
+        }
+
+        &__nav {
+            margin: 0;
+            flex-grow: 1;
+            max-width: 70%;
+        }
+
+        &__menu-wr {
+            width: calc((100% - 1.6rem) / 3);
+        }
+
+        &__copyright-container {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+        }
+
+        &__copy {
+            margin: 0;
+        }
+
+        &__bottom-menu {
+            flex-direction: row;
+            gap: 1.2rem;
+        } 
+
+        &__copyright {
+            padding-block: 2.4rem;
+        }
+    }
+}
+// End L
+
+@include mixins.min-LXL {
+    .footer {
+        &__main {
+            padding-block-end: 4.8rem;
+        }
+
+        &__menu-title {
+            margin-block-end: 2.4rem;
+        }
+
+        &__nav {
+            max-width: 50%;
+            gap: 3rem;
+        }
+
+        &__menu-wr {
+            width: calc((100% - 8rem) / 3);
+        }
+
+        &__bottom-menu {
+            flex-basis: 50%;
+            justify-content: space-between;
+        }
+
+        &__menu-link {
+            @include mixins.hover {
+                color: var(--color-red);
+            }
+        }
+    }
+}
+// End LXL

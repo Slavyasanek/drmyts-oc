@@ -1,0 +1,20 @@
+@use "../utils/mixins";
+
+.product-rating {
+    gap: .2rem;
+
+    svg {
+        @include mixins.square(1.6rem);
+    }
+
+    // &__star {
+    //     &--empty {
+    //         stroke: var(--color-red);
+    //     }
+    // }
+
+    &__val {
+        margin-inline-start: .4rem;
+    }
+}
+// End inner

@@ -1,0 +1,168 @@
+@use "../utils/mixins";
+
+.header-menu {
+    background: rgba(#000000, 0.5);
+    left: 0;
+    top: 0;
+    z-index: 3;
+    transition: var(--transition-general);
+
+    &:not(.is-active) {
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+
+        .header-menu {
+            &__inner {
+                transform: translateX(-100%);
+            }
+        }
+    }
+
+    &__inner {
+        background-color: var(--color-white);
+        width: min(100%, 32rem);
+        overflow-y: auto;
+        transition: var(--transition-general);
+    }
+
+    &__topbar {
+        padding: 1.7rem 1.6rem 4.1rem;
+    }
+
+    &__item-general {
+        border-block-end: 0.1rem solid var(--color-divider);
+        text-transform: uppercase;
+
+        &:first-of-type {
+            border-top: 0.1rem solid var(--color-divider);
+        }
+    }
+
+    &__arrow-link {
+        padding: 1.6rem;
+        color: var(--color-dark);
+
+        svg {
+            width: 1.6rem;
+            height: 1.6rem;
+            stroke: var(--color-dark);
+        }
+    }
+
+    &__secondary {
+        padding: 2.4rem 1.6rem;
+        border-bottom: 0.1rem solid var(--color-divider);
+        gap: 1rem;
+
+        &:first-child {
+            padding-block-start: 3.2rem;
+        }
+    }
+
+    &__footer {
+        color: var(---color-secodnary-text);
+        padding: 2.4rem 1.6rem 2rem;
+    }
+
+    &__footer-list {
+        gap: 0.8rem;
+    }
+
+    &__copy {
+        margin-block-start: 2.4rem;
+    }
+}
+// End inner
+
+@include mixins.min-XL {
+    .header-menu {
+        background-color: transparent;
+        position: static;
+
+        &:not(.is-active) {
+            opacity: 1;
+            pointer-events: all;
+            visibility: visible;
+
+            .header-menu {
+                &__inner {
+                    transform: translateX(0%);
+                }
+            }
+        }
+
+        &__topbar,
+        &__footer,
+        &__secondary {
+            display: none;
+        }
+
+        &__inner {
+            background-color: transparent;
+            overflow-y: visible;
+        }
+
+        &__arrow-link {
+            padding: 0;
+            position: relative;
+
+            svg {
+                display: none;
+            }
+
+            &::before {
+                @include mixins.pseudo;
+                background-image: url('data:image/svg+xml,<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.20898 0V3.22754L6.10742 0.617188H6.1084L6.22754 0.703125L6.31055 0.763672L6.5127 0.911133L4.61523 3.52246L7.68555 2.52637L7.76367 2.76367L7.84082 3.00195L4.76953 4L7.84082 4.99805L7.76367 5.23633L7.68555 5.47363L4.61523 4.47656L6.5127 7.08887L6.31055 7.23633L6.22754 7.2959L6.1084 7.38281L6.10742 7.38184V7.38281L5.47754 6.51465L4.20898 4.77148V8H3.70898L3.70801 4.77148L2.43945 6.51465L1.81055 7.38281H1.80957L1.68945 7.2959L1.60742 7.23633L1.40527 7.08887L3.30176 4.47656L0.232422 5.47363L0.154297 5.23633L0.0771484 4.99805L3.14746 4L0.0771484 3.00195L0.154297 2.76367L0.232422 2.52637L3.30176 3.52246L1.40527 0.911133L1.60742 0.763672L1.68945 0.703125L1.80957 0.617188H1.81055L2.43945 1.48438L3.70801 3.22754L3.70898 0H4.20898Z" stroke="url(%23paint0_linear_4050_9543)" stroke-width="0.5"/><defs><linearGradient id="paint0_linear_4050_9543" x1="4.63517" y1="11.7037" x2="-1.9509" y2="1.64615" gradientUnits="userSpaceOnUse"><stop stop-color="%23C52226"/><stop offset="1" stop-color="%23FB6262"/></linearGradient></defs></svg>');
+                background-repeat: no-repeat;
+                background-size: contain;
+                @include mixins.square(0.8rem);
+                left: -1.2rem;
+                @include mixins.el-hide;
+                pointer-events: none;
+                transition: var(--transition-general);
+            }
+            @include mixins.hover {
+                &::before {
+                    @include mixins.el-show;
+                }
+            }
+
+            &.active {
+                &::before {
+                    @include mixins.el-show;
+                }
+            }
+        }
+
+        &__item-general {
+            border: none;
+
+            &:first-child {
+                border: none;
+            }
+        }
+
+        &__main {
+            flex-direction: row;
+            gap: 1.4rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        &__inner {
+            width: auto;
+        }
+    }
+}
+// End XL
+
+
+@include mixins.min-XXL {
+    .header-menu {
+        &__main {
+            gap: 2.4rem;
+        }
+    }
+}
+// End XXL

@@ -1,0 +1,33 @@
+.favorite-section{
+    padding: rem-calc(56) 0;
+    overflow: hidden;
+
+    @include min-XL(){
+        .section-title{
+            text-align: center;
+        }
+    }
+
+    &__btn-wrapper{
+        margin-top: rem-calc(24);
+
+        @include min-L(){
+            margin-top: rem-calc(48);
+            display: flex;
+            justify-content: center;
+
+        }
+    }
+
+    @include min-L(){
+        .favorite-section__arrows-wrapper{
+            display: none;
+        }
+    }
+    
+    @include max-L(){
+        .splide__track--draggable{
+            overflow: visible;
+        }
+    }
+}

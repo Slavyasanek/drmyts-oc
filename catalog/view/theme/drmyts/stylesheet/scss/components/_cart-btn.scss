@@ -1,0 +1,15 @@
+@use "../utils/mixins";
+
+@include mixins.min-XL {
+    .cart-btn {
+        display: flex;
+        align-items: center;
+        gap: .7rem;
+
+        &__sum {
+            display: block;
+            font-weight: 500;
+        }
+    }
+}
+// End L

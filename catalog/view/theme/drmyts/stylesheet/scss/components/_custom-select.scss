@@ -1,0 +1,176 @@
+@use "../utils/mixins";
+
+.custom-select {
+    width: max-content;
+
+    &__heading {
+        gap: .8rem;
+        cursor: pointer;
+        transition: var(--transition-general);
+    }
+
+    &__dropdown {
+        padding: .8rem 2.4rem;
+        border-radius: 3.2rem;
+        box-shadow: 0 16px 32px -4px rgba(12, 12, 13, 0.10), 0 4px 4px -4px rgba(12, 12, 13, 0.05);
+        inset-block-start: calc(100% + 1.6rem);
+        inset-inline-end: 0;
+        width: max-content;
+        min-width: 24rem;
+        @include mixins.el-hide;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    &__option {
+        padding-block: 1.2rem;
+        cursor: pointer;
+
+        &.active {
+            color: var(---color-secodnary-text);
+        }
+
+        &:not(:last-child) {
+            border-block-end: .1rem solid rgba(28, 28, 28, 0.10);
+        }
+        
+    }
+
+    &__error {
+        color: var(--color-red);
+        margin-block-start: 0.6rem;
+    }
+
+    &.active {
+        .custom-select {
+            &__arrow {
+                transform: rotate(180deg);
+
+                svg {
+                    stroke: var(--color-red)
+                }
+            }
+
+            &__dropdown {
+                @include mixins.el-show;
+                pointer-events: all;
+            }
+        }
+    }
+}
+// End inner
+
+.custom-select--type {
+    &_field {
+        border: .1rem solid var(--color-half-dark);
+        border-radius: 1.2rem;
+        padding: 1.4rem 1.6rem;
+        width: 100%;
+
+        .custom-select {
+            &__dropdown {
+                width: 100%;
+                box-shadow: none;
+                padding: 0; 
+                display: none;
+            }
+
+            &__option {
+                padding-block: 0;
+
+                &:not(:last-child) {
+                    border-block-end: none;
+                    margin-block-end: .8rem;
+                }
+                
+            }
+        }
+        // End inner
+
+        &.active {
+            border-color: var(--color-dark);
+            .custom-select {
+                &__dropdown {
+                    display: block;
+                    margin-block-start: 1.2rem;
+                }
+            }
+        }
+        // ACTIVE MODE
+    }
+    // End FIELD
+
+    &_checkout {
+        .custom-select {
+            &__heading {
+                border: .1rem solid var(--color-half-dark);
+                border-radius: 1.2rem;
+                padding: 1.4rem 1.6rem;
+
+                @include mixins.hover {
+                    border-color: var(--color-dark);
+                }
+            }
+
+            &__search, &__option {
+                padding: 1rem 1.6rem;
+            }
+
+            &__dropdown {
+                width: 100%;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            &__list {
+                overflow-y: auto;
+                max-height: 20rem;
+
+                &::-webkit-scrollbar {
+                    width: 0.6rem;
+                    background-color: var(--color-white);
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background-color: var(--color-red);
+                    border-radius: 5rem;
+                }
+            }
+
+            &__option {
+                @include mixins.hover {
+                    color: var(--color-red);
+                    padding-inline-start:2.4rem;
+                }
+            }
+        }
+
+        &.active {
+            .custom-select {
+                &__heading {
+                    border-color: var(--color-red);
+                }
+            }
+        }
+
+        &.invalid {
+            .custom-select {
+                &__heading {
+                    border-color: var(--color-red);
+                }
+            }
+        }
+    }
+}
+// End by TYPE
+
+.custom-select.invalid {
+    border-color: var(--color-red);
+
+    .custom-select {
+        &__error {
+            display: block;
+        }
+    }
+}
+// End INVALID

@@ -1,0 +1,81 @@
+@use "../utils/mixins";
+
+.filter {
+
+    &__inner {
+        padding: 2.4rem .6rem 2.4rem 1.6rem;
+        border-radius: 3.2rem;
+        width: 95%;
+        inset-inline-start: 50%;
+        transform: translateX(-50%);
+        inset-block-start: 1.6rem;
+        inset-block-end: 1.6rem;
+    }
+
+    &__heading {
+        padding-block-end: 1.6rem;   
+        padding-inline-end: 1rem;
+    }
+
+    &__title {
+        font-size: 1.6rem;
+        line-height: 125%;
+        font-weight: 500;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+    &__active-filter {
+        padding-block: 1.6rem;
+    }
+
+    &__close {
+        svg {
+            stroke: var(--color-red);
+        }
+    }
+
+    &__title-col {
+        flex-basis: 20%;
+    }
+
+    &__content {
+        flex-grow: 1;
+        overflow: visible auto;
+        padding-inline-end: 1rem;
+
+        &::-webkit-scrollbar {
+            width: 0.2rem;
+            background-color: var(--color-half-dark);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--color-red);
+        }
+    }
+
+    &__footer {
+        padding: 1.6rem 1rem 0 0;
+    }
+
+    &__btn {
+        width: 100%;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .filter {
+        &__inner {
+            background-color: transparent;
+            padding: 0;
+            width: 100%;
+        }
+
+        &__heading, &__active-filter, &__footer {
+            display: none;
+        }
+        
+    }
+}
+// End LXL

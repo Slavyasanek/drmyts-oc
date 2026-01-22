@@ -1,0 +1,118 @@
+@use "../utils/mixins";
+
+.cart-modal {
+    padding-inline: 2.4rem;
+
+    &__heading {
+        padding: 2.4rem 0;
+    }
+
+    &__footer {
+        padding: 3.2rem 2.4rem 2.4rem;
+        margin-inline: -2.4rem;
+        p {
+            margin: 0;
+        }
+    }
+
+    &__sub-totals {
+        padding-block-end: 1.6rem;
+        margin-block-end: 1.6rem;
+    }
+
+    &__btns {
+        margin-block-start: 3.2rem;
+    }
+
+    &__finals {
+        font-size: 1.8rem;
+        line-height: 132%;
+        letter-spacing: -0.01em;
+    }
+
+    &__btn, &__close {
+        width: 100%;
+    }
+
+    &__close {
+        padding-block: 1.6rem 0;
+    }
+
+    &__content {
+        flex-grow: 1;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: .2rem;
+            background-color: rgba(28, 28, 28, 0.10);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--color-red);
+        }
+    }
+
+    &__item {
+        padding-block: 2.4rem;
+
+        &:not(:last-child) {
+            border-block-end: .1rem solid rgba(28, 28, 28, 0.10);
+        }
+    }
+
+}
+// End inner
+
+@include mixins.min-LXL {
+    .cart-modal {
+        border-radius: 4.8rem;
+        padding: 3.2rem;
+        max-width: 120rem;
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        min-height: 40svh;
+
+        &__heading {
+            padding-block-start: 0;
+            flex-basis: 100%;
+            margin-block-end: 2.4rem;
+            height: max-content;
+        }
+
+        &__footer {
+            padding: 1.6rem;
+            margin: 0;
+            border-radius: 2.4rem;
+            background-color: transparent;
+            border: .1rem solid rgba(28, 28, 28, 0.10);
+            height: max-content;
+            max-width: 26rem;
+        }
+
+        &__sub-totals {
+            margin-block-end: 1.6rem;
+        }
+
+        &__close {
+            display: none;
+        }
+
+        &__content {
+            padding-inline-end: 2.4rem;
+            max-width: 70%;
+            max-height: 50svh;
+        }
+        
+    }
+}
+// End L
+
+@include mixins.min-XL {
+    .cart-modal {
+        &__content {
+            max-width: 76rem;
+        }
+    }
+}

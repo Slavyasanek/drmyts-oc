@@ -1,0 +1,25 @@
+@use "../utils/mixins";
+
+.filter-content {
+    max-width: 100%;
+    
+    &__search {
+        margin-block-end: 2.4rem;
+    }
+
+    &__list  {
+        gap: 1.6rem;
+        overflow-y: auto;
+        max-height: 16.4rem;
+
+        &::-webkit-scrollbar {
+            width: 0.2rem;
+            background-color: var(--color-half-dark);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--color-red);
+        }
+    }
+}
+// End inner

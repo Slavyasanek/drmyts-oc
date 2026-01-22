@@ -1,0 +1,201 @@
+@use "../utils/mixins";
+
+.home-hero {
+    padding-block: 4.6rem 3.2rem;
+    overflow: hidden;
+
+    &__container {
+        position: relative;
+        z-index: 1;
+    }
+
+    &__cards {
+        gap: .8rem;
+        margin-block-end: 2rem;
+        margin-block-start: 2.4rem;
+    }
+
+    &__badge {
+        &:first-child {
+            inset-block-start: 23%;
+        }
+
+        &:nth-child(2) {
+            inset-block-start: 45%;
+            inset-inline-end: 0;
+        }
+
+        &:nth-child(3) {
+            inset-block-end: 24%;
+            inset-inline-start: 0;
+        }
+    }
+
+    &__img-wr {
+        height: max-content;
+        flex-shrink: 0;
+    }
+
+    &__img {
+        max-width: 78%;
+        margin-inline: auto;
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+    }
+
+    &__content {
+        padding-block-start: 2.4rem;
+    }
+
+    &__btns-wr {
+        gap: 1.2rem;
+        margin-block-start: 2.4rem;
+    }
+
+    &__accent-title {
+        display: block;
+        margin-block-end: -1.6rem;
+        position: relative;
+        z-index: 1;
+    } 
+
+    &__bg {
+        inset-block-start: 36%;
+        inset-inline-start: 0;
+
+        svg, img {
+            width: 100%;
+            height: auto;
+        }
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .home-hero {
+        &__container {
+            // display: flex;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        // &__img-wr {
+        //     width: 50%;
+        // }
+
+        &__title-block {
+            grid-column: span 2;
+        }
+
+        &__cards {
+            margin-block-end: 2rem;
+            
+        }
+    }
+}
+// End L
+
+@include mixins.min-LXL {
+    .home-hero {
+        &__img-wr {
+            // width: 45%;
+            grid-row: 1/3;
+        }
+
+        &__container {
+            align-items: flex-start;
+        }
+
+        &__content {
+            display: flex;
+            flex-direction: column-reverse;
+            padding-block-start: 0;
+            gap: .8rem;
+        }
+
+        &__title-block {
+            grid-column: 2/3;
+            grid-row: 1/2;
+        }
+
+        &__title {
+            margin-block: 0;
+        }
+
+        &__cards {
+            margin-block: 1.2rem 0;
+            grid-column: 2/3;
+        }
+
+        &__badge {
+            &:first-child {
+                inset-block-start: 9.7%;
+                inset-inline-start: 14.5%;
+            }
+
+            &:nth-child(2) {
+                inset-block-start: 38.9%;
+                inset-inline-end: 7%;
+            }
+
+            &:nth-child(3) {
+                // inset-block-start: 19.5%;
+                inset-block-start: 25%;
+                inset-block-end: auto;
+            }
+        }
+    }
+}
+// End LXL
+
+@include mixins.min-XL {
+    .home-hero {
+        padding-block: 6.8rem 4rem;
+
+        &__container {
+            gap: 0 6rem;
+            grid-template-columns: 46% auto;
+        }
+
+        &__btns-wr {
+            margin-block-start: 4.8rem;
+        }
+
+        &__img-wr {
+            // width: 46%;
+            grid-row: 1 / 4;
+        }
+
+        &__img {
+            max-width: 87%;
+        }
+
+        &__cards {
+            gap: 2.4rem;
+            margin-block-start: 10.4rem;
+        }
+
+        &__accent-title {
+            margin-block-end: -3rem;
+        }
+
+        &__content {
+            margin-block-start: -1.2rem;
+            padding-block-end: 4.8rem;
+        }
+
+        &__btns-wr {
+            gap: 1.6rem;
+        }
+
+        &__bg {
+            inset-block-start: 53%;
+        }
+    }
+}
+// End XL

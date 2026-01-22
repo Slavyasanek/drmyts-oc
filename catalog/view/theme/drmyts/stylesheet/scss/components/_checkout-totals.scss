@@ -1,0 +1,32 @@
+.checkout-totals {
+    &__vals {
+        padding-block: 2.4rem;
+    }
+
+    &__row {
+        gap: .8rem;
+
+        &:not(:last-child) {
+            margin-block-end: 1.6rem;
+        }
+    }
+
+    &__delivery, &__row-total {
+        padding-block-start: 2.4rem;
+    }
+
+    &__final-price {
+        &.product-price--sale {
+            .product-price {
+                &__full {
+                    color: var(---color-secodnary-text);
+                }
+
+                &__sale {
+                    color: var(--color-dark);
+                }
+            }
+        }
+    }
+}
+// End inner

@@ -1,0 +1,16 @@
+.logo{
+    height: 2.4rem;
+    width: auto;
+    display: block;
+    
+    img {
+        height: 100%;
+        width: auto;
+        object-fit: contain;
+    }
+
+    svg {
+        height: 100%;
+    }
+}
+// End inner

@@ -1,0 +1,148 @@
+@use "../utils/mixins";
+
+.search-form {
+
+    &::after {
+        @include mixins.pseudo;
+        @include mixins.push-full;
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        background-color: rgba(#1C1C1C, 0.2);
+        @include mixins.el-hide;
+        pointer-events: none;
+    }
+
+    &__input {
+        flex-grow: 1;
+    }
+
+    &__header {
+        background-color: var(--color-background);
+        position: relative;
+        z-index: 1;
+    }
+
+    &__back svg, &__cross svg {
+        @include mixins.square(1.6rem);
+        stroke: var(---color-secodnary-text);
+    }
+
+    &__close {
+        height: 5.6rem;
+    }
+
+    &__back {
+        padding-inline-start: 1.6rem;
+    }
+
+    &__cross {
+        padding-inline-end: 1.6rem;
+    }
+
+    &__live-search {
+        width: 100%;
+        inset-block-start: 100%;
+        inset-inline-end: 0;
+        z-index: 4;
+    }
+
+    &.active {
+        position: fixed;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        width: 100%;
+        z-index: 3;
+
+        &::after {
+            @include mixins.el-show;
+            pointer-events: all;
+        }
+
+        .search-form {
+            &__close {
+                display: block;
+            }
+
+            &__header {
+                border-block-end: .1rem solid rgba(#1c1c1c, .1);
+            }
+
+            &__live-search {
+                display: block;
+            }
+
+            &__input input {
+                border-color: transparent;
+                padding-inline: .8rem;
+            }
+
+            &__input svg {
+                display: none;
+            }
+        }
+    }
+}
+// End innner
+
+@include mixins.min-LXL {
+    .search-form {
+
+        &__back {
+            display: none;
+        }
+
+        &__cross svg {
+            @include mixins.square(2.4rem);
+            stroke: var(--color-dark);
+        }
+
+        &__close {
+            height: 4rem;
+        }
+
+        &__cross {
+            padding-inline-end: .8rem;
+        }
+
+        &__live-search {
+            border-radius: 1.2rem;
+            inset-block-start: calc(100% + .8rem);
+        }
+       
+
+        &.active {
+            position: relative;
+            height: 4rem;
+
+            .search-form {
+
+                &__header {
+                    border: none;
+                    border-radius: 1.2rem;
+                    position: absolute;
+                    inset-inline-end: 0;
+                    inset-block-start: 0;
+                   
+                }
+
+                &__header, &__live-search {
+                    width: min(50vw, 58.8rem);
+                }
+
+                &__back {
+                    display: none;
+                }
+
+                &__input svg {
+                    display: block;
+                }
+
+                &__input input {
+                    padding-inline-start: 4rem;
+                }
+            }
+        }
+    }
+}
+// End LXL

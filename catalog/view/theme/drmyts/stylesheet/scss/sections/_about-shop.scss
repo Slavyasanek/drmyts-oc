@@ -1,0 +1,72 @@
+@use "../utils/mixins";
+
+.about-shop {
+    padding-block: 3.2rem 3.6rem;
+
+    &__content-wr {
+        gap: 2.4rem;
+    }
+
+    &__title {
+        margin-block-end: 2.2rem;
+        font-weight: 300;
+        font-size: 2.4rem;
+        line-height: 110%;
+        letter-spacing: -0.096rem;
+    }
+
+    &__img {
+        max-width: 28.2rem;
+    }
+
+    &__txt-block {
+        p {
+            margin: 0;
+
+            &:not(:last-child) {
+                margin-block-end: 1em;
+            }
+        }
+    }
+
+    &__btns-wr {
+        gap: 1.2rem;
+        margin-block-start: 2.4rem;
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .about-shop {
+        padding-block: 7.2rem;
+
+        &__title {
+            text-align: center;
+            margin-block-end: 3.8rem;
+        }
+
+        &__content-wr {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 58.8rem;
+        }
+
+        &__img {
+            margin-inline-start: auto;
+        }
+    }
+}
+// End L
+
+@include mixins.min-LXL {
+    .about-shop {
+        &__title {
+            font-size: 4rem;
+            letter-spacing: -0.16rem;
+        }
+
+        &__txt-block {
+            padding-block-start: 5rem;
+        }
+    }
+}
+// End LXL

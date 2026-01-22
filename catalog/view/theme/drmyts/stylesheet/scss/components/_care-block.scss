@@ -1,0 +1,53 @@
+@use "../utils/mixins";
+
+.care-block {
+    padding: 3.2rem;
+    border-radius: 1.6rem;
+
+    &__title-accent {
+        font-size: 2.4rem;
+        line-height: 100%;
+        letter-spacing: normal;
+    }
+
+    &__heading {
+        margin-block-end: 2.4rem;
+    }
+
+    &__list-title {
+        margin-block-end: 1.6rem;
+    }
+
+    &__list {
+        list-style-type: none;
+        counter-reset: my-counter; 
+        padding-inline-start: 0;
+
+        li {
+            counter-increment: my-counter;
+            
+
+
+            &::before {
+                content: "(" counter(my-counter) ") ";
+                margin-inline-end: .2rem;
+                width: 2rem;
+                display: inline-block;
+            }
+
+            &:not(:last-child) {
+                margin-block-end: .8rem;
+            }
+        }
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .care-block {
+        &__title-accent {
+            font-size: 3.2rem;
+        }
+    }
+}
+// End LXL

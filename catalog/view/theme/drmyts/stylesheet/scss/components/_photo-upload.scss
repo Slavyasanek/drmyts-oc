@@ -1,0 +1,31 @@
+@use "../utils/mixins";
+
+.photo-upload {
+
+    &__btn {
+        gap: .6rem;
+        
+        svg {
+            @include mixins.square(1.6rem);
+        }
+    }
+
+    &__list {
+        gap: .8rem;
+    }
+
+    &__disclaimer, &__list {
+        margin-block-start: .8rem;
+    }
+
+    &__delete {
+        inset-block-start: 0;
+        inset-inline-end: 0; 
+    }
+
+    &__file {
+        border-radius: .8rem;
+        @include mixins.square(6rem);
+    }
+}
+// End inner

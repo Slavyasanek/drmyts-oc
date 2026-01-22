@@ -1,0 +1,9 @@
+.border {
+    &--end {
+        border-block-end: .1rem solid var(--color-half-dark);
+    }
+
+    &--start {
+        border-block-start: .1rem solid var(--color-half-dark);
+    }
+}

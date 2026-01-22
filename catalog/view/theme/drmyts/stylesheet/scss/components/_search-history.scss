@@ -1,0 +1,32 @@
+@use "../utils/mixins";
+
+.search-history {
+    &__heading {
+        padding: 1.6rem;
+    }
+
+    &__title {
+        margin: 0;
+    }
+
+    &__items {
+        padding-block-end: 1.6rem;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .search-history {
+        &__heading {
+            padding-inline: 2.4rem;
+        }
+
+        &__clean-btn {
+            @include mixins.hover {
+                color: var(--color-red);
+            }
+        }
+    }
+    // End inner
+}
+// End LXL

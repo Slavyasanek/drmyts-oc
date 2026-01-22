@@ -1,0 +1,52 @@
+@use "../utils/mixins";
+
+.payment-btns {
+    gap: .6rem;
+
+    &__label {
+        border: .1rem solid var(--color-half-dark);
+        height: 4.8rem;
+        width: calc((100% - .6rem) / 2);
+        cursor: pointer;
+        padding-block: 1.4rem;
+
+        svg {
+            transition: var(--transition-general);
+            stroke: none;
+            @include mixins.square(100%);
+        }
+    }
+
+    &__input {
+        display: none;
+
+        &:checked + label {
+            background: var(--gradient-red);
+            color: var(--color-white);
+
+            svg {
+                fill: var(--color-white);
+            }
+        }
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .payment-btns {
+        &__label {
+            width: calc((100% - 1.2rem) / 3);
+
+        }
+    }
+}
+// End L
+
+@include mixins.min-LXL {
+    .payment-btns {
+        &__label {
+            white-space: nowrap;
+        }
+    }
+}
+// End LXL

@@ -1,0 +1,32 @@
+@use "../utils/mixins";
+
+.backdrop {
+    background: linear-gradient(0deg, rgba(28, 28, 28, 0.20) 0%, rgba(28, 28, 28, 0.20) 100%);
+    z-index: 4;
+
+    &:not(.active) {
+        @include mixins.el-hide;
+        pointer-events: none;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .backdrop--mobile {
+        position: static;
+        background: transparent;
+
+        &:not(.active) {
+            @include mixins.el-show;
+            pointer-events: all;
+        }
+
+        .backdrop {
+            &__inner {
+                position: static;
+                transform: none;
+            }
+        }
+    }
+}
+// End LXL

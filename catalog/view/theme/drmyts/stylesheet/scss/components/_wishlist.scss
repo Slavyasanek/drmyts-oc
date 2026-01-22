@@ -1,0 +1,15 @@
+@use "../utils/mixins";
+
+.wishlist {
+    &__item {
+        &:not(:last-child) {
+            padding-block-end: 2.4rem;
+            border-block-end: .1rem solid var(--color-half-dark);
+        }
+
+        &:not(:first-child) {
+            padding-block-start: 2.4rem;
+        }
+    }
+}
+// End inner

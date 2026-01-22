@@ -1,0 +1,35 @@
+@use "../utils/mixins";
+
+.checkout-comment {
+    padding-block: 2.4rem;
+
+    &__toggler {
+        gap: .8rem;
+    }
+
+    &.active {
+        .checkout-comment {
+            &__body {
+                display: block;
+                margin-block-start: 1.6rem;
+            }
+        }
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .checkout-comment {
+        &__toggler {
+            @include mixins.hover {
+                color: var(--color-red);
+
+                svg {
+                    stroke: var(--color-red);
+                }
+            }
+        }
+    }
+    // End inenr
+}
+// End LXL

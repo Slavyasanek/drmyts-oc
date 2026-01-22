@@ -1,0 +1,45 @@
+@use "../utils/mixins";
+
+.shop-heading {
+    padding-block: 2.4rem;
+
+    &__filter-btn {
+        gap: .8rem;
+        border-radius: .8rem;
+
+        svg {
+            @include mixins.square(1.6rem);
+        }
+    }
+
+    &__reset {
+        padding-inline: 1.6rem 1.2rem;
+        border-radius: 5rem;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .shop-heading {
+        padding-block: 3.2rem;
+        gap: 3.6rem .8rem;
+
+        &__active-filter, &__reset {
+            display: flex;
+        }
+
+        &__active-filter {
+            flex-basis: 80%;
+        }
+
+        &__total {
+            display: block;
+            flex-basis: 50%;
+        }
+
+        &__filter-btn {
+            display: none;
+        }
+    }
+}
+// End LXL

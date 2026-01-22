@@ -1,0 +1,53 @@
+@use "../utils/mixins";
+
+
+.review-form {
+    padding: 2.4rem;
+    border-radius: 2.4rem;
+
+    &__rating {
+        margin-block-end: 1.6rem;
+        span {
+            margin-inline-end: 1.2rem;
+        }
+    }
+
+    &__fields {
+        gap: .8rem;
+    }
+
+    &__textarea {
+        margin-block-end: .8rem;
+    }
+
+    &__btn {
+        width: 100%;
+    }
+
+    &__footing {
+        justify-content: center;
+        align-items: center;
+        margin-block-start: 1.6rem;
+    }
+
+    &__photo {
+        margin-block-start: 1.6rem;
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .review-form {
+        &__fields {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.6rem;
+        }
+
+        &__close {
+            @include mixins.hover {
+                color: var(--color-red);
+            }
+        }
+    }
+}
+// End L

@@ -1,0 +1,52 @@
+@use "../utils/mixins";
+
+.consult-modal {
+    width: min(100%, 32.8rem);
+    height: max-content;
+    border-radius: 3.2rem;
+    padding: 1rem 1.6rem 3.2rem;
+    max-height: 100vh;
+    overflow-y: auto;
+    
+    &::-webkit-scrollbar {
+        width: 0.2rem;
+        background-color: var(--color-half-dark);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--color-red);
+    }
+
+    &__close, &__back {
+        svg {
+            stroke: var(---color-secodnary-text);
+        }
+
+        @include mixins.hover {
+            svg {
+                stroke: var(--color-red);
+            }
+        }
+    }
+
+    &__close {
+        margin-inline-start: auto;
+    }
+    
+    &__title, &__heading {
+        margin-block:  0 .8rem;
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .consult-modal {
+        width: min(100%, 46.6rem);
+
+        &__form {
+            padding-inline: 3.2rem;
+        }
+    }
+    // End inner
+}
+// End L

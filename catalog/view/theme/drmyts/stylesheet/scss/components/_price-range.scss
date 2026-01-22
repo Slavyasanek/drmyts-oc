@@ -1,0 +1,43 @@
+@use "../utils/mixins";
+
+.price-range {
+    &__wrap {
+        height: 1.2rem;
+    }
+
+    &__track {
+        height: .2rem;
+        background: rgba(28, 28, 28, 0.10);
+        inset-inline-start: 0;
+        inset-block-start: 50%;
+        transform: translateY(-50%);
+    }
+
+
+    &__btn {
+        background-color: var(--color-red);
+        @include mixins.square(1.2rem);
+        border-radius: 50%;
+        transition: none;
+        &--start {
+            inset-inline-start: 0;
+        }
+
+        &--end {
+            inset-inline-end: 0;
+        }
+
+        &.is-active {
+            cursor: grabbing;
+        }
+    }
+
+    &__output {
+        margin-block-start: 2.4rem;
+    }
+
+    &__start, &__end {
+        font-weight: 500;
+    }
+}
+// End inner

@@ -1,0 +1,17 @@
+.product-price {
+    gap: .8rem;
+
+    &--sale {
+        .product-price {
+            &__full {
+                text-decoration: line-through;
+            }
+
+            &__sale {
+                color: var(--color-red);
+            }
+        }
+    }
+    // End SALE
+}
+// End inner

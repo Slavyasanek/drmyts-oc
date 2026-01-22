@@ -1,0 +1,23 @@
+@use "../utils/mixins";
+
+.product-reviews {
+    &__btn {
+        margin-block-end: 2.4rem;
+        width: auto;
+    }
+
+    &__list {
+        gap: .8rem;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .product-reviews {
+        &__btn {
+            margin-block-end: 1.6rem;
+            min-width: 26.9rem;
+        }
+    }
+}
+// End LXL

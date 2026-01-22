@@ -1,0 +1,74 @@
+@use "../utils/mixins";
+
+.accordion {
+    border-block-start: .1rem solid rgba(28, 28, 28, 0.1);
+    padding-block: 2.4rem;
+
+    &__heading p {
+        font-weight: 500;
+        margin: 0;
+        transition: var(--transition-general);
+    }
+
+    &__content {
+        transition: var(--transition-general);
+        max-height: 0;
+        @include mixins.el-hide;
+
+        ul, ul > li {
+            list-style-type: disc;
+        }
+
+        ol, ol > li {
+            list-style-type: decimal;
+        }
+
+        ul, ol {
+            padding-inline-start: 2em;
+        }
+
+        li:not(:last-child) {
+            margin-block-end: .4rem;
+        }
+    }
+   
+
+    &__heading {
+        gap: 1.6rem;
+        cursor: pointer;
+    }
+
+    &:last-child {
+        border-block-end: .1rem solid rgba(28, 28, 28, 0.1);
+    }
+
+    &[aria-expanded="true"] {
+        .accordion {
+            &__icon {
+                svg {
+                    transform: rotate(180deg);
+                    stroke: var(--color-red);
+                }
+            }
+
+            &__heading p {
+                color: var(--color-red);
+            }
+            &__content {
+                @include mixins.el-show;
+                max-height: 100rem;
+                padding-block-start: 1.6rem;
+            }
+        }
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .accordion {
+        &__content {
+            max-width: 58.8rem;
+        }
+    }
+}
+// End LXL

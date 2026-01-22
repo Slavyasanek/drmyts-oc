@@ -1,0 +1,60 @@
+@use "../utils/mixins";
+
+.shop {
+    padding-block-end: 3.6rem;
+
+    &__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3.2rem .8rem;
+    }
+
+    &__pagination {
+        margin-block-start: 4.8rem;
+    }
+
+    &__quote-block {
+        margin-block-start: 7.2rem;
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .shop {
+        &__grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+}
+// End L
+
+@include mixins.min-LXL {
+    .shop {
+        padding-block-end: 6.4rem;
+        
+        &__container {
+            grid-template-columns: 23.5% auto;
+            gap: 0 2.4rem;
+        }
+
+        &__heading {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+        }
+
+        &__filter {
+            grid-row: span 3;
+            padding-block-start: 2.7rem;
+        }
+
+        &__grid {
+            gap: 3.2rem 2.4rem;
+        }
+
+        &__quote-block {
+            margin-block-start: 12.8rem;
+            max-width: 58.8rem;
+            margin-inline-start: auto;
+        }
+    }
+}
+// End LXL

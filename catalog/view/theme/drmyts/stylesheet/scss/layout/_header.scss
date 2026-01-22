@@ -1,0 +1,152 @@
+@use "../utils/mixins";
+
+.header {
+    &__main-content {
+        padding: 5.2rem 0 1.5rem;
+    }
+
+    &__container {
+        gap: 1.6rem;
+    }
+
+    &__logo {
+        flex-grow: 1;
+        flex-shrink: 1;
+
+        svg, img {
+            display: block;
+            margin-inline: auto;
+        }
+    }
+
+    &__bottom {
+        padding: 1.6rem 0;
+    }
+
+    &__mob-menu {
+        overflow-x: scroll;
+        margin-block-start: 1.4rem;
+
+        &::-webkit-scrollbar {
+            height: 0;
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    &__mob-list {
+        width: fit-content;
+        gap: 1.6rem;
+        white-space: nowrap;
+
+        a {
+            padding-block: 1rem .9rem;
+            display: block;
+            position: relative;
+            border-block-end: .1rem solid transparent;
+
+            &.active {
+                border-color: var(--color-red);
+            }
+
+            @include mixins.hover {
+                border-color: var(--color-red);
+            }
+        }
+    }
+}
+// End inner
+
+@include mixins.min-L() {
+    .header{
+        flex-direction: column-reverse;
+
+        &__main-content {
+            padding: 2.2rem 0;
+        }
+
+        &__mob-menu {
+            display: none;
+        }
+
+        &__bottom{
+            padding: 1.2rem 0 1.1rem;
+            border-block-end: .1rem solid var(--color-divider);
+        }
+
+        &__bottom-container {
+            display: flex;
+            gap: 1.6rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        &__search {
+            flex-basis: 40%;
+        }
+
+        &__slogan {
+            flex-basis: 40%;
+            display: block;
+        }
+    }
+    // End inner
+}
+// End L
+
+@include mixins.min-LXL() {
+    .header {
+        &__container {
+            gap: 2rem;
+        }
+
+        
+        &__bottom-link {
+            @include mixins.hover {
+                color: var(--color-red);
+            }
+        }
+
+        &__icon-link {
+            @include mixins.hover {
+                svg {
+                    stroke: var(--color-red);
+                }
+            }
+        }
+    }
+    // End inner
+}
+// End LXL
+
+
+@include mixins.min-XL() {
+    .header {
+        &__logo {
+            order: -1;
+            flex-grow: 0;
+        }
+
+        &__toggler {
+            display: none;
+        }
+
+        &__menu {
+            flex-basis: 56%;
+            display: flex;
+            justify-content: center;
+            gap: 2.4rem;
+        }
+
+        &__menu {
+            flex-grow: 1;
+        }
+
+        &__slogan, &__search {
+            flex-basis: 24%;
+        }
+       
+    }
+    // End inner
+}
+// End XL

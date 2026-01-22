@@ -1,0 +1,27 @@
+@use "../utils/mixins";
+
+.live-search {
+    background-color: var(--color-background);
+
+    &__products {
+        border-block-start: .1rem solid rgba(#1C1C1C, 0.1);
+    }
+
+    &__text-items {
+        padding-block: 2.4rem;
+    }
+
+    &__searching, &__no-results {
+        padding: 2.4rem;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .live-search {
+        &__text-items {
+            padding-block: 3.2rem 2.4rem;
+        }
+    }
+}
+// End LXL

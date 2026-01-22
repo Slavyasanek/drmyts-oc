@@ -1,0 +1,68 @@
+.consult-form {
+    &__fields, &__options {
+        gap: 1.2rem;
+    }
+
+    &__options-col {
+        overflow-y: auto;
+        max-height: 13rem;
+
+        &::-webkit-scrollbar {
+            width: 0.2rem;
+            background-color: var(--color-half-dark);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--color-red);
+        }
+    }
+
+    &__fields--big {
+        gap: 2.4rem;
+    }
+
+    &__step-title {
+        margin-block:  0 2.4rem;
+    }
+
+    &__footer {
+        margin-block-start: 2.4rem;
+    }
+
+    &__field-title {
+        font-size: inherit;
+    }
+
+    &__field-subtitle {
+        margin-block: .4rem 0;
+    }
+
+    &__field-heading {
+        margin-block-end: 1.2rem;
+    }
+
+    &__btn {
+        width: 100%;
+        gap: .6rem;
+
+        svg {
+            stroke: var(--color-white);
+        }
+    }
+
+    &__error {
+        color: var(--color-red);
+        margin-block-start: .6rem;
+    }
+
+    &__field {
+        &.invalid {
+            .consult-form {
+                &__error {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+// End inner

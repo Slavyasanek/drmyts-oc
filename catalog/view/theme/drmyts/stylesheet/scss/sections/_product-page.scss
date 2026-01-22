@@ -1,0 +1,180 @@
+@use "../utils/mixins";
+
+.product-page {
+    padding-block: 1.2rem 3.6rem;
+
+    &__breadcrumbs {
+        margin-block-end: 3.2rem;
+    }
+
+    &__title {
+        font-size: 1.8rem;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        line-height: 132%;
+    }
+
+    &__descr {
+        margin: .8rem 0 0;
+    }
+
+    &__heading {
+        padding-block-end: 2.4rem;
+        margin-block-end: 2.4rem;
+        border-block-end: .1rem solid rgba(28, 28, 28, 0.10);
+    }
+
+    &__price {
+        gap: .8rem;
+        font-size: 1.6rem;
+        line-height: 125%;
+    }
+
+    &__content {
+        padding-block-start: 3.2rem;
+    }
+
+    &__icon-title {
+        gap: .8rem;
+        font-weight: 500;
+        svg {
+            @include mixins.square(1.6rem);
+        }
+    }
+
+    &__btn {
+        gap: .6rem;
+    }
+
+    &__availability, &__help-links {
+        svg {
+            stroke: var(--color-dark);
+        }
+    }
+
+    &__variants, &__btns {
+        margin-block-start: 3.2rem;
+    }
+
+    &__btns {
+        gap: 1.2rem;
+    }
+
+    &__btn {
+        width: 100%;
+    }
+
+    &__help-links {
+        margin-block-start: 2.4rem;
+        gap: .6rem;
+    }
+
+    &__faq-list {
+        margin-block-start: 7.2rem;
+    }
+
+    &__rating {
+        margin-inline-start: 1.2rem;
+    }
+
+    &__consult {
+        margin-block-start: 2.4rem;
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .product-page {
+        padding-block: 3.6rem;
+
+        &__btns {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &__btn--no-stock {
+            padding-inline: 1rem;
+        }
+    }
+}
+// End L
+
+@include mixins.min-LXL {
+    .product-page {
+        &__container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            padding-inline-start: 1.8rem;
+            column-gap: 2.4rem;
+            position: relative;
+        }
+
+        &__gallery {
+            grid-row: span 3;
+            grid-column: 1 / 2;
+            height: max-content;
+            position: sticky;
+            inset-block-start: 1.2rem;
+        }
+
+        &__breadcrumbs {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            margin-block-end: 3.2rem;
+        }
+
+        &__content {
+            padding: 0;
+        }
+
+        &__help-links {
+            a, button {
+                @include mixins.hover {
+                    color: var(--color-red);
+
+                    svg {
+                        stroke: var(--color-red);
+                    }
+                }
+            }
+        }
+    }
+}
+// End LXL
+
+@include mixins.min-XL {
+    .product-page {
+        padding-block: 4.8rem 6.4rem;
+
+        &__title {
+            font-weight: 400;
+            font-size: 2.4rem;
+        } 
+
+        &__descr {
+            margin-block-start: 1.6rem;
+        }
+
+        &__descr, &__row, &__btns {
+            max-width: 48.6rem;
+        }
+
+        &__heading {
+            margin-block-end: 3.2rem;
+        }
+
+        &__help-links {
+            justify-content: flex-start;
+            gap: 1.6rem;
+        }
+
+        &__faq-list {
+            margin-block-start: 8rem;
+        }
+
+        &__consult {
+            margin-block-start: 4.8rem;
+        }
+    }
+    // End inner
+}
+// End XL

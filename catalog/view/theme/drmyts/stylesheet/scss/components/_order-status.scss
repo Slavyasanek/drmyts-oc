@@ -1,0 +1,50 @@
+@use "../utils/mixins";
+
+.order-status {
+    &__item {
+        flex-grow: 1;
+        padding-block: 1.2rem;
+        border-block-end: .2rem solid var(--color-half-dark);
+
+        &::after {
+            @include mixins.pseudo;
+            width: 0%;
+            height: 0.2rem;
+            top: 100%;
+            left: 0;
+            background-color: var(--color-red);
+            transition: var(--transition-general);
+        }
+
+        &::before {
+            @include mixins.pseudo;
+            top: calc(100% - .3rem);
+            @include mixins.push--center;
+            border-radius: 50%;
+            background-color: var(--color-half-dark);
+            @include mixins.square(.8rem);
+            transition: var(--transition-general);
+        }
+
+        &.active {
+            &::after {
+                width: 50%;
+            }
+
+            &::before {
+                background-color: var(--color-red);
+            }
+        }
+
+        &.complete {
+            &::after {
+                width: 100%;
+            }
+
+            &::before {
+                background-color: var(--color-red);
+            }
+        }
+    }
+}
+// End inner

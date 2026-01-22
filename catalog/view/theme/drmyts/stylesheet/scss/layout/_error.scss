@@ -1,0 +1,157 @@
+@use "../utils/mixins";
+
+.error {
+    &__sign {
+        width: 8.5rem;
+        height: 6.2rem;
+        font-size: 1.8rem;
+        line-height: 120%;
+        letter-spacing: -0.09rem;
+        inset-inline-start: 0;
+        inset-block-start: -4.8rem;
+
+        span {
+            inset-block-start: 1.8rem;
+            inset-inline-start: 1.1rem;
+        }
+    }
+
+    &__bg {
+        min-height: 26.5rem;
+        padding-block-start: 7rem;
+    }
+
+    &__heading {
+        padding-inline: 2rem;
+        width: 26.2rem;
+    }
+
+    &__flowers {
+        &--small {
+            width: 4.3rem;
+            height: 7.8rem;
+            inset-block-end: 10.6rem;
+            inset-inline-start: 1.1rem;
+        }
+
+        &--left {
+            width: 18.5rem;
+            height: 8.8rem;
+            inset-block-end: 0;
+            inset-inline-start: 0;
+        }
+
+        &--right {
+            // height: 15rem;
+            width: 16rem;
+            inset-inline-end: 0;
+            inset-block-end: 0;
+        }
+    }
+
+    
+    &__btn {
+        margin-block: 3.2rem 0;
+    }
+
+    &__content {
+        padding-block: 3rem 7.2rem;
+
+        p {
+            margin: 0;
+            max-width: 50%;
+        }
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .error {
+        &__heading {
+            width: 34.2rem;
+        }
+    }
+}
+// End L
+
+@include mixins.min-LXL {
+    .error {
+        padding-block: 4.8rem 12.8rem;
+
+        &__sign {
+            width: 19rem;
+            height: 14rem;
+            font-size: 4rem;
+            font-weight: 300;
+            letter-spacing: -0.2rem;
+            inset-inline-start: 2rem;
+            inset-block-start: -10.9rem;
+
+            span {
+                inset-block-start: 4rem;
+                inset-inline-start: 2.4rem;
+            }
+        }
+
+        &__bg {
+            min-height: 68rem;
+            padding-block-start: 13.4rem;
+        }
+
+        
+        &__heading {
+            padding-inline: 4.6rem;
+            width: 58.8rem;
+        }
+
+        &__flowers {
+            &--small {
+                width: 13.7rem;
+                height: 22.3rem;
+                inset-block-end: 28rem;
+                inset-inline-start: 2.4rem;
+            }
+
+            &--left {
+                width: 50.1rem;
+                height: 23.4rem;
+            }
+
+            &--right {
+                height: 65.9rem;
+                width: 50.1rem;
+            }
+        }
+
+        &__title {
+            font-size: 3.2rem;
+            line-height: 100%;
+            margin-block: 0 1.6rem;
+            font-weight: 300;
+        }
+
+        &__content {
+            position: absolute;
+            inset-inline-start: 50%;
+            transform: translateX(-50%);
+            inset-block-end: 17rem;
+            padding: 0;
+
+            p {
+                max-width: 100%;
+            }
+        }
+    }
+}
+// End LXL
+
+@include mixins.min-XL {
+    .error {
+        &__flowers {
+            &--small {
+                inset-inline-start: 14.4rem;
+            }
+        }
+    }
+}
+// End XL

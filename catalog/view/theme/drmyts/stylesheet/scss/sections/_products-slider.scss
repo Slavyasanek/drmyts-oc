@@ -1,0 +1,38 @@
+@use "../utils/mixins";
+
+.products-slider {
+    padding-block: 7.2rem 3.6rem;
+
+    &__title {
+        margin-block-end: 3.2rem;
+    }
+
+    &__btn, &__arrows {
+        margin-block-start: 2.4rem;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .products-slider {
+        padding-block: 12.8rem 6.4rem;
+
+        &__title {
+            margin-block-end: 4.8rem;
+            text-align: center;
+        }
+
+        &__btn, &__arrows {
+            margin-block-start: 4.3rem;
+        }
+
+        &__btn {
+            margin-inline: auto;
+        }
+
+        .slider.splide.is-initialized:not(.is-active) &__slide {
+            flex-basis: 25%;
+        }
+    }
+}
+// End LXL

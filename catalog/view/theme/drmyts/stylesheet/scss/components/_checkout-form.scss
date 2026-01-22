@@ -1,0 +1,115 @@
+@use "../utils/mixins";
+
+.checkout-form {
+    &__group-heading, &__tabs {
+        padding-block-end: 1.6rem;
+    }
+
+    &__group {
+        &:not(:last-child) {
+            margin-block-end: 4.8rem;
+        }
+    }
+
+    &__fields {
+        gap: .8rem;
+    }
+
+    &__options {
+        gap: 1.6rem;
+    }
+
+    &__checkbox, &__options, &__fields, &__field--textarea, &__payment-options, &__destination  {
+        margin-block-start: 2.4rem;
+    }
+
+    &__group-subtitle {
+        margin-block: .8rem 0;
+    }
+    
+    &__select {
+        width: 100%;
+    }
+
+    &__select-label {
+        margin-block-end: .6rem;
+    }
+
+    &__select-wrapper {
+        &:not(:first-child) {
+            margin-block-start: 1.2rem;
+        }
+
+        &.disabled {
+            opacity: .5;
+            pointer-events: none;
+        }
+    }
+
+    &__tabs {
+        gap: 1.6rem;
+        margin-block-end: 2.4rem;
+    }
+
+    &__tab-btn {
+        font-size: 1.6rem;
+        line-height: 132%;
+        padding-block: .4rem;
+        border-block-end: .1rem solid transparent;
+
+        &.active {
+            color: var(--color-dark);
+            border-block-end-color: var(--color-dark);
+        }
+    }
+    
+
+}
+// End inner
+
+@include mixins.min-L {
+    .checkout-form {
+        &__fields {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &__tab-btn {
+            font-size: 1.8rem;
+        }
+    }
+}
+// End L
+
+@include mixins.min-LXL {
+    .checkout-form {
+        &__tabs {
+            padding-block-end: 2.4rem;
+            gap: 2.4rem;
+        }
+
+        &__fields {
+            gap: 2.4rem;
+        }
+
+        &__checkbox {
+            margin-block-start: 3.2rem;
+        }
+
+        &__field--textarea {
+            margin-block-start: 3.2rem;
+        }
+
+        &__group {
+            &:not(:last-child) {
+                margin-block-end: 6.4rem;
+            }
+        }
+
+        &__tab-btn {
+            @include mixins.hover {
+                color: var(--color-dark);
+            }
+        }
+    }
+}
+// End LXL

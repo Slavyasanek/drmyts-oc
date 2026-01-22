@@ -1,0 +1,167 @@
+@use "../utils/mixins";
+
+.btn {
+    transition: var(--transition-general);
+    border: none;
+    background-color: transparent;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    font-family: var(--font-primary);
+    width: max-content;
+    letter-spacing: normal;
+    cursor: pointer;
+
+    &::after, &::before, svg {
+        transition: var(--transition-general);
+    }
+}
+
+.btn--theme {
+    position: relative;
+    overflow: hidden;
+    // display: block;
+    z-index: 1;
+    
+    &::after,
+    &::before {
+        @include mixins.pseudo;
+        @include mixins.push-full;
+        z-index: -1;
+    }
+
+    @include mixins.hover {
+        &::after {
+            @include mixins.el-hide;
+        }
+    }
+
+
+    &:active {
+        &::after {
+            @include mixins.el-hide;
+        }
+
+        &::before {
+            opacity: .8;
+        }
+    }
+
+    &.disabled, &:disabled {
+        color: var(---color-secodnary-text);
+        pointer-events: none;
+
+        svg {
+            stroke: var(---color-secodnary-text);
+        }    
+
+        &::before {
+            @include mixins.el-hide;
+        }
+        &::after {
+            background: rgba(28, 28, 28, 0.05);
+        }
+    }
+
+    &_accent {
+        color: var(--color-white);
+
+        svg {
+            stroke: var(--color-white);
+        }
+
+        &::after {
+            background: var(--gradient-red);
+        }
+
+        &::before {
+            background: linear-gradient(326.78deg, #fb6262 -11.54%, #c52226 97.01%);
+        }
+    }
+
+    &_dark {
+        color: var(--color-white);
+
+        svg {
+            stroke: var(--color-white);
+        }
+
+        &::after {
+            background: var(--gradient-black);
+        }
+
+        &::before {
+            background: linear-gradient(326.78deg, #454545 -11.54%, #1c1c1c 97.01%);
+        }
+    }
+}
+// End by THEME
+
+.btn--border {
+    &_gray {
+        border: .1rem solid var(--color-half-dark);
+
+        svg {
+            stroke: var(--color-dark);
+        }
+
+        @include mixins.hover {
+            border-color: var(--color-red);
+        }
+    }
+}
+// End BORDER
+
+.btn--full {
+    &_black {
+        background-color: var(--color-dark);
+        color: var(--color-white);
+
+        svg {
+            stroke: var(--color-white);
+        }
+
+        @include mixins.hover {
+            background-color: var(--color-half-dark);
+            color: var(--color-dark);
+
+            svg {
+                stroke: var(--color-dark);
+            }
+        }
+    }
+    // End BLACK
+
+    &_gray {
+        background-color: var(--color-half-dark);
+        color: var(--color-dark);
+
+        svg {
+            stroke: var(--color-dark);
+        }
+
+        @include mixins.hover {
+            background-color: var(--color-dark);
+            color: var(--color-white);
+
+            svg {
+                stroke: var(--color-white);
+            }
+        }
+    }
+}
+// End FULL
+
+.btn--size {
+    &_S {
+        padding: .8rem 1.6rem;
+    }
+    
+    &_M {
+        padding: 1.6rem 3.2rem;
+        font-size: 1.4rem;
+        line-height: 130%;
+        border-radius: 1.2rem;
+    }
+}
+// End by SIZE

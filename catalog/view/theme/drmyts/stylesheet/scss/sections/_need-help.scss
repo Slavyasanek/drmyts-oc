@@ -1,0 +1,20 @@
+@use "../utils/mixins";
+
+.need-help {
+    padding-block: 8rem;
+
+    &__title {
+        margin-block-end: 1.6rem;
+    }
+
+    &__btn {
+        margin-block-start: 3.2rem;
+        gap: .6rem;
+
+        svg {
+            stroke: var(--color-white);
+            @include mixins.square(1.6rem);
+        }
+    }
+}
+// End inner

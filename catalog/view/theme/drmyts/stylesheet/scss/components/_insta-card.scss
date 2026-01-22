@@ -1,0 +1,33 @@
+@use "../utils/mixins";
+
+.insta-card {
+    border-radius: 1.6rem;
+    
+
+    &__icon {
+        inset-block-start: 1.6rem;
+        inset-inline-end: 1.6rem;
+
+        svg {
+            stroke: none;
+        }
+    }
+
+    &__link {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    &::after {
+        @include mixins.pseudo(block, relative);
+        width: 100%;
+        padding-block-start: 125%;
+    }
+}
+// End inner
+
+@include mixins.min-L {
+    .insta-card {
+        border-radius: 2.4rem;
+    }
+}

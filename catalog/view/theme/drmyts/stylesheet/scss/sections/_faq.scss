@@ -1,0 +1,21 @@
+@use "../utils/mixins";
+
+.faq {
+    padding-block: 3.6rem;
+
+    &__title {
+        margin-block-end: 3.2rem;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .faq {
+        padding-block: 6.4rem;
+
+        &__title {
+            margin-block-end: 4.8rem;
+        }
+    }
+}
+// End LXL

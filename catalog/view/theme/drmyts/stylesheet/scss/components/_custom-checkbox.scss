@@ -1,0 +1,54 @@
+@use "../utils/mixins";
+
+.custom-checkbox {
+    gap: .8rem;
+
+    &__wrapper {
+        flex-shrink: 0;
+        @include mixins.square(2rem);
+        border-radius: .4rem;
+        border: .1rem solid var(--color-dark);
+        cursor: pointer;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: var(--transition-general);
+
+        &:has(input:checked) {
+            background-color: var(--color-dark);
+            background-image: url('data:image/svg+xml,<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5.69231C3.33333 6 5.33333 6.92308 5.33219 10C5.33219 10 5.33219 3.53846 10 2" stroke="white"/></svg>');
+        }
+
+        @include mixins.hover {
+            border-color: var(--color-red);
+        }
+    }
+
+    input {
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+        position: absolute;
+        @include mixins.push-full;
+    }
+
+    label {
+        cursor: pointer;
+    }
+}
+// End inner
+
+.custom-checkbox--red {
+    .custom-checkbox__wrapper {
+        &:has(input:checked) {
+            background-color: var(--color-red);
+            border-color: var(--color-red);
+        }
+    }
+}
+// End RED
+
+.custom-checkbox--rounded {
+    .custom-checkbox__wrapper {
+        border-radius: 50%;
+    }
+}

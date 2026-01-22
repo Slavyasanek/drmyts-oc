@@ -1,0 +1,30 @@
+@use "../utils/mixins";
+
+@keyframes rotating {
+    0% {
+        transform: rotate(0);
+    } 100% {
+        transform: rotate(360deg);
+    }
+}
+
+.scroll-image {
+    padding-block: 3.6rem;
+
+    &__img {
+        max-width: 18rem;
+        
+    }
+
+    &__rotate-part {
+        animation: rotating 8s linear infinite;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .scroll-image {
+        padding-block: 6.4rem;
+    }
+}
+// End LXL

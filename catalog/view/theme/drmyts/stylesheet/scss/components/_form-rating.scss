@@ -1,0 +1,14 @@
+@use "../utils/mixins";
+
+.form-rating {
+    gap: .2rem;
+
+    &__star {
+        cursor: pointer;
+    }
+
+    &__star svg {
+        @include mixins.square(1.8rem);
+    }
+}
+// End inner

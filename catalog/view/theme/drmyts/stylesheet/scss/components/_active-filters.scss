@@ -1,0 +1,22 @@
+@use "../utils/mixins";
+.active-filters {
+    gap: .4rem;
+
+    &__item {
+        padding: .8rem 1.2rem .8rem 1.6rem;
+        border-radius: 5rem;
+        gap: .4rem;
+
+        svg {
+            @include mixins.square(1.6rem);
+        }
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .active-filters {
+        gap: .8rem;
+    }
+}
+// End LXL
