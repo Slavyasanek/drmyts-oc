@@ -1,0 +1,69 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<section class="consult-page">
+	<div class="container consult-page__container d-grid">
+		<div class="consult-page__img">
+            {% if image %}
+			<picture>
+				<img class="contain-image" src="{{ image }}" alt="{{ title }}" loading="lazy" width="275" height="363">
+            </picture>
+            {% endif %}
+		</div>
+		<div class="consult-page__content flex-col">
+            {% if title or subtitle %}
+			<div class="consult-page__heading">
+                {% if title %}
+				    <h2 class="consult-page__title text--ff_accent text--color_red">{{ title }}</h2>
+                {% endif %}
+                {% if subtitle %}
+				    <span class="text--size_label text--color_gray consult-page__prof text--upp">{{ subtitle }}</span>
+                {% endif %}
+			</div>
+            {% endif %}
+            {% if quote %}
+			<div class="consult-page__quote d-flex">
+				<div class="consult-page__icon">
+                    {{ macros.svg('quote', 'wh-full') }}
+				</div>
+				<p class="m-0">{{ quote }}</p>
+			</div>
+            {% endif %}
+			<div class="consult-page__list-wr">
+                {% if list_title %}
+				    <p class="consult-page__list-title text--w_500">{{ list_title }}</p>
+                {% endif %}
+                {%  if instructions %}
+				<ul class="consult-page__list flex-col">
+                    {% for item in instructions %}
+					<li class="consult-page__option flex-row">
+						<span class="text--color_red">{{ loop.index }}</span>
+						<span>{{ item.text }}</span>
+					</li>
+                    {% endfor %}
+				</ul>
+                {% endif %}
+			</div>
+            {% if price_text %}
+			<div class="consult-page__price">
+				Вартість:
+				<span class="text--w_500">{{ price_text }}</span>
+			</div>
+            {% endif %}
+			<button data-modal-open="consult" type="button" class="btn btn--theme btn--theme_accent btn--size_M text--upp consult-page__btn">
+				{{ btn_text }}</button>
+            {% if warning %}
+			<div class="consult-page__warning text--color_gray d-flex">
+                {{ macros.svg('warning', 'consult-page__warning-icon') }}
+				<p>{{ warning }}</p>
+			</div>
+            {% endif %}
+			<a class="btn flex-row text--upp text--size_label consult-page__link" href="/">
+				<span>
+					Дивитися тарифи</span>
+				<div class="icon icon--arrow">
+                    {{ macros.svg('arrow-right', '') }}
+				</div>
+			</a>
+		</div>
+	</div>
+</section>

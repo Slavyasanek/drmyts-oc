@@ -57,7 +57,7 @@ class ControllerExtensionModuleSectionFaq extends Controller {
         $data['title_main'] = $this->request->post['title_main'] ?? $module_info['title_main'] ?? 'Поширені';
         $data['title_accent'] = $this->request->post['title_accent'] ?? $module_info['title_accent'] ?? 'Запитання';
 
-        // FAQ ITEMS - головна частина
+
         if (isset($this->request->post['faq_items'])) {
             $data['faq_items'] = $this->request->post['faq_items'];
         } elseif (!empty($module_info['faq_items'])) {

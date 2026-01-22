@@ -21,18 +21,6 @@ class ControllerExtensionModuleSectionAbout extends Controller {
             $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=module', true));
         }
 
-        if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-
-		if (isset($this->error['name'])) {
-			$data['error_name'] = $this->error['name'];
-		} else {
-			$data['error_name'] = '';
-		}
-
         $errors = ['warning', 'name', 'image', 'red_button_text'];
 
         foreach ($errors as $error_key) {

@@ -1,0 +1,47 @@
+<section class="delivery-page">
+    <div class="container delivery-page__container d-grid">
+        <div class="delivery-page__col">
+            {% if delivery_title %}
+            <div class="delivery-page__block">
+                <h3 class="delivery-page__block-title text--size_h3-mob text--size_h3-desk">{{ delivery_title }}</h3>
+                <div class="delivery-page__txt-block">
+                    {{ delivery_content }}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if payments %}
+            <div class="delivery-page__block">
+                <h3 class="delivery-page__block-title text--size_h3-mob text--size_h3-desk">{{ payment_title }}</h3>
+                <div class="delivery-page__txt-block">
+                    <ul class="delivery-page__styled-list flex-col">
+                        {% for payment in payments %}
+                        <li class="flex-row delivery-page__delivery-option">
+                            <div class="flex-center delivery-page__icon">
+                                <div class="icon">
+                                    <svg role="presentation">
+                                        <use href="catalog/view/theme/drmyts/assets/svg/sprite.svg#{{ payment.icon }}"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span>{{ payment.text }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="delivery-page__col">
+            {% if extra_title %}
+            <div class="delivery-page__block">
+                <h3 class="delivery-page__block-title text--size_h3-mob text--size_h3-desk">{{ extra_title }}</h3>
+                <div class="delivery-page__txt-block">
+                    {{ extra_content }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
