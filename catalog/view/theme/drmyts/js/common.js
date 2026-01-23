@@ -289,7 +289,7 @@ var wishlist = {
 
 				if (json['success']) {
                     $('[onclick="wishlist.add(\'' + product_id + '\');"]').addClass('liked');
-					$('#content').parent().before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+					$('#content').before('<div class="alert alert--info alert--fixed alert-dismissible">  <button type="button" class="btn btn--icon alert__close" data-dismiss="alert">&times;</button>' + json['success'] + '</div>');
 				}
 
 				$('#wishlist-total').html(json['total']);
@@ -660,6 +660,7 @@ class QuantityChanger {
     }
 }
 
+const modalHandler = new Modal();
 
 document.addEventListener("DOMContentLoaded", () => {
     // PASSWORD INPUTS
@@ -675,31 +676,36 @@ document.addEventListener("DOMContentLoaded", () => {
         toggleDropdowns('.accordion', '.accordion__heading');
     }
 
-    const modalHandler = new Modal();
+
     if (document.querySelector('.custom-select')) document.querySelectorAll('.custom-select').forEach(sl => new CustomSelect(sl));
-    // if (document.querySelector('.quant-block')) document.querySelectorAll('.quant-block').forEach(q => new QuantityChanger(q));
+    if (document.querySelector('.quant-block')) document.querySelectorAll('.quant-block').forEach(q => new QuantityChanger(q));
 
-    // --- MODALS  ---
-    if (document.querySelector('.backdrop')) {
 
-        Array.from(document.querySelectorAll('.backdrop')).forEach(modal => {
-            const modalId = modal.dataset.modal;
+    document.addEventListener("click", e => {
+        // OPEN MODAL
+        if (e.target.closest('[data-modal-open]')) {
+            const target = e.target.closest('[data-modal-open]');
+            const modalId = target.dataset.modalOpen;
+
             if (modalId) {
-                if (document.querySelector(`[data-modal-open="${modalId}"]`)) {
-                    Array.from(document.querySelectorAll(`[data-modal-open="${modalId}"]`)).forEach(btn => {
-                        btn.addEventListener("click", (e) => {
-                            e.preventDefault();
-                            modalHandler.openModal(modal)
-                        });
-                    })
+                if (document.querySelector(`[data-modal="${modalId}"]`)) {
+                    e.preventDefault();
+                    const modal = document.querySelector(`[data-modal="${modalId}"]`);
+                    modalHandler.openModal(modal);
                 }
-
-                const closeButton = modal.querySelector('[data-modal-close]');
-
-                if (closeButton) closeButton.addEventListener("click", (e) => {
-                    modalHandler.closeModal(modal);
-                });
             }
-        })
-    }
+        }
+
+        // CLOSE MODAL
+        if (e.target.closest('[data-modal-close]')) {
+            const target = e.target.closest('[data-modal-close]');
+            const modal = target.closest('.backdrop');
+            if (modal) modalHandler.closeModal(modal);
+        }
+
+        if (e.target.closest('.alert__close')) {
+            e.target.closest('.alert').remove();
+        }
+    })
+    
 })

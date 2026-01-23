@@ -1,0 +1,57 @@
+@use "../utils/mixins";
+
+.alert {
+    padding: .8rem 1.2rem;
+    font-size: 1.4rem;
+    border-radius: .6rem;
+    width: min(30rem, 100%);
+
+    a {
+        text-decoration: underline;
+        font-weight: 500;
+
+        @include mixins.hover {
+            opacity: .5;
+        }
+    }
+
+    &__close {
+        color: currentColor;
+        font-size: 2em;
+        line-height: 1;
+        border-radius: 50%;
+        margin-inline-start: auto;
+        display: block;
+    }
+}
+// End inner
+
+.alert--error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    border: .1rem solid #D8000C;
+}
+
+.alert--success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    border: .1rem solid #4F8A10;
+}
+
+.alert--info {
+    color: #00529B;
+    background-color: #BDE5F8;
+    border: .1rem solid #00529B;
+    
+}
+
+.alert--in-txt {
+    margin-block: 1rem;
+}
+
+.alert--fixed {
+    position: fixed;
+    inset-block-start: 2rem;
+    inset-inline-end: 2rem;
+    z-index: 999;
+}

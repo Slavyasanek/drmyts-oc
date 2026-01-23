@@ -2,7 +2,8 @@
 
 // Text
 $_['text_search']              = 'Пошук';
-$_['text_brand']               = 'Виробник';
+$_['text_brand']               = 'Бренд';
+$_['text_brands']               = 'Бренди';
 $_['text_manufacturer']        = 'Виробник:';
 $_['text_model']               = 'Модель:';
 $_['text_reward']              = 'Бонусні бали:';
@@ -33,6 +34,10 @@ $_['text_month']               = 'Місяць';
 $_['text_year']                = 'Рік';
 $_['text_benefits']            = 'Переваги:';
 
+// buttons
+$_['button_cart'] = 'Додати до кошика';
+$_['button_fastbuy'] = 'Швидка покупка';
+
 // review
 $_['text_add_photo'] = 'Додати фото';
 $_['text_publish_review'] = 'Опублікувати відгук';
@@ -57,3 +62,5 @@ $_['error_name']               = 'Ім’я має містити від 3 до 
 $_['error_text']               = 'Текст відгуку має містити від от 25 до 1000 символів';
 $_['error_max_file'] = 'Максимальний розмір файлу 10 Mb';
 $_['error_rating']             = 'Будь ласка, оберіть оцінку';
+$_['error_filetype'] = 'Недопустимий формат файлу';
+$_['error_email']             = 'Недопустимий email';

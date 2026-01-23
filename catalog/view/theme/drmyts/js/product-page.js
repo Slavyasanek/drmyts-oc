@@ -1,3 +1,5 @@
+const product_id = document.getElementById('product_id_handle').value;
+
 // STAR RATING FOR REVIEW FORM
 class StarRating {
 
@@ -174,6 +176,7 @@ class PhotoUploadHandler {
     }
 }
 
+// PRODUCT GALLERY
 const galleryEls = {
     thumbs: document.querySelector('.product-gallery__thumbs'),
     main: document.querySelector('.product-gallery__main-gallery'),
@@ -181,48 +184,52 @@ const galleryEls = {
     nextBtn: document.querySelector('.product-gallery__arrow--next')
 }
 
-const mainSlider = new Splide(galleryEls.main, {
-    rewind: true,
-    pagination: false,
-    arrows: false,
-    gap: 4,
-});
-
-if (galleryEls.thumbs) {
-    const thumbnailsSlider = new Splide(galleryEls.thumbs, {
-        perPage: 3,
-    	gap       : 4,
-    	rewind    : true,
-    	pagination: false,
-        isNavigation: true,
+if (galleryEls.main.querySelectorAll('.splide__slide').length > 1) {
+    const mainSlider = new Splide(galleryEls.main, {
+        rewind: true,
+        pagination: false,
         arrows: false,
-        mediaQuery: 'min',
-        breakpoints: {
-            640: {
-                direction: 'ttb',
-                height: '18.8rem'
-            }
-        }
+        gap: 4,
     });
-    mainSlider.sync(thumbnailsSlider);
-    thumbnailsSlider.mount();
-}
 
-mainSlider.mount();
+    if (galleryEls.thumbs) {
+        const thumbnailsSlider = new Splide(galleryEls.thumbs, {
+            perPage: 3,
+        	gap       : 4,
+        	rewind    : true,
+        	pagination: false,
+            isNavigation: true,
+            arrows: false,
+            mediaQuery: 'min',
+            breakpoints: {
+                640: {
+                    direction: 'ttb',
+                    height: '18.8rem'
+                }
+            }
+        });
+        mainSlider.sync(thumbnailsSlider);
+        thumbnailsSlider.mount();
+    }
 
-if (galleryEls.prevBtn || galleryEls.nextBtn) {
-    if (galleryEls.prevBtn) galleryEls.prevBtn.addEventListener("click", () => mainSlider.go("<"));
-    if (galleryEls.nextBtn) galleryEls.nextBtn.addEventListener("click", () => mainSlider.go(">"))
+    mainSlider.mount();
+
+    if (galleryEls.prevBtn || galleryEls.nextBtn) {
+        if (galleryEls.prevBtn) galleryEls.prevBtn.addEventListener("click", () => mainSlider.go("<"));
+        if (galleryEls.nextBtn) galleryEls.nextBtn.addEventListener("click", () => mainSlider.go(">"))
+    }
 }
 
 // PRODDUCT REVIEWS
 if (document.querySelector('.product-reviews')) {
+    // review form
     if (document.querySelector('.form-rating')) new StarRating('.form-rating');
     if (document.querySelector('.review-form__photo')) new PhotoUploadHandler('.review-form__photo');
 
     const reviewForm = document.querySelector('.review-form');
     const reviewsList = document.querySelector('.product-reviews__list')
     const openReviewFormButton = document.querySelector('.product-reviews__btn');
+    const previewList = document.querySelector('.photo-upload__list');
 
     const toggleReviewForm = (isOpen = false) => {
         if (isOpen) {
@@ -239,4 +246,174 @@ if (document.querySelector('.product-reviews')) {
     if (openReviewFormButton) openReviewFormButton.addEventListener("click", () => toggleReviewForm(true));
     const closeReviewFormBtn = document.querySelector('.review-form__close');
     if (closeReviewFormBtn) closeReviewFormBtn.addEventListener("click", () => toggleReviewForm(false));
+
+    // INITIALIZE REVIEWS
+    const review = document.getElementById('review');
+
+    function loadReviews(url) {
+        fetch(url)
+            .then(r => r.text())
+            .then(html => review.innerHTML = html);
+    }
+
+    review?.addEventListener('click', e => {
+        const link = e.target.closest('.pagination a');
+        if (!link) return;
+
+        e.preventDefault();
+        loadReviews(link.href);
+    });
+
+    loadReviews(`index.php?route=product/product/review&product_id=${product_id}`);
+    
+    document.getElementById('button-review')?.addEventListener('click', (e) => {
+        e.preventDefault(); 
+
+        fetch(`index.php?route=product/product/write&product_id=${product_id}`, {
+            method: 'POST',
+            body: new FormData(reviewForm)
+        })
+        .then(r => r.json())
+        .then(json => {
+            document.querySelectorAll('.alert--error').forEach(e => e.remove());
+
+            if (json.error) {
+                reviewForm.before(Object.assign(document.createElement('div'), {
+                    className: 'alert alert--error text--center alert--in-txt',
+                    innerHTML: `${json.error}`
+                }));
+            }
+
+            if (json.success) {
+                reviewForm.before(Object.assign(document.createElement('div'), {
+                    className: 'alert alert--success text--center alert--in-txt',
+                    innerHTML: `${json.success}`
+                }));
+
+                reviewForm.reset();
+                if (previewList) previewList.innerHTML = '';
+                toggleReviewForm(false);
+            }
+        })
+        .catch(err => console.error('Помилка відправки:', err));
+    });
 }
+
+
+// let uploadTimer;
+
+// document.querySelectorAll('button[id^="button-upload"]').forEach(btn => {
+//     btn.addEventListener('click', () => {
+//         document.getElementById('form-upload')?.remove();
+
+//         const form = document.createElement('form');
+//         form.id = 'form-upload';
+//         form.enctype = 'multipart/form-data';
+//         form.style.display = 'none';
+//         form.innerHTML = '<input type="file" name="file">';
+//         document.body.prepend(form);
+
+//         const input = form.querySelector('input[type="file"]');
+//         input.click();
+
+//         clearInterval(uploadTimer);
+
+//         uploadTimer = setInterval(() => {
+//             if (!input.value) return;
+
+//             clearInterval(uploadTimer);
+
+//             fetch('index.php?route=tool/upload', {
+//                 method: 'POST',
+//                 body: new FormData(form)
+//             })
+//             .then(r => r.json())
+//             .then(json => {
+//                 form.remove();
+
+//                 btn.parentElement.querySelector('.text-danger')?.remove();
+
+//                 if (json.error) {
+//                     const err = document.createElement('div');
+//                     err.className = 'text-danger';
+//                     err.innerHTML = json.error;
+//                     btn.parentElement.querySelector('input')?.after(err);
+//                 }
+
+//                 if (json.success) {
+//                     alert(json.success);
+//                     btn.parentElement.querySelector('input').value = json.code;
+//                 }
+//             });
+//         }, 500);
+//     });
+// });
+
+
+document.getElementById('button-cart')?.addEventListener('click', () => {
+    const container = document.getElementById('product');
+    const formData = new FormData();
+
+    container.querySelectorAll('input, select, textarea').forEach(el => {
+        if (!el.name) return;
+
+        if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return;
+
+        formData.append(el.name, el.value);
+    });
+
+    fetch('index.php?route=checkout/cart/add', {
+        method: 'POST',
+        body: formData
+    })
+    .then(r => r.json())
+    .then(json => {
+        document.querySelectorAll('.alert-dismissible, .text-danger, .alert--error, .product-page__error').forEach(e => e.remove());
+        document.querySelectorAll('.form-group').forEach(e => e.classList.remove('has-error'));
+
+        if (json.error) {
+            if (json.error.option) {
+                Object.keys(json.error.option).forEach(i => {
+                    const el = document.getElementById('input-option' + i.replace('_', '-'));
+                    if (!el) return;
+
+                    const error = document.createElement('div');
+                    error.className = 'product-page__error text--color_red';
+                    error.innerHTML = json.error.option[i];
+
+                    el.parentElement.classList.contains('input-group')
+                        ? el.parentElement.after(error)
+                        : el.after(error);
+                });
+            }
+
+            if (json.error.recurring) {
+                const el = document.querySelector('select[name="recurring_id"]');
+                el?.after(Object.assign(document.createElement('div'), {
+                    className: 'alert alert--error text-danger',
+                    innerHTML: json.error.recurring
+                }));
+            }
+
+            document.querySelectorAll('.text-danger').forEach(e => e.parentElement.classList.add('has-error'));
+        }
+
+        if (json.success) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            fetch('index.php?route=common/cart/info')
+                .then(r => r.text())
+                .then(html => {
+                    const temp = document.createElement('div');
+                    temp.innerHTML = html;
+
+                    const cart = document.getElementById('cart');
+                    if (cart) {
+                        cart.innerHTML = temp.querySelector('#cart').innerHTML;
+                        modalHandler.openModal(cart.querySelector('.backdrop'));
+                    }
+                });
+        }
+    })
+    .catch(err => alert(err));
+});

@@ -37,6 +37,7 @@
         &.active {
             background-color: var(--color-dark);
             color: var(--color-white);
+            pointer-events: none;
         }
 
         @include mixins.hover {

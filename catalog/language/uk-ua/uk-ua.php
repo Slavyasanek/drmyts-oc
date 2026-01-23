@@ -28,7 +28,7 @@ $_['button_continue']       = 'Продовжити';
 $_['button_cart']           = 'Купити';
 $_['button_cancel']         = 'Скасувати';
 $_['button_compare']        = 'До порівняння';
-$_['button_wishlist']       = 'В закладки';
+$_['button_wishlist']       = 'Додати у вішліст';
 $_['button_checkout']       = 'Оформлення замовлення';
 $_['button_confirm']        = 'Підтвердження замовлення';
 $_['button_coupon']         = 'Застосування купона';
@@ -59,6 +59,7 @@ $_['button_list']           = 'Список';
 $_['button_grid']           = 'Сітка';
 $_['button_map']            = 'Переглянути карту';
 $_['button_reset_password'] = 'Скинути пароль';
+$_['button_need_help'] = 'Потрібна допомога?';
 
 // Error
 $_['error_exception']       = 'Помилка коду (%s): %s в %s у рядку %s';

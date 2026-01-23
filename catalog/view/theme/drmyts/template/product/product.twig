@@ -2,316 +2,295 @@
 
 {% import "drmyts/template/macro/macros.twig" as macros %}
 
-<main>
-<article class="product-page">
-	<div class="container product-page__container">
-		<div class="breadcrumbs text--color_gray product-page__breadcrumbs">
+<main  id="content">
+    {{ content_top }}
+    <article class="product-page">
+    	<div class="container product-page__container">
+    		<div class="breadcrumbs text--color_gray product-page__breadcrumbs">
 
-			<div class="breadcrumbs__list flex-row">
-				{% for breadcrumb in breadcrumbs %}
-					<a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
-				{% endfor %}
-			</div>
+    			<div class="breadcrumbs__list flex-row">
+    				{% for breadcrumb in breadcrumbs %}
+    					<a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+    				{% endfor %}
+    			</div>
 
-		</div>
-		{# breadcrumbs #}
-		{% if thumb or images %}
-			<div class="product-page__gallery product-gallery">
-				<div class="splide product-gallery__main-gallery">
-					<div class="splide__track">
+    		</div>
+    		{# breadcrumbs #}
+    		{% if thumb or images %}
+    			<div class="product-page__gallery product-gallery">
+    				<div class="splide product-gallery__main-gallery">
+    					<div class="splide__track">
 
-						<ul class="splide__list">
-							{% if thumb %}
-								<li class="splide__slide product-gallery__slide bg--white">
-									<picture>
-										<img class="contain-image" src="{{ thumb}}" alt="{{ heading_title }}" loading="lazy" width="294" height="294">
-									</picture>
-								</li>
-							{% endif %}
+    						<ul class="splide__list">
+    							{% if thumb %}
+    								<li class="splide__slide product-gallery__slide bg--white">
+    									<picture>
+    										<img class="contain-image" src="{{ thumb}}" alt="{{ heading_title }}" loading="lazy" width="294" height="294">
+    									</picture>
+    								</li>
+    							{% endif %}
 
-							{% if images %}
-								{% for image in images %}
-									<li class="splide__slide product-gallery__slide bg--white">
-										<picture>
-											<img class="contain-image" src="{{ image.thumb }}" alt="{{ heading_title }}" loading="lazy" width="294" height="294">
-										</picture>
-									</li>
-								{% endfor %}
-							{% endif %}
+    							{% if images %}
+    								{% for image in images %}
+    									<li class="splide__slide product-gallery__slide bg--white">
+    										<picture>
+    											<img class="contain-image" src="{{ image.thumb }}" alt="{{ heading_title }}" loading="lazy" width="294" height="294">
+    										</picture>
+    									</li>
+    								{% endfor %}
+    							{% endif %}
 
-						</ul>
-					</div>
-				</div>
+    						</ul>
+    					</div>
+    				</div>
 
-				<div class="product-gallery__footing flex-row j-center">
-					<button class="btn splide__arrow slider__btn slider__btn--prev splide__arrow--prev flex-center product-gallery__arrow product-gallery__arrow--prev">
-						<div class="slider__arrow-icon icon">
-							{{ macros.svg('arrow-right', '') }}
-						</div>
-					</button>
-					<div class="splide product-gallery__thumbs slider">
-						<div class="splide__track slider__track">
-							<ul class="splide__list slider__list">
-								{% if thumb %}
-									<li class="splide__slide product-gallery__thumb-slide bg--white">
-										<picture>
-											<img class="contain-image" src="{{ thumb }}" alt="{{ heading_title }}" loading="lazy" width="60" height="60">
-										</picture>
-									</li>
-								{% endif %}
-								{% if images %}
-									{% for image in images %}
-										<li class="splide__slide product-gallery__thumb-slide bg--white">
-											<picture>
-												<img class="contain-image" src="{{ image.thumb }}" alt="{{ heading_title }}" loading="lazy" width="60" height="60">
-											</picture>
-										</li>
-									{% endfor %}
-								{% endif %}
+                    {% if images|length != 0 %}
+    				<div class="product-gallery__footing flex-row j-center">
+    					<button class="btn splide__arrow slider__btn slider__btn--prev splide__arrow--prev flex-center product-gallery__arrow product-gallery__arrow--prev">
+    						<div class="slider__arrow-icon icon">
+    							{{ macros.svg('arrow-right', '') }}
+    						</div>
+    					</button>
+    					<div class="splide product-gallery__thumbs slider">
+    						<div class="splide__track slider__track">
+    							<ul class="splide__list slider__list">
+    								{% if thumb %}
+    									<li class="splide__slide product-gallery__thumb-slide bg--white">
+    										<picture>
+    											<img class="contain-image" src="{{ thumb }}" alt="{{ heading_title }}" loading="lazy" width="60" height="60">
+    										</picture>
+    									</li>
+    								{% endif %}
+    								{% if images %}
+    									{% for image in images %}
+    										<li class="splide__slide product-gallery__thumb-slide bg--white">
+    											<picture>
+    												<img class="contain-image" src="{{ image.thumb }}" alt="{{ heading_title }}" loading="lazy" width="60" height="60">
+    											</picture>
+    										</li>
+    									{% endfor %}
+    								{% endif %}
 
-							</ul>
-						</div>
-					</div>
-					<button class="btn splide__arrow splide__arrow--next slider__btn slider__btn--next flex-center product-gallery__arrow product-gallery__arrow--next">
-						<div class="slider__arrow-icon icon">
-							{{ macros.svg('arrow-right', '') }}
-						</div>
-					</button>
-				</div>
-			</div>
-		{% endif %}
+    							</ul>
+    						</div>
+    					</div>
+    					<button class="btn splide__arrow splide__arrow--next slider__btn slider__btn--next flex-center product-gallery__arrow product-gallery__arrow--next">
+    						<div class="slider__arrow-icon icon">
+    							{{ macros.svg('arrow-right', '') }}
+    						</div>
+    					</button>
+    				</div>
+                    {% endif %}
+    			</div>
+    		{% endif %}
 
-		<div class="product-page__content"  id="product">
-			<div class="product-page__heading">
-				<h1 class="product-page__title m-0">{{ heading_title }}</h1>
-				<p class="product-page__descr text--color_gray">{{ model }}</p>
-			</div>
+    		<div class="product-page__content"  id="product">
+    			<div class="product-page__heading">
+    				<h1 class="product-page__title m-0">{{ heading_title }}</h1>
+    				<p class="product-page__descr text--color_gray">{{ model }}</p>
+    			</div>
 
-			<div class="product-page__row flex-row j-between">
-				{% if special %}
-					<div class="product-price product-page__price flex-row product-price--sale">
-						<span class="product-price__full">{{ price }}</span>
-						<span class="product-price__sale">{{ special }}</span>
-					</div>
-				{% else %}
-					<div class="product-price product-page__price flex-row">
-						<span class="product-price__full">{{ price }}</span>
-					</div>
-				{% endif %}
-				<div class="product-page__availability flex-row text--upp text--size_label product-page__icon-title">
-					{{ macros.svg('check', '') }}
-					<span>{{ stock }}</span>
-				</div>
-			</div>
-			<div class="product-page__variants product-variants flex-col">
-				{% for option in options %}
-					{% if option.type == 'radio' %}
-						<div class="product-variants__options flex-row-wrap">
-							<p class="product-variants__title">{{ option.name }}</p>
-							{% for option_value in option.product_option_value %}
-								<input class="product-vairants__option anim" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="{{ option.name }}_{{ option_value.product_option_value_id }}">
-								<label class="product-variants__label" for="{{ option.name }}_{{ option_value.product_option_value_id }}">{{ option_value.name }}
-								</label>
-							{% endfor %}
-						</div>
-					{% endif %}
-				{% endfor %}
+    			<div class="product-page__row flex-row j-between">
+    				{% if special %}
+    					<div class="product-price product-page__price flex-row product-price--sale">
+    						<span class="product-price__full">{{ price }}</span>
+    						<span class="product-price__sale">{{ special }}</span>
+    					</div>
+    				{% else %}
+    					<div class="product-price product-page__price flex-row">
+    						<span class="product-price__full">{{ price }}</span>
+    					</div>
+    				{% endif %}
+    				<div class="product-page__availability flex-row text--upp text--size_label product-page__icon-title">
+    					{{ macros.svg('check', '') }}
+    					<span>{{ stock }}</span>
+    				</div>
+    			</div>
 
-				{# <div class="product-variants__options flex-row-wrap product-variants__options--color">
-					<p class="product-variants__title">Колір:
-						<span class="product-variants__chosen">Glow</span>
-					</p>
-					<input class="product-vairants__option anim" type="radio" name="color" value="dark_beige" checked id="color_dark_beige">
-					<label class="product-variants__color-label" for="color_dark_beige" style="background: #D3AB88;">Dark beige</label>
-					<input class="product-vairants__option anim" type="radio" name="color" value="light_beige" checked id="color_light_beige">
-					<label class="product-variants__color-label" for="color_light_beige" style="background: #E9C6B7;">Light Beige</label>
-					<input class="product-vairants__option anim" type="radio" name="color" value="warm_beige" checked id="color_warm_beige">
-					<label class="product-variants__color-label" for="color_warm_beige" style="background: #DA9E75;">Warm Beige</label>
-				</div> #}
-			</div>
+                {% if options|length != 0 %}
+    			<div class="product-page__variants product-variants flex-col">
+    				{% for option in options %}
+    					{% if option.type == 'radio' %}
+    						<div class="product-variants__options flex-row-wrap"  id="input-option{{ option.product_option_id }}">
+    							<p class="product-variants__title">{{ option.name }}</p>
+    							{% for option_value in option.product_option_value %}
+    								<input class="product-vairants__option anim" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="{{ option.name }}_{{ option_value.product_option_value_id }}">
+    								<label class="product-variants__label" for="{{ option.name }}_{{ option_value.product_option_value_id }}">{{ option_value.name }}
+    								</label>
+    							{% endfor %}
+    						</div>
+    					{% endif %}
+    				{% endfor %}
 
-			<div class="product-page__btns d-grid">
-                <input type="text" name="quantity" value="{{ minimum }}" size="2" />
-                <input type="hidden" name="product_id" value="{{ product_id }}" />
-
-				<button class="btn btn--theme btn--size_M btn--theme_accent text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" data-loading-text="{{ text_loading }}" id="button-cart">
-					{{ macros.svg('add-to-cart', '') }}
-					<span>{{ button_cart }}</span>
-				</button>
-
-				<button class="btn btn--theme btn--size_M btn--theme_dark text--upp flex-row product-page__icon-title product-page__btn j-center" type="button">
-					{{ macros.svg('fast-buy', '') }}
-					<span>Швидка покупка</span>
-				</button>
-
-			</div>
-
-			<div class="product-page__help-links flex-row-wrap j-between">
-				<button class="btn flex-row product-page__icon-title text--upp text--size_label" type="button" onclick="wishlist.add('{{ product_id }}');">
-					{{ macros.svg('heart', '') }}
-					<span>Додати у вішліст</span>
-				</button>
-
-				<button class="btn flex-row product-page__icon-title text--upp text--size_label" type="button">
-					{{ macros.svg('need-help', '') }}
-					<span>Потрібна допомога?</span>
-				</button>
-
-			</div>
-
-			<div class="product-page__faq-list flex-col">
-				<div class="accordion product-page__faq" aria-expanded="false">
-					<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
-						<p>Для кого цей засіб</p>
-						<div class="icon icon--arrow accordion__icon">
-                            {{ macros.svg('arrow-down', '') }}
-						</div>
-					</div>
-					<div class="accordion__content">
-						<p>Бустер на основі 15% жиророзчинного вітаміну С (THD) діє глибше та мʼякше, ніж звичні форми аскорбінової кислоти. Вирівнює тон. Стимулює синтез колагену. Захищає від синього світла та стресу шкіри.</p>
-					</div>
-				</div>
-				<div class="accordion product-page__faq" aria-expanded="false">
-					<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
-						<p>Як він працює</p>
-						<div class="icon icon--arrow accordion__icon">
-							{{ macros.svg('arrow-down', '') }}
-						</div>
-					</div>
-					<div class="accordion__content">
-						<p>Бустер на основі 15% жиророзчинного вітаміну С (THD) діє глибше та мʼякше, ніж звичні форми аскорбінової кислоти. Вирівнює тон. Стимулює синтез колагену. Захищає від синього світла та стресу шкіри.</p>
-					</div>
-				</div>
-				<div class="accordion product-page__faq" aria-expanded="false">
-					<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
-						<p>Ключові компоненти</p>
-						<div class="icon icon--arrow accordion__icon">
-							{{ macros.svg('arrow-down', '') }}
-						</div>
-					</div>
-					<div class="accordion__content">
-						<p>Ключові компоненти</p>
-					</div>
-				</div>
-				<div class="accordion product-page__faq" aria-expanded="false">
-					<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
-						<p>Як застосовувати</p>
-						<div class="icon icon--arrow accordion__icon">
-							{{ macros.svg('arrow-down', '') }}
-						</div>
-					</div>
-					<div class="accordion__content">
-						<p>Як застосовувати</p>
-					</div>
-				</div>
-				<div class="accordion product-page__faq" aria-expanded="false">
-					<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
-						<p>Порада від Вероніки</p>
-						<div class="icon icon--arrow accordion__icon">
-							{{ macros.svg('arrow-down', '') }}
-						</div>
-					</div>
-					<div class="accordion__content">
-						<p>“Я часто рекомендую цей бустер у протоколах освітлення шкіри, особливо після процедур або в сезон пігментації. Мʼякий, але дуже ефективний.”</p>
-					</div>
-				</div>
-
-                {% if review_status %}
-				<div class="accordion product-page__faq" aria-expanded="false">
-
-					<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
-
-						<div class="flex-row">
-							<p>{{ reviews }}</p>
-							<div class="product-rating product-page__rating flex-row">
-                                {% for i in 1..5 %}
-                                    {% if rating < i %}
-                                        {{ macros.svg('empty-star', 'product-rating__star--empty') }}
-                                    {% else %}
-                                        {{ macros.svg('full-star', 'product-rating__star') }}
-                                    {% endif %}
-                                {% endfor %} 
-							</div>
-						</div>
-						<div class="icon icon--arrow accordion__icon">
-							{{ macros.svg('arrow-down', '') }}
-						</div>
-					</div>
-
-					<div class="accordion__content">
-                        {% if review_guest %}
-						<div class="product-reviews product-page__reviews">
-							<button class="btn btn--theme btn--size_M btn--theme_accent text--upp flex-row product-page__icon-title product-reviews__btn j-center" type="button">
-                                {{ macros.svg('leave-review', '') }}
-								<span>{{ text_write }}</span>
-							</button>
-							<form class="product-reviews__form bg--white review-form d-none"  id="form-review">
-								<div class="review-form__rating flex-row">
-									<span class="text--color_gray">{{ entry_rating }}</span>
-									<div class="form-rating flex-row">
-										<input type="hidden" name="rating" id="review-rating" required>
-                                        {% for i in 1..5 %}
-                                            {{ macros.ratingStar(i) }}
-                                        {% endfor %}
-									</div>
-								</div>
-								<div class="review-form__textarea review-form__field custom-input custom-input--type_textarea">
-									<textarea class="custom-input__input" name="text" placeholder="Відгук" id="input-review" required></textarea>
-									<span class="custom-input__error d-none">{{ error_required_field }}</span>
-								</div>
-								<div class="review-form__fields d-grid">
-									<div class="custom-input review-form__field">
-										<input class="custom-input__input" type="text" name="name" placeholder="{{ entry_name }}" value="{{ customer_name }}" id="input-name" required><span class="custom-input__error d-none">{{ error_required_field }}</span>
-									</div>
-									<div class="custom-input review-form__field">
-										<input class="custom-input__input" type="email" name="review_name" placeholder="E-mail" required><span class="custom-input__error d-none">{{ error_required_field }}</span>
-									</div>
-								</div>
-                                {{ captcha }}
-								<div class="review-form__photo photo-upload">
-									<div class="photo-upload__wrapper rel">
-										<input class="hidden d-none" type="file" name="review_photos[]" accept="image/*" multiple>
-										<button class="btn btn--theme btn--theme_dark text--upp btn--size_M flex-row photo-upload__btn" type="button">
-                                            {{ macros.svg('plus', '') }}
-											<span>{{ text_add_photo }}</span>
-										</button>
-									</div>
-									<div class="photo-upload__disclaimer text--color_gray text--size_label">{{ error_max_file }}</div>
-									<div class="photo-upload__list flex-row-wrap"></div>
-								</div>
-								<div class="review-form__footing flex-col">
-									<button class="btn btn--theme btn--theme_accent btn--size_M text--upp w-full review-form__btn" type="submit"  id="button-review" data-loading-text="{{ text_loading }}">{{ text_publish_review }}</button>
-									<button class="btn text--upp btn--size_M review-form__close" type="button">{{ text_close }}</button>
-								</div>
-							</form>
-
-							<div class="product-reviews__list flex-col" id="review"></div>
-						</div>
-                        {% else %}
-                            {{ text_login }}
-                        {% endif %}
-					</div>
-				</div>
+    				{# <div class="product-variants__options flex-row-wrap product-variants__options--color">
+    					<p class="product-variants__title">Колір:
+    						<span class="product-variants__chosen">Glow</span>
+    					</p>
+    					<input class="product-vairants__option anim" type="radio" name="color" value="dark_beige" checked id="color_dark_beige">
+    					<label class="product-variants__color-label" for="color_dark_beige" style="background: #D3AB88;">Dark beige</label>
+    					<input class="product-vairants__option anim" type="radio" name="color" value="light_beige" checked id="color_light_beige">
+    					<label class="product-variants__color-label" for="color_light_beige" style="background: #E9C6B7;">Light Beige</label>
+    					<input class="product-vairants__option anim" type="radio" name="color" value="warm_beige" checked id="color_warm_beige">
+    					<label class="product-variants__color-label" for="color_warm_beige" style="background: #DA9E75;">Warm Beige</label>
+    				</div> #}
+    			</div>
                 {% endif %}
-			</div>
-            
-			<div class="quote-block bg--surface product-page__consult">
-				<div class="quote-block__heading text--upp flex-row-wrap j-between">
-					<div class="product-page__icon-title quote-block__title flex-row">
-                        {{ macros.svg('warning', '') }}
-						<span>Послуга експрес-консультації
-						</span>
-					</div>
-					<span class="quote-block__price">500 ₴</span>
-				</div>
-				<div class="quote-block__content d-flex">
-                    {{ macros.svg('quote', 'quote-block__icon') }}
-					<p>Підберу повний план з урахуванням стану шкіри, твого бюджету, наявних засобів і побажань..</p>
-				</div>
-				<button class="btn btn--theme_accent text--upp btn--size_M btn--theme d-block quote-block__btn" type="button" data-modal-open="consult">Детальніше</button>
-			</div>
-		</div>
-	</article>
+
+                <div class="quant-block cart-item__quant-block flex-row product-page__quantity"> 
+                    <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="minus">
+                        {{ macros.svg('minus', '') }}
+                    </button>
+                    <input class="quant-block__input text--center" type="number"  name="quantity" min="{{ minimum }}" max="{{ maximum }}" value="{{ minimum }}">
+
+                    <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="plus">
+                        {{ macros.svg('plus', '') }}
+                  </button>
+                </div>
+
+    			<div class="product-page__btns d-grid">
+                    <input type="hidden" name="product_id" value="{{ product_id }}" id="product_id_handle" />
+
+    				<button class="btn btn--theme btn--size_M btn--theme_accent text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" id="button-cart">
+    					{{ macros.svg('add-to-cart', '') }}
+    					<span>{{ button_cart }}</span>
+    				</button>
+
+    				<button class="btn btn--theme btn--size_M btn--theme_dark text--upp flex-row product-page__icon-title product-page__btn j-center" type="button">
+    					{{ macros.svg('fast-buy', '') }}
+    					<span>{{ button_fastbuy }}</span>
+    				</button>
+
+    			</div>
+
+    			<div class="product-page__help-links flex-row-wrap j-between">
+    				<button class="btn flex-row product-page__icon-title text--upp text--size_label" type="button" onclick="wishlist.add('{{ product_id }}');">
+    					{{ macros.svg('heart', '') }}
+    					<span>{{ button_wishlist }}</span>
+    				</button>
+
+    				<button class="btn flex-row product-page__icon-title text--upp text--size_label" type="button">
+    					{{ macros.svg('need-help', '') }}
+    					<span>{{ button_need_help }}</span>
+    				</button>
+
+    			</div>
+                {% if attribute_groups or review_status %}
+    			<div class="product-page__faq-list flex-col">
+                    {% for attribute_group in attribute_groups %}
+                        {% for attribute in attribute_group.attribute %}
+            				<div class="accordion product-page__faq" aria-expanded="false">
+            					<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
+            						<p>{{ attribute.name }}</p>
+            						<div class="icon icon--arrow accordion__icon">
+                                        {{ macros.svg('arrow-down', '') }}
+            						</div>
+            					</div>
+            					<div class="accordion__content">
+            						<p>{{ attribute.text }}</p>
+            					</div>
+            				</div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% if review_status %}
+    				<div class="accordion product-page__faq" aria-expanded="false">
+
+    					<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
+
+    						<div class="flex-row">
+    							<p>{{ reviews }}</p>
+    							<div class="product-rating product-page__rating flex-row">
+                                    {% for i in 1..5 %}
+                                        {% if rating < i %}
+                                            {{ macros.svg('empty-star', 'product-rating__star--empty') }}
+                                        {% else %}
+                                            {{ macros.svg('full-star', 'product-rating__star') }}
+                                        {% endif %}
+                                    {% endfor %} 
+    							</div>
+    						</div>
+    						<div class="icon icon--arrow accordion__icon">
+    							{{ macros.svg('arrow-down', '') }}
+    						</div>
+    					</div>
+
+    					<div class="accordion__content">
+                            {% if review_guest %}
+    						<div class="product-reviews product-page__reviews">
+    							<button class="btn btn--theme btn--size_M btn--theme_accent text--upp flex-row product-page__icon-title product-reviews__btn j-center" type="button">
+                                    {{ macros.svg('leave-review', '') }}
+    								<span>{{ text_write }}</span>
+    							</button>
+    							<form class="product-reviews__form bg--white review-form d-none"  id="form-review">
+    								<div class="review-form__rating flex-row">
+    									<span class="text--color_gray">{{ entry_rating }}</span>
+    									<div class="form-rating flex-row">
+    										<input type="hidden" name="rating" id="review-rating" required>
+                                            {% for i in 1..5 %}
+                                                {{ macros.ratingStar(i) }}
+                                            {% endfor %}
+    									</div>
+    								</div>
+    								<div class="review-form__textarea review-form__field custom-input custom-input--type_textarea">
+    									<textarea class="custom-input__input" name="text" placeholder="Відгук" id="input-review" required></textarea>
+    									<span class="custom-input__error d-none">{{ error_required_field }}</span>
+    								</div>
+    								<div class="review-form__fields d-grid">
+    									<div class="custom-input review-form__field">
+    										<input class="custom-input__input" type="text" name="name" placeholder="{{ entry_name }}" value="{{ customer_name }}" id="input-name" required><span class="custom-input__error d-none">{{ error_required_field }}</span>
+    									</div>
+    									<div class="custom-input review-form__field">
+    										<input class="custom-input__input" type="email" name="email" placeholder="E-mail" required><span class="custom-input__error d-none">{{ error_required_field }}</span>
+    									</div>
+    								</div>
+                                    {{ captcha }}
+    								<div class="review-form__photo photo-upload">
+    									<div class="photo-upload__wrapper rel">
+    										<input class="hidden d-none" type="file" name="review_photos[]" accept="image/*" multiple>
+    										<button class="btn btn--theme btn--theme_dark text--upp btn--size_M flex-row photo-upload__btn" type="button">
+                                                {{ macros.svg('plus', '') }}
+    											<span>{{ text_add_photo }}</span>
+    										</button>
+    									</div>
+    									<div class="photo-upload__disclaimer text--color_gray text--size_label">{{ error_max_file }}</div>
+    									<div class="photo-upload__list flex-row-wrap"></div>
+    								</div>
+    								<div class="review-form__footing flex-col">
+    									<button class="btn btn--theme btn--theme_accent btn--size_M text--upp w-full review-form__btn" type="submit"  id="button-review" data-loading-text="{{ text_loading }}">{{ text_publish_review }}</button>
+    									<button class="btn text--upp btn--size_M review-form__close" type="button">{{ text_close }}</button>
+    								</div>
+    							</form>
+
+    							<div class="product-reviews__list flex-col" id="review"></div>
+    						</div>
+                            {% else %}
+                                {{ text_login }}
+                            {% endif %}
+    					</div>
+    				</div>
+                    {% endif %}
+    			</div>
+                {% endif %}
+                
+    			<div class="quote-block bg--surface product-page__consult">
+    				<div class="quote-block__heading text--upp flex-row-wrap j-between">
+    					<div class="product-page__icon-title quote-block__title flex-row">
+                            {{ macros.svg('warning', '') }}
+    						<span>Послуга експрес-консультації
+    						</span>
+    					</div>
+    					<span class="quote-block__price">500 ₴</span>
+    				</div>
+    				<div class="quote-block__content d-flex">
+                        {{ macros.svg('quote', 'quote-block__icon') }}
+    					<p>Підберу повний план з урахуванням стану шкіри, твого бюджету, наявних засобів і побажань..</p>
+    				</div>
+    				<button class="btn btn--theme_accent text--upp btn--size_M btn--theme d-block quote-block__btn" type="button" data-modal-open="consult">Детальніше</button>
+    			</div>
+    		</div>
+        </div>
+    </article>
+    {{ content_bottom }}
 </main>
 <template id="photoUploadTemplate">
     <div class="photo-upload__file rel o-hid">
@@ -321,179 +300,5 @@
         </button>
     </div>
 </template>
-<script type="text/javascript"><!--
-$('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
-	$.ajax({
-		url: 'index.php?route=product/product/getRecurringDescription',
-		type: 'post',
-		data: $('input[name=\'product_id\'], input[name=\'quantity\'], select[name=\'recurring_id\']'),
-		dataType: 'json',
-		beforeSend: function() {
-			$('#recurring-description').html('');
-		},
-		success: function(json) {
-			$('.alert-dismissible, .text-danger').remove();
 
-			if (json['success']) {
-				$('#recurring-description').html(json['success']);
-			}
-		}
-	});
-});
-//--></script> 
-<script type="text/javascript"><!--
-$('#button-cart').on('click', function() {
-	$.ajax({
-		url: 'index.php?route=checkout/cart/add',
-		type: 'post',
-		data: $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
-		dataType: 'json',
-		success: function(json) {
-			$('.alert-dismissible, .text-danger').remove();
-			$('.form-group').removeClass('has-error');
-
-			if (json['error']) {
-				if (json['error']['option']) {
-					for (i in json['error']['option']) {
-						var element = $('#input-option' + i.replace('_', '-'));
-
-						if (element.parent().hasClass('input-group')) {
-							element.parent().after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
-						} else {
-							element.after('<div class="text-danger">' + json['error']['option'][i] + '</div>');
-						}
-					}
-				}
-
-				if (json['error']['recurring']) {
-					$('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
-				}
-
-				// Highlight any found errors
-				$('.text-danger').parent().addClass('has-error');
-			}
-
-			if (json['success']) {
-				$('.breadcrumb').after('<div class="alert alert-success alert-dismissible">' + json['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-
-				$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
-
-				$('html, body').animate({ scrollTop: 0 }, 'slow');
-
-				$('#cart > ul').load('index.php?route=common/cart/info ul li');
-			}
-		},
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
-	});
-});
-//--></script> 
-<script type="text/javascript"><!--
-
-$('button[id^=\'button-upload\']').on('click', function() {
-	var node = this;
-
-	$('#form-upload').remove();
-
-	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
-
-	$('#form-upload input[name=\'file\']').trigger('click');
-
-	if (typeof timer != 'undefined') {
-    	clearInterval(timer);
-	}
-
-	timer = setInterval(function() {
-		if ($('#form-upload input[name=\'file\']').val() != '') {
-			clearInterval(timer);
-
-			$.ajax({
-				url: 'index.php?route=tool/upload',
-				type: 'post',
-				dataType: 'json',
-				data: new FormData($('#form-upload')[0]),
-				cache: false,
-				contentType: false,
-				processData: false,
-				beforeSend: function() {
-					$(node).button('loading');
-				},
-				complete: function() {
-					$(node).button('reset');
-				},
-				success: function(json) {
-					$('.text-danger').remove();
-
-					if (json['error']) {
-						$(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
-					}
-
-					if (json['success']) {
-						alert(json['success']);
-
-						$(node).parent().find('input').val(json['code']);
-					}
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-				}
-			});
-		}
-	}, 500);
-});
-//--></script> 
-<script type="text/javascript"><!--
-$('#review').delegate('.pagination a', 'click', function(e) {
-    e.preventDefault();
-
-    $('#review').fadeOut('slow');
-
-    $('#review').load(this.href);
-
-    $('#review').fadeIn('slow');
-});
-
-$('#review').load('index.php?route=product/product/review&product_id={{ product_id }}');
-
-$('#button-review').on('click', function() {
-	$.ajax({
-		url: 'index.php?route=product/product/write&product_id={{ product_id }}',
-		type: 'post',
-		dataType: 'json',
-		data: $("#form-review").serialize(),
-		beforeSend: function() {
-			$('#button-review').button('loading');
-		},
-		complete: function() {
-			$('#button-review').button('reset');
-		},
-		success: function(json) {
-			$('.alert-dismissible').remove();
-
-			if (json['error']) {
-				$('#review').after('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
-			}
-
-			if (json['success']) {
-				$('#review').after('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
-
-				$('input[name=\'name\']').val('');
-				$('textarea[name=\'text\']').val('');
-				$('input[name=\'rating\']:checked').prop('checked', false);
-			}
-		}
-	});
-});
-
-$(document).ready(function() {
-	$('.thumbnails').magnificPopup({
-		type:'image',
-		delegate: 'a',
-		gallery: {
-			enabled: true
-		}
-	});
-});
-//--></script> 
 {{ footer }}

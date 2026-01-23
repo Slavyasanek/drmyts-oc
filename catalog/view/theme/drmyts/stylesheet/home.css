@@ -1,4 +1,66 @@
-@import url("https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap");
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Onest";
+  src: url("fonts/Onest-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 @font-face {
   font-family: "Denistina";
   src: url("fonts/denistina_en.ttf") format("truetype");
@@ -1531,6 +1593,59 @@ p {
   }
 }
 
+.alert {
+  padding: 0.8rem 1.2rem;
+  font-size: 1.4rem;
+  border-radius: 0.6rem;
+  width: min(30rem, 100%);
+}
+.alert a {
+  text-decoration: underline;
+  font-weight: 500;
+}
+@media screen and (hover: hover) {
+  .alert a:hover, .alert a:focus {
+    opacity: 0.5;
+  }
+}
+.alert__close {
+  color: currentColor;
+  font-size: 2em;
+  line-height: 1;
+  border-radius: 50%;
+  margin-inline-start: auto;
+  display: block;
+}
+
+.alert--error {
+  color: #D8000C;
+  background-color: #FFBABA;
+  border: 0.1rem solid #D8000C;
+}
+
+.alert--success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+  border: 0.1rem solid #4F8A10;
+}
+
+.alert--info {
+  color: #00529B;
+  background-color: #BDE5F8;
+  border: 0.1rem solid #00529B;
+}
+
+.alert--in-txt {
+  margin-block: 1rem;
+}
+
+.alert--fixed {
+  position: fixed;
+  inset-block-start: 2rem;
+  inset-inline-end: 2rem;
+  z-index: 999;
+}
+
 .quant-block__btn {
   border-radius: 50%;
   width: 3.2rem;
@@ -1848,6 +1963,9 @@ p {
 }
 .product-gallery__thumbs {
   max-width: 18.8rem;
+}
+.product-gallery__main-gallery:not(.is-initialized) {
+  visibility: visible;
 }
 .splide__list .product-gallery__thumb-slide.splide__slide {
   border-radius: 1.2rem;
@@ -3555,6 +3673,7 @@ input:checked + .product-variants__color-label::before {
 .product-cats__cat-btn.active {
   background-color: var(--color-dark);
   color: var(--color-white);
+  pointer-events: none;
 }
 @media screen and (hover: hover) {
   .product-cats__cat-btn:hover, .product-cats__cat-btn:focus {
@@ -3891,7 +4010,7 @@ input:checked + .product-variants__color-label::before {
 .product-page__availability svg, .product-page__help-links svg {
   stroke: var(--color-dark);
 }
-.product-page__variants, .product-page__btns {
+.product-page__variants, .product-page__btns, .product-page__quantity {
   margin-block-start: 3.2rem;
 }
 .product-page__btns {

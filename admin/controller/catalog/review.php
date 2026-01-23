@@ -1,466 +1,90 @@
 <?php
-// *	@source		See SOURCE.txt for source and other copyright.
-// *	@license	GNU General Public License version 3; see LICENSE.txt
-
 class ControllerCatalogReview extends Controller {
 	private $error = array();
 
 	public function index() {
 		$this->load->language('catalog/review');
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->load->model('catalog/review');
-
 		$this->getList();
 	}
 
 	public function add() {
 		$this->load->language('catalog/review');
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->load->model('catalog/review');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_review->addReview($this->request->post);
-
 			$this->session->data['success'] = $this->language->get('text_success');
-
-			$url = '';
-
-			if (isset($this->request->get['filter_product'])) {
-				$url .= '&filter_product=' . urlencode(html_entity_decode($this->request->get['filter_product'], ENT_QUOTES, 'UTF-8'));
-			}
-
-			if (isset($this->request->get['filter_author'])) {
-				$url .= '&filter_author=' . urlencode(html_entity_decode($this->request->get['filter_author'], ENT_QUOTES, 'UTF-8'));
-			}
-
-			if (isset($this->request->get['filter_status'])) {
-				$url .= '&filter_status=' . $this->request->get['filter_status'];
-			}
-
-			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-			}
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
+			$url = $this->getUrlData();
 			$this->response->redirect($this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
-
 		$this->getForm();
 	}
 
 	public function edit() {
 		$this->load->language('catalog/review');
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->load->model('catalog/review');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_catalog_review->editReview($this->request->get['review_id'], $this->request->post);
-
 			$this->session->data['success'] = $this->language->get('text_success');
-
-			$url = '';
-
-			if (isset($this->request->get['filter_product'])) {
-				$url .= '&filter_product=' . urlencode(html_entity_decode($this->request->get['filter_product'], ENT_QUOTES, 'UTF-8'));
-			}
-
-			if (isset($this->request->get['filter_author'])) {
-				$url .= '&filter_author=' . urlencode(html_entity_decode($this->request->get['filter_author'], ENT_QUOTES, 'UTF-8'));
-			}
-
-			if (isset($this->request->get['filter_status'])) {
-				$url .= '&filter_status=' . $this->request->get['filter_status'];
-			}
-
-			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-			}
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
+			$url = $this->getUrlData();
 			$this->response->redirect($this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
-
 		$this->getForm();
 	}
 
 	public function delete() {
 		$this->load->language('catalog/review');
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->load->model('catalog/review');
 
 		if (isset($this->request->post['selected']) && $this->validateDelete()) {
 			foreach ($this->request->post['selected'] as $review_id) {
 				$this->model_catalog_review->deleteReview($review_id);
 			}
-
 			$this->session->data['success'] = $this->language->get('text_success');
-
-			$url = '';
-
-			if (isset($this->request->get['filter_product'])) {
-				$url .= '&filter_product=' . urlencode(html_entity_decode($this->request->get['filter_product'], ENT_QUOTES, 'UTF-8'));
-			}
-
-			if (isset($this->request->get['filter_author'])) {
-				$url .= '&filter_author=' . urlencode(html_entity_decode($this->request->get['filter_author'], ENT_QUOTES, 'UTF-8'));
-			}
-
-			if (isset($this->request->get['filter_status'])) {
-				$url .= '&filter_status=' . $this->request->get['filter_status'];
-			}
-
-			if (isset($this->request->get['filter_date_added'])) {
-				$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-			}
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
+			$url = $this->getUrlData();
 			$this->response->redirect($this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true));
 		}
-
 		$this->getList();
 	}
 
-	protected function getList() {
-		if (isset($this->request->get['filter_product'])) {
-			$filter_product = $this->request->get['filter_product'];
-		} else {
-			$filter_product = '';
+	public function deleteImage() {
+		$json = array();
+		if (isset($this->request->post['review_image_id']) && $this->user->hasPermission('modify', 'catalog/review')) {
+			$this->load->model('catalog/review');
+			
+			$query = $this->db->query("SELECT image FROM " . DB_PREFIX . "review_image WHERE review_image_id = '" . (int)$this->request->post['review_image_id'] . "'");
+			
+			if ($query->row && is_file(DIR_IMAGE . $query->row['image'])) {
+				// За бажанням можна видаляти і фізичний файл: unlink(DIR_IMAGE . $query->row['image']);
+			}
+
+			$this->db->query("DELETE FROM " . DB_PREFIX . "review_image WHERE review_image_id = '" . (int)$this->request->post['review_image_id'] . "'");
+			$json['success'] = true;
 		}
-
-		if (isset($this->request->get['filter_author'])) {
-			$filter_author = $this->request->get['filter_author'];
-		} else {
-			$filter_author = '';
-		}
-
-		if (isset($this->request->get['filter_status'])) {
-			$filter_status = $this->request->get['filter_status'];
-		} else {
-			$filter_status = '';
-		}
-
-		if (isset($this->request->get['filter_date_added'])) {
-			$filter_date_added = $this->request->get['filter_date_added'];
-		} else {
-			$filter_date_added = '';
-		}
-
-		if (isset($this->request->get['order'])) {
-			$order = $this->request->get['order'];
-		} else {
-			$order = 'DESC';
-		}
-
-		if (isset($this->request->get['sort'])) {
-			$sort = $this->request->get['sort'];
-		} else {
-			$sort = 'r.date_added';
-		}
-
-		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
-		} else {
-			$page = 1;
-		}
-
-		$url = '';
-
-		if (isset($this->request->get['filter_product'])) {
-			$url .= '&filter_product=' . urlencode(html_entity_decode($this->request->get['filter_product'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_author'])) {
-			$url .= '&filter_author=' . urlencode(html_entity_decode($this->request->get['filter_author'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_status'])) {
-			$url .= '&filter_status=' . $this->request->get['filter_status'];
-		}
-
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-		}
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true)
-		);
-
-		$data['add'] = $this->url->link('catalog/review/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
-		$data['delete'] = $this->url->link('catalog/review/delete', 'user_token=' . $this->session->data['user_token'] . $url, true);
-		$data['enabled'] = $this->url->link('catalog/review/enable', 'user_token=' . $this->session->data['user_token'] . $url, true);
-		$data['disabled'] = $this->url->link('catalog/review/disable', 'user_token=' . $this->session->data['user_token'] . $url, true);
-
-		$data['reviews'] = array();
-
-		$filter_data = array(
-			'filter_product'    => $filter_product,
-			'filter_author'     => $filter_author,
-			'filter_status'     => $filter_status,
-			'filter_date_added' => $filter_date_added,
-			'sort'              => $sort,
-			'order'             => $order,
-			'start'             => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'             => $this->config->get('config_limit_admin')
-		);
-
-		$review_total = $this->model_catalog_review->getTotalReviews($filter_data);
-
-		$results = $this->model_catalog_review->getReviews($filter_data);
-
-		foreach ($results as $result) {
-			$data['reviews'][] = array(
-				'review_id'  => $result['review_id'],
-				'name'       => $result['name'],
-				'author'     => $result['author'],
-				'rating'     => $result['rating'],
-				'status'     => ($result['status']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
-				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'edit'       => $this->url->link('catalog/review/edit', 'user_token=' . $this->session->data['user_token'] . '&review_id=' . $result['review_id'] . $url, true)
-			);
-		}
-
-		$data['user_token'] = $this->session->data['user_token'];
-
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-
-		if (isset($this->session->data['success'])) {
-			$data['success'] = $this->session->data['success'];
-
-			unset($this->session->data['success']);
-		} else {
-			$data['success'] = '';
-		}
-
-		if (isset($this->request->post['selected'])) {
-			$data['selected'] = (array)$this->request->post['selected'];
-		} else {
-			$data['selected'] = array();
-		}
-
-		$url = '';
-
-		if (isset($this->request->get['filter_product'])) {
-			$url .= '&filter_product=' . urlencode(html_entity_decode($this->request->get['filter_product'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_author'])) {
-			$url .= '&filter_author=' . urlencode(html_entity_decode($this->request->get['filter_author'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_status'])) {
-			$url .= '&filter_status=' . $this->request->get['filter_status'];
-		}
-
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-		}
-
-		if ($order == 'ASC') {
-			$url .= '&order=DESC';
-		} else {
-			$url .= '&order=ASC';
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-		$data['sort_product'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . '&sort=pd.name' . $url, true);
-		$data['sort_author'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . '&sort=r.author' . $url, true);
-		$data['sort_rating'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . '&sort=r.rating' . $url, true);
-		$data['sort_status'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . '&sort=r.status' . $url, true);
-		$data['sort_date_added'] = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . '&sort=r.date_added' . $url, true);
-
-		$url = '';
-
-		if (isset($this->request->get['filter_product'])) {
-			$url .= '&filter_product=' . urlencode(html_entity_decode($this->request->get['filter_product'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_author'])) {
-			$url .= '&filter_author=' . urlencode(html_entity_decode($this->request->get['filter_author'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_status'])) {
-			$url .= '&filter_status=' . $this->request->get['filter_status'];
-		}
-
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-		}
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		$pagination = new Pagination();
-		$pagination->total = $review_total;
-		$pagination->page = $page;
-		$pagination->limit = $this->config->get('config_limit_admin');
-		$pagination->url = $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}', true);
-
-		$data['pagination'] = $pagination->render();
-
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($review_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($review_total - $this->config->get('config_limit_admin'))) ? $review_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $review_total, ceil($review_total / $this->config->get('config_limit_admin')));
-
-		$data['filter_product'] = $filter_product;
-		$data['filter_author'] = $filter_author;
-		$data['filter_status'] = $filter_status;
-		$data['filter_date_added'] = $filter_date_added;
-
-		$data['sort'] = $sort;
-		$data['order'] = $order;
-
-		$data['header'] = $this->load->controller('common/header');
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['footer'] = $this->load->controller('common/footer');
-
-		$this->response->setOutput($this->load->view('catalog/review_list', $data));
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 
 	protected function getForm() {
 		$data['text_form'] = !isset($this->request->get['review_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$data['user_token'] = $this->session->data['user_token'];
 
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
+		$errors = array('warning', 'product', 'author', 'text', 'rating');
+		foreach ($errors as $error) {
+			$data['error_' . $error] = $this->error[$error] ?? '';
 		}
 
-		if (isset($this->error['product'])) {
-			$data['error_product'] = $this->error['product'];
-		} else {
-			$data['error_product'] = '';
-		}
-
-		if (isset($this->error['author'])) {
-			$data['error_author'] = $this->error['author'];
-		} else {
-			$data['error_author'] = '';
-		}
-
-		if (isset($this->error['text'])) {
-			$data['error_text'] = $this->error['text'];
-		} else {
-			$data['error_text'] = '';
-		}
-
-		if (isset($this->error['rating'])) {
-			$data['error_rating'] = $this->error['rating'];
-		} else {
-			$data['error_rating'] = '';
-		}
-
-		$url = '';
-
-		if (isset($this->request->get['filter_product'])) {
-			$url .= '&filter_product=' . urlencode(html_entity_decode($this->request->get['filter_product'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_author'])) {
-			$url .= '&filter_author=' . urlencode(html_entity_decode($this->request->get['filter_author'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_status'])) {
-			$url .= '&filter_status=' . $this->request->get['filter_status'];
-		}
-
-		if (isset($this->request->get['filter_date_added'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_added'];
-		}
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
+		$url = $this->getUrlData();
 
 		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true)
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true)
-		);
+		$data['breadcrumbs'][] = array('text' => $this->language->get('text_home'), 'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true));
+		$data['breadcrumbs'][] = array('text' => $this->language->get('heading_title'), 'href' => $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true));
 
 		if (!isset($this->request->get['review_id'])) {
 			$data['action'] = $this->url->link('catalog/review/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
@@ -474,64 +98,41 @@ class ControllerCatalogReview extends Controller {
 			$review_info = $this->model_catalog_review->getReview($this->request->get['review_id']);
 		}
 
-		$data['user_token'] = $this->session->data['user_token'];
-
-		$this->load->model('catalog/product');
-
-		if (isset($this->request->post['product_id'])) {
-			$data['product_id'] = $this->request->post['product_id'];
-		} elseif (!empty($review_info)) {
-			$data['product_id'] = $review_info['product_id'];
-		} else {
-			$data['product_id'] = '';
+		$fields = array('product_id', 'product', 'author', 'email', 'text', 'rating', 'date_added', 'status');
+		foreach ($fields as $field) {
+			if (isset($this->request->post[$field])) {
+				$data[$field] = $this->request->post[$field];
+			} elseif (!empty($review_info)) {
+				$data[$field] = $review_info[$field];
+			} else {
+				$data[$field] = ($field == 'status') ? 1 : '';
+			}
 		}
 
-		if (isset($this->request->post['product'])) {
-			$data['product'] = $this->request->post['product'];
-		} elseif (!empty($review_info)) {
-			$data['product'] = $review_info['product'];
+		// Фотографії
+		$this->load->model('tool/image');
+		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+		$data['review_images'] = array();
+
+		if (isset($this->request->post['review_image'])) {
+			$review_images = $this->request->post['review_image'];
+		} elseif (isset($this->request->get['review_id'])) {
+			$review_images = $this->model_catalog_review->getReviewImages($this->request->get['review_id']);
 		} else {
-			$data['product'] = '';
+			$review_images = array();
 		}
 
-		if (isset($this->request->post['author'])) {
-			$data['author'] = $this->request->post['author'];
-		} elseif (!empty($review_info)) {
-			$data['author'] = $review_info['author'];
-		} else {
-			$data['author'] = '';
-		}
+		foreach ($review_images as $val) {
+			$img_path = is_array($val) ? $val['image'] : $val;
+			$review_image_id = is_array($val) ? ($val['review_image_id'] ?? 0) : 0;
 
-		if (isset($this->request->post['text'])) {
-			$data['text'] = $this->request->post['text'];
-		} elseif (!empty($review_info)) {
-			$data['text'] = $review_info['text'];
-		} else {
-			$data['text'] = '';
-		}
-
-		if (isset($this->request->post['rating'])) {
-			$data['rating'] = $this->request->post['rating'];
-		} elseif (!empty($review_info)) {
-			$data['rating'] = $review_info['rating'];
-		} else {
-			$data['rating'] = '';
-		}
-
-		if (isset($this->request->post['date_added'])) {
-			$data['date_added'] = $this->request->post['date_added'];
-		} elseif (!empty($review_info)) {
-			$data['date_added'] = ($review_info['date_added'] != '0000-00-00 00:00' ? $review_info['date_added'] : '');
-		} else {
-			$data['date_added'] = '';
-		}
-
-		if (isset($this->request->post['status'])) {
-			$data['status'] = $this->request->post['status'];
-		} elseif (!empty($review_info)) {
-			$data['status'] = $review_info['status'];
-		} else {
-			$data['status'] = '';
+			if (is_file(DIR_IMAGE . $img_path)) {
+				$data['review_images'][] = array(
+					'review_image_id' => $review_image_id,
+					'image' => $img_path,
+					'thumb' => $this->model_tool_image->resize($img_path, 100, 100)
+				);
+			}
 		}
 
 		$data['header'] = $this->load->controller('common/header');
@@ -539,6 +140,17 @@ class ControllerCatalogReview extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 
 		$this->response->setOutput($this->load->view('catalog/review_form', $data));
+	}
+
+	private function getUrlData() {
+		$url = '';
+		$params = array('filter_product', 'filter_author', 'filter_status', 'filter_date_added', 'sort', 'order', 'page');
+		foreach ($params as $param) {
+			if (isset($this->request->get[$param])) {
+				$url .= '&' . $param . '=' . (in_array($param, array('filter_product', 'filter_author')) ? urlencode(html_entity_decode($this->request->get[$param], ENT_QUOTES, 'UTF-8')) : $this->request->get[$param]);
+			}
+		}
+		return $url;
 	}
 
 	protected function validateForm() {
@@ -561,90 +173,76 @@ class ControllerCatalogReview extends Controller {
 		if (!isset($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
 			$this->error['rating'] = $this->language->get('error_rating');
 		}
-
 		return !$this->error;
 	}
-	
-		public function enable() {
-        $this->load->language('catalog/review');
-        $this->document->setTitle($this->language->get('heading_title'));
-        $this->load->model('catalog/review');
-        if (isset($this->request->post['selected']) && $this->validateEnable()) {
-            foreach ($this->request->post['selected'] as $review_id) {
-                $data = array();
-                $result = $this->model_catalog_review->getReview($review_id);
-                foreach ($result as $key => $value) {
-                    $data[$key] = $value;
-                }
-                $data['status'] = 1;
-                $this->model_catalog_review->editReview($review_id, $data);
-            }
-            $this->session->data['success'] = $this->language->get('text_success');
-            $url = '';
-            if (isset($this->request->get['page'])) {
-                $url .= '&page=' . $this->request->get['page'];
-            }
-            if (isset($this->request->get['sort'])) {
-                $url .= '&sort=' . $this->request->get['sort'];
-            }
-            if (isset($this->request->get['order'])) {
-                $url .= '&order=' . $this->request->get['order'];
-            }
-            $this->response->redirect($this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true));
+
+	public function enable() { $this->statusChange(1); }
+	public function disable() { $this->statusChange(0); }
+
+	private function statusChange($status) {
+		$this->load->model('catalog/review');
+		if (isset($this->request->post['selected']) && $this->user->hasPermission('modify', 'catalog/review')) {
+			foreach ($this->request->post['selected'] as $review_id) {
+				$review_info = $this->model_catalog_review->getReview($review_id);
+				if ($review_info) {
+					$review_info['status'] = $status;
+					$this->model_catalog_review->editReview($review_id, $review_info);
+				}
+			}
+			$this->session->data['success'] = $this->language->get('text_success');
+		}
+		$this->response->redirect($this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $this->getUrlData(), true));
+	}
+
+	protected function getList() {
+        // Стандартний метод getList...
+        $url = $this->getUrlData();
+        $data['breadcrumbs'] = array();
+        $data['breadcrumbs'][] = array('text' => $this->language->get('text_home'), 'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'], true));
+        $data['breadcrumbs'][] = array('text' => $this->language->get('heading_title'), 'href' => $this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true));
+        
+        $data['add'] = $this->url->link('catalog/review/add', 'user_token=' . $this->session->data['user_token'] . $url, true);
+        $data['delete'] = $this->url->link('catalog/review/delete', 'user_token=' . $this->session->data['user_token'] . $url, true);
+
+        $filter_data = array(
+            'filter_product'    => $this->request->get['filter_product'] ?? '',
+            'filter_author'     => $this->request->get['filter_author'] ?? '',
+            'filter_status'     => $this->request->get['filter_status'] ?? '',
+            'filter_date_added' => $this->request->get['filter_date_added'] ?? '',
+            'sort'              => $this->request->get['sort'] ?? 'r.date_added',
+            'order'             => $this->request->get['order'] ?? 'DESC',
+            'start'             => (($this->request->get['page'] ?? 1) - 1) * $this->config->get('config_limit_admin'),
+            'limit'             => $this->config->get('config_limit_admin')
+        );
+
+        $results = $this->model_catalog_review->getReviews($filter_data);
+        $review_total = $this->model_catalog_review->getTotalReviews($filter_data);
+        $data['reviews'] = array();
+
+        foreach ($results as $result) {
+            $data['reviews'][] = array(
+                'review_id'  => $result['review_id'],
+                'name'       => $result['name'],
+                'author'     => $result['author'],
+                'rating'     => $result['rating'],
+                'status'     => ($result['status']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+                'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+                'edit'       => $this->url->link('catalog/review/edit', 'user_token=' . $this->session->data['user_token'] . '&review_id=' . $result['review_id'] . $url, true)
+            );
         }
-        $this->getList();
+
+        $data['user_token'] = $this->session->data['user_token'];
+        $data['header'] = $this->load->controller('common/header');
+        $data['column_left'] = $this->load->controller('common/column_left');
+        $data['footer'] = $this->load->controller('common/footer');
+
+        $this->response->setOutput($this->load->view('catalog/review_list', $data));
     }
-    public function disable() {
-        $this->load->language('catalog/review');
-        $this->document->setTitle($this->language->get('heading_title'));
-        $this->load->model('catalog/review');
-        if (isset($this->request->post['selected']) && $this->validateDisable()) {
-            foreach ($this->request->post['selected'] as $review_id) {
-                $data = array();
-                $result = $this->model_catalog_review->getReview($review_id);
-                foreach ($result as $key => $value) {
-                    $data[$key] = $value;
-                }
-                $data['status'] = 0;
-                $this->model_catalog_review->editReview($review_id, $data);
-            }
-            $this->session->data['success'] = $this->language->get('text_success');
-            $url = '';
-            if (isset($this->request->get['page'])) {
-                $url .= '&page=' . $this->request->get['page'];
-            }
-            if (isset($this->request->get['sort'])) {
-                $url .= '&sort=' . $this->request->get['sort'];
-            }
-            if (isset($this->request->get['order'])) {
-                $url .= '&order=' . $this->request->get['order'];
-            }
-            $this->response->redirect($this->url->link('catalog/review', 'user_token=' . $this->session->data['user_token'] . $url, true));
+    
+    protected function validateDelete() {
+        if (!$this->user->hasPermission('modify', 'catalog/review')) {
+            $this->error['warning'] = $this->language->get('error_permission');
         }
-        $this->getList();
+        return !$this->error;
     }
-	
-	protected function validateEnable() {
-		if (!$this->user->hasPermission('modify', 'catalog/review')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
-
-		return !$this->error;
-	}
-	
-	protected function validateDisable() {
-		if (!$this->user->hasPermission('modify', 'catalog/review')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
-
-		return !$this->error;
-	}
-
-	protected function validateDelete() {
-		if (!$this->user->hasPermission('modify', 'catalog/review')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
-
-		return !$this->error;
-	}
 }

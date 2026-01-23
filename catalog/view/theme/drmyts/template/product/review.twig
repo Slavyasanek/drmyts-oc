@@ -3,12 +3,17 @@
 {% if reviews %}
 {% for review in reviews %}
 <div class="product-review product-reviews__item bg--white">
-	{# <div class="product-review__imgs flex-row-wrap">
-		<div class="product-review__img o-hid">
-			<picture>
-				<img class="cover-image" src="./assets/pics/product-review.png" alt="" loading="lazy"></picture>
-		</div>
-	</div> #}
+    {% if review.images %}
+    	<div class="product-review__imgs flex-row-wrap">
+            {% for image in review.images %}
+    		<a href="{{ image.popup }}" class="product-review__img o-hid">
+    			<picture>
+    				<img class="cover-image" src="{{ image.thumb }}" alt="" loading="lazy">
+                </picture>
+    		</a>
+            {% endfor %}
+    	</div>
+    {% endif %}
 	<div class="product-review__heading flex-row-wrap j-between">
 		<div class="product-review__author">
 			<p class="product-review__name">{{ review.author }}</p>

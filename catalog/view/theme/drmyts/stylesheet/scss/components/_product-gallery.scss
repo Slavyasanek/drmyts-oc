@@ -19,6 +19,12 @@
         max-width: 18.8rem;
     }
 
+    &__main-gallery {
+        &:not(.is-initialized) {
+            visibility: visible;
+        }
+    }
+
     .splide__list &__thumb-slide.splide__slide {
         border-radius: 1.2rem;
         overflow: hidden;
