@@ -209,10 +209,11 @@ class ControllerCheckoutCart extends Controller {
 			}
 
 			$data['totals'] = array();
-
 			foreach ($totals as $total) {
+                
 				$data['totals'][] = array(
 					'title' => $total['title'],
+                    'code' => $total['code'],
 					'text'  => $this->currency->format($total['value'], $this->session->data['currency'])
 				);
 			}
@@ -403,7 +404,16 @@ class ControllerCheckoutCart extends Controller {
 			unset($this->session->data['payment_methods']);
 			unset($this->session->data['reward']);
 
-			$this->response->redirect($this->url->link('checkout/cart'));
+            if (isset($this->request->server['HTTP_X_REQUESTED_WITH']) && $this->request->server['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+                $this->load->model('setting/extension');
+                $totals = array();
+                $taxes = $this->cart->getTaxes();
+                $total = 0;
+               
+                $json['success'] = true; 
+            } else {
+                $this->response->redirect($this->url->link('checkout/cart'));
+            }
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

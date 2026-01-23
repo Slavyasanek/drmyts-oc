@@ -1707,7 +1707,7 @@ p {
 .cart-modal__btns {
   margin-block-start: 3.2rem;
 }
-.cart-modal__finals {
+.cart-modal__sub-totals--total {
   font-size: 1.8rem;
   line-height: 132%;
   letter-spacing: -0.01em;

@@ -128,6 +128,7 @@ class ControllerCommonCart extends Controller {
 		foreach ($totals as $total) {
 			$data['totals'][] = array(
 				'title' => $total['title'],
+                'code' => $total['code'],
 				'text'  => $this->currency->format($total['value'], $this->session->data['currency']),
 			);
 		}

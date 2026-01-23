@@ -135,6 +135,21 @@ $(document).ready(function() {
 	// });
 });
 
+const updateCartMarkup = () => {
+    fetch('index.php?route=common/cart/info')
+        .then(r => r.text())
+        .then(html => {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+
+            const cart = document.getElementById('cart');
+            if (cart) {
+                cart.innerHTML = temp.querySelector('#cart').innerHTML;
+                modalHandler.openModal(cart.querySelector('.backdrop'));
+            }
+        });
+}
+
 // Cart add remove functions
 var cart = {
 	'add': function(product_id, quantity) {
@@ -174,62 +189,32 @@ var cart = {
 			}
 		});
 	},
-	'update': function(key, quantity) {
-		$.ajax({
-			url: 'index.php?route=checkout/cart/edit',
-			type: 'post',
-			data: 'key=' + key + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1),
-			dataType: 'json',
-			// beforeSend: function() {
-			// 	$('#cart > button').button('loading');
-			// },
-			// complete: function() {
-			// 	$('#cart > button').button('reset');
-			// },
-			success: function(json) {
-				// Need to set timeout otherwise it wont update the total
-                console.log(json);
-                
-				setTimeout(function () {
-					$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
-				}, 100);
+    'update': function(key, quantity) {
+        var qtyData = {};
+        qtyData[key] = (typeof(quantity) != 'undefined' ? quantity : 1);
 
-				if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
-					location = 'index.php?route=checkout/cart';
-				} else {
-					// $('#cart > ul').load('index.php?route=common/cart/info ul li');
-				}
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-                console.log(key, quantity);
-                
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	},
+        $.ajax({
+            url: 'index.php?route=checkout/cart/edit',
+            type: 'post',
+            // Передаємо як quantity[ключ]=значення
+            data: { quantity: qtyData }, 
+            dataType: 'json',
+            success: function(json) {
+                updateCartMarkup();
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    },
 	'remove': function(key) {
 		$.ajax({
 			url: 'index.php?route=checkout/cart/remove',
 			type: 'post',
 			data: 'key=' + key,
 			dataType: 'json',
-			// beforeSend: function() {
-			// 	$('#cart > button').button('loading');
-			// },
-			// complete: function() {
-			// 	$('#cart > button').button('reset');
-			// },
 			success: function(json) {
-				// Need to set timeout otherwise it wont update the total
-				setTimeout(function () {
-					$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
-				}, 100);
-
-				// if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
-				// 	location = 'index.php?route=checkout/cart';
-				// } else {
-				// 	$('#cart > ul').load('index.php?route=common/cart/info ul li');
-				// }
+                updateCartMarkup();
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
