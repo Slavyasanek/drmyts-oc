@@ -41,7 +41,7 @@
 {% endfor %}
 
 {# STYLES #}
-<link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+<link href="catalog/view/theme/drmyts/stylesheet/splide.min.css" rel="stylesheet">
 <link href="catalog/view/theme/drmyts/stylesheet/home.css" rel="stylesheet">
 
 
@@ -175,17 +175,8 @@
                     <span class="icon__count flex-center" id="wishlist-total">{{ wishlist_total}}</span>
                 {% endif %}
             </a>
-            <button class="header__icon-link rel cart-btn btn" type="button" data-modal-open="cart">
-                <div class="icon cart-btn__icon rel">
-                    {{ macros.svg('shopping-bag', '') }}
-                    {% if cart_total_items %}
-                        <span class="icon__count flex-center">{{ cart_total_items }}</span>
-                    {% endif %}
-                </div>
-                {% if cart_total_price %}
-                    <span class="cart-btn__sum d-none">{{ cart_total_prices }}</span>
-                {% endif %}
-            </button>
+            
+            {{ cart }}
         </div>
     </div>
     <div class="header__bottom">

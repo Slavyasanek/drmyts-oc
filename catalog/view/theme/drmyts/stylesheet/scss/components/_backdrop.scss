@@ -11,6 +11,10 @@
 }
 // End inner
 
+.backdrop--cart {
+    z-index: 5;
+}
+
 @include mixins.min-LXL {
     .backdrop--mobile {
         position: static;

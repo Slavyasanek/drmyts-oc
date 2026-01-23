@@ -1,51 +1,83 @@
-<div id="cart" class="btn-group btn-block">
-  <button type="button" data-toggle="dropdown" data-loading-text="{{ text_loading }}" class="btn btn-inverse btn-block btn-lg dropdown-toggle"><i class="fa fa-shopping-cart"></i> <span id="cart-total">{{ text_items }}</span></button>
-  <ul class="dropdown-menu pull-right">
-    {% if products or vouchers %}
-    <li>
-      <table class="table table-striped">
-        {% for product in products %}
-        <tr>
-          <td class="text-center">{% if product.thumb %} <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a> {% endif %}</td>
-          <td class="text-left"><a href="{{ product.href }}">{{ product.name }}</a> {% if product.option %}
-            {% for option in product.option %} <br />
-            - <small>{{ option.name }} {{ option.value }}</small> {% endfor %}
-            {% endif %}
-            {% if product.recurring %} <br />
-            - <small>{{ text_recurring }} {{ product.recurring }}</small> {% endif %}</td>
-          <td class="text-right">x {{ product.quantity }}</td>
-          <td class="text-right">{{ product.total }}</td>
-          <td class="text-center"><button type="button" onclick="cart.remove('{{ product.cart_id }}');" title="{{ button_remove }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
-        </tr>
-        {% endfor %}
-        {% for voucher in vouchers %}
-        <tr>
-          <td class="text-center"></td>
-          <td class="text-left">{{ voucher.description }}</td>
-          <td class="text-right">x&nbsp;1</td>
-          <td class="text-right">{{ voucher.amount }}</td>
-          <td class="text-center text-danger"><button type="button" onclick="voucher.remove('{{ voucher.key }}');" title="{{ button_remove }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
-        </tr>
-        {% endfor %}
-      </table>
-    </li>
-    <li>
-      <div>
-        <table class="table table-bordered">
-          {% for total in totals %}
-          <tr>
-            <td class="text-right"><strong>{{ total.title }}</strong></td>
-            <td class="text-right">{{ total.text }}</td>
-          </tr>
-          {% endfor %}
-        </table>
-        <p class="text-right"><a href="{{ cart }}"><strong><i class="fa fa-shopping-cart"></i> {{ text_cart }}</strong></a>&nbsp;&nbsp;&nbsp;<a href="{{ checkout }}"><strong><i class="fa fa-share"></i> {{ text_checkout }}</strong></a></p>
-      </div>
-    </li>
-    {% else %}
-    <li>
-      <p class="text-center">{{ text_empty }}</p>
-    </li>
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+
+<button class="header__icon-link rel cart-btn btn" type="button" data-modal-open="cart">
+    <div class="icon cart-btn__icon rel">
+        {{ macros.svg('shopping-bag', '') }}
+        {% if cart_total_items %}
+            <span class="icon__count flex-center">{{ cart_total_items }}</span>
+        {% endif %}
+    </div>
+    {% if cart_total_price %}
+        <span class="cart-btn__sum d-none">{{ cart_total_price }}</span>
     {% endif %}
-  </ul>
+</button>
+
+<div class="backdrop fixed inset wh-full anim backdrop--cart" data-modal="cart">
+    <div class="backdrop__inner modal abs pos-center bg--sec-bg cart-modal wh-full flex-col o-hid">
+        <div class="modal__heading cart-modal__heading flex-row j-between border--end"> 
+            <h3 class="cart-modal__title text--size_h3-full m-0">Кошик {% if cart_total_items %}<span class="text--color_gray cart-modal__count">({{ cart_total_items }})</span>{% endif %}</h3>
+            <button class="btn flex-center icon modal__close" type="button" data-modal-close>
+                {{ macros.svg('close', '') }}
+            </button>
+        </div>
+        {% if products or vouchers %}
+        <div class="cart-modal__content">
+            <div class="cart-modal__cart-items"> 
+                {% for product in products %}
+                <div class="cart-item cart-modal__item cart-item--type_cart d-flex">
+                    {% if product.thumb %}
+                    <div class="cart-item__img"> 
+                        <picture> 
+                            <img class="contain-image" src="{{ product.thumb }}" alt="{{ product.name }}" loading="lazy" width="56" height="56">
+                        </picture>
+                        <a class="cart-item__link abs inset wh-full" href="{{ product.href }}">{{ product.name }}</a>
+                    </div>
+                    {% endif %}
+                    <div class="cart-item__content"> 
+                        <div class="cart-item__details flex-col">
+                            <a class="cart-item__title" href="{{ product.href }}">Comfort Zone</a>
+                            <span class="cart-item__type">{{ product.name }}</span>
+                        </div>
+                        <div class="cart-item__footer flex-row-wrap j-between">
+                        <div class="product-price cart-item__price flex-row">
+                            <span class="product-price__full">{{ product.total }}</span>
+                        </div>
+                        <div class="quant-block cart-item__quant-block flex-row"> 
+                            <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="minus">
+                                {{ macros.svg('minus', '') }}
+                            </button>
+                            <input class="quant-block__input text--center" type="number" name="item_count" min="1" max="5" value="{{ product.quantity }}">
+                            <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="plus" onclick="cart.update('{{ product.cart_id }}', {{ product.quantity }}+1)">
+                                {{ macros.svg('plus', '') }}
+                          </button>
+                        </div>
+                        <button class="btn flex-center icon cart-item__delete" type="button"  onclick="cart.remove('{{ product.cart_id }}');"> 
+                            {{ macros.svg('delete', '')}}
+                        </button>
+                      </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="cart-modal__footer bg--white">
+                {% for total in totals %}
+                <div class="cart-modal__sub-totals flex-row j-between border--end"> 
+                    <p class="cart-modal__name">{{ total.title }}</p>
+                    <p class="cart-modal__val text--end">{{ total.text }}</p>
+                </div>
+           {% endfor %}
+            <div class="cart-modal__btns flex-col">
+                <a class="btn btn--theme_accent btn--theme text--upp btn--size_M cart-modal__btn text--center text--size_label" href="{{ checkout }}">{{ text_checkout }}</a>
+                <button class="btn text--upp btn--size_M cart-modal__close" type="button" data-modal-close>  Продовжити покупки</button>
+            </div>
+        </div>
+        {% else %}
+            <div class="cart-modal__empty mx">
+                <h4 class="text--center text--size_h3-full">Кошик порожній</h4>
+                <button class="btn btn--theme_accent btn--theme text--upp btn--size_M cart-modal__btn text--center text--size_label" type="button" data-modal-close>Продовжити покупки</button>
+            </div>
+        {% endif %}
+    </div>
 </div>

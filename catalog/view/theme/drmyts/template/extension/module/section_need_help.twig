@@ -1,0 +1,20 @@
+<section class="bg--surface need-help"> 
+    <div class="container need-help__container flex-col flex-center"> 
+        {% if title %}
+            <h2 class="need-help__title text--size_h3-mob text--size_h3-desk">{{ title }}</h2>
+        {% endif %}
+        
+        {% if description %}
+            <p class="m-0">{{ description }}</p>
+        {% endif %}
+
+        {% if btn_link %}
+            <a class="btn btn--theme btn--theme_accent text--upp flex-row btn--size_M need-help__btn" href="{{ btn_link }}" target="_blank" rel="noopener noreferrer">
+                <svg role="presentation">
+                    <use href="catalog/view/theme/drmyts/assets/svg/sprite.svg#telegram"></use>
+                </svg>
+                <span> {{ btn_text }}</span>
+            </a>
+        {% endif %}
+    </div>
+</section>

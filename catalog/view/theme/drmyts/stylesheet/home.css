@@ -1506,6 +1506,10 @@ p {
   pointer-events: none;
 }
 
+.backdrop--cart {
+  z-index: 5;
+}
+
 @media screen and (min-width: 960px) {
   .backdrop--mobile {
     position: static;

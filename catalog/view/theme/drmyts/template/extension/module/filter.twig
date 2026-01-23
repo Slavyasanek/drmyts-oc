@@ -1,24 +1,67 @@
-<div class="panel panel-default">
-  <div class="panel-heading">{{ heading_title }}</div>
-  <div class="list-group"> {% for filter_group in filter_groups %} <a class="list-group-item">{{ filter_group.name }}</a>
-    <div class="list-group-item">
-      <div id="filter-group{{ filter_group.filter_group_id }}">{% for filter in filter_group.filter %}
-        <div class="checkbox">
-          <label>{% if filter.filter_id in filter_category %}
-            <input type="checkbox" name="filter[]" value="{{ filter.filter_id }}" checked="checked" />
-            {{ filter.name }}
-            {% else %}
-            <input type="checkbox" name="filter[]" value="{{ filter.filter_id }}" />
-            {{ filter.name }}
-            {% endif %}</label>
-        </div>
-        {% endfor %}</div>
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<div class="filter__inner bg--white abs modal flex-col backdrop__inner">
+
+    <div class="filter__heading flex-row j-between">
+		<div class="filter__title-col">
+			<button class="btn flex-center filter__close icon--arrow icon" type="button">
+                {{ macros.svg('arrow-back') }}
+			</button>
+		</div>
+		<p class="filter__title m-0">{{ heading_title }}</p>
+		<div class="filter__title-col d-flex j-end">
+			<button class="btn filter__reset text--color_red" type="button">Скинути
+			</button>
+		</div>
+	</div>
+
+    <div class="filter__content flex-col"> 
+        <div class="active-filters flex-row-wrap filter__active-filter border--end">
+            {% for filter_group in filter_groups %}
+                {% for filter in filter_group.filter %}
+                    {% if filter.filter_id in filter_category %}
+                        <button class="active-filters__item btn flex-center btn--full_black text--size_label" type="button">
+                			<span>{{ filter.name  }}</span>
+                            {{ macros.svg('close', '')}}
+                		</button>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+    	</div>
+
+        {% for filter_group in filter_groups %} 
+            <div class="accordion filter__item" aria-expanded="true">
+        		<div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
+        			<p>{{ filter_group.name }}</p>
+        			<div class="icon icon--arrow accordion__icon">
+                        {{ macros.svg('arrow-down') }}
+        			</div>
+        		</div>
+        		<div class="accordion__content filter-content"  id="filter-group{{ filter_group.filter_group_id }}">
+                    <div class="filter-content__search custom-input custom-input--type_filter">
+        				<input class="custom-input__input" type="search" name="ingredients_search" placeholder="Пошук...">
+        			</div>
+        			<div class="filter-content__list flex-col">
+                        {% for filter in filter_group.filter %}
+            				<div class="filter-content__item custom-checkbox custom-checkbox--red flex-row">
+            					<div class="custom-checkbox__wrapper rel">
+            						<input type="checkbox" name="filter[]" value="{{ filter.filter_id }}" {% if filter.filter_id in filter_category %} checked{% endif %} id="filter_{{ filter.filter_id }}">
+            					</div>
+            					<label for="filter_{{ filter.filter_id }}">{{ filter.name }}</label>
+            				</div>
+                        {% endfor %}
+        			</div>
+        		</div>
+        	</div>
+        {% endfor %}
     </div>
-    {% endfor %}</div>
-  <div class="panel-footer text-right">
+
     <button type="button" id="button-filter" class="btn btn-primary">{{ button_filter }}</button>
-  </div>
+    <div class="filter__footer w-full">
+		<button class="btn btn--theme btn--theme_accent btn--size_M text--upp filter__btn" type="button" id="button-filter">{{ button_filter }}</button>
+	</div>
 </div>
+
 <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
 	filter = [];
