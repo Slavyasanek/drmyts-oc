@@ -46,11 +46,8 @@ class ControllerProductManufacturer extends Controller {
 
 
             $data['active_filters'] = array();
-            
-            // Перевіряємо, чи ми на сторінці конкретного бренду
             if (isset($this->request->get['manufacturer_id'])) {
                 $data['reset_url'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id']);
-                
                 if (!empty($filter)) {
                     $filter_ids = explode(',', $filter);
                     foreach ($filter_ids as $filter_id) {
@@ -464,11 +461,8 @@ class ControllerProductManufacturer extends Controller {
 
 
             $data['active_filters'] = array();
-            
-            // Перевіряємо, чи ми на сторінці конкретного бренду
             if (isset($this->request->get['manufacturer_id'])) {
                 $data['reset_url'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id']);
-                
                 if (!empty($filter)) {
                     $filter_ids = explode(',', $filter);
                     foreach ($filter_ids as $filter_id) {
@@ -545,11 +539,8 @@ class ControllerProductManufacturer extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 
             $data['active_filters'] = array();
-            
-            // Перевіряємо, чи ми на сторінці конкретного бренду
             if (isset($this->request->get['manufacturer_id'])) {
                 $data['reset_url'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id']);
-                
                 if (!empty($filter)) {
                     $filter_ids = explode(',', $filter);
                     foreach ($filter_ids as $filter_id) {

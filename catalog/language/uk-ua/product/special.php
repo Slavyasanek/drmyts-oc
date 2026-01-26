@@ -1,7 +1,7 @@
 <?php
 
 // Heading
-$_['heading_title']     = 'Акції';
+$_['heading_title']     = 'Акції та знижки';
 
 // Text
 $_['text_empty']        = 'Немає спеціальних пропозицій';

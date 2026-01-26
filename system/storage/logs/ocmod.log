@@ -1,4 +1,4 @@
-2026-01-26 17:46:57 - MOD: Modification Default
+2026-01-26 18:04:46 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -27,7 +27,7 @@ FILE: system/library/template/twig.php
 CODE: if (is_file($file)) {
 LINE: 13
 ----------------------------------------------------------------
-MOD: Category and Manufacturer Customizations (Wishlist, Brands, Discounts, Filters)
+MOD: Category, Manufacturer and Special Customizations (Wishlist, Brands, Discounts, Filters)
 
 FILE: catalog/controller/product/category.php
 CODE: $data['products'][] = array(
@@ -56,9 +56,23 @@ LINE: 217
 CODE: 'special'     => $special,
 LINE: 261
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
-LINE: 79
-LINE: 497
-LINE: 578
+LINE: 76
+LINE: 491
+LINE: 569
+
+FILE: catalog/controller/product/special.php
+CODE: $data['products'][] = array(
+LINE: 145
+CODE: 'name'        => $result['name'],
+LINE: 152
+CODE: 'rating'      => $result['rating'],
+LINE: 161
+CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
+LINE: 120
+CODE: 'special'     => $special,
+LINE: 164
+CODE: $data['column_left'] = $this->load->controller('common/column_left');
+LINE: 338
 ----------------------------------------------------------------
 MOD: D.Menu Editor
 
