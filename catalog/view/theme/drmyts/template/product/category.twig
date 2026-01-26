@@ -6,14 +6,14 @@
 <main id="content">
 	{{ content_top }}
 	<section class="shop">
-		<div class="container shop__container d-grid">
+		<div class="container shop__container d-grid {% if not column_left %} shop__container--clean {% endif %}">
 			<div class="shop__heading shop-heading flex-row-wrap j-between">
 				<button class="btn btn--full_gray flex-row btn--size_S shop-heading__filter-btn" type="button" data-modal-open="filter">
                     {{ macros.svg('filter', '') }}
 					<span>{{ button_filter_open }}</span>
 				</button>
 
-                {% if active_filters  %}
+                {% if active_filters and column_left  %}
 				<div class="active-filters flex-row-wrap shop-heading__active-filter d-none">
                     {% for filter in active_filters %}
                         <button class="active-filters__item btn flex-center btn--full_black text--size_label" 
@@ -26,7 +26,7 @@
                 </div>
                 {% endif %}
 
-                {% if active_filters  %}
+                {% if active_filters and column_left  %}
 				    <button class="btn btn--full_gray btn--size_S shop-heading__reset d-none" type="button" onclick="location = '{{ reset_url }}';">{{ button_reset_filter }}</button>
                 {% endif %}
 
@@ -64,9 +64,13 @@
                     </div>
                 </div>
 			</div>
+
+            {% if column_left %}
 			<div class="backdrop fixed inset wh-full anim filter backdrop--mobile shop__filter" data-modal="filter">
                 {{ column_left }}   
 			</div>
+            {% endif %}
+
 			<div class="shop__products">
 
                 {% if products %}
@@ -76,9 +80,11 @@
                     {% endfor %}
 				</div>
 
-				<div class="shop__pagination pagination-wrapper flex-center">
-					{{ pagination }}
-				</div>
+                    {% if pagination %}
+    				<div class="shop__pagination pagination-wrapper flex-center">
+    					{{ pagination }}
+    				</div>
+                    {% endif %}
                 {% else %}
                     <p>Товарів не знайдено. Спробуйте змінити фільтри</p>
                 {% endif %}

@@ -1,4 +1,4 @@
-2026-01-26 16:11:16 - MOD: Modification Default
+2026-01-26 17:43:49 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -27,18 +27,38 @@ FILE: system/library/template/twig.php
 CODE: if (is_file($file)) {
 LINE: 13
 ----------------------------------------------------------------
-MOD: Category Page Customizations (Filters, Brands, Wishlist)
+MOD: Category and Manufacturer Customizations (Wishlist, Brands, Discounts, Filters)
 
 FILE: catalog/controller/product/category.php
 CODE: $data['products'][] = array(
-LINE: 251
+LINE: 250
 CODE: 'name'        => $result['name'],
-LINE: 258
+LINE: 257
 CODE: 'rating'      => $result['rating'],
-LINE: 267
+LINE: 266
+CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
+LINE: 225
+CODE: 'special'     => $special,
+LINE: 269
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
-LINE: 478
-LINE: 558
+LINE: 477
+LINE: 548
+
+FILE: catalog/controller/product/manufacturer.php
+CODE: $data['products'][] = array(
+LINE: 242
+CODE: 'name'        => $result['name'],
+LINE: 249
+CODE: 'rating'      => $result['rating'],
+LINE: 258
+CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
+LINE: 217
+CODE: 'special'     => $special,
+LINE: 261
+CODE: $data['column_left'] = $this->load->controller('common/column_left');
+LINE: 79
+LINE: 497
+LINE: 578
 ----------------------------------------------------------------
 MOD: D.Menu Editor
 

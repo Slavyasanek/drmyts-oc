@@ -4222,13 +4222,19 @@ input:checked + .product-variants__color-label::before {
   .shop {
     padding-block-end: 6.4rem;
   }
-  .shop__container {
+  .shop__container:not(.shop__container--clean) {
     grid-template-columns: 23.5% auto;
     gap: 0 2.4rem;
   }
   .shop__heading {
     grid-column: 2/3;
     grid-row: 1/2;
+  }
+  .shop__container--clean .shop__heading {
+    grid-column: 1/2;
+  }
+  .shop__container--clean .shop__grid {
+    grid-template-columns: repeat(4, 1fr);
   }
   .shop__filter {
     grid-row: span 3;

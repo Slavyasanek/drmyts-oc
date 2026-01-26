@@ -8,7 +8,7 @@
             </div>
             <div class="product-card__tools">
                 {% if special %}
-                    <span class="sale-badge product-card__sale abs text--color_white text--size_sm flex-center">{{ discount }}</span>
+                    <span class="sale-badge product-card__sale abs text--color_white text--size_sm flex-center">-{{ discount }}%</span>
                 {% endif %}
                 <button class="btn icon product-card__add-to-wish abs {{ in_wishlist ? 'liked' : '' }}" type="button" onclick="wishlist.add('{{ product_id }}');">
                     <svg role="presentation">

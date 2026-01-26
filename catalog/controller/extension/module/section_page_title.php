@@ -4,16 +4,24 @@ class ControllerExtensionModuleSectionPageTitle extends Controller {
         $data['heading_title'] = $this->document->getTitle();
         $data['breadcrumbs'] = array();
 
-
         $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_home') ?: 'Головна',
             'href' => $this->url->link('common/home')
         );
 
         if (isset($this->request->get['route'])) {
+            $route = $this->request->get['route'];
+            
+            if ($route == 'product/manufacturer/info') {
+                $this->load->language('product/manufacturer');
+                $data['breadcrumbs'][] = array(
+                    'text' => $this->language->get('text_brand') ?: 'Бренди',
+                    'href' => $this->url->link('product/manufacturer')
+                );
+            }
+
             $url_data = $this->request->get;
-            unset($url_data['_route_']); // Видаляємо системний параметр SEO
-            $route = $url_data['route'];
+            unset($url_data['_route_']); 
             unset($url_data['route']);
             
             $url = '';
