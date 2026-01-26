@@ -20,7 +20,7 @@ system/storage/upload/
 
 # OC 2.x legacy
 system/cache/
-system/logs/
+system/logs/*
 
 # Config files with secrets
 config.php
@@ -42,6 +42,7 @@ install/
 *.bak
 *.tmp
 *.old
+*.log
 
 # Env files
 .env
