@@ -27,7 +27,7 @@ config.php
 admin/config.php
 
 # User uploads
-image/cache/
+image/cache/**
 image/catalog/demo/
 image/catalog/*/cache/
 
