@@ -237,16 +237,35 @@ class ControllerProductCategory extends Controller {
 					$rating = false;
 				}
 
+
+                // Custom: Check if product is in wishlist
+                $in_wishlist = false;
+                if ($this->customer->isLogged() && isset($this->session->data['wishlist'])) {
+                    $this->load->model('account/wishlist');
+                    $wishlist_full_data = $this->model_account_wishlist->getWishlist();
+                    $wishlist_ids = array_column($wishlist_full_data, 'product_id');
+                    if (in_array($result['product_id'], $wishlist_ids)) {
+                        $in_wishlist = true;
+                    }
+                }
+            
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],
+
+                    'manufacturer'=> $result['manufacturer'],
+                    'brand_href'   => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']),
+            
 					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..',
 					'price'       => $price,
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $result['rating'],
+
+                    'in_wishlist' => $in_wishlist,
+            
 					'href'        => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'] . $url)
 				);
 			}
@@ -423,6 +442,40 @@ class ControllerProductCategory extends Controller {
 
 			$data['continue'] = $this->url->link('common/home');
 
+
+			$data['active_filters'] = array();
+			$data['reset_url'] = $this->url->link('product/category', 'path=' . $this->request->get['path']);
+
+			if (!empty($filter)) {
+				$filter_ids = explode(',', $filter);
+				foreach ($filter_ids as $filter_id) {
+					$query = $this->db->query("SELECT *, (SELECT name FROM " . DB_PREFIX . "filter_group_description fgd WHERE f.filter_group_id = fgd.filter_group_id AND fgd.language_id = '" . (int)$this->config->get('config_language_id') . "') AS `group` FROM " . DB_PREFIX . "filter f LEFT JOIN " . DB_PREFIX . "filter_description fd ON (f.filter_id = fd.filter_id) WHERE f.filter_id = '" . (int)$filter_id . "' AND fd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+					
+					if ($query->row) {
+						$remaining_filters = array_diff($filter_ids, array($filter_id));
+						$url = '';
+						if (!empty($remaining_filters)) {
+							$url .= '&filter=' . implode(',', $remaining_filters);
+						}
+						if (isset($this->request->get['sort'])) {
+							$url .= '&sort=' . $this->request->get['sort'];
+						}
+						if (isset($this->request->get['order'])) {
+							$url .= '&order=' . $this->request->get['order'];
+						}
+						if (isset($this->request->get['limit'])) {
+							$url .= '&limit=' . $this->request->get['limit'];
+						}
+
+						$data['active_filters'][] = array(
+							'name'        => $query->row['name'],
+							'remove_href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . $url)
+						);
+					}
+				}
+			}
+			$data['product_total'] = $product_total;
+            
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
@@ -469,6 +522,40 @@ class ControllerProductCategory extends Controller {
 
 			$this->response->addHeader($this->request->server['SERVER_PROTOCOL'] . ' 404 Not Found');
 
+
+			$data['active_filters'] = array();
+			$data['reset_url'] = $this->url->link('product/category', 'path=' . $this->request->get['path']);
+
+			if (!empty($filter)) {
+				$filter_ids = explode(',', $filter);
+				foreach ($filter_ids as $filter_id) {
+					$query = $this->db->query("SELECT *, (SELECT name FROM " . DB_PREFIX . "filter_group_description fgd WHERE f.filter_group_id = fgd.filter_group_id AND fgd.language_id = '" . (int)$this->config->get('config_language_id') . "') AS `group` FROM " . DB_PREFIX . "filter f LEFT JOIN " . DB_PREFIX . "filter_description fd ON (f.filter_id = fd.filter_id) WHERE f.filter_id = '" . (int)$filter_id . "' AND fd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+					
+					if ($query->row) {
+						$remaining_filters = array_diff($filter_ids, array($filter_id));
+						$url = '';
+						if (!empty($remaining_filters)) {
+							$url .= '&filter=' . implode(',', $remaining_filters);
+						}
+						if (isset($this->request->get['sort'])) {
+							$url .= '&sort=' . $this->request->get['sort'];
+						}
+						if (isset($this->request->get['order'])) {
+							$url .= '&order=' . $this->request->get['order'];
+						}
+						if (isset($this->request->get['limit'])) {
+							$url .= '&limit=' . $this->request->get['limit'];
+						}
+
+						$data['active_filters'][] = array(
+							'name'        => $query->row['name'],
+							'remove_href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . $url)
+						);
+					}
+				}
+			}
+			$data['product_total'] = $product_total;
+            
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');

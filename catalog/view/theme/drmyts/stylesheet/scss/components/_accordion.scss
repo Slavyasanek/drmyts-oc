@@ -2,7 +2,11 @@
 
 .accordion {
     border-block-start: .1rem solid rgba(28, 28, 28, 0.1);
-    padding-block: 2.4rem;
+
+    &__heading {
+        padding-block: 2.4rem;
+        transition: var(--transition-general);
+    }
 
     &__heading p {
         font-weight: 500;
@@ -44,6 +48,10 @@
 
     &[aria-expanded="true"] {
         .accordion {
+            &__heading {
+                padding-block-end: 1.6rem;
+            }
+
             &__icon {
                 svg {
                     transform: rotate(180deg);
@@ -57,7 +65,7 @@
             &__content {
                 @include mixins.el-show;
                 max-height: 100rem;
-                padding-block-start: 1.6rem;
+                padding-block-end: 2.4rem;
             }
         }
     }
@@ -68,6 +76,18 @@
     .accordion {
         &__content {
             max-width: 58.8rem;
+        }
+
+        &__heading {
+            @include mixins.hover {
+                p {
+                    color: var(--color-red);
+                }
+
+                svg {
+                    stroke: var(--color-red);
+                }
+            }
         }
     }
 }

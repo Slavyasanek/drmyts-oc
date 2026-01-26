@@ -1,4 +1,4 @@
-2026-01-26 13:50:55 - MOD: Modification Default
+2026-01-26 16:11:16 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -27,6 +27,19 @@ FILE: system/library/template/twig.php
 CODE: if (is_file($file)) {
 LINE: 13
 ----------------------------------------------------------------
+MOD: Category Page Customizations (Filters, Brands, Wishlist)
+
+FILE: catalog/controller/product/category.php
+CODE: $data['products'][] = array(
+LINE: 251
+CODE: 'name'        => $result['name'],
+LINE: 258
+CODE: 'rating'      => $result['rating'],
+LINE: 267
+CODE: $data['column_left'] = $this->load->controller('common/column_left');
+LINE: 478
+LINE: 558
+----------------------------------------------------------------
 MOD: D.Menu Editor
 
 FILE: catalog/controller/common/header.php
@@ -37,4 +50,12 @@ LINE: 102
 CODE: $data['currency'] = $this->load->controller('common/currency');
 LINE: 114
 LINE: 115
+----------------------------------------------------------------
+MOD: Filter (Active filters)
+
+FILE: catalog/controller/extension/module/filter.php
+CODE: 'name'      => $filter['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : '')
+LINE: 58
+CODE: return $this->load->view('extension/module/filter', $data);
+LINE: 107
 ----------------------------------------------------------------

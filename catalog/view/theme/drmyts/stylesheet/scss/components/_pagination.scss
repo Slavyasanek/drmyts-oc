@@ -1,17 +1,53 @@
 @use "../utils/mixins";
 
-.pagination {
-    gap: .4rem;
+.pagination-wrapper {
 
-    &__btn {
-        @include mixins.square(3.2rem);
-        border-radius: .8rem;
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .4rem;
 
-        &.active {
-            pointer-events: none;
-            background-color: var(--color-dark);
-            color: var(--color-white);
+        li {
+            a, span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                @include mixins.square(3.2rem);
+                border-radius: .8rem; 
+                background-color: var(--color-half-dark);
+                color: var(--color-dark);
+
+                @include mixins.hover {
+                    background-color: var(--color-dark);
+                    color: var(--color-white);
+
+                    svg {
+                        stroke: var(--color-white);
+                    }
+                }
+            }
+
+            &.active {
+                a, span {
+                    pointer-events: none;
+                    background-color: var(--color-dark);
+                    color: var(--color-white);
+                }
+            }
         }
     }
+    
+
+    // &__btn {
+    //     @include mixins.square(3.2rem);
+    //     border-radius: .8rem;
+
+    //     &.active {
+    //         pointer-events: none;
+    //         background-color: var(--color-dark);
+    //         color: var(--color-white);
+    //     }
+    // }
 }
 // End inner

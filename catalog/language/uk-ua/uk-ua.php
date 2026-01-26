@@ -61,6 +61,8 @@ $_['button_map']            = 'Переглянути карту';
 $_['button_reset_password'] = 'Скинути пароль';
 $_['button_need_help'] = 'Потрібна допомога?';
 $_['button_notify_availability'] = 'Повідомити про наявність';
+$_['button_reset_filter'] = 'Скинути фільтри';
+$_['button_filter_open'] = 'Фільтри';
 
 // Error
 $_['error_exception']       = 'Помилка коду (%s): %s в %s у рядку %s';

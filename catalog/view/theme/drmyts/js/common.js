@@ -717,6 +717,7 @@ const modalHandler = new Modal();
 
 document.addEventListener("DOMContentLoaded", () => {
     new MobileMenu('.header-menu', 'is-active', '.header__toggler', '.header-menu__close');
+
     // PASSWORD INPUTS
     if (document.querySelector('.custom-input--type_password')) {
         document.querySelectorAll('.custom-input--type_password').forEach(passInput => {

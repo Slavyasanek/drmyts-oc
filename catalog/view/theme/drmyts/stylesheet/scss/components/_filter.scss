@@ -72,6 +72,10 @@
             width: 100%;
         }
 
+        &__content {
+            overflow: visible;
+        }
+
         &__heading, &__active-filter, &__footer {
             display: none;
         }

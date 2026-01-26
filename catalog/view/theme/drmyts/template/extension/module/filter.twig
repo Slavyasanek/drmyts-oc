@@ -9,25 +9,26 @@
 			</button>
 		</div>
 		<p class="filter__title m-0">{{ heading_title }}</p>
+        {% if reset_url %}
 		<div class="filter__title-col d-flex j-end">
-			<button class="btn filter__reset text--color_red" type="button">Скинути
-			</button>
+			<button class="btn filter__reset text--color_red" type="button" onclick="location = '{{ reset_url }}';">Скинути</button>
 		</div>
+        {% endif %}
 	</div>
 
     <div class="filter__content flex-col"> 
+        {% if active_filters %}
         <div class="active-filters flex-row-wrap filter__active-filter border--end">
-            {% for filter_group in filter_groups %}
-                {% for filter in filter_group.filter %}
-                    {% if filter.filter_id in filter_category %}
-                        <button class="active-filters__item btn flex-center btn--full_black text--size_label" type="button">
-                			<span>{{ filter.name  }}</span>
-                            {{ macros.svg('close', '')}}
-                		</button>
-                    {% endif %}
-                {% endfor %}
+            {% for filter in active_filters %}
+                <button class="active-filters__item btn flex-center btn--full_black text--size_label" 
+                        type="button" 
+                        onclick="location = '{{ filter.remove_href }}';">
+                    <span>{{ filter.name }}</span>
+                    {{ macros.svg('close', '')}}
+                </button>
             {% endfor %}
     	</div>
+        {% endif %}
 
         {% for filter_group in filter_groups %} 
             <div class="accordion filter__item" aria-expanded="true">
@@ -56,20 +57,34 @@
         {% endfor %}
     </div>
 
-    <button type="button" id="button-filter" class="btn btn-primary">{{ button_filter }}</button>
     <div class="filter__footer w-full">
 		<button class="btn btn--theme btn--theme_accent btn--size_M text--upp filter__btn" type="button" id="button-filter">{{ button_filter }}</button>
 	</div>
 </div>
 
-<script type="text/javascript"><!--
-$('#button-filter').on('click', function() {
-	filter = [];
+<script type="text/javascript">
+if (document.querySelector('#button-filter')) {
+    const filterItems = () => {
+        filter = [];
 
-	$('input[name^=\'filter\']:checked').each(function(element) {
-		filter.push(this.value);
-	});
+    	$('input[name^=\'filter\']:checked').each(function(element) {
+    		filter.push(this.value);
+    	});
 
-	location = '{{ action }}&filter=' + filter.join(',');
-});
-//--></script> 
+    	location = '{{ action }}&filter=' + filter.join(',');
+    }
+    document.querySelector('#button-filter').addEventListener("click", e => {
+        filterItems()
+    })
+
+    if (document.querySelector('.filter__item') && document.querySelector('.filter__content')) {
+        document.querySelector('.filter__content').addEventListener("click", e => {
+            if (e.target.closest('input[type="checkbox"]') && window.matchMedia('(min-width: 960px)').matches) {
+                filterItems();
+            }
+        })
+
+    }
+}
+
+</script> 
