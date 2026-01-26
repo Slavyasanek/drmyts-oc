@@ -1,0 +1,266 @@
+{{ header }}
+{{ column_left }}
+
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <button type="button" data-toggle="tooltip" title="{{ button_save_stay }}" data-action="{{ save }}" data-form="form-module_dmenu_editor" id="submit-form-module_dmenu_editor" class="btn btn-primary">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+
+            <h1>{{ heading_title }}</h1>
+
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %} 
+                    <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+                {% endfor %} 
+            </ul>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+            </div>
+
+            <div class="panel-body">
+                <div id="alert-module-dmenu_editor">
+                    {% set class_warning_menu_main = '' %}
+                    {% set class_warning_menu_top = '' %}
+                    {% set class_warning_menu_footer = '' %}
+                    {% set class_warning_menu_social = '' %}
+
+                    {% if success %}
+                        <div class="alert alert-success alert-dismissible">
+                            <div class="dmenu-alert-content">
+                                <i class="fa fa-exclamation-circle"></i>
+                                <span>{{ success }}</span>
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% for store in stores %}
+                        {% if error_items['main']['store_' ~ store.store_id]['empty_fields'] %}
+                            {% set class_warning_menu_main = 'alert_warning' %}
+
+                            <div class="alert alert-warning alert-dismissible">
+                                <div class="dmenu-alert-title">{{ tab_menu_main }} - {{ text_store }} «{{ store.name }}»</div>
+                                <div class="dmenu-alert-content">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <span>{{ error_items['main']['store_' ~ store.store_id]['empty_fields'] }}</span>
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for store in stores %}
+                        {% if error_items['top']['store_' ~ store.store_id]['empty_fields'] %}
+                            {% set class_warning_menu_top = 'alert_warning' %}
+
+                            <div class="alert alert-warning alert-dismissible">
+                                <div class="dmenu-alert-title">{{ tab_menu_top }} - {{ text_store }} «{{ store.name }}»</div>
+                                <div class="dmenu-alert-content">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <span>{{ error_items['top']['store_' ~ store.store_id]['empty_fields'] }}</span>
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for store in stores %}
+                        {% if error_items['footer']['store_' ~ store.store_id]['empty_fields'] %}
+                            {% set class_warning_menu_footer = 'alert_warning' %}
+
+                            <div class="alert alert-warning alert-dismissible">
+                                <div class="dmenu-alert-title">{{ tab_menu_footer }} - {{ text_store }} «{{ store.name }}»</div>
+                                <div class="dmenu-alert-content">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <span>{{ error_items['footer']['store_' ~ store.store_id]['empty_fields'] }}</span>
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for store in stores %}
+                        {% if error_items['social']['store_' ~ store.store_id]['empty_fields'] %}
+                            {% set class_warning_menu_social = 'alert_warning' %}
+
+                            <div class="alert alert-warning alert-dismissible">
+                                <div class="dmenu-alert-title">{{ tab_menu_social }} - {{ text_store }} «{{ store.name }}»</div>
+                                <div class="dmenu-alert-content">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    <span>{{ error_items['social']['store_' ~ store.store_id]['empty_fields'] }}</span>
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module_dmenu_editor" class="form-horizontal">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-menu_general" data-toggle="tab">{{ tab_menu_general }}</a></li>
+                        <li><a href="#tab-catalog" data-toggle="tab">{{ tab_catalog }}</a></li>
+                        <li><a href="#tab-style" data-toggle="tab">{{ tab_style }}</a></li>
+                        <li><a href="#tab-settings" data-toggle="tab">{{ tab_settings }}</a></li>
+
+                        <li class="nav-support">
+                            <a href="#tab-support" data-toggle="tab">{{ tab_support }}</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-menu_general">
+                            <div class="module-dmenu_editor-menu">
+                                {{ menu_sticky }}
+
+                                <div class="module-dmenu_editor-menu_items">
+                                    <div class="form-group">
+                                        <div class="col-sm-12 text-center module-menu_items-title">{{ entry_items_title }}</div>
+                                    </div>
+
+                                    <ul id="nav-tabs-menu" class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-menu_main" class="{{ class_warning_menu_main }}" data-toggle="tab">{{ tab_menu_main }}</a></li>
+                                        <li><a href="#tab-menu_top" class="{{ class_warning_menu_top }}" data-toggle="tab">{{ tab_menu_top }}</a></li>
+                                        <li><a href="#tab-menu_footer" class="{{ class_warning_menu_footer }}" data-toggle="tab">{{ tab_menu_footer }}</a></li>
+                                        <li><a href="#tab-menu_social" class="{{ class_warning_menu_social }}" data-toggle="tab">{{ tab_menu_social }}</a></li>
+                                    </ul>
+
+                                    <div id="tab-content-menu" class="tab-content">
+                                        <div class="tab-pane active" id="tab-menu_main">{{ menu_main }}</div>
+                                        <div class="tab-pane" id="tab-menu_top">{{ menu_top }}</div>
+                                        <div class="tab-pane" id="tab-menu_footer">{{ menu_footer }}</div>
+                                        <div class="tab-pane" id="tab-menu_social">{{ menu_social }}</div>
+                                    </div>
+
+                                    <div class="module-copy">
+                                        <span class="copy-message">&nbsp;</span>
+
+                                        <label class="copy-title" for="module-menu-copy_stores">{{ entry_copy_select }}</label>
+
+                                        <div class="copy-content">
+                                            <select id="module-menu-copy_stores" class="form-control copy-select">
+                                                <option value="">{{ text_select }}</option>
+                                                <option value="all">{{ text_all_stores }}</option>
+
+                                                {% for store in stores %}
+                                                    <option value="{{ store['store_id'] }}">{{ store['name'] }}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                            <button type="button" id="module-menu-copy_btn" class="btn btn-default copy-btn" data-toggle="tooltip" title="{{ button_copy }}">
+                                                <i class="fa fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="form-module_dmenu_editor-notes">
+                                        <div>* <strong>{{ help_name_hide_label }}</strong> - {{ help_name_hide }}</div>
+                                        <div>* <strong>{{ help_xfn_label }}</strong> - {{ help_xfn }}</div>
+                                        <div>* <strong>{{ help_link_label }}</strong> - {{ help_link }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tab-catalog">{{ menu_catalog }}</div>
+                        <div class="tab-pane" id="tab-style">{{ style }}</div>
+                        <div class="tab-pane" id="tab-settings">{{ settings }}</div>
+                        <div class="tab-pane" id="tab-support">{{ help_support }}</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        // Translated Text.
+        const dmenu_translated_text = {
+            // Text.
+            entry_target              : '{{ entry_target }}',
+            text_select_none          : '{{ text_select_none }}',
+            text_target_self          : '{{ text_target_self }}',
+            text_target_blank         : '{{ text_target_blank }}',
+            text_target_parent        : '{{ text_target_parent }}',
+            text_target_top           : '{{ text_target_top }}',
+            text_result_categories    : '{{ text_result_categories }}',
+            text_item_desc_catalog    : '{{ text_item_desc_catalog }}',
+            text_enabled              : '{{ text_enabled }}',
+            text_disabled             : '{{ text_disabled }}',
+            text_yes                  : '{{ text_yes }}',
+            text_no                   : '{{ text_no }}',
+            text_menu_item_missing    : '{{ text_menu_item_missing }}',
+            text_categories_missing   : '{{ text_categories_missing }}',
+            text_item_desc_none       : '{{ text_item_desc_none }}',
+            text_search_missing       : '{{ text_search_missing }}',
+            text_store_not_selected   : '{{ text_store_not_selected }}',
+            text_unable_copy_to_store : '{{ text_unable_copy_to_store }}',
+            text_copying              : '{{ text_copying }}',
+            text_store                : '{{ text_store }}',
+
+            // Entry.
+            entry_status              : '{{ entry_status }}',
+            entry_name                : '{{ entry_name }}',
+            entry_name_hide           : '{{ entry_name_hide }}',
+            entry_url                 : '{{ entry_url }}',
+            entry_xfn                 : '{{ entry_xfn }}',
+            entry_class               : '{{ entry_class }}',
+            entry_icon                : '{{ entry_icon }}',
+            entry_category_menu       : '{{ entry_category_menu }}',
+            entry_category_menu_title : '{{ entry_category_menu_title }}',
+
+            // Button.
+            button_look_tip           : '{{ button_look_tip }}',
+            button_remove_item_tip    : '{{ button_remove_item_tip }}',
+            button_edit_item_tip      : '{{ button_edit_item_tip }}',
+            button_lock_tip           : '{{ button_lock_tip }}',
+            button_unlock_tip         : '{{ button_unlock_tip }}',
+
+            // Notification.
+            note_title_empty          : '{{ note_title_empty }}',
+            note_item_not_empty       : '{{ note_item_not_empty }}',
+            note_are_you_sure         : '{{ note_are_you_sure }}',
+
+            // Success.
+            text_message_success      : '{{ text_message_success }}',
+
+            // Error.
+            error_message             : '{{ error_message }}'
+        }
+
+        // AJAX-actions.
+        const dmenu_actionAjaxItem = '{{ action_ajax_item }}';
+        const dmenu_actionAjaxCategory = '{{ action_ajax_category }}';
+        const dmenu_actionAjaxCatalogChange = '{{ action_ajax_catalog_change }}';
+        const dmenu_actionAjaxSearch = '{{ action_ajax_search }}';
+
+        // Current Language ID.
+        const dmenu_configLanguageID = '{{ config_language_id }}';
+
+        // Languages.
+        const dmenu_languages = JSON.parse('{{ languages | json_encode | raw }}');
+
+        // Stores.
+        const dmenu_stores = JSON.parse('{{ stores | json_encode | raw }}');
+
+        // Search Limit.
+        const dmenu_searchLimit = '{{ search_limit }}';
+
+        // Menu Item placeholder.
+        const dmenu_itemPlaceholder = '{{ item_placeholder }}';
+    </script>
+</div>
+
+{{ footer }}

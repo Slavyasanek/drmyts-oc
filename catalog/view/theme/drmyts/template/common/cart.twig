@@ -38,7 +38,12 @@
                         <div class="cart-item__content"> 
                             <div class="cart-item__details flex-col">
                                 <a class="cart-item__title" href="{{ product.href }}">Comfort Zone</a>
-                                <span class="cart-item__type">{{ product.name }}</span>
+                                <span class="cart-item__type">{{ product.name }}
+                                    {% for option in product.option %}
+                                        <br>
+                                        {{ option.name }}: {{ option.value }}
+                                    {% endfor %}
+                                </span>
                             </div>
                             <div class="cart-item__footer flex-row-wrap j-between">
                             <div class="product-price cart-item__price flex-row">
@@ -80,6 +85,11 @@
                     <button class="btn btn--theme_accent btn--theme text--upp btn--size_M cart-modal__btn text--center text--size_label" type="button" data-modal-close>Продовжити покупки</button>
                 </div>
             {% endif %}
+
+
+            <div class="loader backdrop__loader abs wh-full inset anim">
+                <div class="loader__inner abs pos-center"></div>
+            </div>
         </div>
     </div>
 </div>

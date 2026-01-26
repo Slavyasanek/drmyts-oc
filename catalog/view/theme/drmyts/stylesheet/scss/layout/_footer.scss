@@ -29,8 +29,11 @@
     }
 
     &__menu, &__bottom-menu {
-        gap: .8rem;
-        
+        .dmenu_editor-menu_list {
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+        }
     }
 
     &__menu-wr {
@@ -77,8 +80,10 @@
         }
 
         &__bottom-menu {
-            flex-direction: row;
-            gap: 1.2rem;
+            .dmenu_editor-menu_list {
+                flex-direction: row;
+                gap: 1.2rem;
+            }
         } 
 
         &__copyright {
@@ -109,12 +114,23 @@
 
         &__bottom-menu {
             flex-basis: 50%;
-            justify-content: space-between;
+
+            a {
+                @include mixins.hover {
+                    color: var(--color-red);
+                }
+            }
+
+            .dmenu_editor-menu_list {
+                justify-content: space-between;
+            }
         }
 
-        &__menu-link {
-            @include mixins.hover {
-                color: var(--color-red);
+        &__menu {
+            a {
+                @include mixins.hover {
+                    color: var(--color-red);
+                }
             }
         }
     }

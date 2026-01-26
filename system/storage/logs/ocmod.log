@@ -1,4 +1,4 @@
-2026-01-12 17:42:14 - MOD: Modification Default
+2026-01-26 13:05:53 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -26,4 +26,15 @@ LINE: 18
 FILE: system/library/template/twig.php
 CODE: if (is_file($file)) {
 LINE: 13
+----------------------------------------------------------------
+MOD: D.Menu Editor
+
+FILE: catalog/controller/common/header.php
+CODE: public function index
+LINE: 17
+CODE: $data['language'] = $this->load->controller('common/language');
+LINE: 102
+CODE: $data['currency'] = $this->load->controller('common/currency');
+LINE: 114
+LINE: 115
 ----------------------------------------------------------------

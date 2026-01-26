@@ -1,0 +1,95 @@
+<div class="module-dmenu_editor-catalog">
+    <div class="menu_catalog-content">
+        <div class="module-menu_items menu-catalog" data-menu="catalog">
+            <div class="module_stores">
+                <div>
+                    <ul class="nav nav-tabs">
+                        {% for store in stores %}
+                            <li class="{% if loop.index0 == 0 %}active{% endif %}">
+                                <a href="#tab-menu_catalog_store_{{ store['store_id'] }}" data-toggle="tab">{{ store['name'] }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="module_menu">
+                <div class="tab-content">
+                    {% for store in stores %}
+                        <div class="tab-pane store-tab_pane {% if loop.index0 == 0 %}active{% endif %}" id="tab-menu_catalog_store_{{ store['store_id'] }}" data-store="{{ store['store_id'] }}">
+                            <div id="module_menu_catalog_store_{{ store['store_id'] }}_sortable_wrap" class="module-menu_items_wrap">
+                                {% if catalog['store_' ~ store.store_id] %}
+                                    {{ items_catalog['store_' ~ store.store_id] }}
+                                {% else %}
+                                    <div class="not_repair sortable_filtered">
+                                        <div class="module-menu_items_missing_text">{{ text_categories_missing }}</div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="module-toolbar"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="form-module_dmenu_editor-notes">
+            <div>* <strong>{{ help_name_hide_label }}</strong> - {{ help_name_hide }}</div>
+            <div>* <strong>{{ help_xfn_label }}</strong> - {{ help_xfn }}</div>
+            <div>* <strong>{{ help_status_label }}</strong> - {{ help_status_category }}</div>
+        </div>
+    </div>
+
+    <div id="filter-menu_catalog" class="module-dmenu_editor-filter">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-search"></i> {{ entry_filter }}</h3>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label" for="input-menu_catalog-filter-title">{{ entry_category_name }}</label>
+                    <input type="text" value="{{ filter_title }}" placeholder="{{ text_filter_title }}" list="list-menu_catalog-title" data-oc-target="autocomplete-menu_catalog-title" id="input-menu_catalog-filter-title" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="input-menu_catalog-filter-status">{{ entry_status }}</label>
+                    <select id="input-menu_catalog-filter-status" class="form-control">
+                        <option value="">{{ text_select }}</option>
+
+                        {% if filter_status == '1' %}
+                            <option value="1" selected="selected">{{ text_enabled }}</option>
+                        {% else %}
+                            <option value="1">{{ text_enabled }}</option>
+                        {% endif %}
+
+                        {% if filter_status == '0' %}
+                            <option value="0" selected="selected">{{ text_disabled }}</option>
+                        {% else %}
+                            <option value="0">{{ text_disabled }}</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                <div class="form-group text-right">
+                    <button type="button" id="button-menu_catalog-filter" class="btn btn-info button-menu_catalog-filter" data-meaning="filter">
+                        <i class="fa fa-search"></i>
+                        <span>{{ button_filter }}</span>
+                    </button>
+                    <button type="button" id="button-menu_catalog-filter-reset" class="btn btn-danger button-menu_catalog-filter" data-meaning="reset">
+                        <i class="fa fa-times"></i>
+                        <span>{{ button_filter_reset }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sticky_menu_item_search_help">
+            <div style="color: #f00;">*</div>
+            <div>{{ catalog_search_limit_text }}</div>
+        </div>
+    </div>
+</div>

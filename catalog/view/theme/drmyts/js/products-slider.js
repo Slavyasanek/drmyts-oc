@@ -1,5 +1,5 @@
 // PRODUCT SLIDERS
-if (document.querySelector('.products-slider')) {
+if (document.querySelector('.products-slider') && typeof Splide !== 'undefined') {
     Array.from(document.querySelectorAll('.products-slider .splide')).forEach(sl => {
         new Splide(sl, {
             perPage: 2,

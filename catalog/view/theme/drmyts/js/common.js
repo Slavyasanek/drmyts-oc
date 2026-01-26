@@ -158,30 +158,23 @@ var cart = {
 			type: 'post',
 			data: 'product_id=' + product_id + '&quantity=' + (typeof(quantity) != 'undefined' ? quantity : 1),
 			dataType: 'json',
-			beforeSend: function() {
-				$('#cart > button').button('loading');
-			},
-			complete: function() {
-				$('#cart > button').button('reset');
-			},
+            beforeSend: function() {
+                if (document.querySelector('.backdrop--cart')) document.querySelector('.backdrop--cart').classList.add('loading');
+            },
+            complete: function() {
+                if (document.querySelector('.backdrop--cart')) document.querySelector('.backdrop--cart').classList.remove('loading');  
+            },
 			success: function(json) {
-				$('.alert-dismissible, .text-danger').remove();
+				document.querySelectorAll('.alert-dismissible, .text-danger, .alert--error, .product-page__error').forEach(e => e.remove());
 
 				if (json['redirect']) {
 					location = json['redirect'];
 				}
 
 				if (json['success']) {
-					$('#content').parent().before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+					$('#content').parent().before('<div class="alert alert--success alert--fixed alert-dismissible"><button type="button" class="btn btn--icon alert__close" data-dismiss="alert">&times;</button> ' + json['success'] + '</div>');
 
-					// Need to set timeout otherwise it wont update the total
-					setTimeout(function () {
-						$('#cart > button').html('<span id="cart-total"><i class="fa fa-shopping-cart"></i> ' + json['total'] + '</span>');
-					}, 100);
-
-					$('html, body').animate({ scrollTop: 0 }, 'slow');
-
-					$('#cart > ul').load('index.php?route=common/cart/info ul li');
+					updateCartMarkup();
 				}
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
@@ -196,7 +189,12 @@ var cart = {
         $.ajax({
             url: 'index.php?route=checkout/cart/edit',
             type: 'post',
-            // Передаємо як quantity[ключ]=значення
+            beforeSend: function() {
+                if (document.querySelector('.backdrop--cart')) document.querySelector('.backdrop--cart').classList.add('loading');
+            },
+            complete: function() {
+                if (document.querySelector('.backdrop--cart')) document.querySelector('.backdrop--cart').classList.remove('loading');  
+            },
             data: { quantity: qtyData }, 
             dataType: 'json',
             success: function(json) {
@@ -213,6 +211,12 @@ var cart = {
 			type: 'post',
 			data: 'key=' + key,
 			dataType: 'json',
+            beforeSend: function() {
+                if (document.querySelector('.backdrop--cart')) document.querySelector('.backdrop--cart').classList.add('loading');
+            },
+            complete: function() {
+                if (document.querySelector('.backdrop--cart')) document.querySelector('.backdrop--cart').classList.remove('loading');  
+            },
 			success: function(json) {
                 updateCartMarkup();
 			},
@@ -481,6 +485,70 @@ $(document).delegate('.agree', 'click', function(e) {
 
 const enableScroll = (enable = true) => enable ? document.body.classList.remove('lock') : document.body.classList.add('lock');
 
+/**
+ *
+ *
+ * @class MobileMenu
+ */
+class MobileMenu {
+    /**
+     * Creates an instance of MobileMenu.
+     * @param {string} mobMenuClass
+     * @param {string} activeClass
+     * @param {string} openButtonClass
+     * @param {string} closeButtonClass
+     * @memberof MobileMenu
+     */
+    constructor(mobMenuClass, activeClass, openButtonClass, closeButtonClass) {
+        this.mobMenuClass = mobMenuClass;
+        this.mobMenu = document.querySelector(mobMenuClass);
+        this.activeClass = activeClass;
+        this.openButtonClass = openButtonClass;
+        this.openButton = document.querySelector(openButtonClass);
+        this.closeButton = document.querySelector(closeButtonClass);
+
+        this.init();
+    }
+    
+
+    closeOnBackdropClick = e => {
+        if (e.target === this.mobMenu) this.closeMenu();
+    }
+
+    openMenu = () => {
+        this.mobMenu.classList.add(this.activeClass);
+        enableScroll(false);
+        document.addEventListener("click", this.closeOnBackdropClick);
+    }
+
+    closeMenu = () => {
+        this.mobMenu.classList.remove(this.activeClass);
+        enableScroll(true);
+        document.removeEventListener("click", this.closeOnBackdropClick);
+    }
+
+    init = () => {
+        this.openButton.addEventListener("click", this.openMenu);
+        this.closeButton.addEventListener("click", this.closeMenu);   
+        
+        window.matchMedia('(max-width: 1199px').addEventListener('change', e => {
+            if (!e.matches) return;
+            if (this.openButton) {
+                this.openButton.addEventListener("click", this.toggleMenu);
+            }
+        })
+    
+        window.matchMedia('(min-width: 1200px)').addEventListener('change', (e) => {
+            if (!e.matches) return;
+            if (this.openButton) {
+                this.openButton.removeEventListener("click", this.toggleMenu);
+                // this.openMenu();
+                enableScroll();
+            }
+        })
+    }
+}
+
 // FAQ & ELSE DROPDOWNS
 const toggleDropdowns = (className, headingClassName) => {
     Array.from(document.querySelectorAll(className)).forEach(acc => {
@@ -648,6 +716,7 @@ class QuantityChanger {
 const modalHandler = new Modal();
 
 document.addEventListener("DOMContentLoaded", () => {
+    new MobileMenu('.header-menu', 'is-active', '.header__toggler', '.header-menu__close');
     // PASSWORD INPUTS
     if (document.querySelector('.custom-input--type_password')) {
         document.querySelectorAll('.custom-input--type_password').forEach(passInput => {

@@ -184,7 +184,7 @@ const galleryEls = {
     nextBtn: document.querySelector('.product-gallery__arrow--next')
 }
 
-if (galleryEls.main.querySelectorAll('.splide__slide').length > 1) {
+if (galleryEls.main.querySelectorAll('.splide__slide').length > 1 && typeof Splide !== 'undefined') {
     const mainSlider = new Splide(galleryEls.main, {
         rewind: true,
         pagination: false,

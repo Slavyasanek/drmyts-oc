@@ -1,0 +1,111 @@
+{% if blog_categories %}
+    <div class="form-group sticky-menu_item_wrap sticky-menu_item_blog sticky-menu_item_blog-category">
+        <div class="sticky-menu_item">
+            <div class="text-left sticky-menu_item_title">
+                <span>{{ entry_add_blog_categories }}</span>
+                <i class="fa fa-angle-down"></i>
+            </div>
+
+            <div class="sticky-menu_item_content tab-content">
+                <div class="sticky-menu_item_tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab-general_sticky_blog_categories_last" data-toggle="tab">{{ tab_sticky_last ~ ' ' ~ blog_categories_limit }}</a>
+                        </li>
+
+                        <li>
+                            <a href="#tab-general_sticky_blog_categories_search" data-toggle="tab">{{ tab_sticky_search }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-pane active" id="tab-general_sticky_blog_categories_last">
+                    <div class="sticky_menu_item_last_wrap sticky-clone-sortable">
+                        {% for key_b_category, b_category in blog_categories %}
+                            <div class="sticky-menu_item-item sticky-menu_item-item_{{ key_b_category }}">
+                                <span data-id="{{ b_category['id'] }}" data-url_link="{{ b_category['url']['link'] }}" data-layout="{{ b_category['layout'] }}" 
+                                    {% for language in languages %}
+                                        data-name_{{ language['language_id'] }}="{% if b_category['names']['language_' ~ language.language_id] is defined %}{{ b_category['names']['language_' ~ language.language_id] }}{% endif %}" 
+                                        data-url_seo_{{ language['language_id'] }}="{% if b_category['url']['seo']['language_' ~ language.language_id] is defined %}{{ b_category['url']['seo']['language_' ~ language.language_id] }}{% endif %}" 
+                                    {% endfor %}
+                                >{% if b_category['title'] is not empty %}{{ b_category['title'] }}{% else %}{{ note_title_empty }}{% endif %}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab-general_sticky_blog_categories_search">
+                    <div class="sticky_menu_item_search_form">
+                        <input type="search" id="sticky-blog_categories-search-field" class="form-control sticky_menu_item_search_input" value="">
+                        <button type="button" class="sticky_menu_item_search_button" data-text_loading="{{ button_sticky_load }}" data-layout="blog_category">{{ button_sticky_search }}</button>
+                    </div>
+
+                    <div class="sticky_menu_item_search_help">
+                        <div style="color: #f00;">*</div>
+                        <div>{{ search_limit_text }}</div>
+                    </div>
+
+                    <div class="sticky_menu_item_search_content">
+                        <div class="sticky_menu_item_search_wrap sticky-clone-sortable"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if blog_articles %}
+    <div class="form-group sticky-menu_item_wrap sticky-menu_item_blog sticky-menu_item_blog-article">
+        <div class="sticky-menu_item">
+            <div class="text-left sticky-menu_item_title">
+                <span>{{ entry_add_blog_articles }}</span>
+                <i class="fa fa-angle-down"></i>
+            </div>
+
+            <div class="sticky-menu_item_content tab-content">
+                <div class="sticky-menu_item_tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tab-general_sticky_blog_articles_last" data-toggle="tab">{{ tab_sticky_last ~ ' ' ~ blog_articles_limit }}</a>
+                        </li>
+
+                        <li>
+                            <a href="#tab-general_sticky_blog_articles_search" data-toggle="tab">{{ tab_sticky_search }}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-pane active" id="tab-general_sticky_blog_articles_last">
+                    <div class="sticky_menu_item_last_wrap sticky-clone-sortable">
+                        {% for key_b_article, b_article in blog_articles %}
+                            <div class="sticky-menu_item-item sticky-menu_item-item_{{ key_b_article }}">
+                                <span data-id="{{ b_article['id'] }}" data-url_link="{{ b_article['url']['link'] }}" data-layout="{{ b_article['layout'] }}" 
+                                    {% for language in languages %}
+                                        data-name_{{ language['language_id'] }}="{% if b_article['names']['language_' ~ language.language_id] is defined %}{{ b_article['names']['language_' ~ language.language_id] }}{% endif %}" 
+                                        data-url_seo_{{ language['language_id'] }}="{% if b_article['url']['seo']['language_' ~ language.language_id] is defined %}{{ b_article['url']['seo']['language_' ~ language.language_id] }}{% endif %}" 
+                                    {% endfor %}
+                                >{% if b_article['title'] is not empty %}{{ b_article['title'] }}{% else %}{{ note_title_empty }}{% endif %}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="tab-general_sticky_blog_articles_search">
+                    <div class="sticky_menu_item_search_form">
+                        <input type="search" id="sticky-blog_articles-search-field" class="form-control sticky_menu_item_search_input" value="">
+                        <button type="button" class="sticky_menu_item_search_button" data-text_loading="{{ button_sticky_load }}" data-layout="blog_article">{{ button_sticky_search }}</button>
+                    </div>
+
+                    <div class="sticky_menu_item_search_help">
+                        <div style="color: #f00;">*</div>
+                        <div>{{ search_limit_text }}</div>
+                    </div>
+
+                    <div class="sticky_menu_item_search_content">
+                        <div class="sticky_menu_item_search_wrap sticky-clone-sortable"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

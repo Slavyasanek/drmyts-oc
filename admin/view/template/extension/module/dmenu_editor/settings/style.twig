@@ -1,0 +1,27 @@
+<div class="form-group row mb-3">
+    <label class="col-sm-3 control-label" for="module_dmenu_editor-style_status">{{ entry_status }}</label>
+    <div class="col-sm-9">
+        <select name="module_dmenu_editor_settings[style][status]" id="module_dmenu_editor-style_status" class="form-control">
+            {% if module_settings['style']['status'] %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+            {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+            {% endif %}
+        </select>
+    </div>
+</div>
+
+<div class="form-group row mb-3">
+    <label class="col-sm-3 control-label" for="module_dmenu_editor-style_combine">{{ entry_style_combine }}</label>
+    <div class="col-sm-9">
+        <select name="module_dmenu_editor_settings[style][combine]" id="module_dmenu_editor-style_combine" class="form-control">
+            <option value="all" {% if module_settings['style']['combine'] == 'all' %}selected="selected"{% endif %}>{{ text_style_combine_all }}</option>
+            <option value="file_module" {% if module_settings['style']['combine'] == 'file_module' %}selected="selected"{% endif %}>{{ text_style_combine_fm }}</option>
+            <option value="file_custom" {% if module_settings['style']['combine'] == 'file_custom' %}selected="selected"{% endif %}>{{ text_style_combine_fc }}</option>
+            <option value="module_custom" {% if module_settings['style']['combine'] == 'module_custom' %}selected="selected"{% endif %}>{{ text_style_combine_mc }}</option>
+            <option value="custom" {% if module_settings['style']['combine'] == 'custom' %}selected="selected"{% endif %}>{{ text_style_combine_custom }}</option>
+        </select>
+    </div>
+</div>

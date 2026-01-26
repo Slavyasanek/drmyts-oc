@@ -101,10 +101,17 @@
     						<span class="product-price__full">{{ price }}</span>
     					</div>
     				{% endif %}
+                    
+                    {%  if quantity > 0 %}
     				<div class="product-page__availability flex-row text--upp text--size_label product-page__icon-title">
     					{{ macros.svg('check', '') }}
     					<span>{{ stock }}</span>
     				</div>
+                    {% else %}
+                        <div class="product-page__availability flex-row text--upp text--size_label product-page__icon-title text--color_red"> 
+                            <span>{{ stock }}</span>
+                        </div>
+                    {% endif %}
     			</div>
 
                 {% if options|length != 0 %}
@@ -149,13 +156,19 @@
 
     			<div class="product-page__btns d-grid">
                     <input type="hidden" name="product_id" value="{{ product_id }}" id="product_id_handle" />
+                    {%  if quantity > 0 %}
+        				<button class="btn btn--theme btn--size_M btn--theme_accent text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" id="button-cart">
+        					{{ macros.svg('add-to-cart', '') }}
+        					<span>{{ button_cart }}</span>
+        				</button>
+                    {% else %}
+                        <button class="btn btn--border btn--size_M btn--border_gray text--upp flex-row product-page__icon-title product-page__btn product-page__btn--no-stock j-center" type="button">  
+                            {{ macros.svg('notify', '') }}
+                            <span>{{ button_notify_availability }}</span>
+                        </button>
+                    {% endif %}
 
-    				<button class="btn btn--theme btn--size_M btn--theme_accent text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" id="button-cart">
-    					{{ macros.svg('add-to-cart', '') }}
-    					<span>{{ button_cart }}</span>
-    				</button>
-
-    				<button class="btn btn--theme btn--size_M btn--theme_dark text--upp flex-row product-page__icon-title product-page__btn j-center" type="button">
+    				<button class="btn btn--theme btn--size_M btn--theme_dark text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" {%  if quantity <= 0 %} disabled {% endif %}>
     					{{ macros.svg('fast-buy', '') }}
     					<span>{{ button_fastbuy }}</span>
     				</button>
@@ -240,7 +253,7 @@
     										<input class="custom-input__input" type="text" name="name" placeholder="{{ entry_name }}" value="{{ customer_name }}" id="input-name" required><span class="custom-input__error d-none">{{ error_required_field }}</span>
     									</div>
     									<div class="custom-input review-form__field">
-    										<input class="custom-input__input" type="email" name="email" placeholder="E-mail" required><span class="custom-input__error d-none">{{ error_required_field }}</span>
+    										<input class="custom-input__input" type="email" name="email" placeholder="E-mail" value="{{ customer_email }}" required><span class="custom-input__error d-none">{{ error_required_field }}</span>
     									</div>
     								</div>
                                     {{ captcha }}

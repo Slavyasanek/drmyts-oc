@@ -1,0 +1,41 @@
+<div class="module_style-menu" data-menu="{{ menu_type }}">
+    <div class="style_stores">
+        <div>
+            <ul class="nav nav-tabs">
+                {% for store in stores %}
+                    <li class="{% if loop.index0 == 0 %}active{% endif %}">
+                        <a href="#tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}" data-toggle="tab">{{ store['name'] }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="module_menu">
+        <div class="tab-content">
+            {% for store in stores %}
+                <div class="tab-pane store-tab_pane {% if loop.index0 == 0 %}active{% endif %}" id="tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}" data-store="{{ store['store_id'] }}">
+                    <div class="module_stores">
+                        <div>
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}-device_desktop_ultra" data-toggle="tab">{{ tab_style_desktop_ultra }}</a></li>
+                                <li><a href="#tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}-device_desktop_hd" data-toggle="tab">{{ tab_style_desktop_hd }}</a></li>
+                                <li><a href="#tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}-device_tablet" data-toggle="tab">{{ tab_style_tablet }}</a></li>
+                                <li><a href="#tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}-device_mobile" data-toggle="tab">{{ tab_style_mobile }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="module_menu">
+                        <div class="tab-content">
+                            <div class="tab-pane device-tab_pane desktop_ultra-tab_pane active" id="tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}-device_desktop_ultra" data-device="desktop_ultra">{{ style_desktop_ultra['store_' ~ store.store_id] }}</div>
+                            <div class="tab-pane device-tab_pane desktop_hd-tab_pane" id="tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}-device_desktop_hd" data-device="desktop_hd">{{ style_desktop_hd['store_' ~ store.store_id] }}</div>
+                            <div class="tab-pane device-tab_pane tablet-tab_pane" id="tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}-device_tablet" data-device="tablet">{{ style_tablet['store_' ~ store.store_id] }}</div>
+                            <div class="tab-pane device-tab_pane mobile-tab_pane" id="tab-menu_{{ menu_type }}-store_{{ store['store_id'] }}-device_mobile" data-device="mobile">{{ style_mobile['store_' ~ store.store_id] }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,248 @@
+<div class="panel-group" id="accordion-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}" role="tablist" aria-multiselectable="false" style="margin-bottom: 0;">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-font">
+            <h2 class="panel-title">
+                <a href="#collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-font" role="button" class="accordion-plus-toggle collapsed" data-toggle="collapse" data-parent="#accordion-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}" aria-expanded="false" aria-controls="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-font" style="display: block;">{{ entry_styles_menu_font }}</a>
+            </h2>
+        </div>
+        <div id="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-font" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-font">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_family_main">{{ entry_styles_family }}</label>
+                    <div class="col-sm-9">
+                        <div class="mb-1 input-group">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                            <input type="text" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][font][family][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_family_main" class="form-control" placeholder="Open Sans" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['family']['main'] }}" />
+                            <span class="input-group-addon d-none">, sans-serif</span>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                            <input type="text" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][font][family][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_family_sub" class="form-control" placeholder="Open Sans" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['family']['sub'] }}" />
+                            <span class="input-group-addon d-none">, sans-serif</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_style_main">{{ entry_styles_style }}</label>
+                    <div class="col-sm-9">
+                        <div class="mb-1 input-group pull-left">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                            <select name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][font][style][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_style_main" class="form-control">
+                                <option value="normal" {% if menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['style']['main'] == 'normal' %} selected{% endif %}>Normal</option>
+                                <option value="italic" {% if menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['style']['main'] == 'italic' %} selected{% endif %}>Italic</option>
+                                <option value="oblique" {% if menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['style']['main'] == 'oblique' %} selected{% endif %}>Oblique</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group pull-left">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                            <select name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][font][style][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_style_sub" class="form-control">
+                                <option value="normal" {% if menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['style']['sub'] == 'normal' %} selected{% endif %}>Normal</option>
+                                <option value="italic" {% if menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['style']['sub'] == 'italic' %} selected{% endif %}>Italic</option>
+                                <option value="oblique" {% if menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['style']['sub'] == 'oblique' %} selected{% endif %}>Oblique</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_size_main">{{ entry_styles_size }}</label>
+                    <div class="col-sm-9">
+                        <div class="mb-1 input-group">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][font][size][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_size_main" class="form-control" step="1" min="1" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['size']['main'] }}" />
+                            <span class="input-group-addon d-none">px</span>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][font][size][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-font_size_sub" class="form-control" step="1" min="1" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['font']['size']['sub'] }}" />
+                            <span class="input-group-addon d-none">px</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-bg">
+            <h2 class="panel-title">
+                <a href="#collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-bg" role="button" class="accordion-plus-toggle collapsed" data-toggle="collapse" data-parent="#accordion-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}" aria-expanded="false" aria-controls="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-bg" style="display: block;">{{ entry_styles_menu_bg }}</a>
+            </h2>
+        </div>
+        <div id="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-bg" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-bg">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-bg_color_main">{{ entry_styles_color }}</label>
+                    <div class="col-sm-9">
+                        <div class="mb-1 input-group pull-left">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                            <input type="color" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][bg][color][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-bg_color_main" class="form-control form-control-color" value="{% if menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['color']['main'] is defined %}{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['color']['main'] }}{% else %}#229ac8{% endif %}">
+                        </div>
+
+                        <div class="input-group pull-left">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                            <input type="color" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][bg][color][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-bg_color_sub" class="form-control form-control-color" value="{% if menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['color']['sub'] is defined %}{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['color']['sub'] }}{% else %}#ffffff{% endif %}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-bg_image_main-image">{{ entry_styles_image }}</label>
+                    <div class="col-sm-9">
+                        <div class="mb-1 input-group pull-left">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                            <div>
+                                <a href="" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-bg_image_main-thumb" data-toggle="image" class="img-thumbnail module_dmenu_editor-placeholder-dimage">
+                                    <img src="{% if menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['thumb']['main'] is defined %}{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['thumb']['main'] }}{% else %}{{ item_placeholder }}{% endif %}" alt="{{ entry_icon }}" title="{{ entry_icon }}" data-placeholder="{{ item_placeholder }}">
+                                </a>
+                                <input type="hidden" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][bg][image][main]" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['image']['main'] }}" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-bg_image_main-image" class="hidden" />
+                            </div>
+                        </div>
+
+                        <div class="input-group pull-left">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                            <div>
+                                <a href="" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-bg_image_sub-thumb" data-toggle="image" class="img-thumbnail module_dmenu_editor-placeholder-dimage">
+                                    <img src="{% if menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['thumb']['sub'] is defined %}{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['thumb']['sub'] }}{% else %}{{ item_placeholder }}{% endif %}" alt="{{ entry_icon }}" title="{{ entry_icon }}" data-placeholder="{{ item_placeholder }}">
+                                </a>
+                                <input type="hidden" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][bg][image][sub]" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['bg']['image']['sub'] }}" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-bg_image_sub-image" class="hidden" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item">
+            <h2 class="panel-title">
+                <a href="#collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item" role="button" class="accordion-plus-toggle collapsed" data-toggle="collapse" data-parent="#accordion-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}" aria-expanded="false" aria-controls="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item" style="display: block;">{{ entry_styles_menu_items }}</a>
+            </h2>
+        </div>
+        <div id="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_top_main">{{ entry_styles_margin }}</label>
+                    <div class="col-sm-9">
+                        <div class="mb-1 input-group">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][margin][top][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_top_main" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_top }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['margin']['top']['main'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][margin][right][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_right_main" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_right }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['margin']['right']['main'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][margin][bottom][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_bottom_main" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_bottom }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['margin']['bottom']['main'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][margin][left][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_left_main" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_left }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['margin']['left']['main'] }}" />
+                            <span class="input-group-addon d-none">px</span>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][margin][top][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_top_sub" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_top }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['margin']['top']['sub'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][margin][right][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_right_sub" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_right }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['margin']['right']['sub'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][margin][bottom][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_bottom_sub" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_bottom }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['margin']['bottom']['sub'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][margin][left][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_margin_left_sub" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_left }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['margin']['left']['sub'] }}" />
+                            <span class="input-group-addon d-none">px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_top_main">{{ entry_styles_padding }}</label>
+                    <div class="col-sm-9">
+                        <div class="mb-1 input-group">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][padding][top][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_top_main" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_top }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['padding']['top']['main'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][padding][right][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_right_main" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_right }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['padding']['right']['main'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][padding][bottom][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_bottom_main" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_bottom }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['padding']['bottom']['main'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][padding][left][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_left_main" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_left }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['padding']['left']['main'] }}" />
+                            <span class="input-group-addon d-none">px</span>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][padding][top][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_top_sub" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_top }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['padding']['top']['sub'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][padding][right][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_right_sub" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_right }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['padding']['right']['sub'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][padding][bottom][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_bottom_sub" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_bottom }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['padding']['bottom']['sub'] }}" />
+                            <input type="number" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][padding][left][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_padding_left_sub" class="form-control" step="1" min="0" data-toggle="tooltip" title="{{ help_indent_left }}" placeholder="0" value="{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['padding']['left']['sub'] }}" />
+                            <span class="input-group-addon d-none">px</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font_color_default_main">{{ entry_styles_color }}</label>
+                    <div class="col-sm-9">
+                        <div class="panel-group" id="accordion-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font" role="tablist" aria-multiselectable="false">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item-item_font">
+                                    <h2 class="panel-title">
+                                        <a href="#collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item-item_font" role="button" class="accordion-plus-toggle collapsed" data-toggle="collapse" data-parent="#accordion-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font" aria-expanded="false" aria-controls="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item-item_font" style="display: block;">{{ entry_styles_state }}</a>
+                                    </h2>
+                                </div>
+                                <div id="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item-item_font" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-item-item_font">
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label col-form-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font_color_default_main">{{ entry_styles_state_default }}</label>
+                                            <div class="col-sm-9">
+                                                <div class="mb-1 input-group pull-left">
+                                                    <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                                                    <input type="color" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][font][color][default][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font_color_default_main" class="form-control form-control-color" value="{% if menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['font']['color']['default']['main'] is defined %}{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['font']['color']['default']['main'] }}{% else %}#ffffff{% endif %}" />
+                                                </div>
+
+                                                <div class="input-group pull-left">
+                                                    <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                                                    <input type="color" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][font][color][default][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font_color_default_sub" class="form-control form-control-color" value="{% if menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['font']['color']['default']['sub'] is defined %}{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['font']['color']['default']['sub'] }}{% else %}#333333{% endif %}" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label col-form-label" for="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font_color_hover_main">{{ entry_styles_state_hover }}</label>
+                                            <div class="col-sm-9">
+                                                <div class="mb-1 input-group pull-left">
+                                                    <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_main }}</span>
+                                                    <input type="color" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][font][color][hover][main]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font_color_hover_main" class="form-control form-control-color" value="{% if menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['font']['color']['hover']['main'] is defined %}{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['font']['color']['hover']['main'] }}{% else %}#ffffff{% endif %}" />
+                                                </div>
+
+                                                <div class="input-group pull-left">
+                                                    <span class="input-group-addon dgroup-text-1">{{ entry_styles_menu_sub }}</span>
+                                                    <input type="color" name="module_dmenu_editor_styles_{{ menu_type }}_{{ store_id }}[{{ device_type }}][item][font][color][hover][sub]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-item_font_color_hover_sub" class="form-control form-control-color" value="{% if menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['font']['color']['hover']['sub'] is defined %}{{ menu_styles[menu_type]['store_' ~ store_id][device_type]['item']['font']['color']['hover']['sub'] }}{% else %}#ffffff{% endif %}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-custom">
+            <h2 class="panel-title">
+                <a href="#collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-custom" role="button" class="accordion-plus-toggle collapsed" data-toggle="collapse" data-parent="#accordion-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}" aria-expanded="false" aria-controls="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-custom" style="display: block;">{{ entry_styles_custom }}</a>
+            </h2>
+        </div>
+        <div id="collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-custom" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-collapse-style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-group-custom">
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <textarea name="module_dmenu_editor_style_{{ menu_type }}_{{ store_id }}[{{ device_type }}]" id="style-menu_{{ menu_type }}-store_{{ store_id }}-{{ device_type }}-item-custom_style" class="form-control" wrap="soft" style="resize: vertical;" rows="30" placeholder="#id { property: value; }">{{ menu_style[menu_type]['store_' ~ store_id][device_type] }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="module-toolbar">
+    <span class="item_toolbar item_toolbar-checkbox_default">
+        <input type="checkbox" name="module_dmenu_editor_settings[general][style][store_default][{{ menu_type }}][{{ device_type }}]" data-toggle="tooltip" title="{{ help_styles_all_stores }}" value="{{ store_id }}" class="form-check-input field-checkbox_default"{% if module_settings['general']['style']['store_default'][menu_type][device_type] is defined and module_settings['general']['style']['store_default'][menu_type][device_type] == store_id %} checked{% endif %} data-meaning="style" />
+    </span>
+</div>

@@ -63,7 +63,9 @@
 <header class="header flex-col">
     <div class="header__main-content rel border--end">
         <div class="container header__container flex-row">
-            <button class="header__toggler btn flex-center icon hamburger" type="button" aria-label="Open Mobile menu"><span class="d-block w-full rel"></span></button>
+            <button class="header__toggler btn flex-center icon hamburger" type="button" aria-label="Open Mobile menu">
+                <span class="d-block w-full rel"></span>
+            </button>
             <div class="header-menu fixed w-full h-full header__menu">
                 <nav class="header-menu__inner h-full">
                     <div class="header-menu__topbar flex-row j-between">
@@ -83,62 +85,17 @@
                             {% endif %}
                         {% endif %}
                         <button class="btn header-menu__close rel icon">
-                            {{ macros.svg('сlose', '') }}
+                            {{ macros.svg('close', '') }}
                         </button>
                     </div>
-                    <ul class="header-menu__main flex-col">
-                        <li class="header-menu__item-general">
-                            <a class="header-menu__arrow-link flex-row j-between" href="#">
-                                Бренди
-                                {{ macros.svg('arrow-right', '') }}
-                            </a>
-                        </li>
-                        <li class="header-menu__item-general">
-                            <a class="header-menu__arrow-link flex-row j-between" href="#">
-                                Акції та знижки
-                                {{ macros.svg('arrow-right', '') }}
-                            </a>
-                        </li>
-                        <li class="header-menu__item-general">
-                            <a class="header-menu__arrow-link flex-row j-between" href="#">
-                                Улюблене Вероніки
-                                {{ macros.svg('arrow-right', '') }}
-                            </a>
-                        </li>
-                        <li class="header-menu__item-general">
-                            <a class="header-menu__arrow-link flex-row j-between" href="#">
-                                Обличчя
-                                {{ macros.svg('arrow-right', '') }}
-                            </a>
-                        </li>
-                        <li class="header-menu__item-general">
-                            <a class="header-menu__arrow-link flex-row j-between" href="#">
-                                Тіло
-                                {{ macros.svg('arrow-right', '') }}
-                            </a>
-                        </li>
-                        <li class="header-menu__item-general">
-                            <a class="header-menu__arrow-link flex-row j-between" href="#">
-                                Волосся
-                                {{ macros.svg('arrow-right', '') }}
-                            </a>
-                        </li>
-                        <li class="header-menu__item-general">
-                            <a class="header-menu__arrow-link flex-row j-between" href="#">
-                                Набори і подарунки
-                                {{ macros.svg('arrow-right', '') }}
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="header-menu__secondary flex-col">
-                        <li class="header-menu__item"><a class="header-menu__link" href="index.php?route=information/about_shop">Про магазин</a></li>
-                        <li class="header-menu__item"><a class="header-menu__link" href="#">Консультація</a></li>
-                        <li class="header-menu__item"><a class="header-menu__link" href="index.php?route=information/delivery_pay">Доставка та оплата</a></li>
-                        <li class="header-menu__item"><a class="header-menu__link" href="#">Контакти</a></li>
-                    </ul>
-                    <ul class="header-menu__secondary flex-col">
-                        <li class="header-menu__item"><a class="header-menu__link" href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                        <li class="header-menu__item"><a class="header-menu__link" href="#" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+                    <div class="header-menu__main text--upp">
+                        {{ menu }}
+                    </div>
+                    <div class="header-menu__secondary">
+                        <div id="top"></div>
+                    </div>
+                    <ul class="header-menu__secondary">
+                        <div id="dmenu_editor-social"></div>
                     </ul>
                     <div class="header-menu__footer">
                         <ul class="header-menu__footer-list flex-col">
@@ -151,7 +108,7 @@
                     </div>
                 </nav>
             </div>
-            <a class="header__icon-link icon icon--profile" href="{{ account}}" title="{{ text_account }}">
+            <a class="header__icon-link icon icon--profile" href="{{ account }}" title="{{ text_account }}">
                 {{ macros.svg('user', '') }}
             </a>
             {% if logo %}
@@ -182,12 +139,9 @@
     <div class="header__bottom">
         <div class="container header__bottom-container">
             <p class="header__slogan d-none m-0 text--color_gray">100 % оригінальна продукція!</p>
-            <ul class="header__menu d-none">
-                <li class="header__bottom-item"><a class="header__bottom-link" href="index.php?route=information/about_shop">Про магазин</a></li>
-                <li class="header__bottom-item"><a class="header__bottom-link" href="index.php?route=information/consult">Консультація</a></li>
-                <li class="header__bottom-item"><a class="header__bottom-link" href="index.php?route=information/delivery_pay">Доставка та оплата</a></li>
-                <li class="header__bottom-item"><a class="header__bottom-link" href="#">Контакти</a></li>
-            </ul>
+            <div class="header__menu d-none">
+                <div id="top"></div>
+            </div>
             <form class="search-form header__search rel" action="#">
                 <div class="search-form__header flex-row">
                     <button class="btn flex-center search-form__close d-none search-form__back" type="button">
@@ -360,15 +314,9 @@
                     </div>
                 </div>
             </form>
-            <div class="header__mob-menu border--end">
-                <ul class="header__mob-list text--upp flex-row">
-                    <li class="header__bottom-item"><a class="header__bottom-link active" href="#">Бренди</a></li>
-                    <li class="header__bottom-item"><a class="header__bottom-link" href="#">Акції та знижки</a></li>
-                    <li class="header__bottom-item"><a class="header__bottom-link" href="#">Улюблене Вероніки</a></li>
-                    <li class="header__bottom-item"><a class="header__bottom-link" href="#">Бренди</a></li>
-                </ul>
+            <div class="header__mob-menu border--end text--upp">
+                {{ menu }}
             </div>
         </div>
     </div>
 </header>
-{{ menu }}

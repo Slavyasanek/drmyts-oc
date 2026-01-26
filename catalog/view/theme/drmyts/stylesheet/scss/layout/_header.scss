@@ -32,27 +32,27 @@
             padding: 0;
             margin: 0;
         }
-    }
 
-    &__mob-list {
-        width: fit-content;
-        gap: 1.6rem;
-        white-space: nowrap;
+        .dmenu_editor-menu_list {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            gap: 1.6rem;
+            white-space: nowrap;
 
-        a {
-            padding-block: 1rem .9rem;
-            display: block;
-            position: relative;
-            border-block-end: .1rem solid transparent;
-
-            &.active {
-                border-color: var(--color-red);
-            }
-
-            @include mixins.hover {
-                border-color: var(--color-red);
+            li {
+                padding-block: 1rem .9rem;
+                position: relative;
+                border-block-end: .1rem solid transparent;
+                &.current {
+                    border-color: var(--color-red);
+                }
             }
         }
+    }
+
+    #cart {
+        height: 2.4rem;
     }
 }
 // End inner
@@ -69,7 +69,7 @@
             display: none;
         }
 
-        &__bottom{
+        &__bottom {
             padding: 1.2rem 0 1.1rem;
             border-block-end: .1rem solid var(--color-divider);
         }
@@ -99,11 +99,12 @@
         &__container {
             gap: 2rem;
         }
-
         
-        &__bottom-link {
-            @include mixins.hover {
-                color: var(--color-red);
+        &__menu {
+            a {
+                @include mixins.hover {
+                    color: var(--color-red);
+                }
             }
         }
 
@@ -133,9 +134,13 @@
 
         &__menu {
             flex-basis: 56%;
-            display: flex;
-            justify-content: center;
-            gap: 2.4rem;
+            display: block;
+
+            .dmenu_editor-menu_list-general {
+                display: flex;
+                justify-content: center;
+                gap: 2.4rem;
+            }
         }
 
         &__menu {

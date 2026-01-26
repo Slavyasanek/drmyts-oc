@@ -1,5 +1,5 @@
 // INSTAGRAM SLIDERS
-if (document.querySelector('.follow')) {
+if (document.querySelector('.follow') && typeof Splide !== 'undefined') {
     Array.from(document.querySelectorAll('.follow .splide')).forEach(sl => {
         new Splide(sl, {
             perPage: 4,

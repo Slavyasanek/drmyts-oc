@@ -12,46 +12,35 @@
         <div class="footer__nav flex-row-wrap">
             <div class="footer__menu-wr">
                 <h3 class="footer__menu-title">{{ text_catalogue }}</h3>
-                <ul class="footer__menu flex-col">
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Бренди</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Акції та знижки</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Улюблене Вероніки</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Обличчя</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Тіло</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Волосся</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Набори і подарунки</a></li>
-                </ul>
+                <div class="footer__menu">
+                    {{ menu }}
+                </div>
             </div>
+
             <div class="footer__menu-wr">
                 <h3 class="footer__menu-title">{{ text_information }}</h3>
-                <ul class="footer__menu flex-col">
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Про магазин</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Консультація</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Доставка та оплата</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#">Контакти</a></li>
-                </ul>
+                <div class="footer__menu">
+                    <div id="top"></div>
+                </div>
             </div>
             <div class="footer__menu-wr">
                 <h3 class="footer__menu-title">{{ text_service }}</h3>
-                <ul class="footer__menu flex-col">
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#" target="_blank" rel="noopener noreferrer">Telegram</a></li>
-                    <li class="footer__menu-item"><a class="footer__menu-link" href="#" target="_blank" rel="noopener noreferrer">Телефон</a></li>
+                <ul class="footer__menu">
+                    <div id="dmenu_editor-social"></div>
                 </ul>
             </div>
         </div>
     </div>
     <div class="footer__copyright">
         <div class="container footer__copyright-container">
-            <ul class="footer__bottom-menu flex-col">
-                <li class="footer__menu-item"><a class="footer__menu-link" href="#">Політика конфіденційності</a></li>
-                <li class="footer__menu-item"><a class="footer__menu-link" href="#">Договір оферти</a></li>
-            </ul>
-            {# <p class="footer__copy">&#169;2025 dr.Myts Shop. All rights reserved.</p> #}
+            <div class="footer__bottom-menu">
+                <div id="dmenu_editor-footer"></div>
+            </div>
             <p class="footer__copy">{{ powered }}</p>
         </div>
     </div>
 </footer>
+
 {% for style in styles %}
 <link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
 {% endfor %}

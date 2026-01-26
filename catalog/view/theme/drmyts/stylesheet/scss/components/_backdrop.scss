@@ -8,6 +8,16 @@
         @include mixins.el-hide;
         pointer-events: none;
     }
+
+    &:not(.loading) {
+        .backdrop {
+            &__loader {
+                @include mixins.el-hide;
+            }
+        }
+    }
+
+
 }
 // End inner
 

@@ -1,0 +1,29 @@
+<div class="form-group row mb-3">
+    <label class="col-sm-3 control-label col-form-label" for="module_dmenu_editor-catalog_status">{{ entry_status }}</label>
+    <div class="col-sm-9">
+        <select name="module_dmenu_editor_settings[catalog][status]" id="module_dmenu_editor-catalog_status" class="form-control">
+            {% if module_settings['catalog']['status'] %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+            {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+            {% endif %}
+        </select>
+    </div>
+</div>
+
+<div class="form-group row mb-3 row-change_catalog">
+    <label class="col-sm-3 control-label col-form-label">{{ entry_catalog_data }}</label>
+    <div class="col-sm-9">
+        <button type="button" id="button-menu_catalog-refresh" class="btn btn-warning rounded-0" data-meaning="refresh" data-toggle="tooltip" title="{{ help_refresh_catalog }}">
+            <i class="fa fa-refresh"></i>
+            <span>{{ button_refresh_catalog }}</span>
+        </button>
+        <button type="button" id="button-menu_catalog-clear" class="btn btn-danger rounded-0" data-meaning="clear" data-toggle="tooltip" title="{{ help_clear_catalog }}">
+            <i class="fa fa-trash-o"></i>
+            <span>{{ button_clear_catalog }}</span>
+        </button>
+        <span class="message"></span>
+    </div>
+</div>
