@@ -84,8 +84,12 @@
                     color: var(--color-red);
                 }
 
-                svg {
-                    stroke: var(--color-red);
+                .accordion {
+                    &__icon {
+                        svg {
+                            stroke: var(--color-red);
+                        }
+                    }
                 }
             }
         }

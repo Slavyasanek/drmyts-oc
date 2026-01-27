@@ -1304,7 +1304,7 @@ p {
   .accordion__heading:hover p, .accordion__heading:focus p {
     color: var(--color-red);
   }
-  .accordion__heading:hover svg, .accordion__heading:focus svg {
+  .accordion__heading:hover .accordion__icon svg, .accordion__heading:focus .accordion__icon svg {
     stroke: var(--color-red);
   }
 }

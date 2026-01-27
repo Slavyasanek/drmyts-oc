@@ -236,13 +236,9 @@ class ControllerProductProduct extends Controller {
 			$this->document->setDescription($product_info['meta_description']);
 			$this->document->setKeywords($product_info['meta_keyword']);
 			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
-			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
-			$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
-			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment.min.js');
-			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment/moment-with-locales.min.js');
-			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
-			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
-
+			
+            $this->document->addScript('catalog/view/theme/drmyts/js/product-page.js', 'footer');
+            
 			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
 			$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', '', true), $this->url->link('account/register', '', true));
 
@@ -257,6 +253,9 @@ class ControllerProductProduct extends Controller {
 			$data['reward'] = $product_info['reward'];
 			$data['points'] = $product_info['points'];
 			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
+
+            $data['quantity'] = $product_info['quantity'];
+            
 
 			if ($product_info['quantity'] <= 0) {
 				$data['stock'] = $product_info['stock_status'];
@@ -357,6 +356,13 @@ class ControllerProductProduct extends Controller {
 				);
 			}
 
+
+            if ($product_info['quantity']) {
+                $data['maximum'] = $product_info['quantity'];
+            } else {
+                $data['maximum'] = 1;
+            }
+            
 			if ($product_info['minimum']) {
 				$data['minimum'] = $product_info['minimum'];
 			} else {
@@ -376,6 +382,13 @@ class ControllerProductProduct extends Controller {
 			} else {
 				$data['customer_name'] = '';
 			}
+
+            if ($this->customer->isLogged()) {
+                $data['customer_email'] = $this->customer->getEmail();
+            } else {
+                $data['customer_email'] = '';
+            }
+            
 
 			$data['reviews'] = sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']);
 			$data['rating'] = (int)$product_info['rating'];
@@ -541,6 +554,9 @@ class ControllerProductProduct extends Controller {
 	}
 
 	public function review() {
+
+        $this->load->model('tool/image'); 
+            
 		$this->load->language('product/product');
 
 		$this->load->model('catalog/review');
@@ -558,10 +574,23 @@ class ControllerProductProduct extends Controller {
 		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
 
 		foreach ($results as $result) {
+
+            $review_images = array();
+            $images = $this->model_catalog_review->getReviewImages($result['review_id']);
+            foreach ($images as $img) {
+                $review_images[] = array(
+                    'thumb' => $this->model_tool_image->resize($img['image'], 100, 100),
+                    'popup' => $this->model_tool_image->resize($img['image'], 800, 800)
+                );
+            }
+            
 			$data['reviews'][] = array(
 				'author'     => $result['author'],
 				'text'       => nl2br($result['text']),
 				'rating'     => (int)$result['rating'],
+
+                'images'     => $review_images,
+            
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}
@@ -595,6 +624,45 @@ class ControllerProductProduct extends Controller {
 
 			if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
 				$json['error'] = $this->language->get('error_rating');
+
+            if ((utf8_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
+                $json['error'] = $this->language->get('error_email');
+            }
+
+            $this->request->post['images'] = array();
+
+            if (!empty($this->request->files['review_photos']['name'][0])) {
+                $files = $this->request->files['review_photos'];
+                $directory = DIR_IMAGE . 'catalog/reviews/';
+
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                foreach ($files['name'] as $key => $name) {
+                    if ($files['error'][$key] == 0) {
+                        $filename = html_entity_decode($name, ENT_QUOTES, 'UTF-8');
+                        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                        $allowed = array('jpg', 'jpeg', 'png', 'webp');
+
+                        if (!in_array($extension, $allowed)) {
+                            $json['error'] = $this->language->get('error_filetype');
+                            break;
+                        }
+
+                        if ($files['size'][$key] > 2000000) { // 2MB
+                            $json['error'] = $this->language->get('error_max_file');
+                            break;
+                        }
+
+                        $new_filename = md5(time() . $filename) . '.' . $extension;
+                        move_uploaded_file($files['tmp_name'][$key], $directory . $new_filename);
+                        
+                        $this->request->post['images'][] = 'catalog/reviews/' . $new_filename;
+                    }
+                }
+            }
+            
 			}
 
 			// Captcha
