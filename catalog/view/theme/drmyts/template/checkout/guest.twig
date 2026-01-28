@@ -1,334 +1,102 @@
-<div class="row">
-  <div class="col-sm-6">
-    <fieldset id="account">
-      <legend>{{ text_your_details }}</legend>
-      <div class="form-group" style="display: {% if customer_groups|length > 1 %} block {% else %} none {% endif %};">
-        <label class="control-label">{{ entry_customer_group }}</label>
-        {% for customer_group in customer_groups %}
-        {% if customer_group.customer_group_id == customer_group_id %}
-        <div class="radio">
-          <label>
-            <input type="radio" name="customer_group_id" value="{{ customer_group.customer_group_id }}" checked="checked" />
-            {{ customer_group.name }}</label>
-        </div>
-        {% else %}
-        <div class="radio">
-          <label>
-            <input type="radio" name="customer_group_id" value="{{ customer_group.customer_group_id }}" />
-            {{ customer_group.name }}</label>
-        </div>
-        {% endif %}
-        {% endfor %}</div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-firstname">{{ entry_firstname }}</label>
-        <input type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-payment-firstname" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-lastname">{{ entry_lastname }}</label>
-        <input type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-payment-lastname" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-email">{{ entry_email }}</label>
-        <input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-payment-email" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-telephone">{{ entry_telephone }}</label>
-        <input type="text" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-payment-telephone" class="form-control" />
-      </div>
-      {% for custom_field in custom_fields %}
-      {% if custom_field.location == 'account' %}
-      {% if custom_field.type == 'select' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <select name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control">
-          <option value="">{{ text_select }}</option>
-          
-          
-          {% for custom_field_value in custom_field.custom_field_value %}
-          {% if guest_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == guest_custom_field[custom_field.custom_field_id] %}
-          <option value="{{ custom_field_value.custom_field_value_id }}" selected="selected">{{ custom_field_value.name }}</option>
-          
-          
-          {% else %}
-          
-          
-          <option value="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</option>
-          
-          
-          {% endif %}
-          {% endfor %}
-        
-        
-        </select>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'radio' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label">{{ custom_field.name }}</label>
-        <div id="input-payment-custom-field{{ custom_field.custom_field_id }}"> {% for custom_field_value in custom_field.custom_field_value %}
-          <div class="radio"> {% if guest_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == guest_custom_field[custom_field.custom_field_id] %}
-            <label>
-              <input type="radio" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" checked="checked" />
-              {{ custom_field_value.name }}</label>
-            {% else %}
-            <label>
-              <input type="radio" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" />
-              {{ custom_field_value.name }}</label>
-            {% endif %} </div>
-          {% endfor %} </div>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'checkbox' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label">{{ custom_field.name }}</label>
-        <div id="input-payment-custom-field{{ custom_field.custom_field_id }}"> {% for custom_field_value in custom_field.custom_field_value %}
-          <div class="checkbox"> {% if guest_custom_field[custom_field.custom_field_id] and  custom_field_value.custom_field_value_id in guest_custom_field[custom_field.custom_field_id] %}
-            <label>
-              <input type="checkbox" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}][]" value="{{ custom_field_value.custom_field_value_id }}" checked="checked" />
-              {{ custom_field_value.name }}</label>
-            {% else %}
-            <label>
-              <input type="checkbox" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}][]" value="{{ custom_field_value.custom_field_value_id }}" />
-              {{ custom_field_value.name }}</label>
-            {% endif %} </div>
-          {% endfor %} </div>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'text' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'textarea' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <textarea name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" rows="5" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control">{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}</textarea>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'file' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label">{{ custom_field.name }}</label>
-        <br />
-        <button type="button" id="button-payment-custom-field{{ custom_field.custom_field_id }}" data-loading-text="{{ text_loading }}" class="btn btn-default"><i class="fa fa-upload"></i> {{ button_upload }}</button>
-        <input type="hidden" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% endif %}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" />
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'date' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <div class="input-group date">
-          <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}" placeholder="{{ custom_field.name }}" data-date-format="YYYY-MM-DD" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
-          <span class="input-group-btn">
-          <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-          </span></div>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'time' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <div class="input-group time">
-          <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}" placeholder="{{ custom_field.name }}" data-date-format="HH:mm" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
-          <span class="input-group-btn">
-          <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-          </span></div>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'datetime' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <div class="input-group datetime">
-          <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}" placeholder="{{ custom_field.name }}" data-date-format="YYYY-MM-DD HH:mm" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
-          <span class="input-group-btn">
-          <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-          </span></div>
-      </div>
-      {% endif %}
-      {% endif %}
-      {% endfor %}
-    </fieldset>
-  </div>
-  <div class="col-sm-6">
-    <fieldset id="address">
-      <legend>{{ text_your_address }}</legend>
-      <div class="form-group">
-        <label class="control-label" for="input-payment-company">{{ entry_company }}</label>
-        <input type="text" name="company" value="{{ company }}" placeholder="{{ entry_company }}" id="input-payment-company" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-address-1">{{ entry_address_1 }}</label>
-        <input type="text" name="address_1" value="{{ address_1 }}" placeholder="{{ entry_address_1 }}" id="input-payment-address-1" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="input-payment-address-2">{{ entry_address_2 }}</label>
-        <input type="text" name="address_2" value="{{ address_2 }}" placeholder="{{ entry_address_2 }}" id="input-payment-address-2" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-city">{{ entry_city }}</label>
-        <input type="text" name="city" value="{{ city }}" placeholder="{{ entry_city }}" id="input-payment-city" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-postcode">{{ entry_postcode }}</label>
-        <input type="text" name="postcode" value="{{ postcode }}" placeholder="{{ entry_postcode }}" id="input-payment-postcode" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-country">{{ entry_country }}</label>
-        <select name="country_id" id="input-payment-country" class="form-control">
-          <option value="">{{ text_select }}</option>
-          
-          
-         {% for country in countries %}
-          {% if country.country_id == country_id %}
-          
-          
-          <option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
-          
-          
-          {% else %}
-          
-          
-          <option value="{{ country.country_id }}">{{ country.name }}</option>
-          
-          
-          {% endif %}
-          {% endfor %}
-        
-        
-        </select>
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-zone">{{ entry_zone }}</label>
-        <select name="zone_id" id="input-payment-zone" class="form-control">
-        </select>
-      </div>
-      {% for custom_field in custom_fields %}
-      {% if custom_field.location == 'address' %}
-      {% if custom_field.type == 'select' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <select name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control">
-          <option value="">{{ text_select }}</option>
-          
-          
-          {% for custom_field_value in custom_field.custom_field_value %}
-          {% if guest_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == guest_custom_field[custom_field.custom_field_id] %}
-          <option value="{{ custom_field_value.custom_field_value_id }}" selected="selected">{{ custom_field_value.name }}</option>
-          
-          
-          {% else %}
-          
-          
-          <option value="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</option>
-          
-          
-          {% endif %}
-          {% endfor %}
-        
-        
-        </select>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'radio' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label">{{ custom_field.name }}</label>
-        <div id="input-payment-custom-field{{ custom_field.custom_field_id }}"> {% for custom_field_value in custom_field.custom_field_value %}
-          <div class="radio"> {% if guest_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == guest_custom_field[custom_field.custom_field_id] %}
-            <label>
-              <input type="radio" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" checked="checked" />
-              {{ custom_field_value.name }}</label>
-            {% else %}
-            <label>
-              <input type="radio" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" />
-              {{ custom_field_value.name }}</label>
-            {% endif %} </div>
-          {% endfor %} </div>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'checkbox' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label">{{ custom_field.name }}</label>
-        <div id="input-payment-custom-field{{ custom_field.custom_field_id }}"> {% for custom_field_value in custom_field.custom_field_value %}
-          <div class="checkbox"> {% if guest_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id in guest_custom_field[custom_field.custom_field_id] %}
-            <label>
-              <input type="checkbox" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}][]" value="{{ custom_field_value.custom_field_value_id }}" checked="checked" />
-              {{ custom_field_value.name }}</label>
-            {% else %}
-            <label>
-              <input type="checkbox" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}][]" value="{{ custom_field_value.custom_field_value_id }}" />
-              {{ custom_field_value.name }}</label>
-            {% endif %} </div>
-          {% endfor %} </div>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'text' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'textarea' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <textarea name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" rows="5" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control">{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}</textarea>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'file' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label">{{ custom_field.name }}</label>
-        <br />
-        <button type="button" id="button-payment-custom-field{{ custom_field.custom_field_id }}" data-loading-text="{{ text_loading }}" class="btn btn-default"><i class="fa fa-upload"></i> {{ button_upload }}</button>
-        <input type="hidden" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% endif %}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" />
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'date' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <div class="input-group date">
-          <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}" placeholder="{{ custom_field.name }}" data-date-format="YYYY-MM-DD" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
-          <span class="input-group-btn">
-          <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-          </span></div>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'time' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <div class="input-group time">
-          <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}" placeholder="{{ custom_field.name }}" data-date-format="HH:mm" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
-          <span class="input-group-btn">
-          <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-          </span></div>
-      </div>
-      {% endif %}
-      {% if custom_field.type == 'time' %}
-      <div id="payment-custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
-        <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
-        <div class="input-group datetime">
-          <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if guest_custom_field[custom_field.custom_field_id] %} {{ guest_custom_field[custom_field.custom_field_id] }} {% else %} {{ custom_field.value }} {% endif %}" placeholder="{{ custom_field.name }}" data-date-format="YYYY-MM-DD HH:mm" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
-          <span class="input-group-btn">
-          <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-          </span></div>
-      </div>
-      {% endif %}
-      {% endif %}
-      {% endfor %}
-    </fieldset>
-    {{ captcha }} </div>
-</div>
-{% if shipping_required %}
-<div class="checkbox">
-  <label> {% if shipping_address %}
-    <input type="checkbox" name="shipping_address" value="1" checked="checked" />
-    {% else %}
-    <input type="checkbox" name="shipping_address" value="1" />
-    {% endif %}
-    {{ entry_shipping }}</label>
-</div>
-{% endif %}
 <div class="buttons">
   <div class="pull-right">
     <input type="button" value="{{ button_continue }}" id="button-guest" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
   </div>
+</div>
+
+{# MY MARKUP #}
+<div class="checkout-form__group-heading border--end"> 
+    <h3 class="checkout-form__group-title text--size_h3-full m-0">{{ text_your_details }} (платіжка)</h3>
+</div>
+
+<div class="checkout-form__fields" style="display: {% if customer_groups|length > 1 %} block {% else %} none {% endif %};">
+    <p class="checkout-form__label">{{ entry_customer_group }}</p>
+
+    <div class="flex-row-wrap checkout-form__options-row">
+        {% for customer_group in customer_groups %}
+          {% if customer_group.customer_group_id == customer_group_id %}
+
+            <div class="custom-radio checkout-form__radio flex-row"> 
+                <div class="custom-radio__wrapper rel"> 
+                    <input class="abs wh-full inset m-0" type="radio" name="customer_group_id" value="{{ customer_group.customer_group_id }}" id="customer_group_id_{{ customer_group.customer_group_id }}" checked="checked">
+                </div>
+                <label for="customer_group_id_{{ customer_group.customer_group_id }}">{{ customer_group.name }}</label>
+            </div>
+
+          {% else %}
+
+            <div class="custom-radio checkout-form__radio flex-row"> 
+                <div class="custom-radio__wrapper rel"> 
+                    <input class="abs wh-full inset m-0" type="radio" name="customer_group_id" value="{{ customer_group.customer_group_id }}" id="customer_group_id_{{ customer_group.customer_group_id }}">
+                </div>
+                <label for="customer_group_id_{{ customer_group.customer_group_id }}">{{ customer_group.name }}</label>
+            </div>
+
+          {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="checkout-form__fields d-grid"> 
+    <div class="checkout-form__field custom-input">
+        <input class="custom-input__input" type="text" value="{{ firstname }}" name="firstname" id="input-payment-firstname" placeholder="{{ entry_firstname }}" required>
+        <div class="custom-input__error d-none">{{ error_firstname }} </div>
+    </div>
+    <div class="checkout-form__field custom-input">
+        <input class="custom-input__input" type="text" name="lastname" placeholder="{{ entry_lastname }}" id="input-payment-lastname" required>
+        <div class="custom-input__error d-none">{{ error_lastname }}</div>
+    </div>
+    <div class="checkout-form__field custom-input ">
+        <input class="custom-input__input" type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-payment-email" required>
+        <div class="custom-input__error d-none">{{ error_email }}</div>
+    </div>
+    <div class="checkout-form__field custom-input">
+        <input class="custom-input__input" type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-payment-telephone" required>
+        <div class="custom-input__error d-none">{{ error_telephone }}</div>
+    </div>
+</div>
+{# /.fileds #}
+
+{% if shipping_required %}
+<div class="custom-checkbox checkout-form__checkbox flex-row d-none">
+    <div class="custom-checkbox__wrapper rel"> 
+        <input class="abs wh-full inset m-0" type="checkbox" value="1" name="shipping_address" id="shipping_address_same" checked>
+    </div>
+    <label for="shipping_address_same">{{ entry_shipping }}</label>
+</div>
+{% endif %}
+
+<div class="custom-checkbox checkout-form__checkbox flex-row">
+    <div class="custom-checkbox__wrapper rel"> 
+        <input class="abs wh-full inset m-0" type="checkbox" name="recipient_me" id="recipient_me" checked>
+    </div>
+    <label for="recipient_me">Я Одержувач</label>
+</div>
+<div class="checkout-form__fields d-grid d-none" id="different_recipient"> 
+    <div class="checkout-form__field custom-input">
+        <input class="custom-input__input" type="text" name="recipient_name" placeholder="Ім’я одержувача" required>
+        <div class="custom-input__error d-none">{{ error_firstname }}</div>
+    </div>
+    <div class="checkout-form__field custom-input">
+        <input class="custom-input__input" type="text" name="recipient_surname" placeholder="Прізвище одержувача" required>
+        <div class="custom-input__error d-none">{{ error_lastname }}</div>
+    </div>
+    <div class="checkout-form__field custom-input">
+        <input class="custom-input__input" type="email" name="recipient_email" placeholder="E-mail одержувача" required>
+        <div class="custom-input__error d-none">{{ error_email }}</div>
+    </div>
+    <div class="checkout-form__field custom-input">
+        <input class="custom-input__input" type="tel" name="recipient_phone" placeholder="Телефон одержувача" required>
+        <div class="custom-input__error d-none">{{ error_telephone }}</div>
+    </div>
+</div>
+{# /.checkout-form__fields #}
+
+<div class="custom-checkbox checkout-form__checkbox flex-row">
+    <div class="custom-checkbox__wrapper rel"> 
+        <input class="abs wh-full inset m-0" type="checkbox" name="secret_price" id="secret_price">
+    </div>
+    <label for="secret_price">Замовляю для подарунка — нехай ціна залишиться таємницею 🎁</label>
 </div>
 <script type="text/javascript"><!--
 // Sort the custom fields

@@ -3121,15 +3121,22 @@ input:checked + .product-variants__color-label::before {
   gap: 1.6rem;
   margin-block-end: 2.4rem;
 }
+.checkout-form__tabs input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+}
+.checkout-form__tabs input:checked + label {
+  color: var(--color-dark);
+  border-block-end-color: var(--color-dark);
+}
 .checkout-form__tab-btn {
   font-size: 1.6rem;
   line-height: 132%;
   padding-block: 0.4rem;
   border-block-end: 0.1rem solid transparent;
-}
-.checkout-form__tab-btn.active {
-  color: var(--color-dark);
-  border-block-end-color: var(--color-dark);
 }
 
 @media screen and (min-width: 640px) {

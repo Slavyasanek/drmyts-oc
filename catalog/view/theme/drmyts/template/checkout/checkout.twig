@@ -1,4 +1,6 @@
 {{ header }}
+
+{% import "drmyts/template/macro/macros.twig" as macros %}
 <div id="checkout-checkout" class="container">
   <ul class="breadcrumb">
     {% for breadcrumb in breadcrumbs %}
@@ -6,9 +8,9 @@
     {% endfor %}
   </ul>
   {% if error_warning %}
-  <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-  </div>
+      <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
   {% endif %}
   <div class="row">{{ column_left }}
     {% if column_left and column_right %}
@@ -29,7 +31,7 @@
             <div class="panel-body"></div>
           </div>
         </div>
-        {% if not logged and account != 'guest' %}
+        {# {% if not logged and account != 'guest' %}
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">{{ text_checkout_account }}</h4>
@@ -47,7 +49,7 @@
             <div class="panel-body"></div>
           </div>
         </div>
-        {% endif %}
+        {% endif %} #}
         {% if shipping_required %}
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -86,90 +88,476 @@
       {{ content_bottom }}</div>
     {{ column_right }}</div>
 </div>
+
+<main id="content">
+    {{ content_top }}
+    <div class="page-title border--end">    
+        <div class="container page-title__container">
+            <h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ heading_title }}</h1>
+        </div>
+    </div>
+    <section class="checkout-page"> 
+        <div class="container checkout-page__container d-grid"> 
+            <div class="checkout-page__col checkout-page__col--cart">
+                <div class="checkout-page__cart checkout-cart"> 
+                    <div class="checkout-cart__heading border--end">
+                        <h2 class="checkout-cart__title text--size_h3-full m-0">{{ text_cart }} <span class="text--color_gray checkout-cart__count">(2)</span>
+                        </h2>
+                    </div>
+                    <div class="checkout-cart__items flex-col"> 
+                        <div class="cart-item checkout-cart__item cart-item--type_checkout d-flex border--end">
+                            <div class="cart-item__img"> 
+                                <picture> 
+                                    <img class="contain-image" src="./assets/pics/search-item-1.jpg" alt="Comfort Zone" loading="lazy" width="56" height="56">
+                                </picture>
+                                <a class="cart-item__link abs inset wh-full" href="/">Comfort Zone</a>
+                            </div>
+                            <div class="cart-item__content"> 
+                                <div class="cart-item__details flex-col">
+                                    <a class="cart-item__title" href="/">Comfort Zone</a>
+                                    <span class="cart-item__type">Сироватка з гіалуроновою кислотою Hyaluronic Serum</span>
+                                    <div class="product-price cart-item__price flex-row">
+                                        <span class="product-price__full">1 711,5 ₴</span>
+                                    </div>
+                                </div>
+                                <div class="cart-item__footer flex-row-wrap j-between">
+                                    <div class="quant-block cart-item__quant-block flex-row quant-block--sm"> 
+                                        <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="minus" disabled>
+                                            {{ macros.svg('minus') }}
+                                        </button>
+                                        <input class="quant-block__input text--center" type="number" name="item_count" min="1" max="5" value="1">
+                                        <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="plus">
+                                            {{ macros.svg('plus') }}
+                                        </button>
+                                    </div>
+                                    <button class="btn flex-center icon cart-item__delete" type="button"> 
+                                        {{ macros.svg('delete', '') }}
+                                    </button>
+                                 </div>
+                            </div>
+                        </div>
+                        {# cart item end #}
+                    </div>
+                    {# checkout-cart__items #}
+                </div>
+                {# checkout-cart #}
+                <div class="coupon-block checkout__coupon"> 
+                    <div class="coupon-block__heading flex-row"> 
+                        <div class="coupon-block__icon rel"> </div>
+                        <div class="coupon-block__title text--color_red">Додати промокод або сертифікат</div>
+                    </div>
+                    <div class="coupon-block__field custom-input custom-input--type_with-btn d-none"> 
+                        <div class="custom-input__wrapper flex-row">
+                            <input class="custom-input__input" type="text" name="coupon" placeholder="Ввести промокод" required>
+                            <button class="btn btn--full_black text--upp btn--size_M custom-input__btn" type="button">Застосувати</button>
+                        </div>
+                        <div class="custom-input__error d-none">Промокод недійсний</div>
+                    </div>
+                </div>
+                <div class="checkout-totals checkout__totals">
+                    <div class="checkout-totals__vals border--start border--end"> 
+                        <div class="checkout-totals__row flex-row-wrap j-between"> 
+                            <p class="checkout-totals__val m-0">2 засоби</p>
+                            <p class="checkout-totals__total m-0">1 840 ₴</p>
+                        </div>
+                        <div class="checkout-totals__row flex-row-wrap j-between"> 
+                            <p class="checkout-totals__val m-0">Знижка</p>
+                            <p class="checkout-totals__total m-0">-300 ₴</p>
+                        </div>
+                        <div class="checkout-totals__row flex-row-wrap j-between"> 
+                            <p class="checkout-totals__val m-0">Доставка</p>
+                            <p class="checkout-totals__total m-0">За тарифами «Нова Пошта»</p>
+                        </div>
+                    </div>
+                    <div class="checkout-totals__delivery free-delivery"> 
+                        <p class="free-delivery__heading">
+                            <div class="icon free-delivery__icon"> 
+                                {{ macros.svg('free-delivery')}}
+                            </div>
+                            <span class="m-0">До безкоштовної доставки залишилось </span>
+                            <span class="free-delivery__price text--color_red"> 1 160 грн.</span>
+                        </p>
+                        <div class="free-delivery__track w-full rel">   
+                            <div class="free-delivery__track-inner wh-full abs inset bg--red" style="width: 50%"></div>
+                        </div>
+                        <span class="text--color_gray free-delivery__txt d-block">Пропозиція поширюється на доставку до відділення та поштомату.</span>
+                    </div>
+                    <div class="checkout-totals__row-total flex-row-wrap j-between"> 
+                        <p class="checkout-totals__val m-0">Разом</p>
+                        <div class="checkout-totals__final-price flex-row product-price product-price--sale">
+                            <div class="product-price__full">2 140 ₴</div>
+                            <div class="product-price__sale">1 840 ₴</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# checkout__col--cart #}
+            <div class="checkout-page__col checkout-page__col--form"> 
+                <div class="checkout-form checkout-page__form"> 
+                    {% if not logged and account != 'guest' %}
+                        <div class="checkout-form__tabs flex-row-wrap border--end" > 
+                            <input type="radio" name="account" value="register" id="account_register" {% if account == 'register' %} checked="checked" {% endif %} />
+                            <label for="account_register" class="btn checkout-form__tab-btn text--color_gray">{{ text_new_customer }}</label>
+                            <input type="radio" name="account" value="guest" checked="checked" id="account_guest" {% if account == 'guest' %} checked="checked"{% endif %}/>
+                            <label for="account_guest" class="btn checkout-form__tab-btn text--color_gray">{{ text_guest }}</label>
+                            <input type="radio" name="account" value="login" checked="checked" id="account_login"/>
+                            <label for="account_login" class="btn checkout-form__tab-btn text--color_gray">{{ text_returning_customer }}</label>
+                        </div>
+                    {% endif %}
+
+                    <div class="checkout-form__tab"  id="checkout-guest-form">
+                        <div class="checkout-form__group" id="collapse-payment-address"> 
+                            <div class="checkout-form__group-heading border--end"> 
+                                <h3 class="checkout-form__group-title text--size_h3-full m-0">{{ text_checkout_account }}</h3>
+                            </div>
+                            <div class="checkout-form__fields d-grid"> 
+                                <div class="checkout-form__field custom-input">
+                                    <input class="custom-input__input" type="text" name="user_name" placeholder="Ваше ім’я" required>
+                                    <div class="custom-input__error d-none">Введіть своє ім’я </div>
+                                </div>
+                                <div class="checkout-form__field custom-input">
+                                    <input class="custom-input__input" type="text" name="user_surname" placeholder="Ваше прізвище" required>
+                                    <div class="custom-input__error d-none">Введіть своє прізвище</div>
+                                </div>
+                                <div class="checkout-form__field custom-input">
+                                    <input class="custom-input__input" type="email" name="user_email" placeholder="E-mail" required>
+                                    <div class="custom-input__error d-none">Введіть свій E-mail</div>
+                                </div>
+                                <div class="checkout-form__field custom-input">
+                                    <input class="custom-input__input" type="tel" name="user_phone" placeholder="Телефон" required>
+                                    <div class="custom-input__error d-none">Введи номер у форматі +380 ХХ ХХХ ХХ ХХ</div>
+                                </div>
+                            </div>
+                            {# /.fileds #}
+                            <div class="custom-checkbox checkout-form__checkbox flex-row">
+                                <div class="custom-checkbox__wrapper rel"> 
+                                    <input class="abs wh-full inset m-0" type="checkbox" name="recipient_me" checked id="recipient_me">
+                                </div>
+                                <label for="recipient_me">Я Одержувач</label>
+                            </div>
+                            <div class="checkout-form__fields d-grid"> 
+                                <div class="checkout-form__field custom-input">
+                                    <input class="custom-input__input" type="text" name="recipient_name" placeholder="Ім’я одержувача" required>
+                                    <div class="custom-input__error d-none">Введіть своє ім’я </div>
+                                </div>
+                                <div class="checkout-form__field custom-input">
+                                    <input class="custom-input__input" type="text" name="recipient_surname" placeholder="Прізвище одержувача" required>
+                                    <div class="custom-input__error d-none">Введіть своє прізвище</div>
+                                </div>
+                                <div class="checkout-form__field custom-input">
+                                    <input class="custom-input__input" type="email" name="recipient_email" placeholder="E-mail одержувача" required>
+                                    <div class="custom-input__error d-none">Введіть свій E-mail</div>
+                                </div>
+                                <div class="checkout-form__field custom-input">
+                                    <input class="custom-input__input" type="tel" name="recipient_phone" placeholder="Телефон одержувача" required>
+                                    <div class="custom-input__error d-none">Введи номер у форматі +380 ХХ ХХХ ХХ ХХ</div>
+                                </div>
+                            </div>
+                            {# /.checkout-form__fields #}
+                            <div class="custom-checkbox checkout-form__checkbox flex-row">
+                                <div class="custom-checkbox__wrapper rel"> 
+                                    <input class="abs wh-full inset m-0" type="checkbox" name="secret_price" id="secret_price">
+                                </div>
+                                <label for="secret_price">Замовляю для подарунка — нехай ціна залишиться таємницею 🎁</label>
+                            </div>
+                        </div>
+                        {# /.checkout-form__group #}
+
+                        <div class="checkout-form__group"> 
+                            <div class="checkout-form__group-heading border--end"> 
+                                <h3 class="checkout-form__group-title text--size_h3-full m-0">Доставка</h3>
+                                <p class="checkout-form__group-subtitle text--color_gray">Безкоштовна доставка при замовленні від 3000 грн.</p>
+                            </div>
+                            <div class="checkout-form__options flex-col"> 
+                                <div class="custom-radio checkout-form__radio flex-row"> 
+                                  <div class="custom-radio__wrapper rel"> 
+                                    <input class="abs wh-full inset m-0" type="radio" name="delivery_type" value="np_department" checked id="np_department">
+                                  </div>
+                                  <label for="np_department">До відділення Нової Пошти</label>
+                                </div>
+                                <div class="custom-radio checkout-form__radio flex-row"> 
+                                  <div class="custom-radio__wrapper rel"> 
+                                    <input class="abs wh-full inset m-0" type="radio" name="delivery_type" value="np_poshtomat" id="np_poshtomat">
+                                  </div>
+                                  <label for="np_poshtomat">Поштомат Нової Пошти</label>
+                                </div>
+                                <div class="custom-radio checkout-form__radio flex-row"> 
+                                  <div class="custom-radio__wrapper rel"> 
+                                    <input class="abs wh-full inset m-0" type="radio" name="delivery_type" value="np_address" id="np_address">
+                                  </div>
+                                  <label for="np_address">Кур`єр Нової Пошти</label>
+                                </div>
+                            </div>
+                            <div class="checkout-form__destination">
+                                <div class="checkout-form__select-wrapper w-full">
+                                  <label class="checkout-form__select-label d-block" for="city"> Населений пункт</label>
+                                  <div class="custom-select rel custom-select--type_checkout anim rel checkout-form__select"> 
+                                    <div class="custom-select__heading flex-row j-between"> <span>Населений пункт</span>
+                                      <div class="icon icon--arrow custom-select__arrow anim">
+                                        <svg role="presentation">
+                                          <use href="./assets/svg/sprite.svg#arrow-down"></use>
+                                        </svg>
+                                      </div>
+                                      <input type="hidden" name="city" required>
+                                    </div>
+                                    <div class="custom-select__dropdown z1 anim abs bg--white"> 
+                                      <div class="custom-select__search custom-input custom-input--type_filter"> 
+                                        <input class="custom-input__input" type="search" name="cities_search" placeholder="Пошук...">
+                                      </div>
+                                      <ul class="custom-select__list">
+                                        <li class="custom-select__option anim">м. Київ</li>
+                                        <li class="custom-select__option anim">м. Харків</li>
+                                        <li class="custom-select__option anim">м. Одеса</li>
+                                        <li class="custom-select__option anim">м. Дніпро</li>
+                                        <li class="custom-select__option anim">м. Запоріжжя</li>
+                                      </ul>
+                                    </div>
+                                    <div class="custom-select__error d-none">Поле обов'язкове до заповнення</div>
+                                  </div>
+                                </div>
+                                <div class="checkout-form__select-wrapper w-full"> 
+                                  <label class="checkout-form__select-label d-block" for="city"> Відділення</label>
+                                  <div class="custom-select rel custom-select--type_checkout anim rel checkout-form__select">
+                                    <div class="custom-select__heading flex-row j-between"> <span>Відділення</span>
+                                      <div class="icon icon--arrow custom-select__arrow anim">
+                                        <svg role="presentation">
+                                          <use href="./assets/svg/sprite.svg#arrow-down"></use>
+                                        </svg>
+                                      </div>
+                                      <input type="hidden" name="department" required>
+                                    </div>
+                                    <div class="custom-select__dropdown z1 anim abs bg--white"> 
+                                      <div class="custom-select__search custom-input custom-input--type_filter"> 
+                                        <input class="custom-input__input" type="search" name="cities_search" placeholder="Пошук...">
+                                      </div>
+                                      <ul class="custom-select__list">
+                                        <li class="custom-select__option anim">№1: вул. Пирогівський шлях, 135</li>
+                                        <li class="custom-select__option anim">№5: вул. Федорова, 32 (метро Олімпійська)</li>
+                                        <li class="custom-select__option anim">№11: вул. Полярна, 17а</li>
+                                        <li class="custom-select__option anim">№50: просп. Степана Бандери, 23</li>
+                                        <li class="custom-select__option anim">№90: вул. Григоренка, 22/20</li>
+                                        <li class="custom-select__option anim">№215: вул. Лугова, 12 (ТЦ Караван)</li>
+                                      </ul>
+                                    </div>
+                                    <div class="custom-select__error d-none">Будь ласка, виберіть відділення</div>
+                                  </div>
+                                </div>
+                            </div>
+                            {# /.checkout-form__destination #}
+                            <div class="checkout-form__field checkout-form__field--textarea custom-input custom-input--type_textarea rel custom-input--type_textarea-count"> 
+                                <textarea class="custom-input__input" name="courier_comments" placeholder="Коментар кур`єру" maxlength="150"></textarea>
+                                <div class="custom-input__count abs">0/150</div>
+                            </div>
+                        </div>
+                        {# /.checkout-form__group #}
+                        <div class="checkout-form__group"> 
+                            <div class="checkout-form__group-heading border--end"> 
+                                <h3 class="checkout-form__group-title text--size_h3-full m-0">Оплата</h3>
+                            </div>
+                            <div class="checkout-form__payment-options flex-row-wrap payment-btns"> 
+                                <input class="payment-btns__input hidden" type="radio" name="payment_type" value="liqpay" id="payment_liqpay" checked>
+                                <label class="payment-btns__label flex-center text--center anim btn--size_M text--upp btn--border_gray" for="payment_liqpay"> 
+                                    {{ macros.svg('liqpay' ) }}
+                                </label>
+                                <input class="payment-btns__input hidden" type="radio" name="payment_type" value="google_pay" id="payment_google_pay">
+                                <label class="payment-btns__label flex-center text--center anim btn--size_M text--upp btn--border_gray" for="payment_google_pay"> 
+                                    {{ macros.svg('google-pay')}}
+                                </label>
+                                <input class="payment-btns__input hidden" type="radio" name="payment_type" value="mono_plata" id="payment_mono_plata">
+                                <label class="payment-btns__label flex-center text--center anim btn--size_M text--upp btn--border_gray" for="payment_mono_plata"> 
+                                    {{ macros.svg('mono-plata' )}}
+                                </label>
+                                <input class="payment-btns__input hidden" type="radio" name="payment_type" value="cash" id="payment_cash">
+                                <label class="payment-btns__label flex-center text--center anim btn--size_M text--upp btn--border_gray" for="payment_cash">Платіж з післяплатою</label>
+                            </div>
+                        </div>
+                        {# /.checkout-form__group #}
+                    </div>
+
+                    {# /.checkout-form__tab #}
+                    <div class="checkout-form__tab d-none" id="checkout-login-form"></div>
+                    {# /.checkout-form__tab #}
+                </div>
+                {# /.checkout-form #}
+            </div>
+
+            <div class="checkout-page__comment checkout-comment"> 
+                <button class="btn flex-row checkout-comment__toggler text--upp" type="button"> 
+                    <div class="icon checkout-comment__icon"> 
+                        {{ macros.svg('checkout-comment', '')}}
+                    </div>
+                    <span>Коментар до замовлення</span>
+                </button>
+                <div class="checkout-comment__body d-none">
+                    <div class="checkout-comment_field custom-input custom-input--type_textarea rel custom-input--type_textarea-count"> 
+                        <textarea class="custom-input__input" name="order_comments" placeholder="Коментар до замовлення" maxlength="500"></textarea>
+                        <div class="custom-input__count abs">0/500</div>
+                    </div>
+                </div>
+            </div>
+            {# /.checkout-comment #}
+            <button class="btn btn--theme btn--theme_accent text--upp btn--size_M checkout-page__submit" type="submit" disabled> ОПЛАТИТИ ЧЕРЕЗ GOOGLE PAY</button>
+            <div class="custom-checkbox checkout-page__checkbox flex-row custom-checkbox--red">
+                <div class="custom-checkbox__wrapper rel"> 
+                    <input class="abs wh-full inset m-0" type="checkbox" name="agreement" required id="agreement">
+                </div>
+                <label for="agreement">Я погоджуюсь з <a href="/">умовами оферти</a> та  <a href="/">політики конфіденційності</a> </label>
+            </div>
+        </div>
+    </section>
+</main>
+
+
 <script type="text/javascript"><!--
-$(document).on('change', 'input[name=\'account\']', function() {
-	if ($('#collapse-payment-address').parent().find('.panel-heading .panel-title > *').is('a')) {
-		if (this.value == 'register') {
-			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_account }} <i class="fa fa-caret-down"></i></a>');
-		} else {
-			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_address }} <i class="fa fa-caret-down"></i></a>');
-		}
-	} else {
-		if (this.value == 'register') {
-			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('{{ text_checkout_account }}');
-		} else {
-			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_address }}');
-		}
-	}
-});
 
-{% if not logged %}
-$(document).ready(function() {
-    $.ajax({
-        url: 'index.php?route=checkout/login',
-        dataType: 'html',
-        success: function(html) {
-           $('#collapse-checkout-option .panel-body').html(html);
+// Toggle register MODES
+const classes = {
+    activeClass: 'active',
+    hiddenClass: 'd-none',
+}
+document.addEventListener('change', function(event) {
 
-			$('#collapse-checkout-option').parent().find('.panel-heading .panel-title').html('<a href="#collapse-checkout-option" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_option }} <i class="fa fa-caret-down"></i></a>');
+    if (event.target && event.target.name === 'account') {
+        const input = event.target;
+        const value = input.value;
+        const registerTab = document.getElementById('checkout-guest-form');
+        const loginTab = document.getElementById('checkout-login-form');
+        const isLogin = input.value === 'login';
 
-			$('a[href=\'#collapse-checkout-option\']').trigger('click');
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        if (isLogin) {
+            loginTab.classList.remove(classes.hiddenClass);
+            registerTab.classList.add(classes.hiddenClass);
+        } else {
+            const url = 'index.php?route=checkout/' + value;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error(response.statusText);
+                    return response.text();
+                })
+                .then(html => {
+                    // 1. Очищуємо попередні помилки
+                    document.querySelectorAll('.alert-dismissible, .text-danger').forEach(el => el.remove());
+                    document.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
+
+                    const collapseAddress = document.getElementById('collapse-payment-address');
+                    if (collapseAddress) {
+                        collapseAddress.innerHTML = html;
+                    }
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                    console.error(error);
+                })
+                .finally(() => {
+                    loginTab.classList.add(classes.hiddenClass);
+                    registerTab.classList.remove(classes.hiddenClass) 
+                });
         }
-    });
-});
-{% else %}
-$(document).ready(function() {
-    $.ajax({
-        url: 'index.php?route=checkout/payment_address',
-        dataType: 'html',
-        success: function(html) {
-            $('#collapse-payment-address .panel-body').html(html);
-
-			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_address }} <i class="fa fa-caret-down"></i></a>');
-
-			$('a[href=\'#collapse-payment-address\']').trigger('click');
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
-    });
-});
-{% endif %}
-
-// Checkout
-$(document).delegate('#button-account', 'click', function() {
-    $.ajax({
-        url: 'index.php?route=checkout/' + $('input[name=\'account\']:checked').val(),
-        dataType: 'html',
-        beforeSend: function() {
-        	$('#button-account').button('loading');
-		},
-        complete: function() {
-			$('#button-account').button('reset');
-        },
-        success: function(html) {
-            $('.alert-dismissible, .text-danger').remove();
-			$('.form-group').removeClass('has-error');
-
-            $('#collapse-payment-address .panel-body').html(html);
-
-			if ($('input[name=\'account\']:checked').val() == 'register') {
-				$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_account }} <i class="fa fa-caret-down"></i></a>');
-			} else {
-				$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_address }} <i class="fa fa-caret-down"></i></a>');
-			}
-
-			$('a[href=\'#collapse-payment-address\']').trigger('click');
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
-    });
+    }
 });
 
+// 1 Check if user is logged in or NOT
+document.addEventListener('DOMContentLoaded', function() {
+    {% if not logged %}
+        const url = 'index.php?route=checkout/login';
+        const targetId = 'checkout-login-form';
+        // const titleText = '{{ text_checkout_option }}';
+    {% else %}
+        const url = 'index.php?route=checkout/payment_address';
+        const targetId = 'collapse-payment-address';
+        // const titleText = '{{ text_checkout_payment_address }}';
+    {% endif %}
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error(response.statusText);
+            return response.text();
+        })
+        .then(html => {
+            {% if not logged %}
+                const container = document.getElementById(targetId);
+                if (!container) return;
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const loginForm = doc.querySelector('.sign-form__form');
+
+                if (loginForm && container) container.appendChild(loginForm);
+
+            {% endif %}
+
+            // // Оновлюємо заголовок
+            // const panelTitle = container.closest('.panel').querySelector('.panel-heading .panel-title');
+            // if (panelTitle) {
+            //     panelTitle.innerHTML = `<a href="#${targetId}" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">${titleText} <i class="fa fa-caret-down"></i></a>`;
+            // }
+
+            // // Імітуємо клік для відкриття
+            // const toggleLink = document.querySelector(`a[href="#${targetId}"]`);
+            // if (toggleLink) {
+            //     toggleLink.click();
+            // }
+        })
+        .catch(error => {
+            alert('Помилка запиту: ' + error.message);
+            console.error(error);
+        });
+});
+
+// Switch between REGISTER OR GUEST CHECKOUT
+document.addEventListener('click', function(event) {
+
+    if (event.target && event.target.id === 'button-account') {
+        
+        const checkedAccount = document.querySelector('input[name="account"]:checked');
+        if (!checkedAccount) return;
+
+        const accountValue = checkedAccount.value;
+        const url = 'index.php?route=checkout/' + accountValue;
+
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) throw new Error(response.statusText);
+                return response.text();
+            })
+            .then(html => {
+                // 1. Очищуємо попередні помилки
+                document.querySelectorAll('.alert-dismissible, .text-danger').forEach(el => el.remove());
+                document.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
+
+                // 2. Оновлюємо вміст панелі
+                const collapseAddress = document.getElementById('collapse-payment-address');
+                if (collapseAddress) {
+                    const panelBody = collapseAddress.querySelector('.panel-body');
+                    if (panelBody) panelBody.innerHTML = html;
+
+                    // 3. Оновлюємо заголовок залежно від типу акаунту
+                    const panelTitle = collapseAddress.closest('.panel').querySelector('.panel-heading .panel-title');
+                    if (panelTitle) {
+                        const titleText = (accountValue === 'register') 
+                            ? '{{ text_checkout_account }}' 
+                            : '{{ text_checkout_payment_address }}';
+                        
+                        panelTitle.innerHTML = `<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">${titleText} <i class="fa fa-caret-down"></i></a>`;
+                    }
+
+                    // 4. Імітуємо клік для відкриття (Bootstrap 3/4 JS підхопить це)
+                    const toggleLink = document.querySelector('a[href="#collapse-payment-address"]');
+                    if (toggleLink) toggleLink.click();
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error.message);
+                console.error(error);
+            })
+            .finally(() => {
+                // Повертаємо кнопку в робочий стан
+                btn.disabled = false;
+            });
+    }
+});
 // Login
 $(document).delegate('#button-login', 'click', function() {
     $.ajax({
@@ -177,12 +565,12 @@ $(document).delegate('#button-login', 'click', function() {
         type: 'post',
         data: $('#collapse-checkout-option :input'),
         dataType: 'json',
-        beforeSend: function() {
-        	$('#button-login').button('loading');
-		},
-        complete: function() {
-            $('#button-login').button('reset');
-        },
+        // beforeSend: function() {
+        // 	$('#button-login').button('loading');
+		// },
+        // complete: function() {
+        //     $('#button-login').button('reset');
+        // },
         success: function(json) {
             $('.alert-dismissible, .text-danger').remove();
             $('.form-group').removeClass('has-error');
@@ -210,9 +598,9 @@ $(document).delegate('#button-register', 'click', function() {
         type: 'post',
         data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'password\'], #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address textarea, #collapse-payment-address select'),
         dataType: 'json',
-        beforeSend: function() {
-			$('#button-register').button('loading');
-		},
+        // beforeSend: function() {
+		// 	$('#button-register').button('loading');
+		// },
         success: function(json) {
             $('.alert-dismissible, .text-danger').remove();
             $('.form-group').removeClass('has-error');
@@ -344,12 +732,12 @@ $(document).delegate('#button-payment-address', 'click', function() {
         type: 'post',
         data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'password\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address textarea, #collapse-payment-address select'),
         dataType: 'json',
-        beforeSend: function() {
-        	$('#button-payment-address').button('loading');
-		},
-        complete: function() {
-			$('#button-payment-address').button('reset');
-        },
+        // beforeSend: function() {
+        // 	$('#button-payment-address').button('loading');
+		// },
+        // complete: function() {
+		// 	$('#button-payment-address').button('reset');
+        // },
         success: function(json) {
             $('.alert-dismissible, .text-danger').remove();
 			$('.form-group').removeClass('has-error');
@@ -448,9 +836,9 @@ $(document).delegate('#button-shipping-address', 'click', function() {
         type: 'post',
         data: $('#collapse-shipping-address input[type=\'text\'], #collapse-shipping-address input[type=\'date\'], #collapse-shipping-address input[type=\'datetime-local\'], #collapse-shipping-address input[type=\'time\'], #collapse-shipping-address input[type=\'password\'], #collapse-shipping-address input[type=\'checkbox\']:checked, #collapse-shipping-address input[type=\'radio\']:checked, #collapse-shipping-address textarea, #collapse-shipping-address select'),
         dataType: 'json',
-        beforeSend: function() {
-			$('#button-shipping-address').button('loading');
-	    },
+        // beforeSend: function() {
+		// 	$('#button-shipping-address').button('loading');
+	    // },
         success: function(json) {
             $('.alert-dismissible, .text-danger').remove();
 			$('.form-group').removeClass('has-error');
@@ -534,9 +922,9 @@ $(document).delegate('#button-guest', 'click', function() {
         type: 'post',
         data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address textarea, #collapse-payment-address select'),
         dataType: 'json',
-        beforeSend: function() {
-       		$('#button-guest').button('loading');
-	    },
+        // beforeSend: function() {
+       	// 	$('#button-guest').button('loading');
+	    // },
         success: function(json) {
             $('.alert-dismissible, .text-danger').remove();
 			$('.form-group').removeClass('has-error');
@@ -547,7 +935,7 @@ $(document).delegate('#button-guest', 'click', function() {
                 $('#button-guest').button('reset');
 
                 if (json['error']['warning']) {
-                    $('#collapse-payment-address .panel-body').prepend('<div class="alert alert-warning alert-dismissible">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                    $('#collapse-payment-address').prepend('<div class="alert alert-warning alert-dismissible">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
                 }
 
 				for (i in json['error']) {
@@ -660,9 +1048,9 @@ $(document).delegate('#button-guest-shipping', 'click', function() {
         type: 'post',
         data: $('#collapse-shipping-address input[type=\'text\'], #collapse-shipping-address input[type=\'date\'], #collapse-shipping-address input[type=\'datetime-local\'], #collapse-shipping-address input[type=\'time\'], #collapse-shipping-address input[type=\'password\'], #collapse-shipping-address input[type=\'checkbox\']:checked, #collapse-shipping-address input[type=\'radio\']:checked, #collapse-shipping-address textarea, #collapse-shipping-address select'),
         dataType: 'json',
-        beforeSend: function() {
-        	$('#button-guest-shipping').button('loading');
-		},
+        // beforeSend: function() {
+        // 	$('#button-guest-shipping').button('loading');
+		// },
         success: function(json) {
             $('.alert-dismissible, .text-danger').remove();
 			$('.form-group').removeClass('has-error');
@@ -723,9 +1111,9 @@ $(document).delegate('#button-shipping-method', 'click', function() {
         type: 'post',
         data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'),
         dataType: 'json',
-        beforeSend: function() {
-        	$('#button-shipping-method').button('loading');
-		},
+        // beforeSend: function() {
+        // 	$('#button-shipping-method').button('loading');
+		// },
         success: function(json) {
             $('.alert-dismissible, .text-danger').remove();
 
@@ -771,9 +1159,9 @@ $(document).delegate('#button-payment-method', 'click', function() {
         type: 'post',
         data: $('#collapse-payment-method input[type=\'radio\']:checked, #collapse-payment-method input[type=\'checkbox\']:checked, #collapse-payment-method textarea'),
         dataType: 'json',
-        beforeSend: function() {
-         	$('#button-payment-method').button('loading');
-		},
+        // beforeSend: function() {
+        //  	$('#button-payment-method').button('loading');
+		// },
         success: function(json) {
             $('.alert-dismissible, .text-danger').remove();
 

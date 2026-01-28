@@ -1,39 +1,42 @@
-<div class="row">
-  <div class="col-sm-6">
-    <h2>{{ text_new_customer }}</h2>
-    <p>{{ text_checkout }}</p>
-    <div class="radio">
-      <label> {% if account == 'register' %}
-        <input type="radio" name="account" value="register" checked="checked" />
-        {% else %}
-        <input type="radio" name="account" value="register" />
-        {% endif %}
-        {{ text_register }}</label>
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+
+<div>
+    <div class="checkout-form__tabs flex-row-wrap border--end" > 
+        <input type="radio" name="account" value="register" id="account_register" {% if account == 'register' %} checked="checked" {% endif %} />
+        <label for="account_register" class="btn checkout-form__tab-btn text--color_gray">{{ text_new_customer }}</label>
+        <input type="radio" name="account" value="guest" checked="checked" id="account_guest" {% if account == 'guest' %} checked="checked"{% endif %}/>
+        <label for="account_guest" class="btn checkout-form__tab-btn text--color_gray">{{ text_guest }}</label>
+        <input type="radio" name="account" value="login" checked="checked" id="account_login"/>
+        <label for="account_login" class="btn checkout-form__tab-btn text--color_gray">{{ text_returning_customer }}</label>
     </div>
-    {% if checkout_guest %}
-    <div class="radio">
-      <label> {% if account == 'guest' %}
-        <input type="radio" name="account" value="guest" checked="checked" />
-        {% else %}
-        <input type="radio" name="account" value="guest" />
-        {% endif %}
-        {{ text_guest }}</label>
+
+    <input type="button" value="{{ button_continue }}" id="button-account" data-loading-text="{{ text_loading }}" class="btn btn-primary text--size_h3-mob" />
+
+
+    <div class="sign-form__form">
+        <div class="sign-form__fields flex-col">
+            <div class="sign-form__field custom-input">
+                <input class="custom-input__input" type="email" name="email" placeholder="{{ entry_email }}" id="input-email" required >
+                <div class="custom-input__error d-none">{{ error_required_field }}</div>
+            </div>
+            <div class="sign-form__field custom-input custom-input--type_password rel"> 
+                <input class="custom-input__input" type="password" name="password" placeholder="{{ entry_password }}"  id="input-password" required>
+                <button class="btn flex-center custom-input__icon abs" type="button"> 
+                    {{ macros.svg('eye', '')}}
+                </button>
+                <div class="custom-input__error d-none">{{ error_required_field }}</div>
+            </div>
+        </div>
+        <button class="text--upp btn--theme btn--theme_accent w-full btn btn--size_M sign-form__submit" type="submit"  id="button-login" >{{ button_login }}</button>
+        <div class="sign-form__footer flex-row j-between"> 
+            <div class="custom-checkbox sign-form__checkbox flex-row">
+                <div class="custom-checkbox__wrapper rel"> 
+                    <input class="abs wh-full inset m-0" type="checkbox" name="remember_me" id="remember_me">
+                </div>
+                <label for="remember_me">Запам'ятати мене</label>
+            </div>
+            <a class="sign-form__page-link" href="{{ forgotten }}">{{ text_forgotten }}</a>
+        </div>
     </div>
-    {% endif %}
-    <p>{{ text_register_account }}</p>
-    <input type="button" value="{{ button_continue }}" id="button-account" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
-  </div>
-  <div class="col-sm-6">
-    <h2>{{ text_returning_customer }}</h2>
-    <p>{{ text_i_am_returning_customer }}</p>
-    <div class="form-group">
-      <label class="control-label" for="input-email">{{ entry_email }}</label>
-      <input type="text" name="email" value="" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
-    </div>
-    <div class="form-group">
-      <label class="control-label" for="input-password">{{ entry_password }}</label>
-      <input type="password" name="password" value="" placeholder="{{ entry_password }}" id="input-password" class="form-control" />
-      <a href="{{ forgotten }}">{{ text_forgotten }}</a></div>
-    <input type="button" value="{{ button_login }}" id="button-login" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
-  </div>
 </div>

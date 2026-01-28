@@ -49,6 +49,19 @@
     &__tabs {
         gap: 1.6rem;
         margin-block-end: 2.4rem;
+
+        input {
+            width: 0;
+            height: 0;
+            opacity: 0;
+            visibility: hidden;
+            display: none;
+
+            &:checked + label {
+                color: var(--color-dark);
+                border-block-end-color: var(--color-dark);
+            }
+        }
     }
 
     &__tab-btn {
@@ -56,14 +69,7 @@
         line-height: 132%;
         padding-block: .4rem;
         border-block-end: .1rem solid transparent;
-
-        &.active {
-            color: var(--color-dark);
-            border-block-end-color: var(--color-dark);
-        }
     }
-    
-
 }
 // End inner
 
