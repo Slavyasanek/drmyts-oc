@@ -15,6 +15,9 @@ class ControllerProductProduct extends Controller {
 			'href' => $this->url->link('common/home')
 		);
 
+
+            $data['checkout_link'] = $this->url->link('checkout/checkout');
+            
 		$this->load->model('catalog/category');
 
 		if (isset($this->request->get['path'])) {
@@ -237,6 +240,9 @@ class ControllerProductProduct extends Controller {
 			$this->document->setKeywords($product_info['meta_keyword']);
 			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
 			
+            $this->document->addStyle('catalog/view/theme/drmyts/stylesheet/photoswipe.min.css');
+            $this->document->addScript('catalog/view/theme/drmyts/js/photoswipe.umd.min.js', 'footer');
+			$this->document->addScript('catalog/view/theme/drmyts/js/photoswipe-lightbox.umd.min.js', 'footer');
             $this->document->addScript('catalog/view/theme/drmyts/js/product-page.js', 'footer');
             
 			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
@@ -296,6 +302,12 @@ class ControllerProductProduct extends Controller {
 				$data['price'] = false;
 			}
 
+
+            $data['discount_percentage'] = 0;
+            if ((float)$product_info['special'] > 0 && (float)$product_info['price'] > 0) {
+                $data['discount_percentage'] = round((($product_info['price'] - $product_info['special']) / $product_info['price']) * 100);
+            }
+            
 			if (!is_null($product_info['special']) && (float)$product_info['special'] >= 0) {
 				$data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				$tax_price = (float)$product_info['special'];
@@ -404,9 +416,43 @@ class ControllerProductProduct extends Controller {
 
 			$data['attribute_groups'] = $this->model_catalog_product->getProductAttributes($this->request->get['product_id']);
 
+
+            $wishlist_ids = array();
+            // Отримуємо wishlist тільки якщо користувач залогінений
+            if ($this->customer->isLogged()) {
+                $this->load->model('account/wishlist');
+                $wishlist_results = $this->model_account_wishlist->getWishlist();
+                foreach ($wishlist_results as $wishlist_item) {
+                    $wishlist_ids[] = $wishlist_item['product_id'];
+                }
+            }
+            
 			$data['products'] = array();
 
 			$results = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
+
+            if (!$results) {
+                $product_categories = $this->model_catalog_product->getCategories($this->request->get['product_id']);
+                if ($product_categories) {
+                    $category_id = $product_categories[0]['category_id'];
+                    $filter_data = array(
+                        'filter_category_id' => $category_id,
+                        'filter_sub_category' => true,
+                        'sort'               => 'p.date_added',
+                        'order'              => 'DESC',
+                        'start'              => 0,
+                        'limit'              => 9
+                    );
+                    $auto_results = $this->model_catalog_product->getProducts($filter_data);
+                    foreach ($auto_results as $auto_result) {
+                        if ($auto_result['product_id'] != $this->request->get['product_id']) {
+                            $results[] = $auto_result;
+                        }
+                    }
+                    if (count($results) > 8) $results = array_slice($results, 0, 8);
+                }
+            }
+            
 
 			foreach ($results as $result) {
 				if ($result['image']) {
@@ -441,6 +487,18 @@ class ControllerProductProduct extends Controller {
 					$rating = false;
 				}
 
+
+
+                $rel_discount = 0;
+                if ((float)$result['special'] > 0 && (float)$result['price'] > 0) {
+                    $rel_discount = round((($result['price'] - $result['special']) / $result['price']) * 100);
+                }
+
+                $in_wishlist = false;
+                if ($wishlist_ids) {
+                    $in_wishlist = in_array($result['product_id'], $wishlist_ids);
+                }
+            
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
@@ -451,6 +509,12 @@ class ControllerProductProduct extends Controller {
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
+
+                'discount'    => $rel_discount,
+                'in_wishlist' => $in_wishlist,
+                'manufacturer'=> isset($result['manufacturer']) ? $result['manufacturer'] : '',
+                'brand_href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . (isset($result['manufacturer_id']) ? $result['manufacturer_id'] : 0)),
+            
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				);
 			}
@@ -571,7 +635,7 @@ class ControllerProductProduct extends Controller {
 
 		$review_total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
 
-		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
+		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 3, 3);
 
 		foreach ($results as $result) {
 
@@ -598,7 +662,9 @@ class ControllerProductProduct extends Controller {
 		$pagination = new Pagination();
 		$pagination->total = $review_total;
 		$pagination->page = $page;
-		$pagination->limit = 5;
+		
+        $pagination->limit = 3;
+            
 		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $this->request->get['product_id'] . '&page={page}');
 
 		$data['pagination'] = $pagination->render();

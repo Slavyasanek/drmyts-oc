@@ -6,7 +6,7 @@
     {% if review.images %}
     	<div class="product-review__imgs flex-row-wrap">
             {% for image in review.images %}
-    		<a href="{{ image.popup }}" class="product-review__img o-hid">
+    		<a href="{{ image.popup }}" class="product-review__img o-hid" target="_blank" data-pswp-width="800" data-pswp-height="800">
     			<picture>
     				<img class="cover-image" src="{{ image.thumb }}" alt="" loading="lazy">
                 </picture>
@@ -36,10 +36,10 @@
 </div>
 
 {% endfor %}
-<div class="row">
-  <div class="col-sm-6 text-left">{{ pagination }}</div>
-  <div class="col-sm-6 text-right">{{ results }}</div>
-</div>
+{% if pagination  %}
+  <div class="pagination-wrapper">{{ pagination }}</div>
+{% endif %}
+
 {% else %}
 <p>{{ text_no_reviews }}</p>
 {% endif %}

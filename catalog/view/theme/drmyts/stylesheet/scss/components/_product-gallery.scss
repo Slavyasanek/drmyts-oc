@@ -25,6 +25,11 @@
         }
     }
 
+    &__sale {
+        inset-block-start: 1.6rem;
+        inset-inline-start: 1.6rem;
+    }
+
     .splide__list &__thumb-slide.splide__slide {
         border-radius: 1.2rem;
         overflow: hidden;

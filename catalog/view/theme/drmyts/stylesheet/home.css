@@ -297,6 +297,12 @@ p {
 .btn::after, .btn::before, .btn svg {
   transition: var(--transition-general);
 }
+.btn.loading {
+  pointer-events: none;
+}
+.btn.loading .loader {
+  display: block;
+}
 
 .btn--theme {
   position: relative;
@@ -2024,6 +2030,10 @@ p {
 .product-gallery__main-gallery:not(.is-initialized) {
   visibility: visible;
 }
+.product-gallery__sale {
+  inset-block-start: 1.6rem;
+  inset-inline-start: 1.6rem;
+}
 .splide__list .product-gallery__thumb-slide.splide__slide {
   border-radius: 1.2rem;
   overflow: hidden;
@@ -2580,6 +2590,11 @@ input:checked + .product-variants__color-label::before {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
+  list-style-type: none;
+}
+.pagination-wrapper .pagination li {
+  list-style-type: none;
+  margin: 0;
 }
 .pagination-wrapper .pagination li a, .pagination-wrapper .pagination li span {
   display: flex;

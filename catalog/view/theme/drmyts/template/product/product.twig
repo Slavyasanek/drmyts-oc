@@ -1,6 +1,7 @@
 {{ header }}
 
 {% import "drmyts/template/macro/macros.twig" as macros %}
+{% import "drmyts/template/macro/product-card.twig" as cards %}
 
 <main  id="content">
     {{ content_top }}
@@ -19,28 +20,31 @@
     		{% if thumb or images %}
     			<div class="product-page__gallery product-gallery">
     				<div class="splide product-gallery__main-gallery">
+                        {% if discount_percentage %}
+                            <span class="sale-badge product-gallery__sale abs text--color_white text--size_sm flex-center z1">-{{ discount_percentage }}%</span>
+                        {% endif %}
     					<div class="splide__track">
 
-    						<ul class="splide__list">
+    						<div class="splide__list" id="product-gallery">
     							{% if thumb %}
-    								<li class="splide__slide product-gallery__slide bg--white">
+    								<a href="{{ popup }}" class="splide__slide product-gallery__slide bg--white" target="_blank" data-pswp-width="600" data-pswp-height="600">
     									<picture>
-    										<img class="contain-image" src="{{ thumb}}" alt="{{ heading_title }}" loading="lazy" width="294" height="294">
+    										<img class="contain-image" src="{{ thumb }}" alt="{{ heading_title }}" loading="lazy" width="294" height="294">
     									</picture>
-    								</li>
+    								</a>
     							{% endif %}
 
     							{% if images %}
     								{% for image in images %}
-    									<li class="splide__slide product-gallery__slide bg--white">
+    									<a href="{{ image.popup }}" class="splide__slide product-gallery__slide bg--white" target="_blank" data-pswp-width="600" data-pswp-height="600">
     										<picture>
     											<img class="contain-image" src="{{ image.thumb }}" alt="{{ heading_title }}" loading="lazy" width="294" height="294">
     										</picture>
-    									</li>
+    									</a>
     								{% endfor %}
     							{% endif %}
 
-    						</ul>
+    						</div>
     					</div>
     				</div>
 
@@ -160,6 +164,9 @@
         				<button class="btn btn--theme btn--size_M btn--theme_accent text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" id="button-cart">
         					{{ macros.svg('add-to-cart', '') }}
         					<span>{{ button_cart }}</span>
+                            <div class="loader abs wh-full d-none">
+                                <div class="loader__inner abs pos-center"></div>
+                            </div>
         				</button>
                     {% else %}
                         <button class="btn btn--border btn--size_M btn--border_gray text--upp flex-row product-page__icon-title product-page__btn product-page__btn--no-stock j-center" type="button">  
@@ -168,9 +175,12 @@
                         </button>
                     {% endif %}
 
-    				<button class="btn btn--theme btn--size_M btn--theme_dark text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" {%  if quantity <= 0 %} disabled {% endif %}>
+    				<button class="btn btn--theme btn--size_M btn--theme_dark text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" {%  if quantity <= 0 %} disabled {% endif %} id="button-quick-buy">
     					{{ macros.svg('fast-buy', '') }}
     					<span>{{ button_fastbuy }}</span>
+                        <div class="loader abs wh-full d-none">
+                            <div class="loader__inner abs pos-center"></div>
+                        </div>
     				</button>
 
     			</div>
@@ -303,6 +313,34 @@
     		</div>
         </div>
     </article>
+
+    {% if products %}
+    <section class="products-slider" id="related-slider">
+        <div class="container products-slider__container">
+            <h2 class="section-title products-slider__title">
+                <span class="text--upp text--size_h2-mob text--size_h2-desk">{{ text_related_reg }}</span>
+                <span class="text--color_red text--ff_accent text--size_accent-h2 section-title__accent">{{ text_related_highlight }}</span>
+            </h2>
+            <div class="products splide product-slider slider" aria-label="Product Slider">
+                <div class="splide__track slider__track">
+                    <div class="splide__list slider__list">
+                        {% for product in products %}
+                            {{ cards.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide') }}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="splide__arrows slider__arrows flex-row products-slider__arrows">
+                    <button class="btn splide__arrow slider__btn slider__btn--prev splide__arrow--prev flex-center">
+                        <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+                    </button>
+                    <button class="btn splide__arrow splide__arrow--next slider__btn slider__btn--next flex-center">
+                        <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
     {{ content_bottom }}
 </main>
 <template id="photoUploadTemplate">
@@ -313,5 +351,9 @@
         </button>
     </div>
 </template>
+
+<script>
+    const checkoutUrl = '{{ checkout_link }}';
+</script>
 
 {{ footer }}

@@ -7,8 +7,12 @@
         align-items: center;
         justify-content: center;
         gap: .4rem;
-
+        list-style-type: none;
+        
         li {
+            list-style-type: none;
+            margin: 0;
+
             a, span {
                 display: flex;
                 align-items: center;
