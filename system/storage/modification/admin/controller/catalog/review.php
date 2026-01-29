@@ -111,6 +111,18 @@ class ControllerCatalogReview extends Controller {
 		$this->getForm();
 	}
 
+
+    	public function deleteImage() {
+    		$json = array();
+    		if (isset($this->request->post['review_image_id']) && $this->user->hasPermission('modify', 'catalog/review')) {
+    			$this->load->model('catalog/review');
+    			$this->db->query("DELETE FROM " . DB_PREFIX . "review_image WHERE review_image_id = '" . (int)$this->request->post['review_image_id'] . "'");
+    			$json['success'] = true;
+    		}
+    		$this->response->addHeader('Content-Type: application/json');
+    		$this->response->setOutput(json_encode($json));
+    	}
+            
 	public function delete() {
 		$this->load->language('catalog/review');
 
@@ -380,6 +392,33 @@ class ControllerCatalogReview extends Controller {
 		$data['sort'] = $sort;
 		$data['order'] = $order;
 
+
+    		// Фотографії для відгуку
+    		$this->load->model('tool/image');
+    		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+    		$data['review_images'] = array();
+
+    		if (isset($this->request->post['review_image'])) {
+    			$review_images = $this->request->post['review_image'];
+    		} elseif (isset($this->request->get['review_id'])) {
+    			$review_images = $this->model_catalog_review->getReviewImages($this->request->get['review_id']);
+    		} else {
+    			$review_images = array();
+    		}
+
+    		foreach ($review_images as $val) {
+    			$img_path = is_array($val) ? $val['image'] : $val;
+    			$review_image_id = is_array($val) ? ($val['review_image_id'] ?? 0) : 0;
+
+    			if (is_file(DIR_IMAGE . $img_path)) {
+    				$data['review_images'][] = array(
+    					'review_image_id' => $review_image_id,
+    					'image' => $img_path,
+    					'thumb' => $this->model_tool_image->resize($img_path, 100, 100)
+    				);
+    			}
+    		}
+            
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
@@ -494,6 +533,15 @@ class ControllerCatalogReview extends Controller {
 			$data['product'] = '';
 		}
 
+
+            	if (isset($this->request->post['email'])) {
+        			$data['email'] = $this->request->post['email'];
+        		} elseif (!empty($review_info)) {
+        			$data['email'] = $review_info['email'];
+        		} else {
+        			$data['email'] = '';
+        		}
+                
 		if (isset($this->request->post['author'])) {
 			$data['author'] = $this->request->post['author'];
 		} elseif (!empty($review_info)) {
@@ -534,6 +582,33 @@ class ControllerCatalogReview extends Controller {
 			$data['status'] = '';
 		}
 
+
+    		// Фотографії для відгуку
+    		$this->load->model('tool/image');
+    		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+    		$data['review_images'] = array();
+
+    		if (isset($this->request->post['review_image'])) {
+    			$review_images = $this->request->post['review_image'];
+    		} elseif (isset($this->request->get['review_id'])) {
+    			$review_images = $this->model_catalog_review->getReviewImages($this->request->get['review_id']);
+    		} else {
+    			$review_images = array();
+    		}
+
+    		foreach ($review_images as $val) {
+    			$img_path = is_array($val) ? $val['image'] : $val;
+    			$review_image_id = is_array($val) ? ($val['review_image_id'] ?? 0) : 0;
+
+    			if (is_file(DIR_IMAGE . $img_path)) {
+    				$data['review_images'][] = array(
+    					'review_image_id' => $review_image_id,
+    					'image' => $img_path,
+    					'thumb' => $this->model_tool_image->resize($img_path, 100, 100)
+    				);
+    			}
+    		}
+            
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');

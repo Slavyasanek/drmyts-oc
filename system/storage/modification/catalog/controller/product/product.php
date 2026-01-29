@@ -242,7 +242,7 @@ class ControllerProductProduct extends Controller {
 			
             $this->document->addStyle('catalog/view/theme/drmyts/stylesheet/photoswipe.min.css');
             $this->document->addScript('catalog/view/theme/drmyts/js/photoswipe.umd.min.js', 'footer');
-			$this->document->addScript('catalog/view/theme/drmyts/js/photoswipe-lightbox.umd.min.js', 'footer');
+            $this->document->addScript('catalog/view/theme/drmyts/js/photoswipe-lightbox.umd.min.js', 'footer');
             $this->document->addScript('catalog/view/theme/drmyts/js/product-page.js', 'footer');
             
 			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
@@ -418,7 +418,7 @@ class ControllerProductProduct extends Controller {
 
 
             $wishlist_ids = array();
-            // Отримуємо wishlist тільки якщо користувач залогінений
+
             if ($this->customer->isLogged()) {
                 $this->load->model('account/wishlist');
                 $wishlist_results = $this->model_account_wishlist->getWishlist();

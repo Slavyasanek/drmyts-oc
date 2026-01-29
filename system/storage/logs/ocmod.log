@@ -1,4 +1,4 @@
-2026-01-29 14:30:23 - MOD: Modification Default
+2026-01-29 15:39:09 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -106,18 +106,6 @@ CODE: $data['customer_name'] = '';
 LINE: 388
 CODE: if ($product_info['minimum']) {
 LINE: 371
-CODE: public function review() {
-LINE: 564
-CODE: $data['reviews'][] = array(
-LINE: 592
-CODE: 'rating'     => (int)$result['rating'],
-LINE: 598
-CODE: $pagination->limit = 5;
-LINE: 606
-CODE: $results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
-LINE: 579
-CODE: if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
-LINE: 671
 CODE: if (!is_null($product_info['special']) && (float)$product_info['special'] >= 0) {
 LINE: 310
 CODE: $results = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
@@ -128,4 +116,39 @@ CODE: $data['products'][] = array(
 LINE: 501
 CODE: 'rating'      => $rating,
 LINE: 516
+----------------------------------------------------------------
+MOD: Review Images
+CODE: public function review() {
+LINE: 622
+CODE: $data['reviews'][] = array(
+LINE: 650
+CODE: 'rating'     => (int)$result['rating'],
+LINE: 656
+CODE: $pagination->limit = 5;
+LINE: 664
+CODE: $results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
+LINE: 637
+CODE: if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
+LINE: 729
+
+FILE: admin/controller/catalog/review.php
+CODE: public function delete() {
+LINE: 125
+CODE: if (isset($this->request->post['author'])) {
+LINE: 517
+CODE: $data['header'] = $this->load->controller('common/header');
+LINE: 421
+LINE: 611
+
+FILE: admin/model/catalog/review.php
+CODE: public function addReview($data) {
+LINE: 5
+CODE: public function editReview($review_id, $data) {
+LINE: 25
+CODE: $this->db->query("DELETE FROM " . DB_PREFIX . "review WHERE review_id = '" . (int)$review_id . "'");
+LINE: 46
+CODE: public function getReview($review_id) {
+LINE: 57
+CODE: $sql .= " ORDER BY " . $data['sort'] . " " . $data['order'];
+NOT FOUND - OPERATIONS ABORTED!
 ----------------------------------------------------------------
