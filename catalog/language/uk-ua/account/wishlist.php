@@ -15,6 +15,8 @@ $_['text_remove']   = 'Обрані товари оновлені';
 $_['text_empty']    = 'У вас немає товарів';
 $_['text_wishlist_before_icon'] = 'Щоб зберегти товар у список бажань, натисніть на іконку серця';
 $_['text_wishlist_after_icon'] = 'на картці товару';
+$_['text_logout'] = 'Вийти';
+$_['text_password_page'] = 'Зміна пароля';
 
 // Column
 $_['column_image']  = 'Зображення';

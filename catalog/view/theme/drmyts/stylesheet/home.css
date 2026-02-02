@@ -2246,10 +2246,23 @@ input:checked + .product-variants__color-label::before {
   inset-block-start: 0;
   inset-inline-end: 0;
 }
+@media screen and (hover: hover) {
+  .photo-upload__delete:hover svg, .photo-upload__delete:focus svg {
+    stroke: var(--color-red);
+  }
+}
 .photo-upload__file {
   border-radius: 0.8rem;
   width: 6rem;
   height: 6rem;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24"><path d="M3 23h18V6.709L15.29 1H3zM15 2h.2L20 6.8V7h-5zM4 2h10v6h6v14H4z"/><path fill="none" d="M0 0h24v24H0z"/></svg>');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50%;
+  background-color: var(--color-background);
+}
+.photo-upload__file img {
+  background-color: var(--color-background);
 }
 
 .review-form {
@@ -2631,12 +2644,18 @@ input:checked + .product-variants__color-label::before {
 .account-details__field .custom-input__icon {
   inset-block-start: 4.2rem;
 }
+.account-details__choices {
+  gap: 0.4rem 0.8rem;
+}
 
 @media screen and (min-width: 1200px) {
-  .account-details {
+  .account-details__col {
     grid-template-columns: repeat(2, 1fr);
     -moz-column-gap: 2.4rem;
          column-gap: 2.4rem;
+  }
+  .account-details__btn {
+    width: 50%;
   }
 }
 .account-empty {
@@ -4052,6 +4071,11 @@ input:checked + .product-variants__color-label::before {
   margin-block-start: 2.4rem;
 }
 @media screen and (hover: hover) {
+  .sign-form__bottom-link:hover, .sign-form__bottom-link:focus {
+    opacity: 0.5;
+  }
+}
+@media screen and (hover: hover) {
   .sign-form__page-link:hover, .sign-form__page-link:focus {
     color: var(--color-red);
   }
@@ -4069,6 +4093,12 @@ input:checked + .product-variants__color-label::before {
   margin-block-end: 1.6rem;
   width: 4rem;
   height: 4rem;
+}
+.sign-form__alert {
+  width: 100%;
+}
+.sign-form__choices {
+  gap: 0.8rem 1.2rem;
 }
 
 @media screen and (min-width: 960px) {

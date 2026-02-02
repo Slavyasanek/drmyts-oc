@@ -30,6 +30,13 @@ class ControllerAccountWishList extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->document->setRobots('noindex,follow');
 
+
+                $data['logout'] = $this->url->link('account/logout', '', true);
+        		$data['edit'] = $this->url->link('account/edit', '', true);
+        		$data['wishlist'] = $this->url->link('account/wishlist');
+        		$data['order'] = $this->url->link('account/order', '', true);
+                $data['password_change'] = $this->url->link('account/password', '', true);
+            
 		$data['breadcrumbs'] = array();
 
 		$data['breadcrumbs'][] = array(

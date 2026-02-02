@@ -21,11 +21,26 @@
     &__delete {
         inset-block-start: 0;
         inset-inline-end: 0; 
+
+        @include mixins.hover {
+            svg {
+                stroke: var(--color-red);
+            }
+        }
     }
 
     &__file {
         border-radius: .8rem;
         @include mixins.square(6rem);
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="800px" height="800px" viewBox="0 0 24 24"><path d="M3 23h18V6.709L15.29 1H3zM15 2h.2L20 6.8V7h-5zM4 2h10v6h6v14H4z"/><path fill="none" d="M0 0h24v24H0z"/></svg>');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 50%;
+        background-color: var(--color-background);
+
+        img {
+            background-color: var(--color-background);
+        }
     }
 }
 // End inner

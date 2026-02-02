@@ -7,10 +7,15 @@ $_['heading_title']  = 'Зміна пароля';
 $_['text_account']   = 'Особистий кабінет';
 $_['text_password']  = 'Поточний пароль';
 $_['text_success']   = 'Ваш пароль успішно змінений';
+$_['text_edit']          = 'Контактна інформація';
+$_['text_wishlist']      = 'Список бажань';
+$_['text_logout'] = 'Вийти';
+$_['text_password_page'] = 'Зміна пароля';
 
 // Entry
 $_['entry_password'] = 'Новий пароль';
 $_['entry_confirm']  = 'Підтвердіть пароль';
+
 
 // Error
 $_['error_password'] = 'Пароль має містити від 4 до 20 символів';

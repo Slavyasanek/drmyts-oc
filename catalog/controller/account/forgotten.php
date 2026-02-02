@@ -37,10 +37,10 @@ class ControllerAccountForgotten extends Controller {
 			'href' => $this->url->link('account/account', '', true)
 		);
 
-		// $data['breadcrumbs'][] = array(
-		// 	'text' => $this->language->get('text_forgotten'),
-		// 	'href' => $this->url->link('account/forgotten', '', true)
-		// );
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_forgotten'),
+			'href' => $this->url->link('account/forgotten', '', true)
+		);
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];

@@ -4,7 +4,7 @@
 $_['heading_title']        = 'Реєстрація';
 
 // Text
-$_['text_account']         = 'Обліковий запис';
+$_['text_account']         = 'Мій обліковий запис';
 $_['text_register']        = 'Реєстрація';
 $_['text_account_already'] = 'Якщо ви вже зареєстровані, перейдіть на сторінку <a href="%s">входу в систему</a>.';
 $_['text_your_details']    = 'Контактні дані';
@@ -13,6 +13,7 @@ $_['text_newsletter']      = 'Розсилка новин';
 $_['text_your_password']   = 'Ваш пароль';
 $_['text_agree']           = 'Я погоджуюсь з умовами <a href="%s" class="agree"><b>%s</b></a>';
 $_['text_login'] = 'Я вже маю акаунт';
+$_['text_remember_me'] = "Запам'ятати мене";
 
 // Entry
 $_['entry_customer_group'] = 'Група покупців';

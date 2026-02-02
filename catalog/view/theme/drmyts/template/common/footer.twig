@@ -1,3 +1,5 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
 <footer class="footer">
     <div class="container footer__main">
         <div class="footer__logo-block">
@@ -40,6 +42,14 @@
         </div>
     </div>
 </footer>
+<template id="photoUploadTemplate">
+    <div class="photo-upload__file rel o-hid">
+        <picture><img class="cover-image" src="" alt="" loading="lazy" width="60" height="60" /></picture>
+        <button class="photo-upload__delete btn flex-center icon abs" type="button">
+            {{ macros.svg('close', 'anim') }}
+        </button>
+    </div>
+</template>
 
 {% for style in styles %}
 <link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />

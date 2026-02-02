@@ -549,6 +549,112 @@ class MobileMenu {
     }
 }
 
+// PHOTO HANDLER
+class PhotoUploadHandler {
+    constructor(selector, maxFileSizeMb = 10) {
+        this.container = typeof selector === 'string' ? document.querySelector(selector) : selector;
+        if (!this.container) {
+            console.error(`PhotoUploadHandler: Container element not found for selector "${selector}"`);
+            return;
+        }
+
+        // DOM elements
+        this.fileInput = this.container.querySelector('input[type="file"]');
+        this.uploadButton = this.container.querySelector('.photo-upload__btn');
+        this.previewList = this.container.querySelector('.photo-upload__list');
+        this.disclaimer = this.container.querySelector('.photo-upload__disclaimer');
+        
+        // Constants
+        this.MAX_FILE_SIZE_BYTES = maxFileSizeMb * 1024 * 1024; // Convert MB to Bytes
+        this.MAX_FILE_COUNT = 5; 
+
+        this.filesMap = new Map();
+        this.nextFileId = 0;
+
+        this.initEventListeners();
+    }
+
+    // INIT
+    initEventListeners() {
+        if (this.uploadButton) this.uploadButton.addEventListener('click', this.handleButtonClick.bind(this));
+        if (this.fileInput) this.fileInput.addEventListener('change', this.handleFileSelection.bind(this));
+        if (this.previewList) this.previewList.addEventListener('click', this.handleRemoveClick.bind(this));
+    }
+
+    handleButtonClick() {
+        this.fileInput.click();
+    }
+
+    // handle change
+    handleFileSelection(event) {
+        const files = event.target.files;
+        if (!files || files.length === 0) return;
+        Array.from(files).forEach(file => {
+            if (this.filesMap.size >= this.MAX_FILE_COUNT) {
+                this.disclaimer.textContent = 'Максимальна кількість зображень - 5';
+                this.uploadButton.disabled = true;
+                return;
+            } else this.uploadButton.disabled = false;
+
+            if (file.size > this.MAX_FILE_SIZE_BYTES) {
+                this.disclaimer.textContent = 'Файл занадто великий. Максимальний розмір файлу 10 мб.'
+                return;
+            }
+            
+            const fileId = this.nextFileId++;
+            this.filesMap.set(fileId, file);
+            this.renderFilePreview(fileId, file);
+        });
+
+        this.fileInput.value = '';
+        this.updateFormData();
+    }
+
+    renderFilePreview(fileId, file) {
+        if (!file.type.startsWith('image/')) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const clone = document.getElementById('photoUploadTemplate').content.cloneNode(true);
+            clone.querySelector('.cover-image').src = e.target.result;
+            clone.querySelector('.cover-image').alt = file.name;
+            clone.querySelector('.photo-upload__file').dataset.fileId = fileId; 
+
+           
+            this.previewList.appendChild(clone);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // REMOVE FILE FROM LIST
+    handleRemoveClick(event) {
+        const deleteButton = event.target.closest('.photo-upload__delete');
+        if (!deleteButton) return;
+        const previewItem = deleteButton.closest('.photo-upload__file');
+        if (!previewItem) return;
+
+        const fileId = parseInt(previewItem.dataset.fileId, 10);
+
+        if (this.filesMap.has(fileId)) {
+            this.filesMap.delete(fileId);
+        }
+
+        previewItem.remove();
+        this.updateFormData();
+    }
+
+    // update input value
+    updateFormData() {
+        const dataTransfer = new DataTransfer();
+        this.filesMap.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        this.fileInput.files = dataTransfer.files;
+
+    }
+}
+
+
 // FAQ & ELSE DROPDOWNS
 const toggleDropdowns = (className, headingClassName) => {
     Array.from(document.querySelectorAll(className)).forEach(acc => {
@@ -677,7 +783,7 @@ class QuantityChanger {
     init() {
         this.minusBtn.addEventListener('click', () => this.changeValue(-1));
         this.plusBtn.addEventListener('click', () => this.changeValue(1));
-        this.input.addEventListener('change', () => this.validateInput());
+        if (this.input) this.input.addEventListener('change', () => this.validateInput());
         this.updateButtonStates();
     }
 
@@ -717,6 +823,11 @@ const modalHandler = new Modal();
 
 document.addEventListener("DOMContentLoaded", () => {
     new MobileMenu('.header-menu', 'is-active', '.header__toggler', '.header-menu__close');
+    if (document.querySelector('.photo-upload')) {
+        Array.from(document.querySelectorAll('.photo-upload:not(.photo-upload--custom-field)')).forEach(photoUpload => {
+            new PhotoUploadHandler(photoUpload);
+        })
+    }
 
     // PASSWORD INPUTS
     if (document.querySelector('.custom-input--type_password')) {

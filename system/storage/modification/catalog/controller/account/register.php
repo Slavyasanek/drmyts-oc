@@ -35,6 +35,9 @@ class ControllerAccountRegister extends Controller {
 			$this->response->redirect($this->url->link('account/success'));
 		}
 
+
+                $data['login'] = $this->url->link('account/login', '', true);
+            
 		$data['breadcrumbs'] = array();
 
 		$data['breadcrumbs'][] = array(

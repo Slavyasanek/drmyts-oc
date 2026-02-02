@@ -27,7 +27,7 @@
 
     						<div class="splide__list" id="product-gallery">
     							{% if thumb %}
-    								<a href="{{ popup }}" class="splide__slide product-gallery__slide bg--white" target="_blank" data-pswp-width="600" data-pswp-height="600">
+    								<a href="{{ popup }}" class="splide__slide product-gallery__slide bg--white d-block w-full" target="_blank" data-pswp-width="600" data-pswp-height="600">
     									<picture>
     										<img class="contain-image" src="{{ thumb }}" alt="{{ heading_title }}" loading="lazy" width="294" height="294">
     									</picture>
@@ -343,14 +343,6 @@
     {% endif %}
     {{ content_bottom }}
 </main>
-<template id="photoUploadTemplate">
-    <div class="photo-upload__file rel o-hid">
-        <picture><img class="cover-image" src="" alt="" loading="lazy" width="60" height="60" /></picture>
-        <button class="photo-upload__delete btn flex-center icon abs" type="button">
-            {{ macros.svg('close', '') }}
-        </button>
-    </div>
-</template>
 
 <script>
     const checkoutUrl = '{{ checkout_link }}';

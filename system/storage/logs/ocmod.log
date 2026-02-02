@@ -1,4 +1,4 @@
-2026-01-29 15:39:09 - MOD: Modification Default
+2026-02-02 11:40:27 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -26,6 +26,33 @@ LINE: 18
 FILE: system/library/template/twig.php
 CODE: if (is_file($file)) {
 LINE: 13
+----------------------------------------------------------------
+MOD: Account pages 
+
+FILE: catalog/controller/account/account.php
+CODE: $this->load->language('account/account');
+LINE: 15
+
+FILE: catalog/controller/account/wishlist.php
+CODE: $data['breadcrumbs'] = array();
+LINE: 39
+
+FILE: catalog/controller/account/edit.php
+CODE: $data['breadcrumbs'] = array();
+LINE: 41
+
+FILE: catalog/controller/account/password.php
+CODE: $data['breadcrumbs'] = array();
+LINE: 36
+
+FILE: catalog/controller/account/order.php
+CODE: $data['breadcrumbs'] = array();
+LINE: 30
+LINE: 133
+
+FILE: catalog/controller/account/register.php
+CODE: $data['breadcrumbs'] = array();
+LINE: 40
 ----------------------------------------------------------------
 MOD: Category, Manufacturer and Special Customizations (Wishlist, Brands, Discounts, Filters)
 

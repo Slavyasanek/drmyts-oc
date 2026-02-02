@@ -9,6 +9,8 @@ $_['text_edit']          = 'Контактна інформація';
 $_['text_your_details']  = 'Особисті дані';
 $_['text_success']       = 'Обліковий запис оновлений';
 $_['text_wishlist']    = 'Список бажань';
+$_['text_logout'] = 'Вийти';
+$_['text_password_page'] = 'Зміна пароля';
 
 // Entry
 $_['entry_firstname']    = 'Ваше ім’я';

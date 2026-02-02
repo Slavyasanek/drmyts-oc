@@ -17,13 +17,24 @@
             }
         }
     }
+
+    &__choices {
+        gap: .4rem .8rem;
+    }
 }
 // End inner
 
 @include mixins.min-XL {
     .account-details {
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 2.4rem;
+        &__col {
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 2.4rem;
+        }
+
+        &__btn {
+            width: 50%;
+        }
+        
     }
 }
 // End XL

@@ -26,13 +26,13 @@
             {% endif %}
 
 
-            {% if error_warning %}
-                <div class="sign-form__error text--center">{{ error_warning }}</div>
-            {% endif %}
-
-
             <h2 class="sign-form__title text--center text--size_h3-full">{{ text_login }}</h2>
+
             <form class="sign-form__form mx" action="{{ action }}" method="post" enctype="multipart/form-data">
+                {% if error_warning %}
+                    <div class="alert alert--error text--center alert--in-txt sign-form__alert">{{ error_warning }}</div>
+                {% endif %}
+
                 <div class="sign-form__fields flex-col">
                     <div class="sign-form__field custom-input">
                         <input class="custom-input__input" type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" required />
@@ -51,12 +51,6 @@
               {% endif %}
                 <button class="text--upp btn--theme btn--theme_accent w-full btn btn--size_M sign-form__submit" type="submit">{{ button_login }}</button>
                 <div class="sign-form__footer flex-row j-between">
-                    <div class="custom-checkbox sign-form__checkbox flex-row">
-                        <div class="custom-checkbox__wrapper rel">
-                            <input class="abs wh-full inset m-0" type="checkbox" name="remember_me" id="remember_me" />
-                        </div>
-                        <label for="remember_me">{{ text_remember_me }}</label>
-                    </div>
                     <a class="sign-form__page-link" href="{{ forgotten }}">{{ text_forgotten }}</a>
                 </div>
                 <a class="text--upp text--color_accent sign-form__bottom-link text--size_label text--center" href="{{ register }}">{{ text_register }}</a>

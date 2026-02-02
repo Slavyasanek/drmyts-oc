@@ -63,6 +63,7 @@ $_['button_need_help'] = 'Потрібна допомога?';
 $_['button_notify_availability'] = 'Повідомити про наявність';
 $_['button_reset_filter'] = 'Скинути фільтри';
 $_['button_filter_open'] = 'Фільтри';
+$_['button_save'] = 'Зберегти';
 
 // Error
 $_['error_exception']       = 'Помилка коду (%s): %s в %s у рядку %s';

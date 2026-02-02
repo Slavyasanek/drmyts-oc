@@ -32,6 +32,13 @@ class ControllerAccountEdit extends Controller {
 			$this->response->redirect($this->url->link('account/account', '', true));
 		}
 
+
+                $data['logout'] = $this->url->link('account/logout', '', true);
+        		$data['edit'] = $this->url->link('account/edit', '', true);
+        		$data['wishlist'] = $this->url->link('account/wishlist');
+        		$data['order'] = $this->url->link('account/order', '', true);
+                $data['password_change'] = $this->url->link('account/password', '', true);
+            
 		$data['breadcrumbs'] = array();
 
 		$data['breadcrumbs'][] = array(
