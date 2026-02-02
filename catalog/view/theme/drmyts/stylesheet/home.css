@@ -2813,6 +2813,9 @@ input:checked + .product-variants__color-label::before {
   background-color: var(--color-dark);
   color: var(--color-white);
 }
+.orders__pagination {
+  margin-block-start: 3.2rem;
+}
 
 @media screen and (min-width: 960px) {
   .orders__types {

@@ -1,0 +1,16 @@
+{% macro pageTitle(heading_title, breadcrumbs) %}
+    <div class="page-title border--end">
+		<div class="container page-title__container">
+            {% if heading_title %}
+			    <h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ heading_title }}</h1>
+            {% endif %}
+			<div class="breadcrumbs text--color_gray page-title__breadcrumbs">
+				<div class="breadcrumbs__list flex-row">
+					{% for breadcrumb in breadcrumbs %}
+                        <a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+                    {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endmacro %}

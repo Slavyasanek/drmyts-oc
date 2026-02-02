@@ -1,54 +1,17 @@
 {{ header }}
 
 {% import "drmyts/template/macro/macros.twig" as macros %}
+{% import "drmyts/template/macro/sidemenu.twig" as menus %}
+{% import "drmyts/template/macro/sections.twig" as sections %}
 
-<main>
-	<div class="page-title border--end">
-		<div class="container page-title__container">
-			<h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ heading_title }}</h1>
-			<div class="breadcrumbs text--color_gray page-title__breadcrumbs">
-				<div class="breadcrumbs__list flex-row">
-					{% for breadcrumb in breadcrumbs %}
-                        <a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
-                    {% endfor %}
-				</div>
-			</div>
-		</div>
-	</div>
+<main id="content">
+    {{ content_top }}
+    {{ sections.pageTitle(heading_title, breadcrumbs) }}
+
 	<section class="account">
 		<div class="container account__container">
-			<div class="account__nav flex-col border--end">
-                <a class="flex-row account__nav-item text--upp" href="{{ edit }}">
-                    <div class="icon account__nav-icon">
-                        {{ macros.svg('user', '') }}
-                    </div>
-                    <span>{{ text_edit }}</span>
-                </a>
-                <a class="flex-row account__nav-item text--upp active" href="{{ wishlist }}">
-                    <div class="icon account__nav-icon">
-                        {{ macros.svg('heart', '') }}
-                    </div>
-                    <span>{{ text_wishlist_nav }}</span>
-                </a>
-                <a class="flex-row account__nav-item text--upp" href="{{ order }}">
-                    <div class="icon account__nav-icon">
-                        {{ macros.svg('shopping-bag', '') }}
-                    </div>
-                    <span>{{ text_order }}</span>
-                </a>
-                <a class="flex-row account__nav-item text--upp" href="{{ password_change }}">
-                    <div class="icon account__nav-icon">
-                        {{ macros.svg('password', '') }}
-                    </div>
-                    <span>{{ text_password_page }}</span>
-                </a>
-                <a class="flex-row account__nav-item text--upp" href="{{ logout }}">
-                    <div class="icon account__nav-icon">
-                        {{ macros.svg('logout', '') }}
-                    </div>
-                    <span>{{ text_logout }}</span>
-                </a>
-            </div>
+            {{ menus.accountMenu(edit, text_edit, wishlist, text_wishlist_nav, order, text_order, password_change, text_password_page, logout, text_logout, 'wishlist') }}
+
 			<div class="account__content">
 				<h2 class="account__subtitle text--size_h3-full">{{ text_wishlist_nav }} {% if products|length > 0 %}<span class="text--color_gray">({{ products|length }})</span>{% endif %}</h2>
                 {% if products %}
@@ -96,5 +59,6 @@
 			</div>
 		</div>
 	</section>
+    {{ content_bottom }}
 </main>
 {{ footer }}

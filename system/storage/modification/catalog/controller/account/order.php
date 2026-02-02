@@ -13,10 +13,40 @@ class ControllerAccountOrder extends Controller {
 		$this->load->language('account/order');
 
 		$this->document->setTitle($this->language->get('heading_title'));
+
+
+            $this->load->model('tool/image');
+            $this->load->model('catalog/product');
+
+            $data['edit'] = $this->url->link('account/edit', '', true);
+            $data['password_change'] = $this->url->link('account/password', '', true);
+            $data['wishlist'] = $this->url->link('account/wishlist', '', true);
+            $data['order'] = $this->url->link('account/order', '', true);
+            $data['logout'] = $this->url->link('account/logout', '', true);
+            
+
+            if (isset($this->request->get['filter_time'])) {
+                $filter_time = $this->request->get['filter_time'];
+            } else {
+                $filter_time = 'all';
+            }
+            $data['current_filter'] = $filter_time;
+
+            $data['filter_url_all'] = $this->url->link('account/order', 'filter_time=all', true);
+            $data['filter_url_month'] = $this->url->link('account/order', 'filter_time=month', true);
+            $data['filter_url_last_month'] = $this->url->link('account/order', 'filter_time=last_month', true);
+            $data['filter_url_year'] = $this->url->link('account/order', 'filter_time=year', true);
+            $data['filter_url_last_year'] = $this->url->link('account/order', 'filter_time=last_year', true);
+            
 		$this->document->setRobots('noindex,follow');
 		
 		$url = '';
 
+
+            if (isset($this->request->get['filter_time'])) {
+                $url .= '&filter_time=' . $this->request->get['filter_time'];
+            }
+            
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
@@ -45,6 +75,11 @@ class ControllerAccountOrder extends Controller {
 			'href' => $this->url->link('account/order', $url, true)
 		);
 
+
+            if (isset($this->request->get['filter_time'])) {
+                $url .= '&filter_time=' . $this->request->get['filter_time'];
+            }
+            
 		if (isset($this->request->get['page'])) {
 			$page = (int)$this->request->get['page'];
 		} else {
@@ -55,19 +90,62 @@ class ControllerAccountOrder extends Controller {
 
 		$this->load->model('account/order');
 
-		$order_total = $this->model_account_order->getTotalOrders();
+		
+            // CUSTOM: Filter Data Setup
+            $filter_data = array(
+                'sort' => 'o.date_added',
+                'order' => 'DESC',
+                'start' => ($page - 1) * 10,
+                'limit' => 10,
+                'filter_time' => isset($this->request->get['filter_time']) ? $this->request->get['filter_time'] : 'all'
+            );
 
-		$results = $this->model_account_order->getOrders(($page - 1) * 10, 10);
+            // Pass array to model (modified via XML below)
+            $order_total = $this->model_account_order->getTotalOrders($filter_data);
+            
+
+		
+            // CUSTOM: Get Orders with filter
+            $results = $this->model_account_order->getOrders($filter_data);
+            
 
 		foreach ($results as $result) {
 			$product_total = $this->model_account_order->getTotalOrderProductsByOrderId($result['order_id']);
 			$voucher_total = $this->model_account_order->getTotalOrderVouchersByOrderId($result['order_id']);
 
+
+            // CUSTOM: Get Products & Images for this order
+            $order_products_raw = $this->model_account_order->getOrderProducts($result['order_id']);
+            $products_processed = array();
+
+            foreach ($order_products_raw as $product) {
+                $product_info = $this->model_catalog_product->getProduct($product['product_id']);
+                
+                if ($product_info && $product_info['image']) {
+                    $image = $this->model_tool_image->resize($product_info['image'], 56, 56);
+                } else {
+                    $image = $this->model_tool_image->resize('no_image.png', 56, 56);
+                }
+
+                $products_processed[] = array(
+                    'name'     => $product['name'],
+                    'model'    => $product['model'],
+                    'quantity' => $product['quantity'],
+                    'price'    => $this->currency->format($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0), $result['currency_code'], $result['currency_value']),
+                    'total'    => $this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $result['currency_code'], $result['currency_value']),
+                    'image'    => $image,
+                    'href'     => $this->url->link('product/product', 'product_id=' . $product['product_id'], true)
+                );
+            }
+            
 			$data['orders'][] = array(
 				'order_id'   => $result['order_id'],
 				'name'       => $result['firstname'] . ' ' . $result['lastname'],
 				'status'     => $result['status'],
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+
+            'products_list'   => $products_processed, // Custom added products
+            
 				'products'   => ($product_total + $voucher_total),
 				'total'      => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'view'       => $this->url->link('account/order/info', 'order_id=' . $result['order_id'], true),
@@ -78,7 +156,13 @@ class ControllerAccountOrder extends Controller {
 		$pagination->total = $order_total;
 		$pagination->page = $page;
 		$pagination->limit = 10;
-		$pagination->url = $this->url->link('account/order', 'page={page}', true);
+		
+            $url = '';
+    		if (isset($this->request->get['filter_time'])) {
+    			$url .= 'filter_time=' . $this->request->get['filter_time'];
+    		}
+    		$pagination->url = $this->url->link('account/order', $url . '&page={page}', true);
+            
 
 		$data['pagination'] = $pagination->render();
 
@@ -97,6 +181,11 @@ class ControllerAccountOrder extends Controller {
 	}
 
 	public function info() {
+
+
+            $this->response->redirect($this->url->link('account/order', '', true));
+            return;
+            
 		$this->load->language('account/order');
 
 		if (isset($this->request->get['order_id'])) {
@@ -120,6 +209,11 @@ class ControllerAccountOrder extends Controller {
 
 			$url = '';
 
+
+            if (isset($this->request->get['filter_time'])) {
+                $url .= '&filter_time=' . $this->request->get['filter_time'];
+            }
+            
 			if (isset($this->request->get['page'])) {
 				$url .= '&page=' . $this->request->get['page'];
 			}
@@ -336,6 +430,9 @@ class ControllerAccountOrder extends Controller {
 			foreach ($results as $result) {
 				$data['histories'][] = array(
 					'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+
+            'products_list'   => $products_processed, // Custom added products
+            
 					'status'     => $result['status'],
 					'comment'    => $result['notify'] ? nl2br($result['comment']) : ''
 				);

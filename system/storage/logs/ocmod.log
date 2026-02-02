@@ -1,4 +1,4 @@
-2026-02-02 11:40:27 - MOD: Modification Default
+2026-02-02 15:34:43 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -27,6 +27,41 @@ FILE: system/library/template/twig.php
 CODE: if (is_file($file)) {
 LINE: 13
 ----------------------------------------------------------------
+MOD: Account Order Page (Images + Filters)
+
+FILE: catalog/controller/account/order.php
+CODE: public function info() {
+LINE: 96
+CODE: $pagination->url = $this->url->link('account/order', 'page={page}', true);
+LINE: 73
+CODE: $this->document->setTitle($this->language->get('heading_title'));
+LINE: 39
+CODE: if (isset($this->request->get['page'])) {
+LINE: 49
+LINE: 75
+LINE: 166
+CODE: $order_total = $this->model_account_order->getTotalOrders();
+LINE: 85
+CODE: $results = $this->model_account_order->getOrders(($page - 1) * 10, 10);
+LINE: 99
+CODE: $data['orders'][] = array(
+LINE: 133
+CODE: 'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+LINE: 140
+LINE: 420
+
+FILE: catalog/model/account/order.php
+CODE: public function getTotalOrders() {
+LINE: 152
+CODE: $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` o WHERE customer_id = '" . (int)$this->customer->getId() . "' AND o.order_status_id > '0' AND o.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+LINE: 153
+CODE: public function getOrders($start = 0, $limit = 20) {
+LINE: 102
+CODE: $query = $this->db->query("SELECT o.order_id, o.firstname, o.lastname, os.name as status, o.date_added, o.total, o.currency_code, o.currency_value FROM `" . DB_PREFIX . "order` o LEFT JOIN " . DB_PREFIX . "order_status os ON (o.order_status_id = os.order_status_id) WHERE o.customer_id = '" . (int)$this->customer->getId() . "' AND o.order_status_id > '0' AND o.store_id = '" . (int)$this->config->get('config_store_id') . "' AND os.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.order_id DESC LIMIT " . (int)$start . "," . (int)$limit);
+LINE: 121
+CODE: $sql = "SELECT o.order_id, o.firstname, o.lastname, o.date_added, o.total, o.currency_code, o.currency_value, o.status FROM `" . DB_PREFIX . "order` o WHERE customer_id = '" . (int)$this->customer->getId() . "' AND o.order_status_id > '0' AND o.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+NOT FOUND - OPERATIONS ABORTED!
+----------------------------------------------------------------
 MOD: Account pages 
 
 FILE: catalog/controller/account/account.php
@@ -44,11 +79,9 @@ LINE: 41
 FILE: catalog/controller/account/password.php
 CODE: $data['breadcrumbs'] = array();
 LINE: 36
-
-FILE: catalog/controller/account/order.php
 CODE: $data['breadcrumbs'] = array();
-LINE: 30
-LINE: 133
+LINE: 60
+LINE: 227
 
 FILE: catalog/controller/account/register.php
 CODE: $data['breadcrumbs'] = array();
@@ -143,6 +176,15 @@ CODE: $data['products'][] = array(
 LINE: 501
 CODE: 'rating'      => $rating,
 LINE: 516
+----------------------------------------------------------------
+MOD: Remove Cart page
+
+FILE: catalog/controller/checkout/cart.php
+CODE: $this->load->language('checkout/cart');
+LINE: 9
+LINE: 273
+LINE: 397
+LINE: 435
 ----------------------------------------------------------------
 MOD: Review Images
 CODE: public function review() {

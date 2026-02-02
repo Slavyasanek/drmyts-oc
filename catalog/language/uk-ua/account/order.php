@@ -23,20 +23,29 @@ $_['text_error']            = 'Такого замовлення не існує
 $_['text_edit'] = 'Контактна інформація';
 $_['text_wishlist_nav'] = 'Список бажань';
 $_['text_empty_instructions'] = 'Перейдіть в каталог для того щоб зробити замовлення';
+$_['text_logout'] = 'Вийти';
+$_['text_password_page'] = 'Зміна пароля';
 
 // Column
-$_['column_order_id']       = '№ замовлення';
+$_['column_order_id']       = 'Замовлення №';
 $_['column_product']        = 'Кількість товарів';
 $_['column_customer']       = 'Покупець';
 $_['column_name']           = 'Назва товару';
 $_['column_model']          = 'Модель';
-$_['column_quantity']       = 'Кількість';
+$_['column_quantity']       = 'шт.';
 $_['column_price']          = 'Ціна';
 $_['column_total']          = 'Сума';
 $_['column_action']         = 'Дія';
 $_['column_date_added']     = 'Дата додавання';
 $_['column_status']         = 'Статус';
 $_['column_comment']        = 'Коментар';
+
+// FILTER
+$_['filter_all'] = 'Всі';
+$_['filter_last_month'] = 'Минулого місяця';
+$_['filter_this_month'] = 'Цього місяця';
+$_['filter_this_year'] = 'Цього року';
+$_['filter_last_year'] = 'Минулого року';
 
 // Error
 $_['error_reorder']         = '%s наразі не доступні для замовлення';

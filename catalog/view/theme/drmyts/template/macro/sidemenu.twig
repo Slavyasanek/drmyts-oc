@@ -1,0 +1,54 @@
+{% macro svg(name, class) %}
+    <svg class="{{ class }}" role="presentation">
+        <use href="catalog/view/theme/drmyts/assets/svg/sprite.svg#{{ name }}"></use>
+    </svg>
+{% endmacro %}
+
+{% macro accountMenu(edit, text_edit, wishlist, text_wishlist, order, text_order, password_change, text_password_page, logout, text_logout, activePage) %}
+    <div class="account__nav flex-col border--end">
+        {% if edit %}
+        <a class="flex-row account__nav-item text--upp {% if activePage == 'edit' %}active{% endif %}" href="{{ edit }}">
+            <div class="icon account__nav-icon">
+                {{ _self.svg('user', '') }}
+            </div>
+            <span>{{ text_edit }}</span>
+        </a>
+        {% endif %}
+
+        {% if wishlist %}
+        <a class="flex-row account__nav-item text--upp {% if activePage == 'wishlist' %}active{% endif %}" href="{{ wishlist }}">
+            <div class="icon account__nav-icon">
+                {{ _self.svg('heart', '') }}
+            </div>
+            <span>{{ text_wishlist }}</span>
+        </a>
+        {% endif %}
+
+        {% if order %}
+        <a class="flex-row account__nav-item text--upp {% if activePage == 'order' %}active{% endif %}" href="{{ order }}">
+            <div class="icon account__nav-icon">
+                {{ _self.svg('shopping-bag', '') }}
+            </div>
+            <span>{{ text_order }}</span>
+        </a>
+        {% endif %}
+
+        {% if password_change %}
+        <a class="flex-row account__nav-item text--upp {% if activePage == 'password' %}active{% endif %}" href="{{ password_change }}">
+            <div class="icon account__nav-icon">
+                {{ _self.svg('password', '') }}
+            </div>
+            <span>{{ text_password_page }}</span>
+        </a>
+        {% endif %}
+
+        {% if logout %}
+        <a class="flex-row account__nav-item text--upp" href="{{ logout }}">
+            <div class="icon account__nav-icon">
+                {{ _self.svg('logout', '') }}
+            </div>
+            <span>{{ text_logout }}</span>
+        </a>
+        {% endif %}
+    </div>
+{% endmacro %} 

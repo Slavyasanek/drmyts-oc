@@ -847,6 +847,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (document.querySelector('.quant-block')) document.querySelectorAll('.quant-block').forEach(q => new QuantityChanger(q));
 
 
+    // ORDERS
+    if (document.querySelector('.order-item')) {
+        toggleDropdowns('.order-item', '.order-item__heading');
+    }
+
     document.addEventListener("click", e => {
         // OPEN MODAL
         if (e.target.closest('[data-modal-open]')) {
