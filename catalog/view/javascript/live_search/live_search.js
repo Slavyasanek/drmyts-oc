@@ -175,7 +175,7 @@ class LiveSearch {
     // render text search item
     renderSearchTextItem = (data, searchText) => {
         const clone = document.getElementById('searchTextItem').content.cloneNode(true);
-        clone.querySelector('.live-search__item').href = data.url;
+        clone.querySelector('.live-search__item').href = data.url.replaceAll('&amp;', "&");
         const parts = this.createHighlightedTextElement(data.name, searchText);
         const textContainer = clone.querySelector('.search-text-item__text');
 
