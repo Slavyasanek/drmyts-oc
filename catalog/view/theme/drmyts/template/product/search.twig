@@ -12,57 +12,20 @@
 
 	<section class="shop" id="product-search">
 		<div class="container shop__container d-grid {% if not column_left %} shop__container--clean {% endif %}">
-			<div class="shop__heading shop-heading flex-row-wrap j-between">
+			<div class="shop__heading shop-heading flex-row-wrap j-between shop-heading--type_search">
 
-                <div class="shop-heading__search-filters flex-row-wrap">
-                    <div class="shop-heading__search flex-row search-form">
-                        <input type="button" value="{{ button_search }}" id="button-search" class="btn btn-primary" />
+                <div class="shop-heading__search-filters flex-col">
+                    <div class="shop-heading__search d-flex search-form">
                     	<div class="search-form__input custom-input custom-input--type_with-icon rel">
                     		<input class="custom-input__input" type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" autocomplete="off"/>
                     		<button class="btn flex-center icon custom-input__icon abs" type="submit"  id="button-search" >
                     			{{ macros.svg('search', '') }}
                     		</button>
                     	</div>
+
+                        <button type="button" id="button-search" class="btn btn--theme btn--size_S text--upp btn--theme_dark shop-heading__search-btn">{{ button_search }}</button>
                     </div>
-
-                    <div class="custom-select shop-heading__select rel">
-                        <div class="custom-select__heading flex-row">
-                            <span>
-                                {{ text_category }}
-                            </span>
-                            <input type="hidden" name="category_id" value="{{ category_id }}">
-                            <div class="icon icon--arrow custom-select__arrow anim">
-                                {{ macros.svg('arrow-down', '') }}
-                            </div>
-                        </div>
-                        <div class="custom-select__dropdown abs bg--white z1 anim">
-                            <ul class="custom-select__list">
-                                {% for category_1 in categories %}
-                                    {% if category_1.category_id == category_id %}
-                                        <li class="custom-select__option anim active" data-value="{{ category_1.category_id }}">{{ category_1.name }}</li> 
-                                    {% else %}
-                                        <li class="custom-select__option anim" data-value="{{ category_1.category_id }}">{{ category_1.name }}</li> 
-                                    {% endif %}
-
-                                    {% for category_2 in category_1.children %}
-                                        {% if category_2.category_id == category_id %}
-                                            <li class="custom-select__option anim active" data-value="{{ category_2.category_id }}">{{ category_2.name }}</li> 
-                                        {% else %}
-                                            <li class="custom-select__option anim" data-value="{{ category_2.category_id }}">{{ category_2.name }}</li> 
-                                        {% endif %}
-
-                                        {% for category_3 in category_2.children %}
-                                            {% if category_3.category_id == category_id %}
-                                                <li class="custom-select__option anim active" data-value="{{ category_3.category_id }}">{{ category_3.name }}</li> 
-                                            {% else %}
-                                                <li class="custom-select__option anim" data-value="{{ category_3.category_id }}">{{ category_3.name }}</li> 
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endfor %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+                    {# /.shop-heading__search #}
 
                     <div class="custom-checkbox shop-heading__radio flex-row"> 
                         <div class="custom-checkbox__wrapper rel"> 
@@ -72,6 +35,62 @@
                     </div>
                 </div>
                 {# /.shop-heading__search-filters #}
+
+                <div class="custom-select shop-heading__cat-select rel">
+                    <div class="custom-select__heading flex-row">
+                        {% set current_category = '' %}
+
+                        {% for category_1 in categories %}
+                            {% if category_1.category_id == category_id %}
+                                {% set current_category = category_1.name %}
+                            {% endif %}
+
+                            {% for category_2 in category_1.children %}
+                                {% if category_2.category_id == category_id %}
+                                    {% set current_category = category_2.name %}
+                                {% endif %}
+                                {% for category_3 in category_2.children %}
+                                    {% set current_category = category_3.name %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endfor %}
+                        <span>
+                            {{ current_category ?: text_category }}
+                        </span>
+                        <input type="hidden" name="category_id" value="{{ category_id }}">
+                        <div class="icon icon--arrow custom-select__arrow anim">
+                            {{ macros.svg('arrow-down', '') }}
+                        </div>
+                    </div>
+                    <div class="custom-select__dropdown abs bg--white z1 anim">
+                        <ul class="custom-select__list">
+                            <li class="custom-select__option anim" data-value="0">{{ text_category }}</li> 
+                            {% for category_1 in categories %}
+                                {% if category_1.category_id == category_id %}
+                                    <li class="custom-select__option anim active" data-value="{{ category_1.category_id }}">{{ category_1.name }}</li> 
+                                {% else %}
+                                    <li class="custom-select__option anim" data-value="{{ category_1.category_id }}">{{ category_1.name }}</li> 
+                                {% endif %}
+
+                                {% for category_2 in category_1.children %}
+                                    {% if category_2.category_id == category_id %}
+                                        <li class="custom-select__option anim active" data-value="{{ category_2.category_id }}">{{ category_2.name }}</li> 
+                                    {% else %}
+                                        <li class="custom-select__option anim" data-value="{{ category_2.category_id }}">{{ category_2.name }}</li> 
+                                    {% endif %}
+
+                                    {% for category_3 in category_2.children %}
+                                        {% if category_3.category_id == category_id %}
+                                            <li class="custom-select__option anim active" data-value="{{ category_3.category_id }}">{{ category_3.name }}</li> 
+                                        {% else %}
+                                            <li class="custom-select__option anim" data-value="{{ category_3.category_id }}">{{ category_3.name }}</li> 
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
 
                 {{ blocks.sortSelect(sorts, sort, order, 'shop-heading__select') }}
 			</div>
@@ -108,42 +127,50 @@
 </main>
 
 <script type="text/javascript"><!--
-$('#button-search').bind('click', function() {
-	url = 'index.php?route=product/search';
+document.addEventListener('DOMContentLoaded', function() {
+    const searchButtons = Array.from(document.querySelectorAll('#button-search'));
+    const searchInputMain = document.querySelector('#content input[name="search"]');
+    const categorySelect = document.querySelector('[name="category_id"]');
+    const descriptionCheckbox = document.querySelector('#content input[name="description"]');
+    const subCategoryCheckbox = document.querySelector('#content input[name="sub_category"]');
 
-	var search = $('#content input[name=\'search\']').prop('value');
+    if (searchButtons.length > 0) {
+        const searchProducts = () => {
+            let url = 'index.php?route=product/search';
+            const search = searchInputMain ? searchInputMain.value : '';
+            if (search) url += '&search=' + encodeURIComponent(search);
 
-	if (search) {
-		url += '&search=' + encodeURIComponent(search);
-	}
+            var category_id = categorySelect ? categorySelect.value : 0;
 
-	var category_id = $('#content select[name=\'category_id\']').prop('value');
+            if (category_id > 0) {
+                url += '&category_id=' + encodeURIComponent(category_id);
+            }
 
-	if (category_id > 0) {
-		url += '&category_id=' + encodeURIComponent(category_id);
-	}
+            if (subCategoryCheckbox && subCategoryCheckbox.checked) url += '&sub_category=true';
+            if (descriptionCheckbox && descriptionCheckbox.checked) url += '&description=true';
 
-	var sub_category = $('#content input[name=\'sub_category\']:checked').prop('value');
+            window.location.href = url;
+        }
 
-	if (sub_category) {
-		url += '&sub_category=true';
-	}
+        searchButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                searchProducts();
+        });
+        })
+    }
+    
+    if (searchInputMain) {
+        searchInputMain.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                searchProducts();
+            }
+        });
+    }
 
-	var filter_description = $('#content input[name=\'description\']:checked').prop('value');
-
-	if (filter_description) {
-		url += '&description=true';
-	}
-
-	location = url;
+    if (categorySelect) {
+        const event = new Event('change', { bubbles: true });
+        categorySelect.dispatchEvent(event);
+    }
 });
-
-$('#content input[name=\'search\']').bind('keydown', function(e) {
-	if (e.keyCode == 13) {
-		$('#button-search').trigger('click');
-	}
-});
-
-$('input[name=\'category_id\']').trigger('change');
 --></script>
 {{ footer }}

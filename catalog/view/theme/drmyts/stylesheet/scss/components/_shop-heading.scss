@@ -20,8 +20,41 @@
     &__select {
         margin-inline-start: auto;
     }
+
+    &__search-filters {
+        width: 100%;
+        gap: 1.2rem;
+        margin-block-end: 1.6rem;
+    }
+
+    &__search {
+        flex-grow: 1;
+        max-width: 38rem;
+
+        .custom-input__input {
+            padding-inline-end: 3.2rem;
+        }
+    }
+
+    &__search-btn {
+        margin-inline-start: -2.4rem;
+        border-radius: 0 5rem 5rem 0;
+    }
 }
 // End inner
+
+.shop-heading--type_search {
+    gap: 1.2rem;
+}
+
+@include mixins.min-L {
+    .shop-heading {
+        &__search-filters {
+            flex-direction: row;
+        }
+    }
+}
+// End L
 
 @include mixins.min-LXL {
     .shop-heading {
@@ -44,6 +77,16 @@
         &__filter-btn {
             display: none;
         }
+
+        &__search-filters {
+            width: auto;
+            margin: 0;
+        }
+    }
+    // End inner
+
+    .shop-heading--type_search {
+        gap: 2.4rem;
     }
 }
 // End LXL
