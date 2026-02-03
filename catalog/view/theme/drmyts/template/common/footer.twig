@@ -49,6 +49,27 @@
             {{ macros.svg('close', 'anim') }}
         </button>
     </div>
+</template>    
+<template id="searchProductItem"> 
+  <div class="cart-item live-search__product cart-item--type_search d-flex">
+    <div class="cart-item__img"> 
+      <picture> <img class="contain-image" src="" alt="" loading="lazy" width="56" height="56"></picture><a class="cart-item__link abs inset wh-full" href="/"></a>
+    </div>
+    <div class="cart-item__content"> 
+      <div class="cart-item__details flex-col"><span class="cart-item__availability text--color_gray text--size_label d-block">В наявності</span><a class="cart-item__title" href="/"></a><span class="cart-item__type text--size_label"></span></div>
+      <div class="cart-item__footer">
+        <div class="product-price cart-item__price flex-row product-price--sale"><span class="product-price__full"></span><span class="product-price__sale"></span></div>
+      </div>
+    </div>
+  </div>
+</template>
+<template id="searchTextItem">
+    <a class="search-text-item live-search__item flex-row j-between" href="/">
+        <div class="search-text-item__text text--color_gray"></div>
+        <div class="search-text-item__icon">
+            {{ macros.svg('arrow-next')}}
+        </div>
+    </a>
 </template>
 
 {% for style in styles %}

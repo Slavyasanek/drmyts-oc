@@ -41,6 +41,10 @@
         &__view-all {
             @include mixins.hover {
                 color: var(--color-red);
+
+                svg {
+                    transform: translateX(10%);
+                }
             }
         }
     }

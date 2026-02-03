@@ -1,6 +1,63 @@
-<div id="search" class="input-group">
-  <input type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}" class="form-control input-lg" />
-  <span class="input-group-btn">
-    <button type="button" class="btn btn-default btn-lg"><i class="fa fa-search"></i></button>
-  </span>
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<div class="search-form header__search rel">
+    <div class="search-form__header flex-row" id="search">
+    	<button class="btn flex-center search-form__close d-none search-form__back" type="button">
+    		{{ macros.svg('arrow-back', '') }}
+    	</button>
+    	<div class="search-form__input custom-input custom-input--type_with-icon rel">
+    		<input class="custom-input__input" type="text" name="search" value="{{ search }}" placeholder="{{ text_search }}" autocomplete="off"/>
+    		<button class="btn flex-center icon custom-input__icon abs" type="submit">
+    			{{ macros.svg('search', '') }}
+    		</button>
+    	</div>
+    	<button class="btn flex-center search-form__close d-none search-form__cross" type="button">
+    		{{ macros.svg('close', '') }}
+    	</button>
+    </div>
+    <div class="live-search search-form__live-search abs d-none">
+        <div class="live-search__content">
+            {# <div class="live-search__history search-history d-none">
+                <div class="search-history__heading flex-row j-between">
+                    <p class="search-history__title text--size_label text--color_gray">Історія пошуку</p>
+                    <button class="btn text--color_gray text--size_label search-history__clean-btn" type="button">Очистити історію</button>
+                </div>
+                <div class="search-history__items">
+                    <a class="search-text-item live-search__item flex-row j-between text--color_gray" href="/">
+                        <div class="search-text-item__search-icon icon">
+                            {{ macros.svg('search', '') }}
+                        </div>
+                        <div class="search-text-item__text">тонік</div>
+                        <div class="search-text-item__icon">
+                            {{ macros.svg('arrow-next', '') }}
+                        </div>
+                    </a>
+                    <a class="search-text-item live-search__item flex-row j-between text--color_gray" href="/">
+                        <div class="search-text-item__search-icon icon">
+                            {{ macros.svg('search', '') }}
+                        </div>
+                        <div class="search-text-item__text">крем</div>
+                        <div class="search-text-item__icon">
+                            {{ macros.svg('arrow-next', '') }}
+                        </div>
+                    </a>
+                </div>
+            </div> #}
+            <div class="live-search__searching text--color_gray d-none">{{ text_search_searching }}</div>
+            <div class="live-search__no-results text--color_gray d-none">{{ text_search_no_results }}</div>
+            <div class="live-search__results d-none">
+                <div class="live-search__text-items d-none"></div>
+                <div class="live-search__products search-products d-none">
+                    <div class="search-products__heading flex-row j-between">
+                        <p class="text--size_h3-full search-products__title">{{ text_search_products }}</p>
+                        <a class="btn flex-row text--upp search-products__view-all text--size_label" href="/">
+                            <span>{{ text_search_view_all }}</span>
+                            {{ macros.svg('arrow-next', '') }}
+                        </a>
+                    </div>
+                    <div class="search-products__products d-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

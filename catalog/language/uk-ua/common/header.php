@@ -14,3 +14,7 @@ $_['text_download']      = 'Файли для завантаження';
 $_['text_logout']        = 'Вихід';
 $_['text_checkout']      = 'Оформлення замовлення';
 $_['text_search']        = 'Пошук';
+$_['text_search_products'] = 'Продукти';
+$_['text_search_no_results'] = 'Результатів не знайдено';
+$_['text_search_searching'] = 'Шукаємо...';
+$_['text_search_view_all'] = 'Дивитися всі';

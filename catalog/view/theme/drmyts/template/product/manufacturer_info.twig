@@ -8,10 +8,12 @@
 	<section class="shop">
 		<div class="container shop__container d-grid {% if not column_left %} shop__container--clean {% endif %}">
 			<div class="shop__heading shop-heading flex-row-wrap j-between">
-				<button class="btn btn--full_gray flex-row btn--size_S shop-heading__filter-btn" type="button" data-modal-open="filter">
+				{% if column_left %}
+                <button class="btn btn--full_gray flex-row btn--size_S shop-heading__filter-btn" type="button" data-modal-open="filter">
                     {{ macros.svg('filter', '') }}
 					<span>{{ button_filter_open }}</span>
 				</button>
+                {% endif %}
 
                 {% if active_filters and column_left  %}
 				<div class="active-filters flex-row-wrap shop-heading__active-filter d-none">

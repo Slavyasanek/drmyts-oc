@@ -30,6 +30,12 @@
 
     &__close {
         height: 5.6rem;
+
+        @include mixins.hover {
+            svg {
+                stroke: var(--color-red);
+            }
+        }
     }
 
     &__back {

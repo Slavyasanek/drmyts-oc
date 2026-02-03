@@ -971,6 +971,11 @@ p {
 .search-form__close {
   height: 5.6rem;
 }
+@media screen and (hover: hover) {
+  .search-form__close:hover svg, .search-form__close:focus svg {
+    stroke: var(--color-red);
+  }
+}
 .search-form__back {
   padding-inline-start: 1.6rem;
 }
@@ -1877,6 +1882,9 @@ p {
   .search-products__view-all:hover, .search-products__view-all:focus {
     color: var(--color-red);
   }
+  .search-products__view-all:hover svg, .search-products__view-all:focus svg {
+    transform: translateX(10%);
+  }
 }
 .search-history__heading {
   padding: 1.6rem;
@@ -2458,6 +2466,16 @@ input:checked + .product-variants__color-label::before {
   pointer-events: none;
   z-index: 2;
 }
+.custom-select__list {
+  max-height: 30rem;
+  overflow-y: auto;
+}
+.custom-select__list::-webkit-scrollbar {
+  width: 0.2rem;
+}
+.custom-select__list::-webkit-scrollbar-thumb {
+  background-color: var(--color-red);
+}
 .custom-select__option {
   padding-block: 1.2rem;
   cursor: pointer;
@@ -2467,6 +2485,11 @@ input:checked + .product-variants__color-label::before {
 }
 .custom-select__option:not(:last-child) {
   border-block-end: 0.1rem solid rgba(28, 28, 28, 0.1);
+}
+@media screen and (hover: hover) {
+  .custom-select__option:not(.active):hover, .custom-select__option:not(.active):focus {
+    padding-inline-start: 1rem;
+  }
 }
 .custom-select__error {
   color: var(--color-red);

@@ -22,6 +22,19 @@
         z-index: 2;
     }
 
+    &__list {
+        max-height: 30rem;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: .2rem;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--color-red);
+        }
+    }
+
     &__option {
         padding-block: 1.2rem;
         cursor: pointer;
@@ -32,6 +45,12 @@
 
         &:not(:last-child) {
             border-block-end: .1rem solid rgba(28, 28, 28, 0.10);
+        }
+
+        &:not(.active) {
+            @include mixins.hover {
+                padding-inline-start: 1rem;
+            }
         }
         
     }
