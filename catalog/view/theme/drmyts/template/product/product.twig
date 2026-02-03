@@ -2,6 +2,7 @@
 
 {% import "drmyts/template/macro/macros.twig" as macros %}
 {% import "drmyts/template/macro/product-card.twig" as cards %}
+{% import "drmyts/template/macro/blocks.twig" as blocks %}
 
 <main  id="content">
     {{ content_top }}
@@ -294,22 +295,8 @@
                     {% endif %}
     			</div>
                 {% endif %}
-                
-    			<div class="quote-block bg--surface product-page__consult">
-    				<div class="quote-block__heading text--upp flex-row-wrap j-between">
-    					<div class="product-page__icon-title quote-block__title flex-row">
-                            {{ macros.svg('warning', '') }}
-    						<span>Послуга експрес-консультації
-    						</span>
-    					</div>
-    					<span class="quote-block__price">500 ₴</span>
-    				</div>
-    				<div class="quote-block__content d-flex">
-                        {{ macros.svg('quote', 'quote-block__icon') }}
-    					<p>Підберу повний план з урахуванням стану шкіри, твого бюджету, наявних засобів і побажань..</p>
-    				</div>
-    				<button class="btn btn--theme_accent text--upp btn--size_M btn--theme d-block quote-block__btn" type="button" data-modal-open="consult">Детальніше</button>
-    			</div>
+
+                {{ blocks.consultBlock('product-page__consult') }}
     		</div>
         </div>
     </article>

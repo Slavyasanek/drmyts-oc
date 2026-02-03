@@ -2,6 +2,8 @@
 
 {% import "drmyts/template/macro/macros.twig" as macros %}
 {% import "drmyts/template/macro/product-card.twig" as card %}
+{% import "drmyts/template/macro/sections.twig" as sections %}
+{% import "drmyts/template/macro/blocks.twig" as blocks %}
 
 <main id="content">
 	{{ content_top }}
@@ -36,35 +38,7 @@
 				    <p class="shop-heading__total m-0 text--color_gray d-none">{{ product_total }} товарів</p>
                 {% endif %}
 
-                <div class="custom-select shop-heading__select rel">
-                    <div class="custom-select__heading flex-row">
-                        <span>
-
-                            {% set current_sort_text = '' %}
-                            {% for sorts_item in sorts %}
-                                {% if sorts_item.value == '%s-%s'|format(sort, order) %}
-                                    {% set current_sort_text = sorts_item.text %}
-                                {% endif %}
-                            {% endfor %}
-
-                            {{ current_sort_text ?: 'За замовчуванням' }}
-                        </span>
-                        <div class="icon icon--arrow custom-select__arrow anim">
-                            {{ macros.svg('arrow-down', '') }}
-                        </div>
-                    </div>
-                    <div class="custom-select__dropdown abs bg--white z1 anim">
-                        <ul class="custom-select__list">
-                            {% for sorts in sorts %}
-                                {% if sorts.value == '%s-%s'|format(sort, order) %}
-                                    <li class="custom-select__option anim active" data-value="{{ sorts.href }}" onclick="location = '{{ sorts.href }}';">{{ sorts.text }}</li> 
-                                {% else %}
-                                    <li class="custom-select__option anim" data-value="{{ sorts.href }}" onclick="location = '{{ sorts.href }}';">{{ sorts.text }}</li> 
-                                {% endif %}
-                            {% endfor %} 
-                        </ul>
-                    </div>
-                </div>
+                {{ blocks.sortSelect(sorts, sort, order, 'shop-heading__select') }}
 			</div>
 
             {% if column_left %}
@@ -88,23 +62,10 @@
     				</div>
                     {% endif %}
                 {% else %}
-                    <p>{{ text_empty }}</p>
+                    {{ sections.noProductsFound() }}
                 {% endif %}
                 
-				<div class="quote-block bg--surface shop__quote-block">
-					<div class="quote-block__heading text--upp flex-row-wrap j-between">
-						<div class="product-page__icon-title quote-block__title flex-row">
-                            {{ macros.svg('warning', '') }}
-							<span>Послуга експрес-консультації</span>
-						</div>
-						<span class="quote-block__price">500 ₴</span>
-					</div>
-					<div class="quote-block__content d-flex">
-                        {{ macros.svg('quote', 'quote-block__icon') }}
-						<p>Підберу повний план з урахуванням стану шкіри, твого бюджету, наявних засобів і побажань..</p>
-					</div>
-					<button class="btn btn--theme_accent text--upp btn--size_M btn--theme d-block quote-block__btn" type="button" data-modal-open="consult">Детальніше</button>
-				</div>
+				{{ blocks.consultBlock('shop__quote-block') }}
 			</div>
 		</div>
 	</section>

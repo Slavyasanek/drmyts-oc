@@ -3,145 +3,107 @@
 {% import "drmyts/template/macro/sections.twig" as sections %}
 {% import "drmyts/template/macro/product-card.twig" as card %}
 {% import "drmyts/template/macro/macros.twig" as macros %}
+{% import "drmyts/template/macro/blocks.twig" as blocks %}
 
 <main id="content">
     {{ content_top }}
+
     {{ sections.pageTitle(heading_title, breadcrumbs) }}
-    	<section class="shop" id="product-search">
-    		<div class="container shop__container d-grid {% if not column_left %} shop__container--clean {% endif %}">
-    			<div class="shop__heading shop-heading flex-row-wrap j-between">
 
-                    <div class="shop-heading__search-filters flex-row-wrap">
-                        <div class="shop-heading__search flex-row search-form">
-                            <input type="button" value="{{ button_search }}" id="button-search" class="btn btn-primary" />
-                        	<div class="search-form__input custom-input custom-input--type_with-icon rel">
-                        		<input class="custom-input__input" type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" autocomplete="off"/>
-                        		<button class="btn flex-center icon custom-input__icon abs" type="submit"  id="button-search" >
-                        			{{ macros.svg('search', '') }}
-                        		</button>
-                        	</div>
-                        </div>
+	<section class="shop" id="product-search">
+		<div class="container shop__container d-grid {% if not column_left %} shop__container--clean {% endif %}">
+			<div class="shop__heading shop-heading flex-row-wrap j-between">
 
-                        <div class="custom-select shop-heading__select rel">
-                            <div class="custom-select__heading flex-row">
-                                <span>
-                                    {{ text_category }}
-                                </span>
-                                <input type="hidden" name="category_id" value="{{ category_id }}">
-                                <div class="icon icon--arrow custom-select__arrow anim">
-                                    {{ macros.svg('arrow-down', '') }}
-                                </div>
-                            </div>
-                            <div class="custom-select__dropdown abs bg--white z1 anim">
-                                <ul class="custom-select__list">
-                                    {% for category_1 in categories %}
-                                        {% if category_1.category_id == category_id %}
-                                            <li class="custom-select__option anim active" data-value="{{ category_1.category_id }}">{{ category_1.name }}</li> 
-                                        {% else %}
-                                            <li class="custom-select__option anim" data-value="{{ category_1.category_id }}">{{ category_1.name }}</li> 
-                                        {% endif %}
-
-                                        {% for category_2 in category_1.children %}
-                                            {% if category_2.category_id == category_id %}
-                                                <li class="custom-select__option anim active" data-value="{{ category_2.category_id }}">{{ category_2.name }}</li> 
-                                            {% else %}
-                                                <li class="custom-select__option anim" data-value="{{ category_2.category_id }}">{{ category_2.name }}</li> 
-                                            {% endif %}
-
-                                            {% for category_3 in category_2.children %}
-                                                {% if category_3.category_id == category_id %}
-                                                    <li class="custom-select__option anim active" data-value="{{ category_3.category_id }}">{{ category_3.name }}</li> 
-                                                {% else %}
-                                                    <li class="custom-select__option anim" data-value="{{ category_3.category_id }}">{{ category_3.name }}</li> 
-                                                {% endif %}
-                                            {% endfor %}
-                                        {% endfor %}
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="custom-checkbox shop-heading__radio flex-row"> 
-                            <div class="custom-checkbox__wrapper rel"> 
-                                <input class="abs wh-full inset m-0" type="checkbox" name="description" value="1" id="description"{% if description %} checked="checked"{% endif %}>
-                            </div>
-                            <label for="description">{{ entry_description }}</label>
-                        </div>
+                <div class="shop-heading__search-filters flex-row-wrap">
+                    <div class="shop-heading__search flex-row search-form">
+                        <input type="button" value="{{ button_search }}" id="button-search" class="btn btn-primary" />
+                    	<div class="search-form__input custom-input custom-input--type_with-icon rel">
+                    		<input class="custom-input__input" type="text" name="search" value="{{ search }}" placeholder="{{ text_keyword }}" id="input-search" autocomplete="off"/>
+                    		<button class="btn flex-center icon custom-input__icon abs" type="submit"  id="button-search" >
+                    			{{ macros.svg('search', '') }}
+                    		</button>
+                    	</div>
                     </div>
-                    {# /.shop-heading__search-filters #}
 
                     <div class="custom-select shop-heading__select rel">
                         <div class="custom-select__heading flex-row">
                             <span>
-
-                                {% set current_sort_text = '' %}
-                                {% for sorts_item in sorts %}
-                                    {% if sorts_item.value == '%s-%s'|format(sort, order) %}
-                                        {% set current_sort_text = sorts_item.text %}
-                                    {% endif %}
-                                {% endfor %}
-
-                                {{ current_sort_text ?: 'За замовчуванням' }}
+                                {{ text_category }}
                             </span>
+                            <input type="hidden" name="category_id" value="{{ category_id }}">
                             <div class="icon icon--arrow custom-select__arrow anim">
                                 {{ macros.svg('arrow-down', '') }}
                             </div>
                         </div>
                         <div class="custom-select__dropdown abs bg--white z1 anim">
                             <ul class="custom-select__list">
-                                {% for sorts in sorts %}
-                                    {% if sorts.value == '%s-%s'|format(sort, order) %}
-                                        <li class="custom-select__option anim active" data-value="{{ sorts.href }}" onclick="location = '{{ sorts.href }}';">{{ sorts.text }}</li> 
+                                {% for category_1 in categories %}
+                                    {% if category_1.category_id == category_id %}
+                                        <li class="custom-select__option anim active" data-value="{{ category_1.category_id }}">{{ category_1.name }}</li> 
                                     {% else %}
-                                        <li class="custom-select__option anim" data-value="{{ sorts.href }}" onclick="location = '{{ sorts.href }}';">{{ sorts.text }}</li> 
+                                        <li class="custom-select__option anim" data-value="{{ category_1.category_id }}">{{ category_1.name }}</li> 
                                     {% endif %}
-                                {% endfor %} 
+
+                                    {% for category_2 in category_1.children %}
+                                        {% if category_2.category_id == category_id %}
+                                            <li class="custom-select__option anim active" data-value="{{ category_2.category_id }}">{{ category_2.name }}</li> 
+                                        {% else %}
+                                            <li class="custom-select__option anim" data-value="{{ category_2.category_id }}">{{ category_2.name }}</li> 
+                                        {% endif %}
+
+                                        {% for category_3 in category_2.children %}
+                                            {% if category_3.category_id == category_id %}
+                                                <li class="custom-select__option anim active" data-value="{{ category_3.category_id }}">{{ category_3.name }}</li> 
+                                            {% else %}
+                                                <li class="custom-select__option anim" data-value="{{ category_3.category_id }}">{{ category_3.name }}</li> 
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
-    			</div>
 
-                {% if column_left %}
-    			<div class="backdrop fixed inset wh-full anim filter backdrop--mobile shop__filter" data-modal="filter">
-                    {{ column_left }}   
-    			</div>
-                {% endif %}
+                    <div class="custom-checkbox shop-heading__radio flex-row"> 
+                        <div class="custom-checkbox__wrapper rel"> 
+                            <input class="abs wh-full inset m-0" type="checkbox" name="description" value="1" id="description"{% if description %} checked="checked"{% endif %}>
+                        </div>
+                        <label for="description">{{ entry_description }}</label>
+                    </div>
+                </div>
+                {# /.shop-heading__search-filters #}
 
-    			<div class="shop__products">
+                {{ blocks.sortSelect(sorts, sort, order, 'shop-heading__select') }}
+			</div>
 
-                    {% if products %}
-    				<div class="shop__grid d-grid">
-                        {% for product in products %} 
-                            {{ card.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide') }}
-                        {% endfor %}
+            {% if column_left %}
+			<div class="backdrop fixed inset wh-full anim filter backdrop--mobile shop__filter" data-modal="filter">
+                {{ column_left }}   
+			</div>
+            {% endif %}
+
+			<div class="shop__products">
+
+                {% if products %}
+				<div class="shop__grid d-grid">
+                    {% for product in products %} 
+                        {{ card.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide') }}
+                    {% endfor %}
+				</div>
+
+                    {% if pagination %}
+    				<div class="shop__pagination pagination-wrapper flex-center">
+    					{{ pagination }}
     				</div>
-
-                        {% if pagination %}
-        				<div class="shop__pagination pagination-wrapper flex-center">
-        					{{ pagination }}
-        				</div>
-                        {% endif %}
-                    {% else %}
-                        <p>Товарів не знайдено. Спробуйте змінити фільтри</p>
                     {% endif %}
-                    
-    				<div class="quote-block bg--surface shop__quote-block">
-    					<div class="quote-block__heading text--upp flex-row-wrap j-between">
-    						<div class="product-page__icon-title quote-block__title flex-row">
-                                {{ macros.svg('warning', '') }}
-    							<span>Послуга експрес-консультації</span>
-    						</div>
-    						<span class="quote-block__price">500 ₴</span>
-    					</div>
-    					<div class="quote-block__content d-flex">
-                            {{ macros.svg('quote', 'quote-block__icon') }}
-    						<p>Підберу повний план з урахуванням стану шкіри, твого бюджету, наявних засобів і побажань..</p>
-    					</div>
-    					<button class="btn btn--theme_accent text--upp btn--size_M btn--theme d-block quote-block__btn" type="button" data-modal-open="consult">Детальніше</button>
-    				</div>
-    			</div>
-    		</div>
-    	</section>
+                {% else %}
+                    {{ sections.noProductsFound() }}
+                {% endif %}
+                
+				{{ blocks.consultBlock('shop__quote-block') }}
+			</div>
+		</div>
+	</section>
     {{ content_bottom }}
 </main>
 
