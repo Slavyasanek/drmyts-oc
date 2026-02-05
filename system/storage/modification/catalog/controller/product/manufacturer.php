@@ -212,10 +212,29 @@ class ControllerProductManufacturer extends Controller {
 
 			$data['compare'] = $this->url->link('product/compare');
 
+
+                
+			if (isset($this->request->get['price_min']) & !empty($this->request->get['price_min'])) {
+				$price_min = (float)$this->request->get['price_min'];
+			} else {
+				$price_min = '';
+			}
+
+            if (isset($this->request->get['price_max']) & !empty($this->request->get['price_max'])) {
+				$price_max = (float)$this->request->get['price_max'];
+			} else {
+				$price_max = '';
+			}		
+
+            
 			$data['products'] = array();
 
 			$filter_data = array(
 				'filter_manufacturer_id' => $manufacturer_id,
+
+                      'price_min'			 => $price_min,
+                      'price_max' 		 => $price_max,
+            
 				'sort'                   => $sort,
 				'order'                  => $order,
 				'start'                  => ($page - 1) * $limit,

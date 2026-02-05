@@ -1,4 +1,4 @@
-2026-02-03 15:36:13 - MOD: Modification Default
+2026-02-05 11:19:19 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -106,6 +106,28 @@ LINE: 58
 CODE: return $this->load->view('extension/module/filter', $data);
 LINE: 107
 ----------------------------------------------------------------
+MOD: Price Range filter
+
+FILE: catalog/model/catalog/product.php
+CODE: public function getProduct($product_id) {
+LINE: 131
+CODE: if (!empty($data['filter_manufacturer_id'])) {
+LINE: 321
+CODE: $sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+LINE: 219
+
+FILE: catalog/controller/product/category.php
+CODE: $data['categories'] = array();
+LINE: 191
+CODE: 'filter_category_id' => $category_id,
+LINE: 214
+
+FILE: catalog/controller/product/manufacturer.php
+CODE: $data['products'] = array();
+LINE: 199
+CODE: 'filter_manufacturer_id' => $manufacturer_id,
+LINE: 206
+----------------------------------------------------------------
 MOD: Product Page Customizations 
 
 FILE: catalog/controller/product/product.php
@@ -133,11 +155,8 @@ LINE: 516
 MOD: Remove Cart page
 
 FILE: catalog/controller/checkout/cart.php
-CODE: $this->load->language('checkout/cart');
-LINE: 9
-LINE: 273
-LINE: 397
-LINE: 435
+CODE: $this->response->setOutput($this->load->view('checkout/cart', $data));
+LINE: 247
 ----------------------------------------------------------------
 MOD: Review Images
 CODE: public function review() {
@@ -175,37 +194,33 @@ CODE: $sql .= " ORDER BY " . $data['sort'] . " " . $data['order'];
 NOT FOUND - OPERATIONS ABORTED!
 ----------------------------------------------------------------
 MOD: Shop
-
-FILE: catalog/controller/product/category.php
 CODE: $data['products'][] = array(
-LINE: 250
+LINE: 270
 CODE: 'name'        => $result['name'],
-LINE: 257
+LINE: 277
 CODE: 'rating'      => $result['rating'],
-LINE: 266
+LINE: 286
 CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
-LINE: 225
+LINE: 245
 CODE: 'special'     => $special,
-LINE: 269
+LINE: 289
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
-LINE: 477
-LINE: 548
-
-FILE: catalog/controller/product/manufacturer.php
+LINE: 497
+LINE: 568
 CODE: $data['products'][] = array(
-LINE: 242
-CODE: 'name'        => $result['name'],
-LINE: 249
-CODE: 'rating'      => $result['rating'],
-LINE: 258
-CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
-LINE: 217
-CODE: 'special'     => $special,
 LINE: 261
+CODE: 'name'        => $result['name'],
+LINE: 268
+CODE: 'rating'      => $result['rating'],
+LINE: 277
+CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
+LINE: 236
+CODE: 'special'     => $special,
+LINE: 280
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
 LINE: 76
-LINE: 491
-LINE: 569
+LINE: 510
+LINE: 588
 
 FILE: catalog/controller/product/special.php
 CODE: $data['products'][] = array(

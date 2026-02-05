@@ -1,0 +1,215 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+
+<div class="accordion filter__item" aria-expanded="true">
+    <div class="accordion__heading flex-row j-between" aria-label="Open accordion" role="button">
+        <p>Ціна</p>
+        <div class="icon icon--arrow accordion__icon">
+            {{ macros.svg('arrow-down', '')}}
+        </div>
+    </div>
+    <div class="accordion__content filter-content">
+        <div class="price-range filter-content__price-range">
+            <div class="price-range__wrap rel">
+                <input class="hidden d-none" type="number" name="price_min" id="price_min" value="{{ price_min  }}" placeholder="{{ price_min }}" min="{{ min_price }}" max="{{ max_price }}" />
+                <input class="hidden d-none" type="number" name="price_max" id="price_max" value="{{ price_max }}" placeholder="{{ price_max }}" min="{{ min_price }}" max="{{ max_price }}" />
+                <div class="price-range__track w-full abs">
+                    <div class="price-range__active-track wh-full abs inset bg--red"></div>
+                </div>
+                <button class="btn price-range__btn price-range__btn--start abs" type="button"></button>
+                <button class="btn price-range__btn price-range__btn--end abs" type="button"></button>
+            </div>
+            <div class="price-range__output">
+                Ціна:
+                <span class="price-range__start">{{ min_price }} -</span>
+                <span class="price-range__end">{{ max_price }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // CUSTOM RANGE INPUT
+        class RangeInput {
+            constructor(containerElement) {
+                this.container = typeof containerElement === 'string' ? document.querySelector(containerElement) : containerElement;
+                if (!this.container) {
+                    console.error('CustomPriceRange: Container element not found.');
+                    return;
+                }
+
+                // --- Select DOM elements ---
+                this.rangeWrap = this.container.querySelector('.price-range__wrap');
+                this.inputRangeMin = this.container.querySelector('input#price_min');
+                this.inputRangeMax = this.container.querySelector('input#price_max');
+                this.track = this.container.querySelector('.price-range__track');
+                this.activeTrack = this.container.querySelector('.price-range__active-track');
+                this.startBtn = this.container.querySelector('.price-range__btn--start');
+                this.endBtn = this.container.querySelector('.price-range__btn--end');
+                this.outputStart = this.container.querySelector('.price-range__start');
+                this.outputEnd = this.container.querySelector('.price-range__end');
+
+                this.minPrice = parseInt(this.inputRangeMin.min, 10);
+                this.maxPrice = parseInt(this.inputRangeMax.max, 10);
+
+                this.currentStartValue = parseInt(this.inputRangeMin.value);
+                this.currentEndValue = parseInt(this.inputRangeMax.value);
+
+                this.bindEvents();
+                this.updateSliderUI();
+                this.updateOutputText();
+
+                if (this.minPrice === this.maxPrice) {
+                    this.container.classList.add('disabled');
+                }
+            }
+
+            // init events
+            bindEvents() {
+                this.startBtn.addEventListener('mousedown', (e) => this.handleDragStart(e, 'start'));
+                this.endBtn.addEventListener('mousedown', (e) => this.handleDragStart(e, 'end'));
+                this.startBtn.addEventListener('touchstart', (e) => this.handleDragStart(e, 'start'), { passive: true });
+                this.endBtn.addEventListener('touchstart', (e) => this.handleDragStart(e, 'end'), { passive: true });
+            }
+
+            // drag start
+            handleDragStart(event, handle) {
+                event.preventDefault();
+                const clientX = event.clientX || (event.touches ? event.touches[0].clientX : 0);
+                this.isDragging = true;
+                this.dragHandle = handle;
+                this.initialX = clientX;
+                
+                document.addEventListener('mousemove', this.handleDragMoveBound = this.handleDragMove.bind(this));
+                document.addEventListener('mouseup', this.handleDragEndBound = this.handleDragEnd.bind(this));
+                document.addEventListener('touchmove', this.handleDragMoveBound, { passive: false });
+                document.addEventListener('touchend', this.handleDragEndBound); 
+                this.dragHandle === 'start' ? this.startBtn.classList.add('is-active') : this.endBtn.classList.add('is-active');
+
+                this.container.dispatchEvent(new CustomEvent('priceRangeChangeStart', {
+                    detail: {
+                        min: this.currentStartValue,
+                        max: this.currentEndValue
+                    }
+                }));
+            }
+
+            // DRAG MOVE
+            handleDragMove(event) {
+                if (!this.isDragging) return;
+                event.preventDefault(); 
+
+                const clientX = event.clientX || (event.touches ? event.touches[0].clientX : 0);
+                const trackRect = this.track.getBoundingClientRect();
+                let newX = clientX - trackRect.left;
+                newX = Math.max(0, Math.min(newX, trackRect.width));
+                const newValue = this.pixelsToValue(newX, trackRect.width);
+                let minConstraint, maxConstraint;
+                const step = 1; 
+
+                if (this.dragHandle === 'start') {
+                    maxConstraint = this.currentEndValue - step;
+                    this.currentStartValue = Math.min(Math.round(newValue), maxConstraint);
+                } else { 
+                    minConstraint = this.currentStartValue + step;
+                    this.currentEndValue = Math.max(Math.round(newValue), minConstraint);
+                }
+
+                this.updateSliderUI();
+                this.updateOutputText();
+                this.updateHiddenInput();
+            }
+
+            // DRAG END
+            handleDragEnd() {
+                this.isDragging = false;
+                
+                document.removeEventListener('mousemove', this.handleDragMoveBound);
+                document.removeEventListener('mouseup', this.handleDragEndBound);
+                document.removeEventListener('touchmove', this.handleDragMoveBound);
+                document.removeEventListener('touchend', this.handleDragEndBound);
+                
+                this.startBtn.classList.remove('is-active');
+                this.endBtn.classList.remove('is-active');
+                this.container.dispatchEvent(new CustomEvent('priceRangeChangeEnd', {
+                    detail: {
+                        min: this.currentStartValue,
+                        max: this.currentEndValue
+                    }
+                }));
+            }
+
+            pixelsToValue(pixels, trackWidth) {
+                const valueRange = this.maxPrice - this.minPrice;
+                const percentage = pixels / trackWidth;
+                const value = this.minPrice + (percentage * valueRange);
+                return value;
+            }
+
+            valueToPercent(value) {
+                const valueRange = this.maxPrice - this.minPrice;
+                return ((value - this.minPrice) / valueRange) * 100;
+            }
+
+            updateSliderUI() {
+                const startPercent = this.valueToPercent(this.currentStartValue);
+                const endPercent = this.valueToPercent(this.currentEndValue);
+
+                // UPDATE BTNS
+                this.startBtn.style.left = `${startPercent}%`;
+                this.endBtn.style.left = `calc(${endPercent}% - 1.2rem)`;
+
+                // UPDATE TRACK
+                this.activeTrack.style.left = `${startPercent}%`;
+                this.activeTrack.style.width = `${endPercent - startPercent}%`;
+            }
+
+
+            updateOutputText() {
+                const currency = ' ₴';
+                this.outputStart.textContent = `${this.currentStartValue}${currency} -`;
+                this.outputEnd.textContent = `${this.currentEndValue}${currency}`;
+            }
+            
+            updateHiddenInput() {
+                this.inputRangeMin.value = this.currentStartValue;
+                this.inputRangeMax.value = this.currentEndValue;
+                
+                this.container.dispatchEvent(new CustomEvent('priceRangeChange', {
+                    detail: {
+                        min: this.currentStartValue,
+                        max: this.currentEndValue
+                    }
+                }));
+            }
+        }
+        
+
+        if (document.querySelector('.price-range')) {
+
+            const filterData = (min, max) => {
+                filter = [];
+
+            	$('input[name^=\'filter\']:checked').each(function(element) {
+            		filter.push(this.value);
+            	});
+
+                let url = '{{ action }}';
+                if (filter.length > 0 ) url += '&filter=' + filter.join(',');
+                if (min) url += '&price_min=' + min;
+                if (max) url += '&price_max=' + max;
+                window.location = url;
+            }
+
+            document.querySelectorAll('.price-range').forEach(c => {
+                const rangeInput = new RangeInput(c);
+                rangeInput.container.addEventListener('priceRangeChangeEnd', (event) => {
+                    const { min, max } = event.detail;
+                    if (window.matchMedia('(min-width: 960px)').matches) filterData(min, max);
+                });
+            });
+        }
+    });
+</script> 

@@ -1,20 +1,6 @@
 {% import "drmyts/template/macro/macros.twig" as macros %}
 
-<div class="filter__inner bg--white abs modal flex-col backdrop__inner">
 
-    <div class="filter__heading flex-row j-between">
-		<div class="filter__title-col">
-			<button class="btn flex-center filter__close icon--arrow icon" type="button">
-                {{ macros.svg('arrow-back') }}
-			</button>
-		</div>
-		<p class="filter__title m-0">{{ heading_title }}</p>
-        {% if reset_url %}
-		<div class="filter__title-col d-flex j-end">
-			<button class="btn filter__reset text--color_red" type="button" onclick="location = '{{ reset_url }}';">Скинути</button>
-		</div>
-        {% endif %}
-	</div>
 
     <div class="filter__content flex-col"> 
         {% if active_filters %}
@@ -60,7 +46,7 @@
     <div class="filter__footer w-full">
 		<button class="btn btn--theme btn--theme_accent btn--size_M text--upp filter__btn" type="button" id="button-filter">{{ button_filter }}</button>
 	</div>
-</div>
+
 
 <script type="text/javascript">
 if (document.querySelector('#button-filter')) {
@@ -71,10 +57,18 @@ if (document.querySelector('#button-filter')) {
     		filter.push(this.value);
     	});
 
-    	location = '{{ action }}&filter=' + filter.join(',');
+        let url = '{{ action }}';
+        if (filter.length > 0 ) url += '&filter=' + filter.join(',');
+        const minInput = document.querySelector('input[name="price_min"]');
+        const maxInput = document.querySelector('input[name="price_max"]');
+
+        if (minInput) url += '&price_min=' + minInput.value;
+        if (maxInput) url += '&price_max=' + maxInput.value;
+        window.location = url;
     }
+
     document.querySelector('#button-filter').addEventListener("click", e => {
-        filterItems()
+        filterItems();
     })
 
     if (document.querySelector('.filter__item') && document.querySelector('.filter__content')) {

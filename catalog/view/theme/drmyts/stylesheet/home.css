@@ -2362,6 +2362,12 @@ input:checked + .product-variants__color-label::before {
 .price-range__start, .price-range__end {
   font-weight: 500;
 }
+.price-range.disabled {
+  pointer-events: none;
+}
+.price-range.disabled .price-range__btn, .price-range.disabled .price-range__active-track {
+  background-color: var(---color-secodnary-text);
+}
 
 .filter-content {
   max-width: 100%;

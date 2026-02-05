@@ -1,10 +1,10 @@
 <?php
-$_['heading_title'] = 'Price_Filter';
-$_['text_edit'] = 'Edit Price_Filter';
-$_['text_enabled'] = 'Enabled';
-$_['text_disabled'] = 'Disabled';
-$_['text_success'] = 'Settings saved successfully!';
-$_['entry_status'] = 'status';
-$_['entry_status_price'] = 'status_price';
+$_['heading_title'] = 'Фільтр цін';
+$_['text_edit'] = 'Редагувати фільтр цін';
+$_['text_enabled'] = 'Уввімкнено';
+$_['text_disabled'] = 'Вимкнено';
+$_['text_success']       = 'Налаштування змінені успішно!';
+$_['entry_status'] = 'Статус';
+$_['entry_status_price'] = 'статус_ціни';
 
 ?>

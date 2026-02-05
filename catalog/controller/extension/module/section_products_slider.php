@@ -34,7 +34,7 @@ class ControllerExtensionModuleSectionProductsSlider extends Controller {
 
                     if ((float)$product_info['special']) {
                         $special = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-                        $discount = '-' . round((($product_info['price'] - $product_info['special']) / $product_info['price']) * 100) . '%';
+                        $discount = round((($product_info['price'] - $product_info['special']) / $product_info['price']) * 100);
                     } else {
                         $special = false;
                         $discount = false;

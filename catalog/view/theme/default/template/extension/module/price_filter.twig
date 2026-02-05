@@ -1,0 +1,161 @@
+<!-- اضافه کردن CSS برای زیباسازی -->
+<style>
+
+
+#price-slider {
+    
+    margin: 15px 0;
+    height: 5px;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.noUi-handle {
+    background-color: #007bff;
+    border: none;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+    .advanced-filter {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 30px 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .filter-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+    }
+
+    
+    .form-section {
+        margin-bottom: 30px;
+        
+    }
+    .form-section h6 {
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #555;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .price-range {
+        margin: 25px 0 70px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .checkbox {
+        margin-bottom: 10px;
+    }
+    .checkbox label {
+        font-size: 14px;
+        color: #555;
+        
+    }
+
+    
+      .btn-filter{
+        padding: 4% 7%;
+        font-size: 13px;
+        border-radius: 5px;
+        
+    }
+    .category-list, .manufacturers-list, .attributes-list {
+        padding-left: 15px;
+        margin-top: 10px;
+        border-left: 3px solid #f0f0f0;
+    }
+    .category-list .checkbox,
+    .manufacturers-list .checkbox,
+    .attributes-list .checkbox {
+        margin-bottom: 5px;
+    }
+    .form-section .section-divider {
+        border-top: 1px dashed #ddd;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.6.1/nouislider.min.js"></script>
+
+
+      <div class="advanced-filter">
+    <h3 class="filter-title">Filter Products</h3>
+    <form action="{{ action }}" method="post" id="filter-form" class="filter-form">
+
+
+        <div class="form-section">
+    <h6 for="price_min" >Price Range</h6>
+    <div class="price-range">
+        <input type="number" name="price_min" id="price_min" placeholder="{{ price_min }}" class="form-control" >
+        <span class="range-separator">to</span>
+        <input type="number" name="price_max" id="price_max" placeholder="{{ price_max }}" class="form-control" >
+    </div>
+ 
+        <div id="price-slider" style="margin: 20px 5px 40px 5px;"></div>
+
+</div>
+
+        <div class="text-center"><button type="submit" class="btn btn-filter btn-primary">Apply filter</button></div>
+    </form>
+
+   
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // مقداردهی اولیه اسلایدر
+        let priceSlider = document.getElementById('price-slider');
+        let minPrice = {{ min_price }};
+        let maxPrice = {{ max_price }};
+        let Pricemin = {{ price_min }};
+        let Pricemax = {{ price_max }};
+        
+        noUiSlider.create(priceSlider, {
+            start: [Pricemin,Pricemax],
+            connect: true,
+            range: {
+                'min': minPrice,
+                'max': maxPrice // حداکثر قیمت
+            },
+            tooltips: true,
+            format: {
+                to: value => Math.round(value),
+                from: value => Math.round(value)
+            }
+        });
+
+        // همگام‌سازی اسلایدر با فیلدهای ورودی
+        priceSlider.noUiSlider.on('update', function (values) {
+            document.getElementById('price_min').value = values[0];
+            document.getElementById('price_max').value = values[1];
+        });
+
+        // همگام‌سازی فیلدهای ورودی با اسلایدر
+        document.getElementById('price_min').addEventListener('change', function () {
+            priceSlider.noUiSlider.set([this.value, null]);
+        });
+
+        document.getElementById('price_max').addEventListener('change', function () {
+            priceSlider.noUiSlider.set([null, this.value]);
+        });
+
+        
+    });
+</script> 

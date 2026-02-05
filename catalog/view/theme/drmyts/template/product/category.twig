@@ -44,7 +44,23 @@
 
             {% if column_left %}
 			<div class="backdrop fixed inset wh-full anim filter backdrop--mobile shop__filter" data-modal="filter">
+                <div class="filter__inner bg--white abs modal flex-col backdrop__inner">
+
+                    <div class="filter__heading flex-row j-between">
+                		<div class="filter__title-col">
+                			<button class="btn flex-center filter__close icon--arrow icon" type="button">
+                                {{ macros.svg('arrow-back') }}
+                			</button>
+                		</div>
+                		<p class="filter__title m-0">{{ heading_title }}</p>
+                        {% if reset_url %}
+                		<div class="filter__title-col d-flex j-end">
+                			<button class="btn filter__reset text--color_red" type="button" onclick="location = '{{ reset_url }}';">Скинути</button>
+                		</div>
+                        {% endif %}
+                	</div>
                 {{ column_left }}   
+                </div>
 			</div>
             {% endif %}
 

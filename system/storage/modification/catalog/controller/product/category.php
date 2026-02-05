@@ -173,6 +173,22 @@ class ControllerProductCategory extends Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
+
+                
+
+			if (isset($this->request->get['price_min']) & !empty($this->request->get['price_min'])) {
+				$price_min = (float)$this->request->get['price_min'];
+			} else {
+				$price_min = '';
+			}
+
+            if (isset($this->request->get['price_max']) & !empty($this->request->get['price_max'])) {
+				$price_max = (float)$this->request->get['price_max'];
+			} else {
+				$price_max = '';
+			}		
+
+            
 			$data['categories'] = array();
 
 			$results = $this->model_catalog_category->getCategories($category_id);
@@ -193,6 +209,10 @@ class ControllerProductCategory extends Controller {
 
 			$filter_data = array(
 				'filter_category_id' => $category_id,
+
+                      'price_min'			 => $price_min,
+                      'price_max' 		 => $price_max,
+            
 				'filter_filter'      => $filter,
 				'sort'               => $sort,
 				'order'              => $order,

@@ -67,7 +67,7 @@ class ControllerExtensionModuleSectionProductTabs extends Controller {
 
             if ((float)$result['special']) {
                 $special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
-                $discount = '-' . round((($result['price'] - $result['special']) / $result['price']) * 100) . '%';
+                $discount = round((($result['price'] - $result['special']) / $result['price']) * 100);
             } else {
                 $special = false;
                 $discount = false;

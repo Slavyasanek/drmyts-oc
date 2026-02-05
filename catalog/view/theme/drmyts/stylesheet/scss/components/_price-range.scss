@@ -39,5 +39,15 @@
     &__start, &__end {
         font-weight: 500;
     }
+
+    &.disabled {
+        pointer-events: none;
+
+        .price-range {
+            &__btn, &__active-track {
+                background-color: var(---color-secodnary-text);
+            }
+        }
+    }
 }
 // End inner
