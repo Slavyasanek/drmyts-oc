@@ -122,7 +122,7 @@ class LiveSearch {
     deactivate() {
         console.log('deactivate LiveSearch');
 
-        if (!this.form.classList.contains(this.ACTIVE_CLASS)) {
+        if (this.form.classList.contains(this.ACTIVE_CLASS)) {
            this.form.classList.remove(this.ACTIVE_CLASS);
             enableScroll(true);
             this.showLiveSearchContainer(false);     

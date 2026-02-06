@@ -24,10 +24,12 @@
                         {{ macros.svg('arrow-down') }}
         			</div>
         		</div>
-        		<div class="accordion__content filter-content"  id="filter-group{{ filter_group.filter_group_id }}">
+        		<div class="accordion__content filter-content {% if filter_group.filter|length > 4 %} filter-content--with-search{% endif %}"  id="filter-group{{ filter_group.filter_group_id }}">
+                    {% if filter_group.filter|length > 4 %}
                     <div class="filter-content__search custom-input custom-input--type_filter">
-        				<input class="custom-input__input" type="search" name="ingredients_search" placeholder="Пошук...">
+        				<input class="custom-input__input" type="search" name="search_{{ filter_group.filter_group_id }}" placeholder="Пошук...">
         			</div>
+                    {% endif %}
         			<div class="filter-content__list flex-col">
                         {% for filter in filter_group.filter %}
             				<div class="filter-content__item custom-checkbox custom-checkbox--red flex-row">
@@ -77,8 +79,30 @@ if (document.querySelector('#button-filter')) {
                 filterItems();
             }
         })
-
     }
+
+if (document.querySelector('.filter-content__search')) {
+    Array.from(document.querySelectorAll('.filter-content--with-search')).forEach(filterWithSearch => {
+        const items = filterWithSearch.querySelectorAll('.filter-content__item');
+        const searchInput = filterWithSearch.querySelector('.custom-input__input');
+
+
+        searchInput.addEventListener("input", e => {
+            const txt = e.target.value.toLowerCase().trim();
+
+            items.forEach(item => {
+
+                const labelText = item.querySelector('label').textContent.toLowerCase();
+
+                if (labelText.includes(txt)) {
+                    item.classList.remove('d-none')
+                } else {
+                    item.classList.add('d-none');
+                }
+            });
+        });
+    });
+}
 }
 
 </script> 
