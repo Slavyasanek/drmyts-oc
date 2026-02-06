@@ -9,7 +9,9 @@
                     <img src="{{ logo }}" alt="Dr Myts shop logo" loading="lazy" />
                 </picture>
             </div>
-            <p class="footer__txt">Експертно відібрані продукти від лікаря-дерматолога</p>
+            {% if custom_footer_text %}
+            <p class="footer__txt">{{ custom_footer_text }}</p>
+            {% endif %}
         </div>
         <div class="footer__nav flex-row-wrap">
             <div class="footer__menu-wr">

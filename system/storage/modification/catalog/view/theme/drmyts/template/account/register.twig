@@ -1,0 +1,483 @@
+{{ header }}
+
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+
+<main>
+   {{ content_top }}
+    <div class="page-title border--end">
+        <div class="container page-title__container">
+            <h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ text_account }}</h1>
+            <div class="breadcrumbs text--color_gray page-title__breadcrumbs">
+                <div class="breadcrumbs__list flex-row">
+                    {% for breadcrumb in breadcrumbs %}
+                        <a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="sign-form" id="account">
+        <div class="container sign-form__container">
+            <h2 class="sign-form__title text--center text--size_h3-full">{{ heading_title }}</h2>
+            <form class="sign-form__form mx" action="{{ action }}" method="post" enctype="multipart/form-data">
+
+                <div class="sign-form__fields flex-col">
+                    <div class="sign-form__group" style="display: {% if customer_groups|length > 1 %} block {% else %} none {% endif %};">
+                        <p class="sign-form__label">{{ entry_customer_group }}</p>
+
+                        <div class="flex-row-wrap sign-form__options">
+                            {% for customer_group in customer_groups %}
+                              {% if customer_group.customer_group_id == customer_group_id %}
+
+                                <div class="custom-radio sign-form__radio flex-row"> 
+                                    <div class="custom-radio__wrapper rel"> 
+                                        <input class="abs wh-full inset m-0" type="radio" name="customer_group_id" value="{{ customer_group.customer_group_id }}" id="customer_group_id_{{ customer_group.customer_group_id }}" checked="checked">
+                                    </div>
+                                    <label for="customer_group_id_{{ customer_group.customer_group_id }}">{{ customer_group.name }}</label>
+                                </div>
+
+                              {% else %}
+
+                                <div class="custom-radio sign-form__radio flex-row"> 
+                                    <div class="custom-radio__wrapper rel"> 
+                                        <input class="abs wh-full inset m-0" type="radio" name="customer_group_id" value="{{ customer_group.customer_group_id }}" id="customer_group_id_{{ customer_group.customer_group_id }}">
+                                    </div>
+                                    <label for="customer_group_id_{{ customer_group.customer_group_id }}">{{ customer_group.name }}</label>
+                                </div>
+
+                              {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="sign-form__field custom-input {% if error_firstname %} invalid {% endif %}">
+                        <input class="custom-input__input" type="text" name="firstname" value="{{ firstname }}" placeholder="{{ entry_firstname }}" id="input-firstname" />
+                        {% if error_firstname %}
+                            <div class="custom-input__error">{{ error_firstname }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="sign-form__field custom-input {% if error_lastname %} invalid {% endif %}">
+                        <input class="custom-input__input" type="text" name="lastname" value="{{ lastname }}" placeholder="{{ entry_lastname }}" id="input-lastname" />
+                        {% if error_lastname %}
+                            <div class="custom-input__error">{{ error_lastname }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="sign-form__field custom-input {% if error_telephone %} invalid {% endif %}">
+                        <input class="custom-input__input" type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" />
+                        {% if error_telephone %}
+                            <div class="custom-input__error">{{ error_telephone }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="sign-form__field custom-input {% if error_email %} invalid {% endif %}">
+                        <input class="custom-input__input" type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email"/>
+                        {% if error_email %}
+                            <div class="custom-input__error">{{ error_email }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="sign-form__field custom-input custom-input--type_password rel {% if error_password %} invalid {% endif %}">
+                        <input class="custom-input__input"type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" />
+                        <button class="btn flex-center custom-input__icon abs" type="button">
+                            {{ macros.svg('eye', 'anim')}}
+                        </button>
+                        {% if error_password %}
+                            <div class="custom-input__error">{{ error_password }}</div>
+                        {% endif %} 
+                    </div>
+                    <div class="sign-form__field custom-input custom-input--type_password rel {% if error_confirm %} invalid {% endif %}">
+                        <input class="custom-input__input" type="password" name="confirm" value="{{ confirm }}" placeholder="{{ entry_confirm }}" id="input-confirm" />
+                        <button class="btn flex-center custom-input__icon abs" type="button">
+                            {{ macros.svg('eye', 'anim')}}
+                        </button>
+                        {% if error_confirm %}
+                            <div class="custom-input__error d-none">{{ error_confirm  }}</div>
+                        {% endif %}
+                    </div>
+
+                    {% for custom_field in custom_fields %}
+                      {% if custom_field.type == 'select' %}
+
+                       <div class="sign-form__field sign-form__field--custom" id="custom-field{{ custom_field.custom_field_id }}"  data-sort="{{ custom_field.sort_order }}">
+                            <label  class="custom-input__label text--color_gray" for="input-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
+
+                            <div class="custom-select account-details__select custom-select--type_field custom-select rel anim rel">
+                                <div class="custom-select__heading flex-row j-between">
+                                    <span>{{ custom_field.name }}</span>
+                                    <div class="icon icon--arrow custom-select__arrow anim">
+                                        {{ macros.svg('arrow-down') }}
+                                    </div>
+                                    <input type="hidden" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" id="input-custom-field{{ custom_field.custom_field_id }}">
+                                </div>
+                                <div class="custom-select__dropdown">
+                                    <ul class="custom-select__list">
+                                       {% for custom_field_value in custom_field.custom_field_value %}
+                                        {% if account_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == account_custom_field[custom_field.custom_field_id] %}
+                                            <li class="custom-select__option active" data-value="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</li>
+                                        {% else %}
+                                            <li class="custom-select__option" data-value="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% if error_custom_field[custom_field.custom_field_id] %}
+                                <div class="custom-input__error">{{ error_custom_field[custom_field.custom_field_id] }}</div>
+                            {% endif %}
+                        </div>
+                      {% endif %}
+                      {% if custom_field.type == 'radio' %}
+
+                        <div class="sign-form__field sign-form__field--custom" data-sort="{{ custom_field.sort_order }}" id="custom-field{{ custom_field.custom_field_id }}">
+                            <label class="custom-input__label text--color_gray">{{ custom_field.name }}</label>
+                            <div class="flex-row-wrap sign-form__choices">
+                                {% for custom_field_value in custom_field.custom_field_value %}
+                                    {% if account_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == account_custom_field[custom_field.custom_field_id] %}
+                                        <div class="custom-radio sign-form__radio flex-row"> 
+                                            <div class="custom-radio__wrapper rel"> 
+                                                <input class="abs wh-full inset m-0" type="radio" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" id="{{ custom_field_value.custom_field_value_id }}" checked="checked">
+                                            </div>
+                                            <label for="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</label>
+                                        </div>
+                                    {% else %}
+                                        <div class="custom-radio sign-form__radio flex-row"> 
+                                            <div class="custom-radio__wrapper rel"> 
+                                                <input class="abs wh-full inset m-0" type="radio" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" id="{{ custom_field_value.custom_field_value_id }}">
+                                            </div>
+                                            <label for="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</label>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                      </div>
+
+                      {% endif %}
+                      {% if custom_field.type == 'checkbox' %}
+
+                      <div class="sign-form__field sign-form__field--custom" data-sort="{{ custom_field.sort_order }}" id="custom-field{{ custom_field.custom_field_id }}">
+                            <label class="custom-input__label text--color_gray">{{ custom_field.name }}</label>
+                            <div class="flex-row-wrap sign-form__choices">
+                                {% for custom_field_value in custom_field.custom_field_value %}
+                                    {% if account_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == account_custom_field[custom_field.custom_field_id] %}
+                                        <div class="custom-checkbox sign-form__radio flex-row"> 
+                                            <div class="custom-checkbox__wrapper rel"> 
+                                                <input class="abs wh-full inset m-0" type="checkbox" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}][]" value="{{ custom_field_value.custom_field_value_id }}" checked="checked" id="{{ custom_field_value.custom_field_value_id }}">
+                                            </div>
+                                            <label for="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</label>
+                                        </div>
+                                    {% else %}
+                                        <div class="custom-checkbox sign-form__radio flex-row"> 
+                                            <div class="custom-checkbox__wrapper rel"> 
+                                                <input class="abs wh-full inset m-0" type="checkbox" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" id="{{ custom_field_value.custom_field_value_id }}">
+                                            </div>
+                                            <label for="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</label>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                      </div>
+                      {% endif %}
+                      {% if custom_field.type == 'text' %}
+                            <div class="sign-form__field sign-form__field--custom custom-input {% if error_custom_field[custom_field.custom_field_id] %} invalid {% endif %}" data-sort="{{ custom_field.sort_order }}" id="custom-field{{ custom_field.custom_field_id }}">
+                                <label class="custom-input__label text--color_gray" for="input-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
+                                <input class="custom-input__input" type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if account_custom_field[custom_field.custom_field_id] %}{{ account_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}" placeholder="{{ custom_field.name }}" id="input-custom-field{{ custom_field.custom_field_id }}" {% if custom_field.required %} required{% endif %}  />
+                                {% if error_custom_field[custom_field.custom_field_id] %}
+                                    <div class="custom-input__error ">{{ error_custom_field[custom_field.custom_field_id] }}</div>
+                                {% endif %}
+                            </div>
+                      {% endif %}
+                      {% if custom_field.type == 'textarea' %}
+
+                        <div class="sign-form__field custom-input sign-form__field--custom custom-input--type_textarea"  data-sort="{{ custom_field.sort_order }}" id="custom-field{{ custom_field.custom_field_id }}" >
+                            <label class="custom-input__label text--color_gray" for="input-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
+							<textarea class="custom-input__input" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" rows="5" placeholder="{{ custom_field.name }}" id="input-custom-field{{ custom_field.custom_field_id }}" {% if custom_field.required %}required{% endif %}>{% if account_custom_field[custom_field.custom_field_id] %}{{ account_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}</textarea>
+                            {% if error_custom_field[custom_field.custom_field_id] %}
+							    <span class="custom-input__error">{{ error_custom_field[custom_field.custom_field_id] }}</span>
+                            {% endif %}
+						</div>
+                      {% endif %}
+                      {% if custom_field.type == 'file' %}
+
+                        <div class="sign-form__field sign-form__field--custom" data-sort="{{ custom_field.sort_order }}" id="custom-field{{ custom_field.custom_field_id }}">
+                            <label class="custom-input__label text--color_gray">{{ custom_field.name }}</label>
+							<div class="review-form__photo photo-upload photo-upload--custom-field">
+								<div class="photo-upload__wrapper rel">
+									<input class="hidden d-none" type="hidden" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if register_custom_field[custom_field.custom_field_id] %}  {{ register_custom_field[custom_field.custom_field_id] }} {% endif %}">
+									<button class="btn btn--theme btn--theme_dark text--upp btn--size_M flex-row photo-upload__btn" type="button" id="button-custom-field">
+                                        {{ macros.svg('plus', '') }}
+										<span>{{ button_download }}</span>
+									</button>
+								</div>
+								<div class="photo-upload__list flex-row-wrap"></div>
+							</div>
+                            
+                            <div class="custom-input__error {% if not error_custom_field[custom_field.custom_field_id] %}d-none{% endif %}">{{ error_custom_field[custom_field.custom_field_id] }}</div>
+                        </div>
+                      {% endif %}
+                      {# {% if custom_field.type == 'date' %}
+                      <div id="custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
+                        <label class="col-sm-2 control-label" for="input-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
+                        <div class="col-sm-10">
+                          <div class="input-group date">
+                            <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if register_custom_field[custom_field.custom_field_id] %}{{ register_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}" placeholder="{{ custom_field.name }}" data-date-format="YYYY-MM-DD" id="input-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
+                            <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                            </span></div>
+                          {% if error_custom_field[custom_field.custom_field_id] %}
+                          <div class="text-danger">{{ error_custom_field[custom_field.custom_field_id] }}</div>
+                          {% endif %} </div>
+                      </div>
+                      {% endif %}
+                      {% if custom_field.type == 'time' %}
+                      <div id="custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
+                        <label class="col-sm-2 control-label" for="input-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
+                        <div class="col-sm-10">
+                          <div class="input-group time">
+                            <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if register_custom_field[custom_field.custom_field_id] %}{{ register_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}" placeholder="{{ custom_field.name }}" data-date-format="HH:mm" id="input-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
+                            <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                            </span></div>
+                          {% if error_custom_field[custom_field.custom_field_id] %}
+                          <div class="text-danger">{{ error_custom_field[custom_field.custom_field_id] }}</div>
+                          {% endif %} </div>
+                      </div>
+                      {% endif %}
+                      {% if custom_field.type == 'datetime' %}
+                      <div id="custom-field{{ custom_field.custom_field_id }}" class="form-group custom-field" data-sort="{{ custom_field.sort_order }}">
+                        <label class="col-sm-2 control-label" for="input-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
+                        <div class="col-sm-10">
+                          <div class="input-group datetime">
+                            <input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{% if register_custom_field[custom_field.custom_field_id] %}{{ register_custom_field[custom_field.custom_field_id] }}{% else %}{{ custom_field.value }}{% endif %}" placeholder="{{ custom_field.name }}" data-date-format="YYYY-MM-DD HH:mm" id="input-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
+                            <span class="input-group-btn">
+                            <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                            </span></div>
+                          {% if error_custom_field[custom_field.custom_field_id] %}
+                          <div class="text-danger">{{ error_custom_field[custom_field.custom_field_id] }}</div>
+                          {% endif %} </div>
+                      </div>
+                      {% endif %} #}
+                      {% endfor %}
+                </div>
+                {{ captcha }}
+                <button class="text--upp btn--theme btn--theme_accent w-full btn btn--size_M sign-form__submit" type="submit">{{ button_register }}</button>
+                <div class="sign-form__footer flex-row j-between">
+
+            <div class="custom-checkbox sign-form__checkbox flex-row">
+                <div class="custom-checkbox__wrapper rel">
+                    <input class="abs wh-full inset m-0" type="checkbox" name="remember" id="remember" style="cursor:pointer;" />
+                </div>
+                <label for="remember">{{ text_remember_me }}</label>
+            </div>
+            
+
+                </div>
+                <a class="text--upp text--color_accent sign-form__bottom-link text--size_label text--center" href="{{ login }}">{{ text_login }}</a>
+            </form>
+        </div>
+    </section>
+    {{ content_bottom }}
+</main>
+
+<script type="text/javascript"><!--
+document.addEventListener('DOMContentLoaded', () => {
+    // SORT FIELDS
+    const sortableFields = Array.from(document.querySelectorAll('#account .account-details__field[data-sort]'));
+    sortableFields.forEach(field => field.remove());
+    sortableFields.forEach(field => {
+        const sortOrder = parseInt(field.getAttribute('data-sort'), 10);
+        
+       
+        const formGroups = document.querySelectorAll('#account .account-details__field');
+        const length = formGroups.length;
+        if (sortOrder >= 0 && sortOrder <= length) {
+            if (formGroups[sortOrder]) {
+                formGroups[sortOrder].before(field);
+            }
+        }
+
+        if (sortOrder > length) {
+            if (formGroups[length - 1]) {
+                formGroups[length - 1].after(field);
+            }
+        }
+
+        if (sortOrder === length) {
+            if (formGroups[length - 1]) {
+                formGroups[length - 1].after(field);
+            }
+        }
+
+        if (sortOrder < -length) {
+            if (formGroups[0]) {
+                formGroups[0].before(field);
+            }
+        }
+    });
+
+    // HANDLE GROUP TYPE CHANGE 
+    const customerGroupInputs = document.querySelectorAll('input[name="customer_group_id"]');
+    const handleGroupChange = function() {
+        const groupId = this.value;
+
+        fetch('index.php?route=account/register/customfield&customer_group_id=' + groupId)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                return response.json();
+            })
+            .then(json => {
+
+                document.querySelectorAll('.sign-form__field--custom').forEach(field => {
+                    field.style.display = 'none';
+                    field.classList.remove('required');
+                });
+
+                json.forEach(customField => {
+                    const fieldElement = document.getElementById('custom-field' + customField.custom_field_id);
+                    
+                    if (fieldElement) {
+                        fieldElement.style.display = 'block';
+
+                        if (customField.required) {
+                            fieldElement.classList.add('required');
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                alert(error + "\r\n" + "Request Failed");
+                console.error('Error fetching custom fields:', error);
+            });
+    };
+    customerGroupInputs.forEach(input => {
+        input.addEventListener('change', handleGroupChange);
+    });
+
+    $('input[name=\'customer_group_id\']:checked').trigger('change');
+
+    // FILE UPLOAD HANDLER
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.photo-upload__delete')) {
+            const parent = e.target.closest('.sign-form__field');
+            parent.querySelector('input').value = "";
+            removePreview(parent.querySelector('.photo-upload__list'));
+            return;
+        }
+
+        const button = e.target.closest('button[id^="button-custom-field"]');
+        if (!button) return;
+
+        // CREATE FORM
+        document.getElementById('form-upload')?.remove();
+        const formHtml = '<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>';
+        document.body.insertAdjacentHTML('beforeend', formHtml);
+
+        const form = document.getElementById('form-upload');
+        const input = form.querySelector('input');
+        const parent = button.closest('.sign-form__field');
+        const valueInput = parent.querySelector('input'); 
+        const previewList = parent.querySelector('.photo-upload__list');
+
+        input.addEventListener('change', async function() {
+            if (!this.files.length) return;
+            
+            const file = this.files[0];
+            const formData = new FormData(form);
+            const errorWrapper = parent.querySelector('.custom-input__error');
+
+            button.disabled = true;
+            if (errorWrapper) toggleError(errorWrapper, false, '');
+
+            try {
+                const response = await fetch('index.php?route=tool/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const json = await response.json();
+                const { error, success, code } = json;
+
+                if (error) {
+                    if (errorWrapper) toggleError(errorWrapper, true, error);
+                    removePreview(previewList);
+                }
+
+                if (success) {
+                    if (valueInput) valueInput.value = code;
+                    showPreview(file, previewList);
+                }
+
+            } catch (err) {
+                console.error('Upload Error:', err);
+                if (errorWrapper) toggleError(errorWrapper, true, 'Помилка з\'єднання');
+                removePreview(parent, button);
+            } finally {
+                button.disabled = false;
+                form.remove();
+            }
+        }, { once: true });
+
+        input.click();
+    });
+
+    // show preview
+    function showPreview(file, previewList) {
+        removePreview(previewList);
+        
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const clone = document.getElementById('photoUploadTemplate').content.cloneNode(true);
+            if (!file.type.startsWith('image/')) {
+                clone.querySelector('picture').remove();
+            } else {
+                clone.querySelector('.cover-image').src = e.target.result;
+                clone.querySelector('.cover-image').alt = file.name;
+            }
+
+            previewList.appendChild(clone);
+        };
+        
+        reader.readAsDataURL(file);
+    }
+
+    // removw preview 
+    const removePreview = (previewList) => {
+        if (previewList) previewList.innerHTML = "";
+    }
+
+    // TOGGLER FILE UPLOADER ERROR
+    const toggleError = (errorEl, isShown, errorText) => {
+        if (!errorEl) return;
+        if (isShown) {
+            errorEl.textContent = errorText;
+            errorEl.classList.remove('d-none');
+        } else {
+            errorEl.classList.add('d-none');
+            errorEl.textContent = '';
+        }
+    }
+});
+
+
+//--></script> 
+
+{# 
+<script type="text/javascript"><!--
+$('.date').datetimepicker({
+	language: '{{ datepicker }}',
+	pickTime: false
+});
+
+$('.time').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: false
+});
+
+$('.datetime').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: true,
+	pickTime: true
+});
+//--></script>  #}
+{{ footer }} 

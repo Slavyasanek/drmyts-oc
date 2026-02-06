@@ -1,4 +1,4 @@
-2026-02-05 11:19:19 - MOD: Modification Default
+2026-02-06 12:23:09 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -87,16 +87,34 @@ FILE: catalog/controller/account/register.php
 CODE: $data['breadcrumbs'] = array();
 LINE: 40
 ----------------------------------------------------------------
-MOD: D.Menu Editor
+MOD: Custom Header and Footer Text Settings
+
+FILE: admin/controller/setting/setting.php
+CODE: if (isset($this->request->post['config_email'])) {
+LINE: 264
+
+FILE: admin/view/template/setting/setting.twig
+CODE: <li><a href="#tab-server" data-toggle="tab">{{ tab_server }}</a></li>
+LINE: 39
+CODE: <div class="tab-pane" id="tab-server">
+LINE: 1212
 
 FILE: catalog/controller/common/header.php
+CODE: $data['language'] = $this->load->controller('common/language');
+LINE: 94
+
+FILE: catalog/controller/common/footer.php
+CODE: $data['newsletter'] = $this->url->link('account/newsletter', '', true);
+LINE: 32
+----------------------------------------------------------------
+MOD: D.Menu Editor
 CODE: public function index
 LINE: 17
 CODE: $data['language'] = $this->load->controller('common/language');
 LINE: 102
 CODE: $data['currency'] = $this->load->controller('common/currency');
-LINE: 114
-LINE: 115
+LINE: 118
+LINE: 119
 ----------------------------------------------------------------
 MOD: Filter (Active filters)
 
@@ -152,11 +170,35 @@ LINE: 501
 CODE: 'rating'      => $rating,
 LINE: 516
 ----------------------------------------------------------------
+MOD: Remember Me Ultimate
+
+FILE: system/library/cart/customer.php
+CODE: $this->session = $registry->get('session');
+LINE: 67
+
+FILE: catalog/controller/account/login.php
+CODE: if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+LINE: 71
+CODE: $this->customer->login($this->request->post['email'], $this->request->post['password']);
+LINE: 42
+
+FILE: catalog/controller/account/logout.php
+CODE: public function index() {
+LINE: 15
+
+FILE: catalog/view/theme/drmyts/template/account/login.twig
+CODE: <div class="sign-form__footer flex-row j-between">
+LINE: 60
+
+FILE: catalog/view/theme/drmyts/template/account/register.twig
+CODE: <div class="sign-form__footer flex-row j-between">
+LINE: 269
+----------------------------------------------------------------
 MOD: Remove Cart page
 
 FILE: catalog/controller/checkout/cart.php
-CODE: $this->response->setOutput($this->load->view('checkout/cart', $data));
-LINE: 247
+CODE: $this->load->language('checkout/cart');
+LINE: 9
 ----------------------------------------------------------------
 MOD: Review Images
 CODE: public function review() {

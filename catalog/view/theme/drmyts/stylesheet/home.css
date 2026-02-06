@@ -856,6 +856,11 @@ p {
   color: var(---color-secodnary-text);
   padding: 2.4rem 1.6rem 2rem;
 }
+.header-menu__footer .dmenu_editor-menu_list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
 .header-menu__footer-list {
   gap: 0.8rem;
 }

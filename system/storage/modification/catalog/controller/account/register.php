@@ -30,6 +30,18 @@ class ControllerAccountRegister extends Controller {
 
 			$this->customer->login($this->request->post['email'], $this->request->post['password']);
 
+            if (isset($this->request->post['remember'])) {
+                $selector = bin2hex(random_bytes(6));
+                $validator = bin2hex(random_bytes(16));
+                $token = hash('sha256', $validator);
+                $expires = date('Y-m-d H:i:s', time() + 60 * 60 * 24 * 30);
+
+                $this->db->query("INSERT INTO " . DB_PREFIX . "customer_remember SET customer_id = '" . (int)$this->customer->getId() . "', selector = '" . $this->db->escape($selector) . "', token = '" . $this->db->escape($token) . "', expires = '" . $this->db->escape($expires) . "'");
+
+                setcookie('remember_me', $selector . ':' . $validator, time() + 60 * 60 * 24 * 30, '/', '', (isset($this->request->server['HTTPS']) && $this->request->server['HTTPS'] == 'on'), true);
+            }
+            
+
 			unset($this->session->data['guest']);
 
 			$this->response->redirect($this->url->link('account/success'));

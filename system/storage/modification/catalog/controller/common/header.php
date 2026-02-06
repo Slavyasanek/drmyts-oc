@@ -112,6 +112,10 @@ class ControllerCommonHeader extends Controller {
 
         /*   End --- Module D.Menu Editor --- End   */
             
+
+        $data['custom_header_text'] = $this->config->get('config_custom_header_text');
+        $data['powered'] = sprintf($this->language->get('text_powered'), date('Y', time()));
+            
 		
         /* Start --- Module D.Menu Editor --- Start */
 

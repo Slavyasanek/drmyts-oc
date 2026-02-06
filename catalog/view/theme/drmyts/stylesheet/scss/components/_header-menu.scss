@@ -72,6 +72,12 @@
     &__footer {
         color: var(---color-secodnary-text);
         padding: 2.4rem 1.6rem 2rem;
+
+        .dmenu_editor-menu_list {
+            display: flex;
+            flex-direction: column;
+            gap: .8rem;
+        }
     }
 
     &__footer-list {

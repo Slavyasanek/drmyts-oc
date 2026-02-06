@@ -40,6 +40,9 @@ $_['text_upload']                      = 'Завантаження';
 $_['text_error']                       = 'Обробка помилок';
 $_['text_canonical_ocstore']           = 'ocStore рішення';
 $_['text_canonical_opencart']          = 'Оригінальний OpenCart';
+$_['entry_custom_header_text'] = 'Текст у хедері';
+$_['entry_custom_footer_text'] = 'Текст у футері';
+$_['tab_custom_content']       = 'DrMyts кастомний контент';
 
 // Entry
 $_['entry_name']                       = 'Назва магазина';

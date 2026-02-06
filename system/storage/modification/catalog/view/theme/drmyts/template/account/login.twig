@@ -1,0 +1,71 @@
+{{ header }}
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<main>
+    <div class="page-title border--end">
+        <div class="container page-title__container">
+            <h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ text_account }}</h1>
+            <div class="breadcrumbs text--color_gray page-title__breadcrumbs">
+                <div class="breadcrumbs__list flex-row">
+                    {% for breadcrumb in breadcrumbs %}
+                        <a class="breadcrumbs__item" href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="sign-form" id="account-login">
+        <div class="container sign-form__container">
+            {% if success %}
+                <div class="sign-form__icon mx"> 
+                    {{ macros.svg('icon-check', 'wh-full' ) }}
+                </div>
+                <div class="sign-form__txt text--center mx"> 
+                    <p> {{ success }}</p>
+                  </div>
+            {% endif %}
+
+
+            <h2 class="sign-form__title text--center text--size_h3-full">{{ text_login }}</h2>
+
+            <form class="sign-form__form mx" action="{{ action }}" method="post" enctype="multipart/form-data">
+                {% if error_warning %}
+                    <div class="alert alert--error text--center alert--in-txt sign-form__alert">{{ error_warning }}</div>
+                {% endif %}
+
+                <div class="sign-form__fields flex-col">
+                    <div class="sign-form__field custom-input">
+                        <input class="custom-input__input" type="email" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" required />
+                        <div class="custom-input__error d-none">{{ error_required_field }}</div>
+                    </div>
+                    <div class="sign-form__field custom-input custom-input--type_password rel">
+                        <input class="custom-input__input" type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" required />
+                        <button class="btn flex-center custom-input__icon abs" type="button">
+                            {{ macros.svg('eye', 'anim')}}
+                        </button>
+                        <div class="custom-input__error d-none">{{ error_required_field }}</div>
+                    </div>
+                </div>
+                {% if redirect %}
+                    <input type="hidden" name="redirect" value="{{ redirect }}" />
+              {% endif %}
+                <button class="text--upp btn--theme btn--theme_accent w-full btn btn--size_M sign-form__submit" type="submit">{{ button_login }}</button>
+                <div class="sign-form__footer flex-row j-between">
+
+            <div class="custom-checkbox sign-form__checkbox flex-row">
+                <div class="custom-checkbox__wrapper rel">
+                    <input class="abs wh-full inset m-0" type="checkbox" name="remember" id="remember" style="cursor:pointer;" />
+                </div>
+                <label for="remember">{{ text_remember_me }}</label>
+            </div>
+            
+                    <a class="sign-form__page-link" href="{{ forgotten }}">{{ text_forgotten }}</a>
+                </div>
+                <a class="text--upp text--color_accent sign-form__bottom-link text--size_label text--center" href="{{ register }}">{{ text_register }}</a>
+            </form>
+        </div>
+    </section>
+</main>
+
+
+{{ footer }}

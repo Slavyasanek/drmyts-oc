@@ -231,6 +231,33 @@ class ControllerExtensionModuleDMenuEditorEvents extends Controller {
                     $output = str_replace($find, $replace, $output);
                 }
             }
+
+            
+            // Footer Menu.
+            if ($this->config->get('module_dmenu_editor_status') && $module_dmenu_editor_settings['menu']['footer']['status']) {
+                // Menu data.
+                $filter_data = array(
+                    'menu_type' => 'footer'
+                );
+
+                // Footer Menu HTML.
+                $dmenu_footer = $this->load->controller('extension/module/dmenu_editor', $filter_data);
+
+                // Setting "Show on site". Option "Custom".
+                if ($module_dmenu_editor_settings['menu']['footer']['display']) {
+                    // Operation.
+                    $find = '<div id="dmenu_editor-footer"></div>';
+                    $replace = '<div id="dmenu_editor-footer">' . $dmenu_footer . '</div>';
+                    $output = str_replace($find, $replace, $output);
+
+                // Setting "Show on site". Option "Default".
+                } else {
+                    // Operation.
+                    $find = '/(<footer.*?>)/i';
+                    $replace = '$1<div id="dmenu_editor-footer">' . $dmenu_footer . '</div>';
+                    $output = preg_replace($find, $replace, $output);
+                }
+            }
         }
     }
 

@@ -100,7 +100,7 @@
                     <div class="header-menu__footer">
                         <div id="dmenu_editor-footer"></div>
                         <div class="header-menu__copy">
-                            <p>&#169;2025 dr.Myts Shop. All rights reserved.</p>
+                            <p>{{ powered }}</p>
                         </div>
                     </div>
                 </nav>
@@ -135,7 +135,9 @@
     </div>
     <div class="header__bottom">
         <div class="container header__bottom-container">
-            <p class="header__slogan d-none m-0 text--color_gray">100 % оригінальна продукція!</p>
+            {% if custom_header_text %}
+                <p class="header__slogan d-none m-0 text--color_gray">{{ custom_header_text }}</p>
+            {% endif %}
             <div class="header__menu d-none">
                 <div id="top"></div>
             </div>
