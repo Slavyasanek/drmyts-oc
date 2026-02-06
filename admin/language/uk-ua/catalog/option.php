@@ -32,6 +32,7 @@ $_['entry_type']          = 'Тип';
 $_['entry_option_value']  = 'Значення опції';
 $_['entry_image']         = 'Зображення';
 $_['entry_sort_order']    = 'Порядок сортування';
+$_['entry_color'] = 'Колір';
 
 // Error
 $_['error_permission']    = 'У вас недостатньо прав для внесення змін';

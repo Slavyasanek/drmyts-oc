@@ -398,3 +398,20 @@ buttons.fastBuy?.addEventListener('click', () => {
         loading(false);
     });
 });
+
+if (document.querySelector('.product-variants__options--color')) {
+    Array.from(document.querySelectorAll('.product-variants__options--color')).forEach(colorOptions => {
+        const outputSpan = colorOptions.querySelector('.product-variants__chosen');
+
+        colorOptions.addEventListener("click", e => {
+
+            if (e.target.closest('.product-vairants__option')) {
+                const content = e.target.closest('.product-vairants__option').dataset.optionName;
+                if (content) outputSpan.textContent = content;
+            } else if (e.target.closest('.product-variants__color-label')) {
+                const content = e.target.closest('.product-variants__color-label').textContent;
+                if (content) outputSpan.textContent = content;
+            }
+        })
+    })
+}

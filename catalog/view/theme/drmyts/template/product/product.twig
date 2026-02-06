@@ -123,28 +123,32 @@
     			<div class="product-page__variants product-variants flex-col">
     				{% for option in options %}
     					{% if option.type == 'radio' %}
-    						<div class="product-variants__options flex-row-wrap"  id="input-option{{ option.product_option_id }}">
-    							<p class="product-variants__title">{{ option.name }}</p>
+
+                            {% set colorValues = option.product_option_value | filter(v => v.color_code) %}
+                            {% set hasColor = colorValues | length > 0 %}
+
+    						<div class="product-variants__options flex-row-wrap {% if hasColor %} product-variants__options--color {% endif %}"  id="input-option{{ option.product_option_id }}">
+                                {% if hasColor %}
+                                    <p class="product-variants__title">{{ option.name }}:
+                						<span class="product-variants__chosen"></span>
+                					</p>
+                                {% else %}
+        							<p class="product-variants__title">{{ option.name }}</p>
+                                {% endif %}
     							{% for option_value in option.product_option_value %}
+                                    {% if option_value.color_code %}
+                                        <input class="product-vairants__option anim" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="{{ option.name }}_{{ option_value.product_option_value_id }}" data-option-name="{{ option_value.name }}">
+    					                <label class="product-variants__color-label" for="{{ option.name }}_{{ option_value.product_option_value_id }}" style="background: {{ option_value.color_code}};" title="{{ option_value.name }}">{{ option_value.name }}</label>
+                                    {% else %}
+                                
     								<input class="product-vairants__option anim" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="{{ option.name }}_{{ option_value.product_option_value_id }}">
-    								<label class="product-variants__label" for="{{ option.name }}_{{ option_value.product_option_value_id }}">{{ option_value.name }}
+    								<label class="product-variants__label" for="{{ option.name }}_{{ option_value.product_option_value_id }}" >{{ option_value.name }}
     								</label>
+                                    {% endif %}
     							{% endfor %}
     						</div>
     					{% endif %}
     				{% endfor %}
-
-    				{# <div class="product-variants__options flex-row-wrap product-variants__options--color">
-    					<p class="product-variants__title">Колір:
-    						<span class="product-variants__chosen">Glow</span>
-    					</p>
-    					<input class="product-vairants__option anim" type="radio" name="color" value="dark_beige" checked id="color_dark_beige">
-    					<label class="product-variants__color-label" for="color_dark_beige" style="background: #D3AB88;">Dark beige</label>
-    					<input class="product-vairants__option anim" type="radio" name="color" value="light_beige" checked id="color_light_beige">
-    					<label class="product-variants__color-label" for="color_light_beige" style="background: #E9C6B7;">Light Beige</label>
-    					<input class="product-vairants__option anim" type="radio" name="color" value="warm_beige" checked id="color_warm_beige">
-    					<label class="product-variants__color-label" for="color_warm_beige" style="background: #DA9E75;">Warm Beige</label>
-    				</div> #}
     			</div>
                 {% endif %}
 
