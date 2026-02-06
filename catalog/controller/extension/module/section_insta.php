@@ -15,8 +15,18 @@ class ControllerExtensionModuleSectionInsta extends Controller {
         $data['posts'] = array();
 
         if ($data['insta_token'] && $data['insta_account_id']) {
-            // Кешуємо на 1 годину за унікальним ключем модуля
-            $cache_key = 'instagram_posts.' . (int)$this->config->get('config_store_id') . '.' . $setting['name'];
+            
+            $refresh_cache_key = 'insta_token_refresh_check.' . $data['insta_account_id'];
+            
+            if (!$this->cache->get($refresh_cache_key)) {
+                $refreshed_token = $this->refreshToken($data['insta_token'], $setting);
+                if ($refreshed_token) {
+                    $data['insta_token'] = $refreshed_token; 
+                }
+                $this->cache->set($refresh_cache_key, true);
+            }
+
+            $cache_key = 'instagram_posts.' . (int)$this->config->get('config_store_id') . '.' . ($setting['name'] ?? 'default');
             $posts = $this->cache->get($cache_key);
 
             if (!$posts) {
@@ -45,5 +55,40 @@ class ControllerExtensionModuleSectionInsta extends Controller {
         }
 
         return $this->load->view('extension/module/section_insta', $data);
+    }
+
+
+    private function refreshToken($old_token, $setting) {
+        $url = "https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=" . $old_token;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        $result = json_decode($output, true);
+
+        if (isset($result['access_token'])) {
+            $new_token = $result['access_token'];
+            $this->load->model('setting/module');
+    
+            if (isset($this->request->get['module_id'])) {
+                $module_id = $this->request->get['module_id'];
+            } else {
+                return $new_token; 
+            }
+
+            $module_info = $this->model_setting_module->getModule($module_id);
+            if ($module_info) {
+                $module_info['insta_token'] = $new_token;
+                $this->model_setting_module->editModule($module_id, $module_info);
+            }
+
+            return $new_token;
+        }
+
+        return false;
     }
 }

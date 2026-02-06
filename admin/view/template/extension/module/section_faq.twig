@@ -69,7 +69,7 @@
                   <input type="text" name="faq_items[{{ faq_row }}][question]" value="{{ item.question }}" class="form-control" />
                 </td>
                 <td class="text-left">
-                  <textarea name="faq_items[{{ faq_row }}][answer]" class="form-control" rows="3">{{ item.answer }}</textarea>
+                  <textarea name="faq_items[{{ faq_row }}][answer]" class="form-control" data-toggle="summernote">{{ item.answer }}</textarea>
                 </td>
                 <td class="text-left">
                   <button type="button" onclick="$('#faq-row{{ faq_row }}').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
@@ -103,6 +103,12 @@
     </div>  
   </div>
 </div>
+<script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+
+<script type="text/javascript"></script>
 
 <script type="text/javascript">
 var faq_row = {{ faq_row }};
@@ -110,7 +116,7 @@ var faq_row = {{ faq_row }};
 function addFaq() {
     html  = '<tr id="faq-row' + faq_row + '">';
     html += '  <td class="text-left"><input type="text" name="faq_items[' + faq_row + '][question]" value="" class="form-control" /></td>';
-    html += '  <td class="text-left"><textarea name="faq_items[' + faq_row + '][answer]" class="form-control" rows="3"></textarea></td>';
+    html += '  <td class="text-left"><textarea name="faq_items[' + faq_row + '][answer]" class="form-control" data-toggle="summernote"></textarea></td>';
     html += '  <td class="text-left"><button type="button" onclick="$(\'#faq-row' + faq_row + '\').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
     html += '</tr>';
 
