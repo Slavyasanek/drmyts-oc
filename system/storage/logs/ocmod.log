@@ -1,4 +1,4 @@
-2026-02-06 14:09:41 - MOD: Modification Default
+2026-02-13 19:30:12 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -146,6 +146,16 @@ LINE: 102
 CODE: $data['currency'] = $this->load->controller('common/currency');
 LINE: 118
 LINE: 119
+----------------------------------------------------------------
+MOD: Export/Import Tool (V4.17.9) for OpenCart 3.x
+
+FILE: admin/controller/common/column_left.php
+CODE: if ($this->user->hasPermission('access', 'tool/upload')) {
+LINE: 661
+
+FILE: admin/language/uk-ua/common/column_left.php
+CODE: $_['text_backup']
+LINE: 11
 ----------------------------------------------------------------
 MOD: Filter (Active filters)
 
