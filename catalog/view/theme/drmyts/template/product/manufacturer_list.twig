@@ -1,40 +1,97 @@
 {{ header }}
-<div id="product-manufacturer" class="container">
-  <ul class="breadcrumb">
-    {% for breadcrumb in breadcrumbs %}
-    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-    {% endfor %}
-  </ul>
-  <div class="row">{{ column_left }}
-    {% if column_left and column_right %}
-    {% set class = 'col-sm-6' %}
-    {% elseif column_left or column_right %}
-    {% set class = 'col-sm-9' %}
-    {% else %}
-    {% set class = 'col-sm-12' %}
-    {% endif %}
-    <div id="content" class="{{ class }}">{{ content_top }}
-      <h1>{{ heading_title }}</h1>
-      {% if categories %}
-      <p><strong>{{ text_index }}</strong> {% for category in categories %}
-        &nbsp;&nbsp;&nbsp;<a href="index.php?route=product/manufacturer#{{ category.name }}">{{ category.name }}</a> {% endfor %} </p>
-      {% for category in categories %}
-      <h2 id="{{ category.name }}">{{ category.name }}</h2>
-      {% if category.manufacturer %}
-      {% for manufacturers in category.manufacturer|batch(4) %}
-      <div class="row"> {% for manufacturer in manufacturers %}
-        <div class="col-sm-3"><a href="{{ manufacturer.href }}">{{ manufacturer.name }}</a></div>
-        {% endfor %} </div>
-      {% endfor %}
-      {% endif %}
-      {% endfor %}
-      {% else %}
-      <p>{{ text_empty }}</p>
-      <div class="buttons clearfix">
-        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
-      </div>
-      {% endif %}
-      {{ content_bottom }}</div>
-    {{ column_right }}</div>
-</div>
+
+{% import "drmyts/template/macro/macros.twig" as macros %}
+{% import "drmyts/template/macro/brand-card.twig" as card %}
+
+<main id="content">
+    {{ content_top }}
+
+    <section class="brands-list">
+        <div class="container brands-list__container">
+			{% if categories %}
+				<div class="brands-list__heading">
+                    <h3 class="text--color_gray text--size_sm brands-list__tabs-title">{{ text_index }}</h3>
+
+                    <div class="brand-list__cats-wr tabs">
+                        <div class="tabs__cats-inner bg--white flex-row">
+                            {% for category in categories %}
+                                <a href="index.php?route=product/manufacturer#{{ category.name }}" class="btn btn--size_S tabs__cat-btn">
+                                    {{ category.name }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                
+				<div class="brands-list__brands flex-col">
+                    {% for category in categories %}
+                        <div class="brands-list__aplh">
+        					<h2 id="{{ category.name }}" class="text--size_h3-mob text--size_h3-desk brands-list__letter">{{ category.name }}</h2>
+                            
+        					{% if category.manufacturer %}
+        						{% for manufacturers in category.manufacturer|batch(4) %}
+                                    <div class="splide brands-list__splide slider" id="brand-slider-{{ category.name }}">
+                                        <div class="splide__track brands-list__track">
+                                            <div class="splide__list">
+                                                {% for manufacturer in manufacturers %}
+                                                    {{ card.brandCard(manufacturer.image, manufacturer.name, manufacturer.href, 'splide__slide')}}
+                								{% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="splide__arrows slider__arrows flex-row brands-list__arrows">
+                                            <button class="btn splide__arrow slider__btn slider__btn--prev splide__arrow--prev flex-center">
+                                              <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+                                            </button>
+                                            <button class="btn splide__arrow splide__arrow--next slider__btn slider__btn--next flex-center">
+                                              <div class="slider__arrow-icon icon">{{ macros.svg('arrow-right', '') }}</div>
+                                            </button>
+                                        </div>
+                                    </div>
+        						{% endfor %}
+        					{% endif %}
+                        </div>
+    				{% endfor %}
+                </div>
+
+			{% else %}
+				<p>{{ text_empty }}</p>
+			{% endif %}
+        </div>
+    </section>
+
+    {{ content_bottom }}
+</main>
 {{ footer }}
+
+<script>
+    const brandSliderOptions = {
+        perPage:3,
+        perMove: 1,
+        gap: "2.4rem",
+        pagination: false,
+        drag: true,
+        breakpoints: {
+            960: { perPage: 4, gap: ".8rem" }
+        }
+    };
+
+    Array.from(document.querySelectorAll('.splide')).forEach(sl => {
+        const splide = new Splide(sl, brandSliderOptions);
+
+        splide.on('mounted resize refresh', () => {
+            const arrows = sl.querySelector('.splide__arrows');
+            
+            if (arrows) {
+
+                if (splide.length <= splide.options.perPage) {
+                    arrows.style.display = 'none';
+                } else {
+                    arrows.style.display = '';
+                }
+            }
+        });
+
+        splide.mount();
+    });
+</script>

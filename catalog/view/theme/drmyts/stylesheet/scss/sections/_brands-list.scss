@@ -1,0 +1,49 @@
+@use "../utils/mixins";
+
+.brands-list {
+    padding-block: 2rem 4rem;
+    overflow-x: hidden;
+
+    &__track {
+        overflow: visible;
+    }
+
+    &__letter {
+        margin-block: 0 0.8rem;
+    }
+
+    &__aplh {
+        margin-block-start: 2.4rem;
+    }
+
+    &__arrows {
+        margin-block-start: 2.4rem;
+    }
+}
+// End inner
+
+@include mixins.min-LXL {
+    .brands-list {
+        padding-block: 3rem 8rem;
+        &__brands {
+            flex-direction: row;
+            flex-wrap: wrap;
+            column-gap: 2.4rem;
+        }
+
+        &__tabs-title {
+            text-align: center;
+        }
+
+        &__letter {
+            margin-block-end: 1.6rem;
+        }
+
+        &__aplh {
+            width: calc(50% - 1.2rem);
+            overflow: hidden;
+            margin-block-start: 4rem;
+        }
+    }
+}
+// End LXL

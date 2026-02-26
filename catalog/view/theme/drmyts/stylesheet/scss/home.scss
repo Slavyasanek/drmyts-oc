@@ -24,6 +24,7 @@
 @use "./components/benefit-card";
 @use "./components/prof-badge";
 @use "./components/section-title";
+@use "./components/tabs";
 @use "./components/brand-slide";
 @use "./components/product-price";
 @use "./components/sale-badge";
@@ -103,5 +104,6 @@
 @use "./sections/text-content";
 @use "./sections/account";
 @use "./sections/consult-results";
+@use "./sections/brands-list";
 @use "./sections/checkout-page";
 @use "./sections/thankyou";

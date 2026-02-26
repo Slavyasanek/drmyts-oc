@@ -1,0 +1,8 @@
+{% macro brandCard(image, name, href, oddClass) %}
+    <div class="brand-slide bg--white rel {{ oddClass }}">
+        <picture>
+            <img class="brands-item__image" src="{{ image }}" alt="{{ name }}" loading="lazy" width="116" height="116">
+        </picture>
+        <a class="brand-slide__link abs inset wh-full" href="{{ href }}" title="{{ name }}">{{ name }}</a>
+    </div>
+{% endmacro %}

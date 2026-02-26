@@ -1,4 +1,5 @@
 {% import "drmyts/template/macro/macros.twig" as macros %}
+{% import "drmyts/template/macro/brand-card.twig" as card %}
 
 <section class="product-cats" id="module-tabs-{{ random() }}">
   <div class="container product-cats__container">
@@ -7,11 +8,11 @@
       <span class="text--color_red text--ff_accent text--size_accent-h2 section-title__accent">{{ title_accent }}</span>
     </h2>
     
-    <div class="product-cats__cats-wr">
-      <div class="product-cats__cats-inner bg--white flex-row">
-        <button class="btn btn--size_S product-cats__cat-btn active" type="button" data-type="brands">Бренди</button>
+    <div class="product-cats__cats-wr tabs">
+      <div class="tabs__cats-inner bg--white flex-row">
+        <button class="btn btn--size_S tabs__cat-btn active" type="button" data-type="brands">Бренди</button>
         {% for tab in tabs %}
-        <button class="btn btn--size_S product-cats__cat-btn" type="button" data-type="category" data-id="{{ tab.id }}">
+        <button class="btn btn--size_S tabs__cat-btn" type="button" data-type="category" data-id="{{ tab.id }}">
           {{ tab.name }}
         </button>
         {% endfor %}
@@ -21,14 +22,9 @@
     <div class="splide product-cats__slider slider" id="tab-slider-main">
       <div class="splide__track product-cats__track">
         <div class="splide__list" id="tab-ajax-container">
-          {% for brand in brands %}
-          <div class="splide__slide brand-slide bg--white rel">
-            <picture>
-              <img class="brands-item__image" src="{{ brand.image }}" alt="{{ brand.name }}" loading="lazy" width="116" height="116">
-            </picture>
-            <a class="brand-slide__link abs inset wh-full" href="{{ brand.href }}">{{ brand.name }}</a>
-          </div>
-          {% endfor %}
+            {% for brand in brands %}
+                {{ card.brandCard(brand.image, brand.name, brand.href, 'splide__slide')}}
+            {% endfor %}
         </div>
       </div>
       <div class="splide__arrows slider__arrows flex-row product-cats__arrows">
@@ -47,7 +43,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const ajaxContainer = document.getElementById('tab-ajax-container');
     const tabSliderElement = document.getElementById('tab-slider-main');
-    const categoryButtons = document.querySelectorAll('.product-cats__cat-btn');
+    const categoryButtons = document.querySelectorAll('.tabs__cat-btn');
     
     let brandContent = ajaxContainer.innerHTML;
 

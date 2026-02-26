@@ -1,4 +1,4 @@
-2026-02-13 19:30:12 - MOD: Modification Default
+2026-02-26 13:45:16 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -86,6 +86,16 @@ LINE: 227
 FILE: catalog/controller/account/register.php
 CODE: $data['breadcrumbs'] = array();
 LINE: 40
+----------------------------------------------------------------
+MOD: Brands list add image
+
+FILE: catalog/controller/product/manufacturer.php
+CODE: foreach ($results as $result) {
+LINE: 30
+CODE: foreach ($results as $result) {
+LINE: 38
+CODE: $data['categories'][$key]['manufacturer'][] = array(
+LINE: 52
 ----------------------------------------------------------------
 MOD: Color Picker for Options
 
@@ -178,12 +188,10 @@ CODE: $data['categories'] = array();
 LINE: 191
 CODE: 'filter_category_id' => $category_id,
 LINE: 214
-
-FILE: catalog/controller/product/manufacturer.php
 CODE: $data['products'] = array();
-LINE: 199
+LINE: 213
 CODE: 'filter_manufacturer_id' => $manufacturer_id,
-LINE: 206
+LINE: 220
 ----------------------------------------------------------------
 MOD: Product Page Customizations 
 CODE: $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
@@ -287,19 +295,19 @@ CODE: $data['column_left'] = $this->load->controller('common/column_left');
 LINE: 497
 LINE: 568
 CODE: $data['products'][] = array(
-LINE: 261
+LINE: 275
 CODE: 'name'        => $result['name'],
-LINE: 268
+LINE: 282
 CODE: 'rating'      => $result['rating'],
-LINE: 277
+LINE: 291
 CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
-LINE: 236
+LINE: 250
 CODE: 'special'     => $special,
-LINE: 280
+LINE: 294
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
-LINE: 76
-LINE: 510
-LINE: 588
+LINE: 90
+LINE: 524
+LINE: 602
 
 FILE: catalog/controller/product/special.php
 CODE: $data['products'][] = array(
