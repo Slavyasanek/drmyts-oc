@@ -135,7 +135,6 @@ class ControllerSaleConsultation extends Controller {
 
             $data['user_data'] = $consultation_info;
             
-
             $data['user_photos'] = json_decode($consultation_info['photos'], true) ?: array();
             $data['skin_problems'] = json_decode($consultation_info['skin_problems'], true) ?: array();
         }
