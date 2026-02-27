@@ -4049,6 +4049,9 @@ input:checked + .product-variants__color-label::before {
   .products-slider__btn {
     margin-inline: auto;
   }
+  .products-slider__arrows {
+    justify-content: center;
+  }
   .slider.splide.is-initialized:not(.is-active) .products-slider__slide {
     flex-basis: 25%;
   }

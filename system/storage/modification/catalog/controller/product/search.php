@@ -265,7 +265,8 @@ class ControllerProductSearch extends Controller {
 
                 'in_wishlist' => $in_wishlist,
             
-					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
+					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url),
+                    'model' => $result['model'],
 				);
 			}
 

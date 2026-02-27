@@ -230,7 +230,8 @@ if (document.querySelector('#related-slider') && typeof Splide !== 'undefined') 
                     gap: ".8rem",
                 },
                 960: {
-                    destroy: true,
+                    perPage: 4,
+                    gap: '2.4rem'
                 }
             }
         }).mount();

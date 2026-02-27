@@ -316,7 +316,7 @@
                 <div class="splide__track slider__track">
                     <div class="splide__list slider__list">
                         {% for product in products %}
-                            {{ cards.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide') }}
+                            {{ cards.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide', product.model ) }}
                         {% endfor %}
                     </div>
                 </div>

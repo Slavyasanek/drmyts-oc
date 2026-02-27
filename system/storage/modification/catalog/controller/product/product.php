@@ -282,7 +282,7 @@ class ControllerProductProduct extends Controller {
 			if ($product_info['image']) {
 				$data['thumb'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
 			} else {
-				$data['thumb'] = '';
+				$data['thumb'] = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
 			}
 
 			$data['images'] = array();
@@ -351,7 +351,7 @@ class ControllerProductProduct extends Controller {
 							'option_value_id'         => $option_value['option_value_id'],
 							'name'                    => $option_value['name'],
 							'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
-'color_code'             => $option_value['color_code'],
+'color_code'             => ($option_value['color_code'] != '') ? $option_value['color_code'] : false,
 							'price'                   => $price,
 							'price_prefix'            => $option_value['price_prefix']
 						);
@@ -516,7 +516,8 @@ class ControllerProductProduct extends Controller {
                 'manufacturer'=> isset($result['manufacturer']) ? $result['manufacturer'] : '',
                 'brand_href'  => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . (isset($result['manufacturer_id']) ? $result['manufacturer_id'] : 0)),
             
-					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+                    'model' => $result['model']
 				);
 			}
 

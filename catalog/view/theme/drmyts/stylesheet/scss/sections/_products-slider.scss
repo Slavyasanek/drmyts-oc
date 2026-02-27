@@ -30,6 +30,10 @@
             margin-inline: auto;
         }
 
+        &__arrows {
+            justify-content: center;
+        }
+
         .slider.splide.is-initialized:not(.is-active) &__slide {
             flex-basis: 25%;
         }

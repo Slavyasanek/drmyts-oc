@@ -294,7 +294,8 @@ class ControllerProductCategory extends Controller {
 
                 'in_wishlist' => $in_wishlist,
             
-					'href'        => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'] . $url)
+					'href'        => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'] . $url),
+                    'model' => $result['model'],
 				);
 			}
 

@@ -329,7 +329,8 @@ class ControllerProductManufacturer extends Controller {
 
                 'in_wishlist' => $in_wishlist,
             
-					'href'        => $this->url->link('product/product', 'manufacturer_id=' . $result['manufacturer_id'] . '&product_id=' . $result['product_id'] . $url)
+					'href'        => $this->url->link('product/product', 'manufacturer_id=' . $result['manufacturer_id'] . '&product_id=' . $result['product_id'] . $url),
+                    'model' => $result['model'],
 				);
 			}
 

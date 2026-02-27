@@ -182,7 +182,7 @@
               <thead>
                 <tr>
                   <td class="text-left required">{{ entry_option_value }}</td>
-<td class="text-center">{{ entry_color }}</td>
+<td class="text-left">Колір</td>
                   <td class="text-center">{{ entry_image }}</td>
                   <td class="text-right">{{ entry_sort_order }}</td>
                   <td></td>
@@ -204,11 +204,12 @@
                   {% endfor %}</td>
 
                 <td class="text-left">
-                    <div class="input-group color-picker-container">
-                        <input type="color" name="option_value[{{ option_value_row }}][color_code]" value="{{ option_value.color_code ? option_value.color_code : '#ffffff' }}" class="form-control" style="width: 50px; padding: 2px; height: 35px; cursor: pointer;" />
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" name="option_value[{{ option_value_row }}][use_color]" value="1" {{ option_value.color_code ? 'checked' : '' }} />
+                        <input type="color" name="option_value[{{ option_value_row }}][color_code]" value="{{ option_value.color_code ? option_value.color_code : '#ffffff' }}" style="width: 40px; height: 30px; padding: 2px; cursor: pointer;" />
                     </div>
                 </td>
-                
+            
                 <td class="text-left"><a href="" id="thumb-image{{ option_value_row }}" data-toggle="image" class="img-thumbnail"><img src="{{ option_value.thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
                   <input type="hidden" name="option_value[{{ option_value_row }}][image]" value="{{ option_value.image }}" id="input-image{{ option_value_row }}" /></td>
                 <td class="text-right"><input type="text" name="option_value[{{ option_value_row }}][sort_order]" value="{{ option_value.sort_order }}" class="form-control" /></td>
@@ -252,14 +253,15 @@ function addOptionValue() {
     html += '    </div>';
 	{% endfor %}
 	html += '  </td>';
+    html += '  <td class="text-center"><a href="" id="thumb-image' + option_value_row + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="option_value[' + option_value_row + '][image]" value="" id="input-image' + option_value_row + '" /></td>';
 
                 html += '  <td class="text-left">';
-                html += '    <div class="input-group color-picker-container">';
-                html += '      <input type="color" name="option_value[' + option_value_row + '][color_code]" value="#ffffff" class="form-control" style="width: 50px; padding: 2px; height: 35px; cursor: pointer;" />';
+                html += '    <div style="display: flex; align-items: center; gap: 8px;">';
+                html += '      <input type="checkbox" name="option_value[' + option_value_row + '][use_color]" value="1" />';
+                html += '      <input type="color" name="option_value[' + option_value_row + '][color_code]" value="#ffffff" style="width: 40px; height: 30px; padding: 2px; cursor: pointer;" />';
                 html += '    </div>';
                 html += '  </td>';
-                
-    html += '  <td class="text-center"><a href="" id="thumb-image' + option_value_row + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="option_value[' + option_value_row + '][image]" value="" id="input-image' + option_value_row + '" /></td>';
+            
 	html += '  <td class="text-right"><input type="text" name="option_value[' + option_value_row + '][sort_order]" value="" placeholder="{{ entry_sort_order }}" class="form-control" /></td>';
 	html += '  <td class="text-right"><button type="button" onclick="$(\'#option-value-row' + option_value_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 	html += '</tr>';
