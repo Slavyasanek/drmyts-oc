@@ -261,6 +261,12 @@ class ControllerSettingSetting extends Controller {
         } else {
             $data['config_custom_footer_text'] = $this->config->get('config_custom_footer_text');
         }
+
+		if (isset($this->request->post['config_telegram_bot_url'])) {
+            $data['config_telegram_bot_url'] = $this->request->post['config_telegram_bot_url'];
+        } else {
+            $data['config_telegram_bot_url'] = $this->config->get('config_telegram_bot_url');
+        }
             
 		if (isset($this->request->post['config_email'])) {
 			$data['config_email'] = $this->request->post['config_email'];

@@ -88,6 +88,7 @@ class ControllerExtensionModuleSectionProductTabs extends Controller {
                 'thumb'        => $image,
                 'name'         => $result['name'],
                 'manufacturer' => $result['manufacturer'],
+                'model' => $result['model'],
                 'brand_href'   => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id']),
                 'price'        => $price,
                 'special'      => $special,

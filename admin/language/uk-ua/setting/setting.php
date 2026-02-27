@@ -42,6 +42,7 @@ $_['text_canonical_ocstore']           = 'ocStore рішення';
 $_['text_canonical_opencart']          = 'Оригінальний OpenCart';
 $_['entry_custom_header_text'] = 'Текст у хедері';
 $_['entry_custom_footer_text'] = 'Текст у футері';
+$_['entry_custom_telegram_text'] = 'Посилання на телеграм бот для консультації';
 $_['tab_custom_content']       = 'DrMyts кастомний контент';
 
 // Entry

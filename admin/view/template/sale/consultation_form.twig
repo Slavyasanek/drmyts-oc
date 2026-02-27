@@ -1,0 +1,254 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            {% if success %}
+                <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            {% endif %}
+            
+            <div class="pull-right">
+                <button type="submit" form="form-consultation" class="btn btn-primary" data-toggle="tooltip" title="{{ button_save }}"><i class="fa fa-save"></i> {{ button_save }}</button>
+                {% if result_hash %}
+                    <a href="{{ delete }}" class="btn btn-danger" data-toggle="tooltip" title="Видалити консультацію" onclick="return confirm('{{ text_confirm }}');"><i class="fa fa-trash-o"></i></a>
+                {% endif %}
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ button_cancel }}</a>
+            </div>
+            <h1>{{ heading_title }}</h1>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-info-circle"></i> {{ text_questionnaire }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="well well-sm">
+                            <p><strong>{{ text_client }}</strong> {{ customer_name }}</p>
+                            <p><strong>{{ text_telegram }}</strong> <code>{{ user_data.telegram_id }}</code></p>
+                            <p><strong>{{ text_date_added }}</strong> {{ user_data.date_added }}</p>
+                        </div>
+
+                        <h5><strong>{{ text_main_info }}</strong></h5>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>{{ text_age }}</td>
+                                <td>{{ user_data.user_age }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ text_gender }}</td>
+                                <td>{{ user_data.user_gender }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ text_city }}</td>
+                                <td>{{ user_data.user_city }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ text_pregnant }}</td>
+                                <td>{{ user_data.is_pregnant }}</td>
+                            </tr>
+                        </table>
+
+                        <h5><strong>{{ text_skin_status }}</strong></h5>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>{{ text_skin_type }}</td>
+                                <td><span class="label label-info">{{ user_data.skin_type }}</span></td>
+                            </tr>
+                            {% if user_data.skin_tightness %}
+                            <tr>
+                                <td>{{ text_skin_tightness }}</td>
+                                <td>{{ user_data.skin_tightness }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if user_data.skin_tzone %}
+                            <tr>
+                                <td>{{ text_skin_tzone }}</td>
+                                <td>{{ user_data.skin_tzone }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr>
+                                <td>{{ text_skin_problems }}</td>
+                                <td>
+                                    {% for problem in skin_problems %}
+                                        <span class="label label-danger">{{ problem }}</span> 
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h5><strong>{{ text_health_status }}</strong></h5>
+                        <div class="well well-sm">
+                            <p><strong>{{ text_allergy }}</strong> {{ user_data.allergy ? user_data.allergy : text_no_data }}</p>
+                            <p><strong>{{ text_diagnosis }}</strong> {{ user_data.diagnosis ? user_data.diagnosis : text_not_specified }}</p>
+                            <p><strong>{{ text_drugs }}</strong> {{ user_data.hormonal_drugs }}</p>
+                        </div>
+
+                        <h5><strong>{{ text_current_care }}</strong></h5>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>{{ text_spf }}</td>
+                                <td>{{ user_data.spf }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ text_cosmetology }}</td>
+                                <td>{{ user_data.cosmetology }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ text_desired_format }}</td>
+                                <td><strong>{{ user_data.care_format }}</strong></td>
+                            </tr>
+                        </table>
+
+                        {% if user_photos %}
+                        <hr>
+                        <h5><strong>{{ text_photos }}</strong></h5>
+                        <div class="row">
+                            {% for photo in user_photos %}
+                                <div class="col-xs-6 col-md-4">
+                                    <a href="../image/{{ photo }}" target="_blank" class="thumbnail">
+                                        <img src="../image/{{ photo }}" alt="{{ text_photos }}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <form action="{{ action }}" method="post" id="form-consultation" class="form-horizontal">
+                    <input type="hidden" name="customer_id" value="{{ customer_id }}">
+                    
+                    {% if result_hash %}
+                    <div class="alert alert-info">
+                        <i class="fa fa-link"></i> <strong>{{ text_link_title }}</strong><br>
+                        <div class="input-group">
+                            <input type="text" value="{{ result_url }}" id="consultation-link" class="form-control" readonly>
+                            <span class="input-group-btn">
+                                <button type="button" onclick="copyLink()" class="btn btn-primary"><i class="fa fa-copy"></i> {{ button_copy }}</button>
+                            </span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_care_scheme }}</h3></div>
+                        <div class="panel-body">
+                            
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_care_morning }}</label>
+                                <div class="col-sm-10">
+                                    <div id="morning-steps">
+                                        {% for step in morning_care %}
+                                            <div class="input-group m-b-10" style="margin-bottom:10px">
+                                                <input type="text" name="morning_care[]" value="{{ step }}" class="form-control">
+                                                <span class="input-group-btn"><button type="button" class="btn btn-danger" onclick="$(this).parent().parent().remove();"><i class="fa fa-minus-circle"></i></button></span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" onclick="addStep('morning');" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> {{ button_add_step }}</button>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_care_evening }}</label>
+                                <div class="col-sm-10">
+                                    <div id="evening-steps">
+                                        {% for step in evening_care %}
+                                            <div class="input-group m-b-10" style="margin-bottom:10px">
+                                                <input type="text" name="evening_care[]" value="{{ step }}" class="form-control">
+                                                <span class="input-group-btn"><button type="button" class="btn btn-danger" onclick="$(this).parent().parent().remove();"><i class="fa fa-minus-circle"></i></button></span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" onclick="addStep('evening');" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> {{ button_add_step }}</button>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_products }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="product_placeholder" value="" placeholder="{{ placeholder_product }}" class="form-control" />
+                                    <div id="consultation-product" class="well well-sm" style="height: 150px; overflow: auto; margin-top:10px">
+                                        {% for product in products %}
+                                            <div id="consultation-product{{ product.product_id }}"><i class="fa fa-minus-circle text-danger" style="cursor:pointer"></i> {{ product.name }}
+                                                <input type="hidden" name="products[]" value="{{ product.product_id }}" />
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_comment_manager }}</label>
+                                <div class="col-sm-10">
+                                    <textarea name="comment" rows="5" placeholder="{{ placeholder_comment }}" class="form-control">{{ comment }}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+function copyLink() {
+    var copyText = document.getElementById("consultation-link");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("{{ text_success_copy }} " + copyText.value);
+}
+
+function addStep(type) {
+    let html = '<div class="input-group m-b-10" style="margin-bottom:10px">';
+    html += '  <input type="text" name="' + type + '_care[]" value="" class="form-control">';
+    html += '  <span class="input-group-btn"><button type="button" class="btn btn-danger" onclick="$(this).parent().parent().remove();"><i class="fa fa-minus-circle"></i></button></span>';
+    html += '</div>';
+    $('#' + type + '-steps').append(html);
+}
+
+// Autocomplete для товарів (стандартний OC)
+$('input[name=\'product_placeholder\']').autocomplete({
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'product_placeholder\']').val('');
+		$('#consultation-product' + item['value']).remove();
+		$('#consultation-product').append('<div id="consultation-product' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="products[]" value="' + item['value'] + '" /></div>');
+	}
+});
+
+$('#consultation-product').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+</script>
+{{ footer }}

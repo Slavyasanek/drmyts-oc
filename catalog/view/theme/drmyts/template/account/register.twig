@@ -21,7 +21,11 @@
         <div class="container sign-form__container">
             <h2 class="sign-form__title text--center text--size_h3-full">{{ heading_title }}</h2>
             <form class="sign-form__form mx" action="{{ action }}" method="post" enctype="multipart/form-data">
+                {% if error_warning %}
+                    <div class="alert alert--error text--center alert--in-txt sign-form__alert">{{ error_warning }}</div>
+                {% endif %}
 
+                
                 <div class="sign-form__fields flex-col">
                     <div class="sign-form__group" style="display: {% if customer_groups|length > 1 %} block {% else %} none {% endif %};">
                         <p class="sign-form__label">{{ entry_customer_group }}</p>

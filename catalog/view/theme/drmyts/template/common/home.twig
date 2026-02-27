@@ -1,6 +1,9 @@
 {{ header }}
 <main id="content">
-    {{ content_top }}{{ content_bottom }}
-    {{ column_right }}
+    {{ content_top }}
+    {{ content_bottom }}
+    {% if  open_consult_modal %}
+        {{ consult_modal }}
+    {% endif %}
 </main>
 {{ footer }}

@@ -1,0 +1,112 @@
+{{ header }}
+
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<main>
+    <section class="consult-results">
+        <div class="container consult-results__container">
+            <div class="consult-results__heading">
+                <h1 class="consult-results__title text--upp text--size_h2-mobile text--size_h2-desk text--center m-0">
+                    {{ text_express_consultation }}
+                </h1>
+                <h2 class="consult-results__subtitle text--ff_accent text--color_red text--size_accent-h2 text--center">
+                    {{ text_author_name }}
+                </h2>
+            </div>
+
+            <div class="consult-results__results">
+                {% for product in products %}
+                    <div class="cart-item consult-results__item cart-item--type_result d-flex border--start">
+                        <div class="cart-item__count text--size_label">{{ product.count }}</div>
+                        <div class="cart-item__img">
+                            <img class="contain-image" src="{{ product.thumb }}" alt="{{ product.name }}" width="56" height="56">
+                            <a class="cart-item__link abs inset wh-full" href="{{ product.href }}">{{ product.name }}</a>
+                        </div>
+                        <div class="cart-item__content">
+                            <div class="cart-item__details flex-col">
+                                <a class="cart-item__title" href="{{ product.manufacturer_href }}">{{ product.manufacturer }}</a>
+
+                                <a href="{{ product.href }}" class="cart-item__type">{{ product.name }}</a>
+                                <div class="product-price cart-item__price flex-row">
+                                    <span class="product-price__full">{{ product.price }}</span>
+                                </div>
+                            </div>
+                            <div class="cart-item__footer flex-row-wrap j-end">
+                                <a class="flex-row btn cart-item__link-btn text--upp" href="{{ product.href }}">
+                                    <span>{{ text_more_info }}</span>
+                                    <div class="icon icon--arrow">
+                                        {{ macros.svg('arrow-next') }}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="consult-results__care-blocks d-grid">
+
+                {% if morning_care %}
+                    <div class="care-block consult-results__care-block bg--white">
+                        <div class="care-block__heading flex-row-wrap j-between">
+                            <h3 class="care-block__title m-0">
+                                <span class="text--upp text--size_h3-mob text--size_h3-desk">{{ text_care }}</span>
+                                <span class="text--ff_accent care-block__title-accent">({{ text_morning }})</span>
+                            </h3>
+                            <div class="icon care-block__icon">
+                                {{ macros.svg('sun') }}
+                            </div>
+                        </div>
+                        <div class="care-block__content">
+                            <p class="care-block__list-title text--color_gray">{{ text_care_scheme }}</p>
+                            <ol class="care-block__list m-0">
+                                {% for step in morning_care %}
+                                    <li>{{ step }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if evening_care %}
+                    <div class="care-block consult-results__care-block bg--white">
+                        <div class="care-block__heading flex-row-wrap j-between">
+                            <h3 class="care-block__title m-0">
+                                <span class="text--upp text--size_h3-mob text--size_h3-desk">{{ text_care }}</span>
+                                <span class="text--ff_accent care-block__title-accent">({{ text_evening }})</span>
+                            </h3>
+                            <div class="icon care-block__icon">
+                                {{ macros.svg('moon') }}
+                            </div>
+                        </div>
+                        <div class="care-block__content">
+                            <p class="care-block__list-title text--color_gray">{{ text_care_scheme }}</p>
+                            <ol class="care-block__list m-0">
+                                {% for step in evening_care %}
+                                    <li>{{ step }}</li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if comment %}
+                <div class="consult-results__comment bg--white care-block">
+                    <div class="care-block__heading">
+                        <h3 class="care-block__title m-0">
+                            <span class="text--upp text--size_h3-mob text--size_h3-desk">{{ text_doctor_advice }}</span>
+                        </h3>
+                    </div>
+
+                    <div class="care-block__content">
+                        <p>{{ comment }}</p>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+</main>
+
+{{ footer }}

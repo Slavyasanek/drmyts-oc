@@ -1,7 +1,6 @@
 {% import "drmyts/template/macro/product-card.twig" as macros %}
 
 {% for product in products %}
-
     {{ macros.productCard(
         product.thumb, 
         product.product_id, 
@@ -13,7 +12,8 @@
         product.discount, 
         product.in_wishlist, 
         product.href, 
-        'splide__slide product-cats__product-slide'
+        'splide__slide product-cats__product-slide',
+        product.model
     ) }}
 
 {% endfor %}

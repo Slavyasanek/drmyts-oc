@@ -1,4 +1,4 @@
-2026-02-26 13:45:16 - MOD: Modification Default
+2026-02-27 13:29:36 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -128,17 +128,45 @@ FILE: catalog/model/catalog/product.php
 CODE: 'image'                   => $product_option_value['image'],
 LINE: 357
 ----------------------------------------------------------------
-MOD: Custom Header and Footer Text Settings
+MOD: Consultation flow with Telegram ID Tracking
+
+FILE: catalog/controller/common/home.php
+CODE: $data['column_left'] = $this->load->controller('common/column_left');
+LINE: 30
+
+FILE: catalog/controller/account/login.php
+CODE: if (isset($this->request->post['redirect']) && $this->request->post['redirect'] != $this->url->link('account/logout', '', true)
+LINE: 88
+CODE: } elseif (isset($this->error['warning'])) {
+LINE: 120
+CODE: $this->response->redirect($this->url->link('account/success'));
+LINE: 40
+CODE: if (isset($this->error['warning'])) {
+LINE: 68
+----------------------------------------------------------------
+MOD: Consultation Tab in Customer Form - Fixed
+
+FILE: admin/controller/customer/customer.php
+CODE: $this->response->setOutput($this->load->view('customer/customer_form', $data));
+LINE: 987
+
+FILE: admin/view/template/customer/customer_form.twig
+CODE: <li><a href="#tab-history" data-toggle="tab">
+LINE: 31
+CODE: <div class="tab-pane" id="tab-history">
+LINE: 855
+----------------------------------------------------------------
+MOD: Custom Config Settings
 
 FILE: admin/controller/setting/setting.php
 CODE: if (isset($this->request->post['config_email'])) {
-LINE: 264
+LINE: 270
 
 FILE: admin/view/template/setting/setting.twig
 CODE: <li><a href="#tab-server" data-toggle="tab">{{ tab_server }}</a></li>
 LINE: 39
 CODE: <div class="tab-pane" id="tab-server">
-LINE: 1212
+LINE: 1218
 
 FILE: catalog/controller/common/header.php
 CODE: $data['language'] = $this->load->controller('common/language');
@@ -161,7 +189,7 @@ MOD: Export/Import Tool (V4.17.9) for OpenCart 3.x
 
 FILE: admin/controller/common/column_left.php
 CODE: if ($this->user->hasPermission('access', 'tool/upload')) {
-LINE: 661
+LINE: 669
 
 FILE: admin/language/uk-ua/common/column_left.php
 CODE: $_['text_backup']
@@ -220,8 +248,6 @@ MOD: Remember Me Ultimate
 FILE: system/library/cart/customer.php
 CODE: $this->session = $registry->get('session');
 LINE: 67
-
-FILE: catalog/controller/account/login.php
 CODE: if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 LINE: 71
 CODE: $this->customer->login($this->request->post['email'], $this->request->post['password']);
@@ -237,7 +263,7 @@ LINE: 60
 
 FILE: catalog/view/theme/drmyts/template/account/register.twig
 CODE: <div class="sign-form__footer flex-row j-between">
-LINE: 269
+LINE: 273
 ----------------------------------------------------------------
 MOD: Remove Cart page
 

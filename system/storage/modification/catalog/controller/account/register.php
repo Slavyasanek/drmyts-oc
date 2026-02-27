@@ -44,6 +44,12 @@ class ControllerAccountRegister extends Controller {
 
 			unset($this->session->data['guest']);
 
+
+            if (isset($this->session->data['tg_id'])) {
+                unset($this->session->data['show_consult_warning']);
+                $this->response->redirect($this->url->link('common/home', '', true));
+            }
+            
 			$this->response->redirect($this->url->link('account/success'));
 		}
 
@@ -70,6 +76,10 @@ class ControllerAccountRegister extends Controller {
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
+
+        } elseif (isset($this->session->data['show_consult_warning'])) {
+            $data['error_warning'] = $this->language->get('text_consult_login_warning');
+            
 		} else {
 			$data['error_warning'] = '';
 		}

@@ -139,3 +139,4 @@ $_['text_blog_setting']                = 'Налаштування блогу';
 $_['text_complete_status']             = 'Завершених замовлень'; 
 $_['text_processing_status']           = 'Замовлень в процесі'; 
 $_['text_other_status']                = 'Інші замовлення';
+$_['text_consultation']                = 'Консультації';

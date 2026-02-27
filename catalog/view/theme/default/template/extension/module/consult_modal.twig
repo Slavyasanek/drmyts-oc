@@ -1,0 +1,562 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<div class="backdrop fixed inset wh-full anim active" data-modal="consult">
+    <div class="backdrop__inner modal abs pos-center bg--white consult-modal wh-full flex-col o-hid">
+        <div class="modal__heading consult-modal__heading flex-row j-between">
+            <button class="btn flex-center icon modal__back consult-modal__back d-none" type="button">
+                {{ macros.svg('arrow-back' )}}
+            </button>
+            <button class="btn flex-center icon modal__close consult-modal__close" type="button" data-modal-close>
+                {{ macros.svg('close' )}}
+            </button>
+        </div>
+        <div class="consult-modal__content">
+            <h3 class="consult-modal__title text--center text--size_h3-full">{{ heading_title }}</h3>
+            <form class="consult-form consult-modal__form" action="POST">
+                <div class="consult-form__step">
+                    <h4 class="consult-form__step-title text--upp text--center">{{ text_step_1 }}</h4>
+                    <div class="consult-form__fields flex-col">
+                        <div class="consult-form__field custom-input custom-input--type_number">
+                            <input class="custom-input__input" type="number" name="user_age" placeholder="{{ entry_age }}" required />
+                            <div class="custom-input__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="custom-select consult-form__field rel custom-select--type_field anim">
+                            <div class="custom-select__heading flex-row j-between">
+                                <span>{{ entry_gender }}</span>
+                                <div class="icon icon--arrow custom-select__arrow anim">
+                                    {{ macros.svg('arrow-down' )}}
+                                </div>
+                            </div>
+                            <div class="custom-select__dropdown z1 anim">
+                                <ul class="custom-select__list">
+                                    <li class="custom-select__option anim custom-checkbox sign-form__checkbox flex-row custom-checkbox--rounded custom-checkbox--red">
+                                        <div class="custom-checkbox__wrapper rel">
+                                            <input class="abs wh-full inset m-0" type="radio" name="user_gender" value="{{ entry_gender_woman }}" id="user_gender_woman" />
+                                        </div>
+                                        <label for="user_gender_woman">{{ entry_gender_woman }}</label>
+                                    </li>
+                                    <li class="custom-select__option anim custom-checkbox sign-form__checkbox flex-row custom-checkbox--rounded custom-checkbox--red">
+                                        <div class="custom-checkbox__wrapper rel">
+                                            <input class="abs wh-full inset m-0" type="radio" name="user_gender" value="{{ entry_gender_man }}" id="user_gender_man" />
+                                        </div>
+                                        <label for="user_gender_man">{{ entry_gender_man }}</label>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="custom-select__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__field custom-input">
+                            <input class="custom-input__input" type="text" name="user_city" placeholder="{{ entry_city }}" required />
+                            <div class="custom-input__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__field custom-input">
+                            <input class="custom-input__input" type="text" name="is_pregnant" placeholder="{{ entry_pregnant }}" required />
+                            <div class="custom-input__error d-none">{{ error_required }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="consult-form__step d-none">
+                    <h4 class="consult-form__step-title text--upp text--center">{{ text_step_2 }}</h4>
+                    <div class="consult-form__fields flex-col consult-form__fields--big">
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_skin_type }}</h5>
+                                <p class="text--size_label text--color_gray consult-form__field-subtitle">{{ text_select_one }}</p>
+                            </div>
+                            <div class="flex-col consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="skin" value="{{ skin_dry }}" id="skin_dry" />
+                                    </div>
+                                    <label for="skin_dry">{{ skin_dry }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="skin" value="{{ skin_oily }}" id="skin_oily" />
+                                    </div>
+                                    <label for="skin_oily">{{ skin_oily }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="skin" value="{{ skin_combined }}" id="skin_combined" />
+                                    </div>
+                                    <label for="skin_combined">{{ skin_combined }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="skin" value="{{ skin_unknown }}" id="skin_unknown" />
+                                    </div>
+                                    <label for="skin_unknown">{{ skin_unknown }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__variable-field consult-form__field d-none" data-field="skin_help">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_tightness }}</h5>
+                            </div>
+                            <div class="flex-row consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="tightness" value="{{ text_yes }}" id="tightness_yes" />
+                                    </div>
+                                    <label for="tightness_yes">{{ text_yes }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="tightness" value="{{ text_no }}" id="tightness_no" />
+                                    </div>
+                                    <label for="tightness_no">{{ text_no }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="tightness" value="{{ text_sometimes }}" id="tightness_sometimes" />
+                                    </div>
+                                    <label for="tightness_sometimes">{{ text_sometimes }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__variable-field consult-form__field d-none" data-field="skin_help">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_tzone }}</h5>
+                            </div>
+                            <div class="flex-row consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="t-zone" value="{{ text_yes }}" id="tzone_yes" />
+                                    </div>
+                                    <label for="tzone_yes">{{ text_yes }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="t-zone" value="{{ text_no }}" id="tzone_no" />
+                                    </div>
+                                    <label for="tzone_no">{{ text_no }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="t-zone" value="{{ text_sometimes }}" id="tzone_sometimes" />
+                                    </div>
+                                    <label for="tzone_sometimes">{{ text_sometimes }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="consult-form__step d-none">
+                    <h4 class="consult-form__step-title text--upp text--center">{{ text_step_3 }}</h4>
+                    <div class="consult-form__fields flex-col consult-form__fields--big">
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_problems }}</h5>
+                                <p class="text--size_label text--color_gray consult-form__field-subtitle">{{ text_select_multi }}</p>
+                            </div>
+                            <div class="flex-col consult-form__options consult-form__options-col">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="checkbox" name="skin_problem" value="{{ problem_acne }}" id="problem_acne" />
+                                    </div>
+                                    <label for="problem_acne">{{ problem_acne }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="checkbox" name="skin_problem" value="{{ problem_pigmentation }}" id="problem_pigmentation" />
+                                    </div>
+                                    <label for="problem_pigmentation">{{ problem_pigmentation }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="checkbox" name="skin_problem" value="{{ problem_redness }}" id="problem_redness" />
+                                    </div>
+                                    <label for="problem_redness">{{ problem_redness }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="checkbox" name="skin_problem" value="{{ problem_aging }}" id="problem_aging" />
+                                    </div>
+                                    <label for="problem_aging">{{ problem_aging }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="checkbox" name="skin_problem" value="{{ problem_dullness }}" id="problem_dullness" />
+                                    </div>
+                                    <label for="problem_dullness">{{ problem_dullness }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="checkbox" name="skin_problem" value="{{ problem_sensitivity }}" id="problem_sensitivity" />
+                                    </div>
+                                    <label for="problem_sensitivity">{{ problem_sensitivity }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="checkbox" name="skin_problem" value="{{ problem_postacne }}" id="problem_postacne" />
+                                    </div>
+                                    <label for="problem_postacne">{{ problem_postacne }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="checkbox" name="skin_problem" value="{{ problem_dehydrated }}" id="problem_dehydrated" />
+                                    </div>
+                                    <label for="problem_dehydrated">{{ problem_dehydrated }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_allergy }}</h5>
+                            </div>
+                            <div class="flex-row consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="allergy" value="{{ text_yes }}" id="allergy_yes" />
+                                    </div>
+                                    <label for="allergy_yes">{{ text_yes }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="allergy" value="{{ text_no }}" id="allergy_no" />
+                                    </div>
+                                    <label for="allergy_no">{{ text_no }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_diagnosis }}</h5>
+                                <p class="text--size_label text--color_gray consult-form__field-subtitle">{{ help_diagnosis }}</p>
+                            </div>
+                            <div class="consult-form__field custom-input">
+                                <input class="custom-input__input" type="text" name="diagnosis" placeholder="{{ entry_diagnosis }}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="consult-form__step d-none">
+                    <h4 class="consult-form__step-title text--upp text--center">{{ text_step_4 }}</h4>
+                    <div class="consult-form__fields flex-col consult-form__fields--big">
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">
+                                    {{ question_products }}
+                                </h5>
+                                <p class="text--size_label text--color_gray consult-form__field-subtitle">{{ help_products }}</p>
+                            </div>
+                            <div class="consult-form__photo photo-upload">
+                                <div class="photo-upload__wrapper rel">
+                                    <input class="hidden d-none" type="file" name="review_photos[]" accept="image/*" multiple />
+                                    <button class="btn btn--theme btn--theme_dark text--upp btn--size_M flex-row photo-upload__btn" type="button">
+                                        {{ macros.svg('plus' )}}
+                                        <span>{{ button_add_photo }}</span>
+                                    </button>
+                                </div>
+                                <div class="photo-upload__disclaimer text--color_gray text--size_label">{{ text_max_size }}</div>
+                                <div class="photo-upload__list flex-row-wrap"></div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_spf }}</h5>
+                            </div>
+                            <div class="flex-row consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="spf" value="{{ text_yes }}" id="spf_yes" />
+                                    </div>
+                                    <label for="spf_yes">{{ text_yes }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="spf" value="{{ text_no }}" id="spf_no" />
+                                    </div>
+                                    <label for="spf_no">{{ text_no }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_cosmetology }}</h5>
+                            </div>
+                            <div class="flex-row consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="cosmetology" value="{{ text_yes }}" id="cosmetology_yes" />
+                                    </div>
+                                    <label for="cosmetology_yes">{{ text_yes }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="cosmetology" value="{{ text_no }}" id="cosmetology_no" />
+                                    </div>
+                                    <label for="cosmetology_no">{{ text_no }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_hormonal }}</h5>
+                            </div>
+                            <div class="flex-row consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="hormonal_drugs" value="{{ text_yes }}" id="hormonal_drugs_yes" />
+                                    </div>
+                                    <label for="hormonal_drugs_yes">{{ text_yes }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="hormonal_drugs" value="{{ text_no }}" id="hormonal_drugs_no" />
+                                    </div>
+                                    <label for="hormonal_drugs_no">{{ text_no }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="consult-form__step d-none">
+                    <h4 class="consult-form__step-title text--upp text--center">{{ text_step_5 }}</h4>
+                    <div class="consult-form__fields flex-col consult-form__fields--big">
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ question_care_format }}</h5>
+                                <p class="text--size_label text--color_gray consult-form__field-subtitle">{{ text_select_one }}</p>
+                            </div>
+                            <div class="flex-col consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="care" value="{{ care_min }}" id="min_care" />
+                                    </div>
+                                    <label for="min_care">{{ care_min }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="care" value="{{ care_full }}" id="full_care" />
+                                    </div>
+                                    <label for="full_care">{{ care_full }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="care" value="{{ care_medium }}" id="medium_care" />
+                                    </div>
+                                    <label for="medium_care">{{ care_medium }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="consult-form__footer">
+                    <button class="btn btn--theme btn--theme_accent flex-center text--upp btn--size_M consult-form__btn consult-form__btn--next" type="button">
+                        <div class="icon icon--arrow">
+                            {{ macros.svg('arrow-next' )}}
+                        </div>
+                        <span>{{ button_next }}</span>
+                    </button>
+                    <button class="btn btn--theme btn--theme_accent flex-center text--upp btn--size_M consult-form__btn consult-form__btn--submit d-none" type="submit">
+                        <span>{{ button_submit }}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+// CONSULT FORM
+class ConsultForm {
+    constructor(formSelector) {
+        this.form = typeof formSelector === 'string' ? document.querySelector(formSelector) : formSelector;
+        if (!this.form) return;
+        this.formEl = this.form.querySelector('form');
+
+        this.steps = Array.from(this.form.querySelectorAll('.consult-form__step'));
+        this.currentStep = 0;
+        
+        this.btnNext = this.form.querySelector('.consult-form__btn--next');
+        this.btnSubmit = this.form.querySelector('.consult-form__btn--submit');
+        this.btnPrev = this.form.querySelector('.consult-modal__back');
+
+        this.classes = {
+            error: 'invalid',
+            hide: 'd-none',
+            field: 'consult-form__field'
+        }
+        
+        this.init();
+    }
+
+    init() {
+        // Step Navigation
+        this.btnNext.addEventListener('click', () => this.nextStep());
+        this.btnPrev.addEventListener("click", () => this.prevStep());
+
+        // Skin Unknown logic (Step 2)
+        const skinRadios = this.form.querySelectorAll('input[name="skin"]');
+        const hiddenFields = this.form.querySelectorAll('[data-field="skin_help"]');
+
+        skinRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.id === 'skin_unknown') {
+                    hiddenFields.forEach(f => f.classList.remove(this.classes.hide));
+                } else {
+                    hiddenFields.forEach(f => f.classList.add(this.classes.hide));
+                }
+            });
+        });
+
+        // REMOVE ERRORS ON INPUT
+        this.form.addEventListener('input', (e) => {
+            const field = e.target.closest(`.${this.classes.field}`);
+            if (field && field.classList.contains(this.classes.error)) {
+                if (e.target.value.trim() !== '') {
+                    this.toggleError(field, false);
+                }
+            }
+        });
+
+        this.form.addEventListener('change', (e) => {
+            if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+                const field = e.target.closest(`.${this.classes.field}`);
+                if (field && field.classList.contains(this.classes.error)) {
+                    this.toggleError(field, false);
+                }
+            }
+        });
+
+        this.formEl.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.submitForm();
+        });
+    }
+
+    submitForm() {
+        const formData = new FormData(this.formEl);
+
+        $.ajax({
+            url: 'index.php?route=extension/module/consult_modal/save',
+            type: 'post',
+            data: formData,
+            contentType: false, 
+            processData: false,
+            dataType: 'json',
+            beforeSend: () => {
+                this.btnSubmit.disabled = true; 
+                this.btnSubmit.innerText = 'Зберігаємо...';
+            },
+            success: (json) => {
+                if (json['success']) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('consult_modal');
+                    window.location.replace(url.toString());
+                    
+                    window.open(json['redirect'], '_blank');
+                } else if (json['error']) {
+
+                    this.handleServerErrors(json['error']);
+                    this.btnSubmit.disabled = false;
+                    this.btnSubmit.innerText = 'Завершити';
+                }
+            },
+            error: (xhr, ajaxOptions, thrownError) => {
+                console.error(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                this.btnSubmit.disabled = false;
+            }
+        });
+    }
+
+    handleServerErrors(errors) {
+        alert(errors);
+        // if (typeof errors === 'string') {
+        //     alert(errors);
+        // } else {
+        //     for (let fieldName in errors) {
+        //         const input = this.form.querySelector(`[name="${fieldName}"]`);
+        //         if (input) {
+        //             this.toggleError(input.closest(`.${this.classes.field}`), true);
+        //         }
+        //     }
+        // }
+    }
+
+    validateStep(stepIndex) {
+        const step = this.steps[stepIndex];
+        let isValid = true;
+
+
+        const inputs = step.querySelectorAll('input[required]');
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                this.toggleError(input.closest(`.${this.classes.field}`), true);
+                isValid = false;
+            } else this.toggleError(input.closest(`.${this.classes.field}`), false);
+        });
+
+        const optionContainers = step.querySelectorAll('.consult-form__field:not(.d-none)');
+        
+        optionContainers.forEach(container => {
+            const group = container.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            
+            if (group.length > 0) {
+                const isChecked = Array.from(group).some(input => input.checked);
+                if (!isChecked) {
+                    this.toggleError(container, true);
+                    isValid = false;
+                } else this.toggleError(container, false);
+            }
+        });
+
+        return isValid;
+    }
+
+    toggleError(container, show) {
+        container.classList.toggle(this.classes.error, show);
+    }
+
+    toggleBackbtn() {
+        if (this.currentStep > 0) this.btnPrev.classList.remove(this.classes.hide)
+        else this.btnPrev.classList.add(this.classes.hide)
+    }
+
+    nextStep() {
+        if (this.validateStep(this.currentStep)) {
+            this.steps[this.currentStep].classList.add(this.classes.hide);
+            this.currentStep++;
+            this.steps[this.currentStep].classList.remove(this.classes.hide);
+            this.toggleBackbtn();
+
+            if (this.currentStep === this.steps.length - 1) {
+                this.btnNext.classList.add(this.classes.hide);
+                this.btnSubmit.classList.remove(this.classes.hide);
+            }
+        }
+    }
+
+    prevStep() {
+        this.steps[this.currentStep].classList.add(this.classes.hide);
+        this.currentStep--;
+        this.steps[this.currentStep].classList.remove(this.classes.hide);
+        this.toggleBackbtn()
+
+        if (this.currentStep !== this.steps.length - 1) {
+            this.btnNext.classList.remove(this.classes.hide);
+            this.btnSubmit.classList.add(this.classes.hide);
+        }
+    }
+}
+
+if (document.querySelector('.consult-modal')) {
+    document.body.classList.add('lock');
+    new ConsultForm('.consult-modal');
+}
+</script>

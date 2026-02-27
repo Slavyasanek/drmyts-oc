@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html dir="{{ direction }}" lang="{{ lang }}">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<base href="{{ base }}" />
+{% for link in links %}
+<link href="{{ link.href }}" rel="{{ link.rel }}" />
+{% endfor %}
+{% for style in styles %}
+<link href="{{ style.href }}" type="text/css" rel="{{ style.rel }}" media="{{ style.media }}" />
+{% endfor %}
+{% for script in scripts %}
+<script src="{{ script.href }}" type="text/javascript"></script>
+{% endfor %}
+<link href="catalog/view/theme/drmyts/stylesheet/home.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="header-empty border--end"> 
+  <div class="container header-empty__container flex-center flex-col"> 
+    <a class="logo header-empty__logo" href="{{ home }}">
+      {% if logo %}
+        <img src="{{ logo }}" title="{{ name }}" alt="{{ name }}">
+      {% else %}
+        <h1>{{ name }}</h1>
+      {% endif %}
+    </a>
+    <div class="header-empty__slogan text--color_gray">{{ custom_header_text }}</div>
+  </div>
+</header>

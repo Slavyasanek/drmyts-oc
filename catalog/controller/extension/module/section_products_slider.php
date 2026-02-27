@@ -61,7 +61,8 @@ class ControllerExtensionModuleSectionProductsSlider extends Controller {
                         'special'     => $special,
                         'discount'    => $discount,
                         'in_wishlist' => $in_wishlist,
-                        'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id'])
+                        'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id']),
+                        'model' => $product_info['model']
                     );
                 }
             }

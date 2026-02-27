@@ -13,6 +13,7 @@ $_['text_returning_customer']      = 'Постійний покупець';
 $_['text_i_am_returning_customer'] = 'Я здійснював покупки раніше та реєструвався';
 $_['text_forgotten']               = 'Забули свій пароль?';
 $_['text_remember_me'] = "Запам'ятати мене";
+$_['text_consult_login_warning'] = 'Будь ласка, увійдіть в акаунт або зареєструйтесь, щоб завершити заповнення форми консультації.';
 
 // Entry
 $_['entry_email']                  = 'E-Mail адреса';

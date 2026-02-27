@@ -14,6 +14,7 @@ $_['text_your_password']   = 'Ваш пароль';
 $_['text_agree']           = 'Я погоджуюсь з умовами <a href="%s" class="agree"><b>%s</b></a>';
 $_['text_login'] = 'Я вже маю акаунт';
 $_['text_remember_me'] = "Запам'ятати мене";
+$_['text_consult_login_warning'] = 'Будь ласка, увійдіть в акаунт або зареєструйтесь, щоб завершити заповнення форми консультації.';
 
 // Entry
 $_['entry_customer_group'] = 'Група покупців';

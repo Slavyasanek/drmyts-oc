@@ -4701,6 +4701,9 @@ input:checked + .product-variants__color-label::before {
   padding-block-start: 7.2rem;
   gap: 1.6rem;
 }
+.consult-results__comment {
+  margin-block-start: 2.4rem;
+}
 
 @media screen and (min-width: 640px) {
   .consult-results__care-blocks {

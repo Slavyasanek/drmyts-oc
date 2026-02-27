@@ -96,6 +96,12 @@ class ControllerAccountLogin extends Controller {
 			}
 
 			// Added strpos check to pass McAfee PCI compliance test (http://forum.opencart.com/viewtopic.php?f=10&t=12043&p=151494#p151295)
+
+            if (isset($this->session->data['tg_id'])) {
+                unset($this->session->data['show_consult_warning']);
+                $this->response->redirect($this->url->link('common/home', '', true));
+            }
+            
 			if (isset($this->request->post['redirect']) && $this->request->post['redirect'] != $this->url->link('account/logout', '', true) && (strpos($this->request->post['redirect'], $this->config->get('config_url')) !== false || strpos($this->request->post['redirect'], $this->config->get('config_ssl')) !== false)) {
 				$this->response->redirect(str_replace('&amp;', '&', $this->request->post['redirect']));
 			} else {
@@ -126,6 +132,10 @@ class ControllerAccountLogin extends Controller {
 			unset($this->session->data['error']);
 		} elseif (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
+
+        } elseif (isset($this->session->data['show_consult_warning'])) {
+            $data['error_warning'] = $this->language->get('text_consult_login_warning');
+            
 		} else {
 			$data['error_warning'] = '';
 		}

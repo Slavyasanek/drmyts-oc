@@ -700,6 +700,9 @@ class CustomSelect {
     selectOption(event) {
         if (event.target.closest(`.${this.classes.optionClass}`)) {
             const selectedOption = event.target.closest(`.${this.classes.optionClass}`);
+            if (selectedOption.querySelector('input[type="radio"]') || selectedOption.querySelector('input[type="checkbox"]')) {
+                selectedOption.querySelector('input').checked = true;
+            }
             const newText = selectedOption.textContent.trim();
             const newValue = selectedOption.dataset.value || newText; 
             this.updateSelection(newText, newValue);
