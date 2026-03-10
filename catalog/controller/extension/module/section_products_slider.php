@@ -10,6 +10,7 @@ class ControllerExtensionModuleSectionProductsSlider extends Controller {
         $data['title_accent'] = $setting['title_accent'] ?? '';
         $data['btn_text'] = $setting['btn_text'] ?? '';
         $data['btn_link'] = $setting['btn_link'] ?? '';
+        $data['btn_target'] = $setting['btn_target'] ?? false;
 
         $data['products'] = array();
 

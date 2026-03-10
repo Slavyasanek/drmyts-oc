@@ -38,7 +38,8 @@ class ControllerExtensionModuleSectionHero extends Controller {
         if (!empty($setting['red_button_link']) && !empty($setting['red_button_text'])) {
             $data['red_button'] = [
                 'link' => $setting['red_button_link'],
-                'text' => $setting['red_button_text']
+                'text' => $setting['red_button_text'],
+                'target' => $setting['red_button_target'] ?? false
             ];
         }
 
@@ -46,7 +47,8 @@ class ControllerExtensionModuleSectionHero extends Controller {
         if (!empty($setting['black_button_link']) && !empty($setting['black_button_text'])) {
             $data['black_button'] = [
                 'link' => $setting['black_button_link'],
-                'text' => $setting['black_button_text']
+                'text' => $setting['black_button_text'],
+                'target' => $setting['black_button_target'] ?? false
             ];
         }
 

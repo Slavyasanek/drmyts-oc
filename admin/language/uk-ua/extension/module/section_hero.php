@@ -21,6 +21,7 @@ $_['entry_card'] = 'Картка №';
 $_['entry_card_icon'] = 'ID іконки (sprite)';
 $_['entry_card_number'] = 'Цифра';
 $_['entry_card_text'] = 'Текст';
+$_['entry_target'] = 'Відкривати у новій вкладці';
 
 // Help
 $_['help_main_block'] = 'Головний блок (Заголовки та Фото)';

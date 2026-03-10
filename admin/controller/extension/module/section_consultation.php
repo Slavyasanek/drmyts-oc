@@ -55,6 +55,12 @@ class ControllerExtensionModuleSectionConsultation extends Controller {
         $data['thumb'] = ($data['image']) ? $this->model_tool_image->resize($data['image'], 100, 100) : $data['placeholder'];
         $data['price_text'] = $this->request->post['price_text'] ?? $module_info['price_text'] ?? '';
         $data['btn_text'] = $this->request->post['btn_text'] ?? $module_info['btn_text'] ?? '';
+        $data['btn_link'] = $this->request->post['btn_link'] ?? $module_info['btn_link'] ?? '';
+        $data['btn_target'] = $this->request->post['btn_target'] ?? $module_info['btn_target'] ?? '';
+
+        $data['small_btn_text'] = $this->request->post['small_btn_text'] ?? $module_info['small_btn_text'] ?? '';
+        $data['small_btn_link'] = $this->request->post['small_btn_link'] ?? $module_info['small_btn_link'] ?? '';
+        $data['small_btn_target'] = $this->request->post['small_btn_target'] ?? $module_info['small_btn_target'] ?? '';
 
         $data['list_title'] = $this->request->post['list_title'] ?? $module_info['list_title'] ?? '';
 

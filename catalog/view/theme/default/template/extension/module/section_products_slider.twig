@@ -32,7 +32,7 @@
         {% endif %}
 
         {% if btn_text %}
-            <a class="btn btn--theme btn--size_M btn--theme_accent text--upp products-slider__btn d-block" href="{{ btn_link|default('/') }}">
+            <a class="btn btn--theme btn--size_M btn--theme_accent text--upp products-slider__btn d-block" href="{{ btn_link|default('/') }}" {% if btn_target %} target="_blank" rel="noopener noreferrer" {% endif %}>
                 {{ btn_text }}
             </a>
         {% endif %}

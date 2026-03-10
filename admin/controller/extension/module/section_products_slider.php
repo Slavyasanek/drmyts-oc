@@ -40,7 +40,8 @@ class ControllerExtensionModuleSectionProductsSlider extends Controller {
         $data['title_accent'] = $this->request->post['title_accent'] ?? $module_info['title_accent'] ?? '';
         $data['btn_text'] = $this->request->post['btn_text'] ?? $module_info['btn_text'] ?? '';
         $data['btn_link'] = $this->request->post['btn_link'] ?? $module_info['btn_link'] ?? '';
-
+        $data['btn_target'] = $this->request->post['btn_target'] ?? $module_info['btn_target'] ?? 0;
+        
         // Товари
         $data['products'] = array();
         if (!empty($this->request->post['product'])) {

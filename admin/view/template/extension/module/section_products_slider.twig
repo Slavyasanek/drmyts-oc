@@ -76,8 +76,14 @@
                         <div class="col-sm-5">
                             <input type="text" name="btn_text" value="{{ btn_text }}" placeholder="{{ entry_btn_text }}" class="form-control"/>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-3">
                             <input type="text" name="btn_link" value="{{ btn_link }}" placeholder="{{ entry_btn_link }}" class="form-control"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="control-label">
+                                <input type="checkbox" name="btn_target" value="1" {{ btn_target ? 'checked="checked"' : '' }} /> 
+                                {{ text_target_blank ?? 'Нова вкладка' }}
+                            </label>
                         </div>
                     </div>
 

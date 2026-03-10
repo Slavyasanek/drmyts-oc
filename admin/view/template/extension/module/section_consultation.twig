@@ -150,10 +150,51 @@
               {% endif %}
             </div>
           </div>
-
-           <div class="alert alert-info">
-            <i class="fa fa-info-circle"></i> {{ text_info }}
+          <div class="form-group required">
+            <label class="col-sm-2 control-label">{{ entry_btn_link }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="btn_link" value="{{ btn_link }}" class="form-control" placeholder="https://..." />
+            </div>
           </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_target }}</label>
+            <div class="col-sm-10">
+              <label class="checkbox-inline">
+                <input type="checkbox" name="btn_target" value="1" {{ btn_target ? 'checked="checked"' : '' }} />
+              </label>
+            </div>
+          </div>
+
+          <hr>
+          <h4><i class="fa fa-link"></i> {{ help_small_link }}</h4>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_btn_text }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="small_btn_text" value="{{ small_btn_text }}" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_btn_link }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="small_btn_link" value="{{ small_btn_link }}" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_target }}</label>
+            <div class="col-sm-10">
+              <label class="checkbox-inline">
+                <input type="checkbox" name="small_btn_target" value="1" {{ small_btn_target ? 'checked="checked"' : '' }} />
+              </label>
+            </div>
+          </div>
+
+           {# <div class="alert alert-info">
+            <i class="fa fa-info-circle"></i> {{ text_info }}
+          </div> #}
 
           <hr />
           <div class="form-group">

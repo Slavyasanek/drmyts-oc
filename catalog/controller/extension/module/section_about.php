@@ -18,6 +18,7 @@ class ControllerExtensionModuleSectionAbout extends Controller {
         }
 
         $data['red_button_text'] = $setting['red_button_text'] ?? '';
+        $data['red_button_target'] = $setting['btn_target'] ?? false;
         $data['red_button_link'] = !empty($setting['red_button_link']) ? $setting['red_button_link'] : '#';
 
         return $this->load->view('extension/module/section_about', $data);

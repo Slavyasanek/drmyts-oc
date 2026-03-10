@@ -76,13 +76,13 @@
 
             <div class="home-hero__btns-wr flex-row-wrap">
                 {% if red_button %}
-                    <a class="btn btn--theme btn--size_M text--upp btn--theme_accent" href="{{ red_button.link }}">
+                    <a class="btn btn--theme btn--size_M text--upp btn--theme_accent" href="{{ red_button.link }}" {% if red_button.target %}  target="_blank" rel="noopener noreferrer" {% endif %}>
                         {{ red_button.text }}
                     </a>
                 {% endif %}
 
                 {% if black_button %}
-                    <a class="btn btn--theme btn--size_M text--upp btn--theme_dark" href="{{ black_button.link }}">
+                    <a class="btn btn--theme btn--size_M text--upp btn--theme_dark" href="{{ black_button.link }}" {% if black_button.target %}  target="_blank" rel="noopener noreferrer" {% endif %}>
                         {{ black_button.text }}
                     </a>
                 {% endif %}

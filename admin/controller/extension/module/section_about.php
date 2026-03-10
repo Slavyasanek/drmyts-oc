@@ -82,8 +82,8 @@ class ControllerExtensionModuleSectionAbout extends Controller {
         $data['help_block_text'] = $this->request->post['help_block_text'] ?? $module_info['help_block_text'] ?? '';
         $data['red_button_link'] = $this->request->post['red_button_link'] ?? $module_info['red_button_link'] ?? '';
         $data['red_button_text'] = $this->request->post['red_button_text'] ?? $module_info['red_button_text'] ?? '';
-
-        // Зображення
+        $data['btn_target'] = $this->request->post['btn_target'] ?? $module_info['btn_target'] ?? '';
+        
         $this->load->model('tool/image');
 
         if (isset($this->request->post['image'])) {

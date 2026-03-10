@@ -111,16 +111,31 @@
 <script type="text/javascript"></script>
 
 <script type="text/javascript">
-var faq_row = {{ faq_row }};
+var faq_row = {{ faq_row }}; 
 
 function addFaq() {
-    html  = '<tr id="faq-row' + faq_row + '">';
-    html += '  <td class="text-left"><input type="text" name="faq_items[' + faq_row + '][question]" value="" class="form-control" /></td>';
-    html += '  <td class="text-left"><textarea name="faq_items[' + faq_row + '][answer]" class="form-control" data-toggle="summernote"></textarea></td>';
-    html += '  <td class="text-left"><button type="button" onclick="$(\'#faq-row' + faq_row + '\').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+    html  = '<tr id="faq-row' + faq_row + '">'; 
+    html += '  <td class="text-left"><input type="text" name="faq_items[' + faq_row + '][question]" value="" class="form-control" /></td>'; 
+    html += '  <td class="text-left"><textarea name="faq_items[' + faq_row + '][answer]" class="form-control" data-toggle="summernote"></textarea></td>'; 
+    html += '  <td class="text-left"><button type="button" onclick="$(\'#faq-row' + faq_row + '\').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>'; 
     html += '</tr>';
 
-    $('#faq-list tbody').append(html);
+    $('#faq-list tbody').append(html); 
+
+    $('#faq-row' + faq_row + ' [data-toggle=\'summernote\']').summernote({
+        height: 200,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'image', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+
     faq_row++;
 }
 </script>

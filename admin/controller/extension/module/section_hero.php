@@ -88,6 +88,8 @@ class ControllerExtensionModuleSectionHero extends Controller {
         $data['red_button_text'] = $this->request->post['red_button_text'] ?? $module_info['red_button_text'] ?? '';
         $data['black_button_link'] = $this->request->post['black_button_link'] ?? $module_info['black_button_link'] ?? '';
         $data['black_button_text'] = $this->request->post['black_button_text'] ?? $module_info['black_button_text'] ?? '';
+        $data['red_button_target'] = $this->request->post['red_button_target'] ?? $module_info['red_button_target'] ?? 0;
+        $data['black_button_target'] = $this->request->post['black_button_target'] ?? $module_info['black_button_target'] ?? 0;
 
         // Зображення
         $this->load->model('tool/image');

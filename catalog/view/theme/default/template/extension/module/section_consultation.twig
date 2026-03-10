@@ -49,21 +49,26 @@
 				<span class="text--w_500">{{ price_text }}</span>
 			</div>
             {% endif %}
-			<button data-modal-open="consult" type="button" class="btn btn--theme btn--theme_accent btn--size_M text--upp consult-page__btn">
-				{{ btn_text }}</button>
+
+            {% if btn_link %}
+    			<a href="{{ btn_link}}" class="btn btn--theme btn--theme_accent btn--size_M text--upp consult-page__btn" {% if btn_target %} target="_blank" rel="noopener noreferrer"{% endif %}>
+    				{{ btn_text }}
+                </a>
+            {% endif %}
             {% if warning %}
 			<div class="consult-page__warning text--color_gray d-flex">
                 {{ macros.svg('warning', 'consult-page__warning-icon') }}
 				<p>{{ warning }}</p>
 			</div>
             {% endif %}
-			<a class="btn flex-row text--upp text--size_label consult-page__link" href="/">
-				<span>
-					Дивитися тарифи</span>
+            {% if small_btn_link %}
+			<a class="btn flex-row text--upp text--size_label consult-page__link" href="{{ small_btn_link }}" {% if small_btn_target %} target="_blank" rel="noopener noreferrer"{% endif %}>
+				<span>{{ small_btn_text }}</span>
 				<div class="icon icon--arrow">
                     {{ macros.svg('arrow-right', '') }}
 				</div>
 			</a>
+            {% endif %}
 		</div>
 	</div>
 </section>

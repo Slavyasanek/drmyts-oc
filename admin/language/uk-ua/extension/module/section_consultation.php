@@ -20,6 +20,8 @@ $_['entry_photo']        = 'Зображення';
 $_['entry_btn_text']     = 'Текст кнопки';
 $_['entry_list_item'] = 'Пункт у списку';
 $_['entry_warning'] = 'Попередження';
+$_['entry_btn_link'] = 'Посилання кнопки';
+$_['entry_target'] = 'Відкривати в новій вкладці?';
 
 // Help / Block Titles
 $_['help_title_block']            = 'Головний заголовок секції';
@@ -27,6 +29,7 @@ $_['help_description_block']      = 'Опис та Цитата';
 $_['help_photo_block']            = 'Фото автора';
 $_['help_button_block']           = 'Кнопка';
 $_['help_list'] = 'Інструкція';
+$_['help_small_link'] = 'Посилання зі стрілкою  (Мала кнопка)';
 
 // Placeholders
 $_['placeholder_title']  = 'Вероніка Миц';
