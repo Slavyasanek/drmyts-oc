@@ -5,8 +5,21 @@
 class ControllerCheckoutSuccess extends Controller {
 	public function index() {
 		$this->load->language('checkout/success');
+        $this->load->model('checkout/order');
 
 		if (isset($this->session->data['order_id'])) {
+            $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+    
+            if ($order_info) {
+                $data['order_id'] = $order_info['order_id'];
+                $data['payment_method'] = $order_info['payment_method'];
+                $data['shipping_method'] = $order_info['shipping_method'];
+                $data['customer_name'] = $order_info['firstname'] . ' ' . $order_info['lastname'];
+                $data['shipping_address'] = $order_info['shipping_address_1'] . ', ' . $order_info['shipping_city'];
+                
+                $data['total'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value']);
+            }
+            
 			$this->session->data['last_order_id'] = $this->session->data['order_id'];
 			$this->cart->clear();
 
@@ -75,6 +88,10 @@ class ControllerCheckoutSuccess extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
-		$this->response->setOutput($this->load->view('common/success', $data));
+        if (isset($data['order_id'])) {
+		    $this->response->setOutput($this->load->view('common/success_order', $data));
+        } else {
+		    $this->response->setOutput($this->load->view('common/success', $data));
+        }
 	}
 }

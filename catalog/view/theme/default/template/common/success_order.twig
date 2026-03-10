@@ -1,0 +1,63 @@
+{{ header }}
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<section class="thankyou"> 
+  <div class="thankyou__page-title text--center border--end"> 
+    <div class="thankyou__title-container container">
+      <div class="thankyou__check-icon bg--surface flex-center mx">
+        {{ macros.svg('check')}}
+      </div>
+      <h1 class="thankyou__title text--size_h3-full text--size_h2-desk">Дякуємо за замовлення!</h1>
+      <h2 class="thankyou__order-title text--color_gray">
+        Замовлення <a href="{{ history }}">№{{ order_id }}</a>
+      </h2>
+    </div>
+  </div>
+
+  <div class="container thankyou__content">
+    <div class="thankyou__status order-status mx"> 
+      <ul class="order-status__list flex-row"> 
+        <li class="order-status__item rel text--center active complete"><span>Новий</span></li>
+        <li class="order-status__item rel text--center active"><span>Збирається</span></li>
+        <li class="order-status__item rel text--center"><span>Надіслано</span></li>
+      </ul>
+    </div>
+
+    <div class="thankyou__order bg--white order-details flex-col mx"> 
+      <div class="order-details__val">
+        <p class="order-details__title text--upp text--color_gray text--size_label">Спосіб оплати</p>
+        <div class="order-details__data">{{ payment_method }}</div>
+      </div>
+
+      <div class="order-details__val">
+        <p class="order-details__title text--upp text--color_gray text--size_label">Сума</p>
+        <div class="order-details__data">{{ total }}</div>
+      </div>
+
+      <div class="order-details__val"> 
+        <div class="order-details__data"> 
+          <div class="order-details__delivery flex-row text--upp"> 
+            <div class="order-details__icon icon flex-center"> 
+                {{ macros.svg('np')}}
+            </div>
+            <span>{{ shipping_method }}</span>
+          </div>
+          <div class="order-details__address">{{ shipping_address }}</div>
+        </div>
+      </div>
+
+      <div class="order-details__val"> 
+        <p class="order-details__title text--upp text--color_gray text--size_label">Одержувач</p>
+        <div class="order-details__data">{{ customer_name }}</div>
+      </div>
+    </div>
+
+    <a class="btn btn--theme btn--theme_dark flex-center text--upp btn--size_M thankyou__btn mx" href="{{ continue }}"> 
+      <div class="icon icon--arrow">
+        {{ macros.svg('arrow-back')}}
+      </div>
+      <span>Продовжити покупку</span>
+    </a>
+  </div>
+</section>
+{{ footer }}

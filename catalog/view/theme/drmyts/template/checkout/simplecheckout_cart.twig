@@ -12,7 +12,7 @@
     <div class="checkout-page__cart checkout-cart"> 
         <div class="checkout-cart__heading border--end">
             <h2 class="checkout-cart__title text--size_h3-full m-0">{{ text_cart }} 
-                {# <span class="text--color_gray checkout-cart__count">({{ products|length }})</span> #}
+                <span class="text--color_gray checkout-cart__count" id="simplecheckout_cart_total">({{ cart_total }})</span>
             </h2>
         </div>
         
@@ -181,7 +181,7 @@
     </div>
 
     <input type="hidden" name="remove" value="" id="simplecheckout_remove">
-    <div style="display:none;" id="simplecheckout_cart_total">{{ cart_total }}</div>
+    {# <div style="display:none;" ></div> #}
     {% if display_weight %}
         <div style="display:none;" id="simplecheckout_cart_weight">{{ weight }}</div>
     {% endif %}

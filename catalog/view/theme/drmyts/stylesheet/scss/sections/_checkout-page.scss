@@ -94,12 +94,21 @@
             // width: 50%;
         }
 
+        &__loader {
+            // background: rgba(255, 255, 255, 0.3);
+            // backdrop-filter: blur(1px);
+            padding: 0;
+        }
+
         .simplecheckout-button-right, .simplecheckout-button-left {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 2.4rem;
             margin-block-start: 2.4rem;
+            align-items: center;
         }
+
+
 
         // &__submit {
         //     grid-row: 2/3;

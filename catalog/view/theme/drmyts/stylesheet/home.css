@@ -4195,6 +4195,10 @@ input:checked + .product-variants__color-label::before {
 .sign-form__txt p:not(:last-child) {
   margin-block-end: 1em;
 }
+.sign-form__txt a {
+  color: var(--color-red);
+  text-decoration: underline;
+}
 .sign-form__icon {
   margin-block-end: 1.6rem;
   width: 4rem;
@@ -4881,11 +4885,15 @@ input:checked + .product-variants__color-label::before {
   .checkout-page__submit {
     margin: 0;
   }
+  .checkout-page__loader {
+    padding: 0;
+  }
   .checkout-page .simplecheckout-button-right, .checkout-page .simplecheckout-button-left {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2.4rem;
     margin-block-start: 2.4rem;
+    align-items: center;
   }
 }
 @media screen and (min-width: 1200px) {

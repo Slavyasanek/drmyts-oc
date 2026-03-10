@@ -53,6 +53,11 @@
                 margin-block-end: 1em;
             }
         }
+
+        a {
+            color: var(--color-red);
+            text-decoration: underline;
+        }
     }
 
     &__icon {
