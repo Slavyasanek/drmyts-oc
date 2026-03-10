@@ -16,6 +16,21 @@ class ControllerCommonHeader extends Controller {
 
         /*   End --- Module D.Menu Editor --- End   */
             
+
+            if ($this->customer->isLogged() && !isset($this->session->data['coupon'])) {
+                $saved_coupon = $this->customer->getConsultCoupon();
+                
+                if ($saved_coupon) {
+                    // Перевіряємо, чи купон ще активний і не використаний
+                    $this->load->model('extension/total/coupon');
+                    $coupon_info = $this->model_extension_total_coupon->getCoupon($saved_coupon);
+                    
+                    if ($coupon_info) {
+                        $this->session->data['coupon'] = $saved_coupon;
+                    }
+                }
+            }
+            
 		// Analytics
 		$this->load->model('setting/extension');
 

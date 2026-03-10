@@ -96,6 +96,9 @@ public function index()
                         $tax = false;
                     }
 
+                    $consult_unlocked = $this->customer->getConsultUnlocked();
+                    $hide_price = ($result['consult_only'] && !$consult_unlocked);
+
                     $json['products'][] = array(
                         'product_id' => $result['product_id'],
                         'minimum' => $result['minimum'],
@@ -105,7 +108,8 @@ public function index()
                         'extra_info' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $description_length) . '..',
                         'price' => $price,
                         'special' => $special,
-                        'url' => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+                        'url' => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+                        'hide_price' => $hide_price
                     );
                 }
 

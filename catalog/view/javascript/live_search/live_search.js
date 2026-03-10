@@ -16,8 +16,6 @@ class LiveSearch {
                 this.options[key] = Boolean(Number(value));
             }
         })
-        console.log(this.options);
-        
         
         this.input = document.querySelector(this.options.selector);
 
@@ -68,6 +66,7 @@ class LiveSearch {
         this.closeButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
+                this._resetContent();
                 this.deactivate();
             });
         });
@@ -139,8 +138,9 @@ class LiveSearch {
             clone.querySelector('.cart-item__link').href = data.url.replaceAll('&amp;', "&");
         } else clone.querySelector('.cart-item__img').remove();
 
-
-        clone.querySelector('.cart-item__availability').textContent = data.stock_status;
+        if (data.hide_price) {
+            clone.querySelector('.cart-item__availability').textContent = 'Під замовлення';
+        } else  clone.querySelector('.cart-item__availability').textContent = data.stock_status;
         clone.querySelector('.cart-item__title').href = data.url.replaceAll('&amp;', "&");
         clone.querySelector('.cart-item__title').textContent = data.name;
 
@@ -148,7 +148,7 @@ class LiveSearch {
             clone.querySelector('.cart-item__type').textContent = data.type;
         } else clone.querySelector('.cart-item__type').remove();
 
-        if (this.options.module_live_search_show_price) {
+        if (this.options.module_live_search_show_price && !data.hide_price) {
             if (data.special) {
                 clone.querySelector('.product-price__sale').textContent = data.special;
                 clone.querySelector('.product-price__full').textContent = data.price;

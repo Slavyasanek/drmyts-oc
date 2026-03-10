@@ -1,4 +1,4 @@
-2026-03-09 15:59:52 - MOD: Modification Default
+2026-03-10 13:04:16 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -144,7 +144,7 @@ MOD: Consultation flow with Telegram ID Tracking
 
 FILE: catalog/controller/common/home.php
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
-LINE: 30
+LINE: 43
 
 FILE: catalog/controller/account/login.php
 CODE: if (isset($this->request->post['redirect']) && $this->request->post['redirect'] != $this->url->link('account/logout', '', true)
@@ -155,6 +155,18 @@ CODE: $this->response->redirect($this->url->link('account/success'));
 LINE: 40
 CODE: if (isset($this->error['warning'])) {
 LINE: 68
+
+FILE: system/library/cart/customer.php
+CODE: public function getId() {
+LINE: 94
+
+FILE: catalog/controller/common/header.php
+CODE: public function index() {
+LINE: 20
+
+FILE: catalog/model/checkout/order.php
+CODE: public function addOrderHistory($order_id, $order_status_id, $comment = '', $notify = false, $override = false) {
+LINE: 282
 ----------------------------------------------------------------
 MOD: Consultation Tab in Customer Form - Fixed
 
@@ -172,30 +184,48 @@ MOD: Custom Config Settings
 
 FILE: admin/controller/setting/setting.php
 CODE: if (isset($this->request->post['config_email'])) {
-LINE: 270
+LINE: 279
 
 FILE: admin/view/template/setting/setting.twig
 CODE: <li><a href="#tab-server" data-toggle="tab">{{ tab_server }}</a></li>
 LINE: 39
 CODE: <div class="tab-pane" id="tab-server">
-LINE: 1218
-
-FILE: catalog/controller/common/header.php
+LINE: 1272
 CODE: $data['language'] = $this->load->controller('common/language');
-LINE: 94
+LINE: 109
 
 FILE: catalog/controller/common/footer.php
 CODE: $data['newsletter'] = $this->url->link('account/newsletter', '', true);
 LINE: 32
+
+FILE: catalog/controller/product/category.php
+CODE: $data['footer'] = $this->load->controller('common/footer');
+LINE: 440
+LINE: 496
+CODE: $data['footer'] = $this->load->controller('common/footer');
+LINE: 477
+LINE: 557
+
+FILE: catalog/controller/product/search.php
+CODE: $data['footer'] = $this->load->controller('common/footer');
+LINE: 469
+
+FILE: catalog/controller/product/special.php
+CODE: $data['footer'] = $this->load->controller('common/footer');
+LINE: 322
+CODE: $data['footer'] = $this->load->controller('common/footer');
+LINE: 74
+LINE: 443
+LINE: 496
 ----------------------------------------------------------------
 MOD: D.Menu Editor
 CODE: public function index
 LINE: 17
 CODE: $data['language'] = $this->load->controller('common/language');
-LINE: 102
+LINE: 117
 CODE: $data['currency'] = $this->load->controller('common/currency');
-LINE: 118
-LINE: 119
+LINE: 133
+LINE: 134
 ----------------------------------------------------------------
 MOD: Export/Import Tool (V4.17.9) for OpenCart 3.x
 
@@ -222,16 +252,14 @@ CODE: if (!empty($data['filter_manufacturer_id'])) {
 LINE: 321
 CODE: $sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
 LINE: 219
-
-FILE: catalog/controller/product/category.php
 CODE: $data['categories'] = array();
 LINE: 191
 CODE: 'filter_category_id' => $category_id,
 LINE: 214
 CODE: $data['products'] = array();
-LINE: 213
+LINE: 223
 CODE: 'filter_manufacturer_id' => $manufacturer_id,
-LINE: 220
+LINE: 230
 ----------------------------------------------------------------
 MOD: Product Page Customizations 
 CODE: $this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
@@ -255,9 +283,44 @@ LINE: 502
 CODE: 'rating'      => $rating,
 LINE: 517
 ----------------------------------------------------------------
-MOD: Remember Me Ultimate
+MOD: Products hidden price
 
-FILE: system/library/cart/customer.php
+FILE: admin/model/catalog/product.php
+CODE: price = '" . (float)$data['price'] . "',
+LINE: 6
+LINE: 163
+
+FILE: admin/controller/catalog/product.php
+CODE: if (isset($this->request->post['price'])) {
+LINE: 1106
+
+FILE: admin/view/template/catalog/product_form.twig
+CODE: <label class="col-sm-2 control-label" for="input-price">
+LINE: 161
+CODE: public function isLogged() {
+LINE: 89
+CODE: $data['products'][] = array(
+LINE: 264
+CODE: 'price'       => $price,
+LINE: 274
+CODE: $data['products'][] = array(
+LINE: 235
+CODE: 'price'       => $price,
+LINE: 245
+CODE: $data['products'][] = array(
+LINE: 139
+CODE: 'price'       => $price,
+LINE: 149
+CODE: $data['products'][] = array(
+LINE: 279
+CODE: 'price'       => $price,
+LINE: 289
+CODE: $data['heading_title'] = $product_info['name'];
+LINE: 240
+CODE: 'date_modified'    => $query->row['date_modified'],
+LINE: 180
+----------------------------------------------------------------
+MOD: Remember Me Ultimate
 CODE: $this->session = $registry->get('session');
 LINE: 67
 CODE: if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
@@ -285,17 +348,17 @@ LINE: 9
 ----------------------------------------------------------------
 MOD: Review Images
 CODE: public function review() {
-LINE: 624
+LINE: 649
 CODE: $data['reviews'][] = array(
-LINE: 652
+LINE: 677
 CODE: 'rating'     => (int)$result['rating'],
-LINE: 658
+LINE: 683
 CODE: $pagination->limit = 5;
-LINE: 666
+LINE: 691
 CODE: $results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
-LINE: 639
+LINE: 664
 CODE: if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
-LINE: 731
+LINE: 756
 
 FILE: admin/controller/catalog/review.php
 CODE: public function delete() {
@@ -320,58 +383,54 @@ NOT FOUND - OPERATIONS ABORTED!
 ----------------------------------------------------------------
 MOD: Shop
 CODE: $data['products'][] = array(
-LINE: 270
-CODE: 'name'        => $result['name'],
-LINE: 277
-CODE: 'rating'      => $result['rating'],
-LINE: 286
-CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
-LINE: 245
-CODE: 'special'     => $special,
-LINE: 289
-CODE: $data['column_left'] = $this->load->controller('common/column_left');
-LINE: 498
-LINE: 569
-CODE: $data['products'][] = array(
 LINE: 275
 CODE: 'name'        => $result['name'],
 LINE: 282
 CODE: 'rating'      => $result['rating'],
-LINE: 291
+LINE: 296
 CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
-LINE: 250
+LINE: 245
 CODE: 'special'     => $special,
-LINE: 294
+LINE: 299
+CODE: $data['column_left'] = $this->load->controller('common/column_left');
+LINE: 508
+LINE: 589
+CODE: $data['products'][] = array(
+LINE: 290
+CODE: 'name'        => $result['name'],
+LINE: 297
+CODE: 'rating'      => $result['rating'],
+LINE: 311
+CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
+LINE: 260
+CODE: 'special'     => $special,
+LINE: 314
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
 LINE: 90
-LINE: 525
-LINE: 603
-
-FILE: catalog/controller/product/special.php
+LINE: 545
+LINE: 643
 CODE: $data['products'][] = array(
-LINE: 145
+LINE: 150
 CODE: 'name'        => $result['name'],
-LINE: 152
+LINE: 157
 CODE: 'rating'      => $result['rating'],
-LINE: 161
+LINE: 171
 CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
 LINE: 120
 CODE: 'special'     => $special,
-LINE: 164
+LINE: 174
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
-LINE: 338
-
-FILE: catalog/controller/product/search.php
+LINE: 348
 CODE: $data['products'][] = array(
-LINE: 241
+LINE: 246
 CODE: 'name'        => $result['name'],
-LINE: 248
+LINE: 253
 CODE: 'rating'      => $result['rating'],
-LINE: 257
+LINE: 267
 CODE: if (!is_null($result['special']) && (float)$result['special'] >= 0) {
 LINE: 216
 CODE: 'special'     => $special,
-LINE: 260
+LINE: 270
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
-LINE: 485
+LINE: 495
 ----------------------------------------------------------------

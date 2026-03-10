@@ -176,6 +176,9 @@ class ModelCatalogProduct extends Model {
 				'status'           => $query->row['status'],
 				'date_added'       => $query->row['date_added'],
 				'date_modified'    => $query->row['date_modified'],
+
+            'consult_only'     => isset($query->row['consult_only']) ? $query->row['consult_only'] : 0,
+        
 				'viewed'           => $query->row['viewed']
 			);
 		} else {

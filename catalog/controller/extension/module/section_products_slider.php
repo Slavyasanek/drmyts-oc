@@ -50,6 +50,9 @@ class ControllerExtensionModuleSectionProductsSlider extends Controller {
                             $in_wishlist = true;
                         }
                     }
+                    
+                    $consult_unlocked = $this->customer->getConsultUnlocked();
+                    $hide_price = ($product_info['consult_only'] && !$consult_unlocked);
 
                     $data['products'][] = array(
                         'product_id'  => $product_info['product_id'],
@@ -62,7 +65,9 @@ class ControllerExtensionModuleSectionProductsSlider extends Controller {
                         'discount'    => $discount,
                         'in_wishlist' => $in_wishlist,
                         'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id']),
-                        'model' => $product_info['model']
+                        'model' => $product_info['model'],
+                        'hide_price' => $hide_price,
+                        'tg_link' => $this->config->get('config_telegram_bot_url')
                     );
                 }
             }

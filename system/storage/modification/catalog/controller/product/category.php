@@ -264,6 +264,11 @@ class ControllerProductCategory extends Controller {
 				}
 
 
+                $consult_unlocked = $this->customer->getConsultUnlocked();
+                // Якщо товар тільки за консультацією і юзер не активований - ховаємо ціну
+                $hide_price = ($result['consult_only'] && !$consult_unlocked);
+            
+
                 $in_wishlist = false;
                 if ($this->customer->isLogged() && isset($this->session->data['wishlist'])) {
                     $this->load->model('account/wishlist');
@@ -284,6 +289,11 @@ class ControllerProductCategory extends Controller {
             
 					'description' => utf8_substr(trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('theme_' . $this->config->get('config_theme') . '_product_description_length')) . '..',
 					'price'       => $price,
+
+                'consult_only' => $result['consult_only'],
+                'hide_price'   => $hide_price,
+                'tg_link'      => $this->config->get('config_telegram_bot_url'),
+            
 					'special'     => $special,
 
                 'discount'    => $discount_percentage,
@@ -501,6 +511,16 @@ class ControllerProductCategory extends Controller {
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
+
+        $data['consult_data'] = [
+            'status'      => $this->config->get('config_consultation_status'),
+            'title'       => $this->config->get('config_consultation_title'),
+            'price'       => $this->config->get('config_consultation_price'),
+            'description' => $this->config->get('config_consultation_description'),
+            'link'        => $this->config->get('config_consultation_link'),
+            'target'      => $this->config->get('config_consultation_target') ? '_blank' : '_self'
+        ];
+            
 			$data['header'] = $this->load->controller('common/header');
 
 			$this->response->setOutput($this->load->view('product/category', $data));
@@ -572,6 +592,16 @@ class ControllerProductCategory extends Controller {
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
+
+        $data['consult_data'] = [
+            'status'      => $this->config->get('config_consultation_status'),
+            'title'       => $this->config->get('config_consultation_title'),
+            'price'       => $this->config->get('config_consultation_price'),
+            'description' => $this->config->get('config_consultation_description'),
+            'link'        => $this->config->get('config_consultation_link'),
+            'target'      => $this->config->get('config_consultation_target') ? '_blank' : '_self'
+        ];
+            
 			$data['header'] = $this->load->controller('common/header');
 
 			$this->response->setOutput($this->load->view('error/not_found', $data));

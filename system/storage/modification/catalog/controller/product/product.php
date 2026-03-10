@@ -234,6 +234,11 @@ class ControllerProductProduct extends Controller {
 				$data['heading_title'] = $product_info['meta_h1'];
 			} else {
 				$data['heading_title'] = $product_info['name'];
+
+                $consult_unlocked = $this->customer->getConsultUnlocked();
+                $data['hide_price'] = ($product_info['consult_only'] && !$consult_unlocked);
+                $data['tg_link'] = $this->config->get('config_telegram_bot_url');
+            
 			}
 			
 			$this->document->setDescription($product_info['meta_description']);
@@ -543,6 +548,16 @@ class ControllerProductProduct extends Controller {
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
+
+        $data['consult_data'] = [
+            'status'      => $this->config->get('config_consultation_status'),
+            'title'       => $this->config->get('config_consultation_title'),
+            'price'       => $this->config->get('config_consultation_price'),
+            'description' => $this->config->get('config_consultation_description'),
+            'link'        => $this->config->get('config_consultation_link'),
+            'target'      => $this->config->get('config_consultation_target') ? '_blank' : '_self'
+        ];
+            
 			$data['header'] = $this->load->controller('common/header');
 
 			$this->response->setOutput($this->load->view('product/product', $data));
@@ -613,6 +628,16 @@ class ControllerProductProduct extends Controller {
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
+
+        $data['consult_data'] = [
+            'status'      => $this->config->get('config_consultation_status'),
+            'title'       => $this->config->get('config_consultation_title'),
+            'price'       => $this->config->get('config_consultation_price'),
+            'description' => $this->config->get('config_consultation_description'),
+            'link'        => $this->config->get('config_consultation_link'),
+            'target'      => $this->config->get('config_consultation_target') ? '_blank' : '_self'
+        ];
+            
 			$data['header'] = $this->load->controller('common/header');
 
 			$this->response->setOutput($this->load->view('error/not_found', $data));

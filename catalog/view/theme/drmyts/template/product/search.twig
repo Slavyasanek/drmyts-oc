@@ -106,7 +106,7 @@
                 {% if products %}
 				<div class="shop__grid d-grid">
                     {% for product in products %} 
-                        {{ card.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide', product.model) }}
+                        {{ card.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide', product.model, product.hide_price, product.tg_link) }}
                     {% endfor %}
 				</div>
 
@@ -119,7 +119,9 @@
                     {{ sections.noProductsFound() }}
                 {% endif %}
                 
-				{{ blocks.consultBlock('shop__quote-block') }}
+				{% if consult_data.status %}
+                    {{ blocks.consultBlock('shop__quote-block', consult_data) }}
+                {% endif %}
 			</div>
 		</div>
 	</section>

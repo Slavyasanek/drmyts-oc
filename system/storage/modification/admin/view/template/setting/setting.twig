@@ -1196,24 +1196,78 @@
             </div>
 
             <div class="tab-pane" id="tab-custom">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">{{ entry_custom_header_text }}</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="config_custom_header_text" value="{{ config_custom_header_text }}" class="form-control" />
+                <fieldset>
+                    <legend>Загальні кастомні тексти</legend>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ entry_custom_header_text }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="config_custom_header_text" value="{{ config_custom_header_text }}" class="form-control" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">{{ entry_custom_footer_text }}</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="config_custom_footer_text" value="{{ config_custom_footer_text }}" class="form-control" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{ entry_custom_footer_text }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="config_custom_footer_text" value="{{ config_custom_footer_text }}" class="form-control" />
+                        </div>
                     </div>
-                </div>
-				<div class="form-group">
-                    <label class="col-sm-2 control-label">{{ entry_custom_telegram_text }}</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="config_telegram_bot_url" value="{{ config_telegram_bot_url }}" class="form-control" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Telegram Bot URL</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="config_telegram_bot_url" value="{{ config_telegram_bot_url }}" class="form-control" />
+                        </div>
                     </div>
-                </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Налаштування блоку консультації</legend>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Показувати блок консультації</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="config_consultation_status" value="1" {% if config_consultation_status %}checked="checked"{% endif %} /> Так
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="config_consultation_status" value="0" {% if not config_consultation_status %}checked="checked"{% endif %} /> Ні
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Назва послуги</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="config_consultation_title" value="{{ config_consultation_title }}" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Ціна (грн)</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="config_consultation_price" value="{{ config_consultation_price }}" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Опис консультації</label>
+                        <div class="col-sm-10">
+                            <textarea name="config_consultation_description" rows="3" class="form-control">{{ config_consultation_description }}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Посилання кнопки</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="config_consultation_link" value="{{ config_consultation_link }}" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Відкривати у новій вкладці</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="config_consultation_target" value="1" {% if config_consultation_target %}checked="checked"{% endif %} /> Так
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="config_consultation_target" value="0" {% if not config_consultation_target %}checked="checked"{% endif %} /> Ні
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
             
             <div class="tab-pane" id="tab-server">

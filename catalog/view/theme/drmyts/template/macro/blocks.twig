@@ -4,20 +4,29 @@
     </svg>
 {% endmacro %}
 
-{% macro consultBlock(className) %}
+{% macro consultBlock(className, data) %}
     <div class="quote-block bg--surface {{ className }}">
 		<div class="quote-block__heading text--upp flex-row-wrap j-between">
+            {% if data.title %}
 			<div class="product-page__icon-title quote-block__title flex-row">
                 {{ _self.svg('warning', '') }}
-				<span>Послуга експрес-консультації</span>
+				<span>{{ data.title }}</span>
 			</div>
-			<span class="quote-block__price">500 ₴</span>
+            {% endif %}
+            {% if data.price %}
+			    <span class="quote-block__price">{{ data.price}} ₴</span>
+            {% endif %}
 		</div>
+        {% if data.description %}
 		<div class="quote-block__content d-flex">
             {{ _self.svg('quote', 'quote-block__icon') }}
-			<p>Підберу повний план з урахуванням стану шкіри, твого бюджету, наявних засобів і побажань..</p>
+			<p>{{ data.description }}</p>
 		</div>
-		<button class="btn btn--theme_accent text--upp btn--size_M btn--theme d-block quote-block__btn" type="button" data-modal-open="consult">Детальніше</button>
+        {% endif %}
+
+        {% if data.link %}
+		<a href="{{ data.link }}" {% if data.target %} target="_blank" rel="noopener norefferer" {% endif %} class="btn btn--theme_accent text--upp btn--size_M btn--theme d-block quote-block__btn">Детальніше</a>
+        {% endif %}
 	</div>
 {% endmacro %}
 

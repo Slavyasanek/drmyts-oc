@@ -13,8 +13,6 @@ class ControllerCommonHome extends Controller {
 			$this->document->addLink($canonical, 'canonical');
 		}
 
-
-        // Консультація: фіксуємо ID та перевіряємо авторизацію
         if (isset($this->request->get['consult_modal'])) {
             $this->session->data['tg_id'] = $this->request->get['consult_modal'];
             $this->session->data['show_consult_warning'] = true;
@@ -25,7 +23,19 @@ class ControllerCommonHome extends Controller {
             $this->response->redirect($this->url->link('account/login', '', 'SSL'));
         }
 
+        if (isset($this->session->data['tg_id']) && $this->customer->isLogged()) {
+            $this->load->model('extension/module/consultation');
+    
+            $discount = (float)$this->config->get('config_consultation_price');
+
+            if ($discount > 0) {
+                $coupon_code = $this->model_extension_module_consultation->activateCustomer($this->customer->getId(), $discount);
+                $this->session->data['coupon'] = $coupon_code;
+            }
+        }
+
         $data['open_consult_modal'] = (isset($this->session->data['tg_id']) && $this->customer->isLogged());
+
         $data['consult_modal'] = $this->load->controller('extension/module/consult_modal');
             
 		$data['column_left'] = $this->load->controller('common/column_left');

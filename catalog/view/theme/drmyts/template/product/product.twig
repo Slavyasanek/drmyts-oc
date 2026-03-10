@@ -96,21 +96,27 @@
     			</div>
 
     			<div class="product-page__row flex-row j-between">
-    				{% if special %}
-    					<div class="product-price product-page__price flex-row product-price--sale">
-    						<span class="product-price__full">{{ price }}</span>
-    						<span class="product-price__sale">{{ special }}</span>
-    					</div>
-    				{% else %}
-    					<div class="product-price product-page__price flex-row">
-    						<span class="product-price__full">{{ price }}</span>
-    					</div>
-    				{% endif %}
+                    {% if not hide_price %}
+        				{% if special %}
+        					<div class="product-price product-page__price flex-row product-price--sale">
+        						<span class="product-price__full">{{ price }}</span>
+        						<span class="product-price__sale">{{ special }}</span>
+        					</div>
+        				{% else %}
+        					<div class="product-price product-page__price flex-row">
+        						<span class="product-price__full">{{ price }}</span>
+        					</div>
+        				{% endif %}
+                    {% endif %}
                     
                     {%  if quantity > 0 %}
     				<div class="product-page__availability flex-row text--upp text--size_label product-page__icon-title">
     					{{ macros.svg('check', '') }}
-    					<span>{{ stock }}</span>
+                        {% if hide_price %} 
+                            <span>Під замовлення</span>
+                        {% else %}
+    					    <span>{{ stock }}</span>
+                        {% endif %}
     				</div>
                     {% else %}
                         <div class="product-page__availability flex-row text--upp text--size_label product-page__icon-title text--color_red"> 
@@ -152,20 +158,22 @@
     			</div>
                 {% endif %}
 
-                <div class="quant-block cart-item__quant-block flex-row product-page__quantity"> 
-                    <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="minus">
-                        {{ macros.svg('minus', '') }}
-                    </button>
-                    <input class="quant-block__input text--center" type="number"  name="quantity" min="{{ minimum }}" max="{{ maximum }}" value="{{ minimum }}">
+                {% if not hide_price %}
+                    <div class="quant-block cart-item__quant-block flex-row product-page__quantity"> 
+                        <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="minus">
+                            {{ macros.svg('minus', '') }}
+                        </button>
+                        <input class="quant-block__input text--center" type="number"  name="quantity" min="{{ minimum }}" max="{{ maximum }}" value="{{ minimum }}">
 
-                    <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="plus">
-                        {{ macros.svg('plus', '') }}
-                  </button>
-                </div>
+                        <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="plus">
+                            {{ macros.svg('plus', '') }}
+                      </button>
+                    </div>
+                {% endif %}
 
-    			<div class="product-page__btns d-grid">
+    			<div class="product-page__btns d-grid {%  if quantity <= 0 or hide_price %} product-page__btns--single {% endif %}">
                     <input type="hidden" name="product_id" value="{{ product_id }}" id="product_id_handle" />
-                    {%  if quantity > 0 %}
+                    {%  if quantity > 0 and not hide_price %}
         				<button class="btn btn--theme btn--size_M btn--theme_accent text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" id="button-cart">
         					{{ macros.svg('add-to-cart', '') }}
         					<span>{{ button_cart }}</span>
@@ -173,21 +181,27 @@
                                 <div class="loader__inner abs pos-center"></div>
                             </div>
         				</button>
+
+        				<button class="btn btn--theme btn--size_M btn--theme_dark text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" id="button-quick-buy">
+        					{{ macros.svg('fast-buy', '') }}
+        					<span>{{ button_fastbuy }}</span>
+                            <div class="loader abs wh-full d-none">
+                                <div class="loader__inner abs pos-center"></div>
+                            </div>
+        				</button>
                     {% else %}
-                        <button class="btn btn--border btn--size_M btn--border_gray text--upp flex-row product-page__icon-title product-page__btn product-page__btn--no-stock j-center" type="button">  
-                            {{ macros.svg('notify', '') }}
-                            <span>{{ button_notify_availability }}</span>
-                        </button>
+                        {% if hide_price %}
+                            <a href="{{ tg_link }}" class="btn btn--border btn--size_M btn--border_gray text--upp flex-row product-page__icon-title product-page__btn product-page__btn--no-stock j-center" target="_blank" rel="noopener noreferrer">  
+                                {{ macros.svg('notify', '') }}
+                                <span>{{ button_hidden_price }}</span>
+                            </a>
+                        {% else %}
+                            <button class="btn btn--border btn--size_M btn--border_gray text--upp flex-row product-page__icon-title product-page__btn product-page__btn--no-stock j-center" type="button">  
+                                {{ macros.svg('notify', '') }}
+                                <span>{{ button_notify_availability }}</span>
+                            </button>
+                        {% endif %}
                     {% endif %}
-
-    				<button class="btn btn--theme btn--size_M btn--theme_dark text--upp flex-row product-page__icon-title product-page__btn j-center" type="button" {%  if quantity <= 0 %} disabled {% endif %} id="button-quick-buy">
-    					{{ macros.svg('fast-buy', '') }}
-    					<span>{{ button_fastbuy }}</span>
-                        <div class="loader abs wh-full d-none">
-                            <div class="loader__inner abs pos-center"></div>
-                        </div>
-    				</button>
-
     			</div>
 
     			<div class="product-page__help-links flex-row-wrap j-between">
@@ -300,7 +314,9 @@
     			</div>
                 {% endif %}
 
-                {{ blocks.consultBlock('product-page__consult') }}
+                {% if consult_data.status %}
+                    {{ blocks.consultBlock('product-page__consult', consult_data) }}
+                {% endif %}
     		</div>
         </div>
     </article>
@@ -316,7 +332,7 @@
                 <div class="splide__track slider__track">
                     <div class="splide__list slider__list">
                         {% for product in products %}
-                            {{ cards.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide', product.model ) }}
+                            {{ cards.productCard(product.thumb, product.product_id, product.name, product.manufacturer, product.brand_href, product.price, product.special, product.discount, product.in_wishlist, product.href, 'splide__slide products-slider__slide', product.model, product.hide_price, product.tg_link ) }}
                         {% endfor %}
                     </div>
                 </div>

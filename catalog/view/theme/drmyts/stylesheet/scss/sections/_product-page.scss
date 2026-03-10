@@ -89,6 +89,10 @@
 
         &__btns {
             grid-template-columns: repeat(2, 1fr);
+
+            &--single {
+                grid-template-columns: 1fr;
+            }
         }
 
         &__btn--no-stock {

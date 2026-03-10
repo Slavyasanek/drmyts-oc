@@ -1859,6 +1859,9 @@ p {
 .cart-modal__empty {
   padding-block: 2.4rem;
 }
+.cart-modal__val {
+  white-space: nowrap;
+}
 
 @media screen and (min-width: 960px) {
   .cart-modal {
@@ -4308,6 +4311,9 @@ input:checked + .product-variants__color-label::before {
   }
   .product-page__btns {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .product-page__btns--single {
+    grid-template-columns: 1fr;
   }
   .product-page__btn--no-stock {
     padding-inline: 1rem;

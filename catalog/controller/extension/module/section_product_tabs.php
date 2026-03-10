@@ -83,6 +83,10 @@ class ControllerExtensionModuleSectionProductTabs extends Controller {
                 }
             }
 
+            $consult_unlocked = $this->customer->getConsultUnlocked();
+            $hide_price = ($result['consult_only'] && !$consult_unlocked);
+
+
             $data['products'][] = array(
                 'product_id'   => $result['product_id'],
                 'thumb'        => $image,
@@ -94,7 +98,10 @@ class ControllerExtensionModuleSectionProductTabs extends Controller {
                 'special'      => $special,
                 'discount'     => $discount,
                 'in_wishlist'  => $in_wishlist,
-                'href'         => $this->url->link('product/product', 'product_id=' . $result['product_id'])
+                'href'         => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+                'hide_price' => $hide_price,
+                'tg_link' => $this->config->get('config_telegram_bot_url')
+
             );
         }
 

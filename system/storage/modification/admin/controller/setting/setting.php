@@ -250,22 +250,31 @@ class ControllerSettingSetting extends Controller {
 		}
 
 
-        if (isset($this->request->post['config_custom_header_text'])) {
-            $data['config_custom_header_text'] = $this->request->post['config_custom_header_text'];
-        } else {
-            $data['config_custom_header_text'] = $this->config->get('config_custom_header_text');
-        }
+        // Custom Header/Footer & Telegram
+        $custom_general_fields = [
+            'config_custom_header_text',
+            'config_custom_footer_text',
+            'config_telegram_bot_url'
+        ];
 
-        if (isset($this->request->post['config_custom_footer_text'])) {
-            $data['config_custom_footer_text'] = $this->request->post['config_custom_footer_text'];
-        } else {
-            $data['config_custom_footer_text'] = $this->config->get('config_custom_footer_text');
-        }
+        // Consultation Settings (Added Status)
+        $consultation_fields = [
+            'config_consultation_status',
+            'config_consultation_price',
+            'config_consultation_title',
+            'config_consultation_description',
+            'config_consultation_link',
+            'config_consultation_target'
+        ];
 
-		if (isset($this->request->post['config_telegram_bot_url'])) {
-            $data['config_telegram_bot_url'] = $this->request->post['config_telegram_bot_url'];
-        } else {
-            $data['config_telegram_bot_url'] = $this->config->get('config_telegram_bot_url');
+        $all_custom_fields = array_merge($custom_general_fields, $consultation_fields);
+
+        foreach ($all_custom_fields as $field) {
+            if (isset($this->request->post[$field])) {
+                $data[$field] = $this->request->post[$field];
+            } else {
+                $data[$field] = $this->config->get($field);
+            }
         }
             
 		if (isset($this->request->post['config_email'])) {

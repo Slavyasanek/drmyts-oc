@@ -133,10 +133,21 @@ class Customer {
 		$this->address_id = '';
 	}
 
+
+                public function getConsultUnlocked() {
+                    return isset($this->customer_id) && $this->db->query("SELECT consult_unlocked FROM " . DB_PREFIX . "customer WHERE customer_id = '" . (int)$this->customer_id . "' AND consult_unlocked = '1'")->num_rows;
+                }
+            
 	public function isLogged() {
 		return $this->customer_id;
 	}
 
+
+        public function getConsultCoupon() {
+            $query = $this->db->query("SELECT consult_coupon FROM " . DB_PREFIX . "customer WHERE customer_id = '" . (int)$this->customer_id . "'");
+            return (isset($query->row['consult_coupon'])) ? $query->row['consult_coupon'] : '';
+        }
+            
 	public function getId() {
 		return $this->customer_id;
 	}
