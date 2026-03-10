@@ -1,0 +1,189 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<div class="simplecheckout-block checkout-page__col checkout-page__col--cart" id="simplecheckout_cart" {{ hide ? 'data-hide="true"' : '' }} {{ has_error ? 'data-error="true"' : '' }}>
+    
+    {% if attention %}
+        <div class="alert alert--error alert--in-txt alert--full  simplecheckout-warning-block">{{ attention }}</div>
+    {% endif %}
+    {% if error_warning %}
+        <div class="alert alert--error alert--in-txt alert--full  simplecheckout-warning-block">{{ error_warning }}</div>
+    {% endif %}
+
+    <div class="checkout-page__cart checkout-cart"> 
+        <div class="checkout-cart__heading border--end">
+            <h2 class="checkout-cart__title text--size_h3-full m-0">{{ text_cart }} 
+                {# <span class="text--color_gray checkout-cart__count">({{ products|length }})</span> #}
+            </h2>
+        </div>
+        
+        <div class="checkout-cart__items flex-col"> 
+            {% for product in products %}
+            <div class="cart-item checkout-cart__item cart-item--type_checkout d-flex border--end">
+                <div class="cart-item__img"> 
+                    {% if product['thumb'] %}
+                        <picture>
+                            <img class="contain-image" src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" loading="lazy" width="56" height="56">
+                        </picture>
+                    {% endif %}
+                    <a class="cart-item__link abs inset wh-full" href="{{ product['href'] }}">{{ product['name'] }}</a>
+                </div>
+                <div class="cart-item__content"> 
+                    <div class="cart-item__details flex-col">
+                        <a class="cart-item__title" href="{{ product['href'] }}">{{ product['name'] }}</a>
+                        
+                        {% for option in product['option'] %}
+                            <span class="cart-item__type">- {{ option['name'] }}: {{ option['value'] }}</span>
+                        {% endfor %}
+                        {% if product['recurring'] is not empty %}
+                            <span class="cart-item__type">- {{ text_payment_profile }}: {{ product['profile_name'] }}</span>
+                        {% endif %}
+
+                        {# Prices #}
+                        <div class="product-price cart-item__price flex-row {% if product['old_price'] is not empty %}product-price--sale{% endif %}">
+                            {% if product['old_price'] is not empty %}
+                                <span class="product-price__full">{{ product['old_price'] }}</span>
+                                <span class="product-price__sale">{{ product['price'] }}</span>
+                            {% else %}
+                                <span class="product-price__full">{{ product['price'] }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="cart-item__footer flex-row-wrap j-between">
+                        <div class=" quantity quant-block cart-item__quant-block flex-row quant-block--sm"> 
+                            <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-onclick="decreaseProductQuantity" data-operation="minus" {{ product['quantity'] <= 1 ? 'disabled' : '' }}>
+                                {{ macros.svg('minus') }}
+                            </button>
+                            <input class="quant-block__input text--center" type="number" data-onchange="changeProductQuantity" {{ quantity_step_as_minimum ? 'data-minimum="' ~ product['minimum'] ~ '"' : '' }} name="quantity[{{ product['cart_id'] is not empty ? product['cart_id'] : product['key'] }}]" value="{{ product['quantity'] }}">
+                            <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-onclick="increaseProductQuantity" data-operation="plus">
+                                {{ macros.svg('plus') }}
+                            </button>
+                        </div>
+                        <button class="btn flex-center icon cart-item__delete" type="button" data-onclick="removeProduct" data-product-key="{{ product['cart_id'] is not empty ? product['cart_id'] : product['key'] }}"> 
+                            {{ macros.svg('delete') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% for voucher_info in vouchers %}
+            <div class="cart-item checkout-cart__item cart-item--type_checkout d-flex border--end">
+                <div class="cart-item__img"></div>
+                <div class="cart-item__content"> 
+                    <div class="cart-item__details flex-col">
+                        <span class="cart-item__title">{{ voucher_info['description'] }}</span>
+                        <div class="product-price cart-item__price flex-row">
+                            <span class="product-price__full">{{ voucher_info['amount'] }}</span>
+                        </div>
+                    </div>
+                    <div class="cart-item__footer flex-row-wrap j-between">
+                        <div class="quant-block cart-item__quant-block flex-row quant-block--sm"> 
+                            <input class="quant-block__input text--center" type="number" disabled value="1">
+                        </div>
+                        <button class="btn flex-center icon cart-item__delete" type="button" data-onclick="removeGift" data-gift-key="{{ voucher_info['key'] }}" title="{{ button_remove }}"> 
+                            {{ macros.svg('delete') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if modules['coupon'] is defined %}
+    <div class="coupon-block checkout__coupon"> 
+        <div class="coupon-block__heading flex-row"> 
+            <div class="coupon-block__icon rel"></div>
+            <div class="coupon-block__title text--color_red">{{ entry_coupon }}</div>
+        </div>
+        <div class="coupon-block__field custom-input custom-input--type_with-btn d-none"> 
+            <div class="custom-input__wrapper flex-row">
+                <input class="custom-input__input" type="text" name="coupon" data-onchange="reloadAll" placeholder="Ввести промокод" value="{{ coupon }}">
+                <button class="btn btn--full_black text--upp btn--size_M custom-input__btn" type="button" data-onclick="reloadAll">Застосувати</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="checkout-totals checkout__totals">
+        <div class="checkout-totals__vals border--start border--end"> 
+            {% for total in totals %}
+                {% if total['code'] != 'total' %}
+                <div class="checkout-totals__row flex-row-wrap j-between" id="total_{{ total['code'] }}"> 
+                    <p class="checkout-totals__val m-0">{{ total['title'] }}</p>
+                    <p class="checkout-totals__total m-0">
+                        {{ total['text'] }}
+                        {% if total['code'] == 'coupon' %}
+                            <span data-onclick="removeCoupon" title="{{ button_remove }}" class="btn d-block checkout-totals__remove-btn">
+                                {{ macros.svg('close', 'wh-full anim')}}
+                            </span>
+                        {% endif %}
+                        {% if total['code'] == 'voucher' %}
+                            <span data-onclick="removeVoucher" title="{{ button_remove }}"  class="btn d-block checkout-totals__remove-btn">
+                                {{ macros.svg('close', 'wh-full anim')}}
+                            </span>
+                        {% endif %}
+                        {% if total['code'] == 'reward' %}
+                            <span data-onclick="removeReward" title="{{ button_remove }}"  class="btn d-block checkout-totals__remove-btn">
+                                {{ macros.svg('close', 'wh-full anim')}}
+                            </span>
+                        {% endif %}
+                    </p>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+        {% if show_free_delivery_bar %}
+        <div class="checkout-totals__delivery free-delivery"> 
+            
+            {% if not is_free_delivery %}
+                <p class="free-delivery__heading">
+                    <div class="icon free-delivery__icon"> 
+                        {{ macros.svg('free-delivery')}}
+                    </div>
+                    <span class="m-0">До безкоштовної доставки залишилось </span>
+                    <span class="free-delivery__price text--color_red"> {{ free_delivery_left }}</span>
+                </p>
+                
+                <div class="free-delivery__track w-full rel">   
+                    <div class="free-delivery__track-inner wh-full abs inset bg--red" style="width: {{ free_delivery_percent }}%"></div>
+                </div>
+                <span class="text--color_gray free-delivery__txt d-block">Пропозиція поширюється на доставку до відділення та поштомату.</span>
+            
+            {% else %}
+                <p class="free-delivery__heading">
+                    <div class="icon free-delivery__icon"> 
+                        {{ macros.svg('free-delivery')}}
+                    </div>
+                    <span class="m-0">Вітаємо! Доставка за наш рахунок.</span>
+                </p>
+                
+                <div class="free-delivery__track w-full rel">   
+                    <div class="free-delivery__track-inner wh-full abs inset bg--red" style="width: 100%"></div>
+                </div>
+                <span class="text--color_gray free-delivery__txt d-block">Пропозиція поширюється на доставку до відділення та поштомату.</span>
+            {% endif %}
+
+        </div>
+        {% endif %}
+
+        {% for total in totals %}
+            {% if total['code'] == 'total' %}
+            <div class="checkout-totals__row-total flex-row-wrap j-between" id="total_{{ total['code'] }}"> 
+                <p class="checkout-totals__val m-0">{{ total['title'] }}</p>
+                <div class="checkout-totals__final-price flex-row product-price">
+                    <div class="product-price__full">{{ total['text'] }}</div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <input type="hidden" name="remove" value="" id="simplecheckout_remove">
+    <div style="display:none;" id="simplecheckout_cart_total">{{ cart_total }}</div>
+    {% if display_weight %}
+        <div style="display:none;" id="simplecheckout_cart_weight">{{ weight }}</div>
+    {% endif %}
+
+</div>

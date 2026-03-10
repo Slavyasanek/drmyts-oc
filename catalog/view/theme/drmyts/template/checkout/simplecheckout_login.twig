@@ -1,0 +1,38 @@
+{% import "drmyts/template/macro/macros.twig" as macros %}
+
+<div class="simplecheckout-block" id="simplecheckout_login" {{ has_error ? 'data-error="true"' : '' }}>
+    <div class="simplecheckout-block-content">
+        <button type="button" id="simple_login_header" data-onclick="close" class="btn sign-form__close">
+            {{ macros.svg('close', 'anim wh-full')}}
+        </button>
+
+        {% if error_login %}
+            <div class="alert alert--error alert--in-txt alert--full ">{{ error_login }}</div>
+        {% endif %}
+
+        <div class="sign-form__form sign-form__form--embed">
+            <div class="sign-form__fields checkout-form__fields d-grid m-0">
+                <div class="sign-form__field custom-input">
+                    <input class="custom-input__input" type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" data-onkeydown="detectEnterAndLogin" required="">
+                    <div class="custom-input__error d-none">{{ error_required_field }}</div>
+                </div>
+                
+                <div class="sign-form__field custom-input custom-input--type_password rel"> 
+                    <input class="custom-input__input" type="password" name="password" value="" placeholder="{{ entry_password }}" data-onkeydown="detectEnterAndLogin" required="">
+                    <button class="btn flex-center custom-input__icon abs" type="button"> 
+                        {{ macros.svg('eye')}}
+                    </button>
+                    <div class="custom-input__error d-none">{{ error_required_field }}</div>
+                </div>
+            </div>
+            
+            <button id="simplecheckout_button_login" data-onclick="login" class="text--upp btn--theme btn--theme_accent w-full btn btn--size_M sign-form__submit" type="button">
+                {{ button_login }}
+            </button>
+            
+            <div class="sign-form__footer flex-row j-end"> 
+                <a class="sign-form__page-link" href="{{ forgotten }}">{{ text_forgotten }}</a>
+            </div>
+        </div>
+    </div>
+</div>

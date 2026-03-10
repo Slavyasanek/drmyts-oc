@@ -1,0 +1,77 @@
+<div class="simplecheckout-block checkout-form__group" id="simplecheckout_payment" {{ hide ? 'data-hide="true"' : '' }} {{ display_error and has_error ? 'data-error="true"' : '' }}>
+    
+    <div class="checkout-form__group-heading border--end"> 
+        <h3 class="checkout-form__group-title text--size_h3-full m-0">
+            {% if display_header %}{{ text_checkout_payment_method }}{% else %}Оплата{% endif %}
+        </h3>
+    </div>
+
+    <div class="alert alert--error alert--full alert--in-txt simplecheckout-warning-block" {{ display_error and has_error_payment ? '' : 'style="display:none"' }}>
+        {{ error_payment }}
+    </div>
+
+    <div class="simplecheckout-block-content">
+        {% if payment_methods is not empty %}
+            
+            <div class="checkout-form__payment-options flex-row-wrap payment-btns"> 
+                {% for payment_method in payment_methods %}
+                    
+                    {# Hidden input binding for Simple Checkout #}
+                    <input class="payment-btns__input hidden" type="radio" data-onchange="reloadAll" name="payment_method" value="{{ payment_method['code'] }}" id="{{ payment_method['code'] }}" {{ payment_method['dummy'] is not empty ? 'disabled="disabled"' : '' }} {{ payment_method['dummy'] is not empty ? 'data-dummy="true"' : '' }} {% if payment_method['code'] == code %}checked="checked"{% endif %}>
+                    
+                    {# Label block acting as the button #}
+                    <label class="payment-btns__label flex-center text--center anim btn--size_M text--upp btn--border_gray" for="{{ payment_method['code'] }}"> 
+                        
+                        {# 
+                            Conditional logic to show the right SVG based on the OpenCart payment code.
+                            You may need to adjust the exact string (e.g., 'liqpay', 'google_pay') to match 
+                            the actual payment method codes installed in your OpenCart admin. 
+                        #}
+                        {% if 'liqpay' in payment_method['code'] %}
+                            <svg role="presentation"><use href="./assets/svg/sprite.svg#liqpay"></use></svg>
+                        {% elseif 'google_pay' in payment_method['code'] %}
+                            <svg role="presentation"><use href="./assets/svg/sprite.svg#google-pay"></use></svg>
+                        {% elseif 'mono' in payment_method['code'] %}
+                            <svg role="presentation"><use href="./assets/svg/sprite.svg#mono-plata"></use></svg>
+                        {% else %}
+                            {# Fallback to standard text (like "Платіж з післяплатою" or "Cash on Delivery") #}
+                            {{ payment_method['title'] }}
+                        {% endif %}
+
+                        {% if payment_method['terms'] is not empty %}
+                            <span class="payment-terms d-block" style="font-size: 10px;">{{ payment_method['terms'] }}</span>
+                        {% endif %}
+
+                    </label>
+
+                    {# Description and Extra Dynamic Fields (if applicable) #}
+                    {% if payment_method['description'] is not empty and (display_for_selected is empty or (display_for_selected is not empty and payment_method['code'] == code)) %}
+                        <div class="checkout-form__description w-full text--color_gray" style="margin-top: 10px; font-size: 14px;">
+                            <label for="{{ payment_method['code'] }}">{{ payment_method['description'] }}</label>
+                        </div>
+                    {% endif %}
+                    
+                    {% if payment_method['code'] == code and rows is not empty %}
+                        <div class="checkout-form__destination w-full" style="margin-top: 15px;">
+                            {% for row in rows %}
+                                {{ row }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+            </div>
+
+            <input type="hidden" name="payment_method_current" value="{{ code }}" />
+            <input type="hidden" name="payment_method_checked" value="{{ checked_code }}" />
+        {% endif %}
+
+        {% if payment_methods is empty and address_empty and display_address_empty %}
+            <div class="simplecheckout-warning-text" style="margin-top: 15px;">{{ text_payment_address }}</div>
+        {% endif %}
+        
+        {% if payment_methods is empty and not address_empty %}
+            <div class="simplecheckout-warning-text" style="margin-top: 15px;">{{ error_no_payment }}</div>
+        {% endif %}
+    </div>
+</div>

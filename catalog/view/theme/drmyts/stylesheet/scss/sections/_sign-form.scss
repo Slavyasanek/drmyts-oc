@@ -11,6 +11,10 @@
         width: min(100%, 37rem);
     }
 
+    &__form--embed {
+        width: 100%;
+    }
+
     &__fields {
         gap: 1.2rem;
     }
@@ -63,12 +67,46 @@
     &__choices {
         gap: .8rem 1.2rem;
     }
+
+    &__close {
+        @include mixins.square(3.2rem);
+        margin-inline-start: auto;
+        display: block;
+        margin-block: .5em;
+
+        svg {
+            stroke: var(--color-dark);
+        }
+
+        @include mixins.hover {
+            svg {
+                stroke: var(--color-red);
+            }
+        }
+    }
 }
 // End inner
+
+@include mixins.min-M {
+    .sign-form {
+        &__form--embed {
+            .sign-form {
+                &__submit {
+                    width: 50%;
+                    margin-inline: 0;
+                }
+            }
+        }
+    }
+    // End inner
+}
+// End M
 
 @include mixins.min-LXL {
     .sign-form {
         padding-block: 4.8rem 12.8rem;
         
     }
+    // End inner
 }
+// End LXL

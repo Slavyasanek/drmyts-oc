@@ -1,0 +1,21 @@
+{{ header }}
+
+{% import "drmyts/template/macro/sections.twig" as sections %}
+
+{{ sections.pageTitle(heading_title) }}
+
+{{ content_top }}
+
+<section class="checkout-page" id="content">
+    {% if error_warning %}
+        <div class="alert alert--error alert--fixed alert-dismissible">
+            <button type="button" class="btn btn--icon alert__close" data-dismiss="alert">&times;</button>
+            {{ error_warning }}
+        </div>
+    {% endif %}
+    <div class="container">
+
+       
+
+      
+      

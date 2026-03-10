@@ -1,4 +1,4 @@
-2026-02-27 14:49:58 - MOD: Modification Default
+2026-03-09 15:59:52 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -26,6 +26,18 @@ LINE: 18
 FILE: system/library/template/twig.php
 CODE: if (is_file($file)) {
 LINE: 13
+----------------------------------------------------------------
+MOD: Fix for twig
+CODE: $loader = new \Twig_Loader_Array(array($filename . '.twig' => $code));
+NOT FOUND - OPERATION SKIPPED!
+CODE: $loader = new \Twig\Loader\ArrayLoader(array($filename . '.twig' => $code));
+LINE: 34
+----------------------------------------------------------------
+MOD: 2 simple url rewrite
+
+FILE: catalog/controller/startup/startup.php
+CODE: $this->registry->set('url'
+LINE: 47
 ----------------------------------------------------------------
 MOD: Account Order Page (Images + Filters)
 

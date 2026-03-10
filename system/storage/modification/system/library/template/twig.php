@@ -32,7 +32,11 @@ final class Twig {
 		);
 
 		try {
-			//$loader = new \Twig\Loader\ArrayLoader(array($filename . '.twig' => $code));
+			//
+            $loader1 = new \Twig_Loader_Array(array($filename . '.twig' => $code));
+            $loader2 = new \Twig_Loader_Filesystem(array(DIR_TEMPLATE));
+            $loader = new \Twig_Loader_Chain(array($loader1, $loader2));
+            
 
 			$loader1 = new \Twig_Loader_Array(array($filename . '.twig' => $code));
             $loader2 = new \Twig_Loader_Filesystem(array(DIR_TEMPLATE)); // to find further includes

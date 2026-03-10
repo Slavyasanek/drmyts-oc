@@ -4,6 +4,7 @@
             {% if heading_title %}
 			    <h1 class="text--upp text--size_h2-mob text--size_h2-desk page-title__title m-0">{{ heading_title }}</h1>
             {% endif %}
+            {% if breadcrumbs %}
 			<div class="breadcrumbs text--color_gray page-title__breadcrumbs">
 				<div class="breadcrumbs__list flex-row">
 					{% for breadcrumb in breadcrumbs %}
@@ -11,6 +12,7 @@
                     {% endfor %}
 				</div>
 			</div>
+            {% endif %}
 		</div>
 	</div>
 {% endmacro %}

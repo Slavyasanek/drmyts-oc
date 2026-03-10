@@ -9,6 +9,7 @@
         width: calc((100% - .6rem) / 2);
         cursor: pointer;
         padding-block: 1.4rem;
+        padding-inline: 0;
 
         svg {
             transition: var(--transition-general);

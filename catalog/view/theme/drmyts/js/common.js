@@ -616,19 +616,19 @@ class PhotoUploadHandler {
 }
 
 
-// FAQ & ELSE DROPDOWNS
-const toggleDropdowns = (className, headingClassName) => {
-    Array.from(document.querySelectorAll(className)).forEach(acc => {
-        acc.querySelector(headingClassName).addEventListener("click", e => {
-            if (document.querySelector(`${className}.active`) && document.querySelector(`${className}.active`) != acc) {
-                document.querySelector(`${className}.active`).ariaExpanded = false;
-                document.querySelector(`${className}.active`).classList.remove('active');
-            }
-            acc.classList.toggle('active');
-            acc.ariaExpanded = acc.classList.contains('active');
-        })
-    })
-}
+// // FAQ & ELSE DROPDOWNS
+// const toggleDropdowns = (className, headingClassName) => {
+//     Array.from(document.querySelectorAll(className)).forEach(acc => {
+//         acc.querySelector(headingClassName).addEventListener("click", e => {
+//             if (document.querySelector(`${className}.active`) && document.querySelector(`${className}.active`) != acc) {
+//                 document.querySelector(`${className}.active`).ariaExpanded = false;
+//                 document.querySelector(`${className}.active`).classList.remove('active');
+//             }
+//             acc.classList.toggle('active');
+//             acc.ariaExpanded = acc.classList.contains('active');
+//         })
+//     })
+// }
 
 // MODAL class
 class Modal {
@@ -660,72 +660,155 @@ class Modal {
 }
 
 // CUSTOM SELECT
-class CustomSelect {
-    constructor(containerElement) {
-        this.container = typeof containerElement === 'string' ? document.querySelector(containerElement) : containerElement;
-        if (!this.container) {
-            console.error('CustomSelect: Container element not found.');
-            return;
-        }
+// class CustomSelect {
+//     constructor(containerElement) {
+//         this.container = typeof containerElement === 'string' ? document.querySelector(containerElement) : containerElement;
+//         if (!this.container) {
+//             console.error('CustomSelect: Container element not found.');
+//             return;
+//         }
 
-        this.heading = this.container.querySelector('.custom-select__heading');
-        this.displaySpan = this.heading.querySelector('span');
-        this.dropdown = this.container.querySelector('.custom-select__dropdown');
-        this.hiddenInput = this.container.querySelector('input[type="hidden"]');
+//         this.heading = this.container.querySelector('.custom-select__heading');
+//         this.displaySpan = this.heading.querySelector('span');
+//         this.dropdown = this.container.querySelector('.custom-select__dropdown');
+//         this.hiddenInput = this.container.querySelector('input[type="hidden"]');
         
-        // State
-        this.isOpen = false;
+//         // State
+//         this.isOpen = false;
 
-        this.toggleDropdownBound = this.toggleDropdown.bind(this);
-        this.selectOptionBound = this.selectOption.bind(this);
-        this.handleClickOutsideBound = this.handleClickOutside.bind(this);
+//         this.toggleDropdownBound = this.toggleDropdown.bind(this);
+//         this.selectOptionBound = this.selectOption.bind(this);
+//         this.handleClickOutsideBound = this.handleClickOutside.bind(this);
 
 
-        this.heading.addEventListener('click', this.toggleDropdownBound);
-        this.dropdown.addEventListener("click", this.selectOptionBound);
-        this.classes = {
-            activeClass: 'active',
-            optionClass: 'custom-select__option',
-            errorClass: 'invalid'
+//         this.heading.addEventListener('click', this.toggleDropdownBound);
+//         this.dropdown.addEventListener("click", this.selectOptionBound);
+//         this.classes = {
+//             activeClass: 'active',
+//             optionClass: 'custom-select__option',
+//             errorClass: 'invalid'
+//         }
+
+//     }
+
+//     toggleDropdown() {
+//         this.isOpen = !this.isOpen;
+//         this.container.classList.toggle(this.classes.activeClass, this.isOpen);
+//         this.isOpen ? document.addEventListener('click', this.handleClickOutsideBound) : document.removeEventListener('click', this.handleClickOutsideBound);
+//     }
+
+//     selectOption(event) {
+//         if (event.target.closest(`.${this.classes.optionClass}`)) {
+//             const selectedOption = event.target.closest(`.${this.classes.optionClass}`);
+//             if (selectedOption.querySelector('input[type="radio"]') || selectedOption.querySelector('input[type="checkbox"]')) {
+//                 selectedOption.querySelector('input').checked = true;
+//             }
+//             const newText = selectedOption.textContent.trim();
+//             const newValue = selectedOption.dataset.value || newText; 
+//             this.updateSelection(newText, newValue);
+//             if (this.dropdown.querySelector(`.${this.classes.optionClass}.${this.classes.activeClass}`)) {
+//                 this.dropdown.querySelector(`.${this.classes.optionClass}.${this.classes.activeClass}`).classList.remove(this.classes.activeClass);
+//             }
+//             selectedOption.classList.add(this.classes.activeClass);
+//             this.container.classList.remove(this.classes.errorClass)
+//             this.toggleDropdown();
+//         }
+//     }
+
+//     updateSelection(text, value) {
+//         this.displaySpan.textContent = text;
+//         if (this.hiddenInput) this.hiddenInput.value = value;
+//     }
+
+//     handleClickOutside(event) {
+//         if (this.isOpen && !this.container.contains(event.target)) {
+//             this.toggleDropdown();
+//         }
+//     }
+// }
+const customSelectInstances = new WeakMap();
+
+class CustomSelect {
+    constructor(element) {
+        this.container = element;
+        this.heading = this.container.querySelector('.custom-select__heading');
+        this.displaySpan = this.heading ? this.heading.querySelector('span') : null;
+        this.dropdown = this.container.querySelector('.custom-select__dropdown');
+        this.searchInput = this.container.querySelector('input[type="search"]');
+
+        const wrapper = this.container.closest('.custom-input, .checkout-form__field, .form-group') || this.container.parentElement;
+        this.realSelect = wrapper.querySelector('select');
+
+        customSelectInstances.set(this.container, this);
+    }
+
+    toggle() {
+        const isOpen = this.container.classList.contains('active');
+
+        document.querySelectorAll('.custom-select.active').forEach(el => {
+            if (el !== this.container) el.classList.remove('active');
+        });
+
+        if (isOpen) {
+            this.close();
+        } else {
+            this.open();
         }
-
     }
 
-    toggleDropdown() {
-        this.isOpen = !this.isOpen;
-        this.container.classList.toggle(this.classes.activeClass, this.isOpen);
-        this.isOpen ? document.addEventListener('click', this.handleClickOutsideBound) : document.removeEventListener('click', this.handleClickOutsideBound);
+    open() {
+        this.container.classList.add('active');
+        if (this.searchInput) {
+            setTimeout(() => this.searchInput.focus(), 50);
+        }
     }
 
-    selectOption(event) {
-        if (event.target.closest(`.${this.classes.optionClass}`)) {
-            const selectedOption = event.target.closest(`.${this.classes.optionClass}`);
-            if (selectedOption.querySelector('input[type="radio"]') || selectedOption.querySelector('input[type="checkbox"]')) {
-                selectedOption.querySelector('input').checked = true;
+    close() {
+        this.container.classList.remove('active');
+        if (this.searchInput) {
+            this.searchInput.value = ''; 
+            this.filterOptions(''); 
+        }
+    }
+
+    selectOption(optionNode) {
+        const text = optionNode.textContent.trim();
+        const value = optionNode.hasAttribute('data-value') ? optionNode.dataset.value : text;
+
+        if (this.displaySpan) this.displaySpan.textContent = text;
+
+        const currentActive = this.dropdown.querySelector('.custom-select__option.active');
+        if (currentActive) currentActive.classList.remove('active');
+        
+        optionNode.classList.add('active');
+        this.container.classList.remove('invalid'); 
+        
+        this.close();
+
+        if (this.realSelect && this.realSelect.value !== value) {
+            this.realSelect.value = value;
+
+            this.realSelect.dispatchEvent(new Event('change', { bubbles: true }));
+            if (typeof window.jQuery !== 'undefined') {
+                window.jQuery(this.realSelect).trigger('change');
             }
-            const newText = selectedOption.textContent.trim();
-            const newValue = selectedOption.dataset.value || newText; 
-            this.updateSelection(newText, newValue);
-            if (this.dropdown.querySelector(`.${this.classes.optionClass}.${this.classes.activeClass}`)) {
-                this.dropdown.querySelector(`.${this.classes.optionClass}.${this.classes.activeClass}`).classList.remove(this.classes.activeClass);
+        }
+    }
+
+    filterOptions(query) {
+        const options = this.container.querySelectorAll('.custom-select__option');
+        options.forEach(option => {
+            const text = option.textContent.toLowerCase();
+            const value = option.dataset.value || '';
+            if (text.includes(query) || value === "") {
+                option.style.display = '';
+            } else {
+                option.style.display = 'none';
             }
-            selectedOption.classList.add(this.classes.activeClass);
-            this.container.classList.remove(this.classes.errorClass)
-            this.toggleDropdown();
-        }
-    }
-
-    updateSelection(text, value) {
-        this.displaySpan.textContent = text;
-        if (this.hiddenInput) this.hiddenInput.value = value;
-    }
-
-    handleClickOutside(event) {
-        if (this.isOpen && !this.container.contains(event.target)) {
-            this.toggleDropdown();
-        }
+        });
     }
 }
+
 // QUANTITY BLOCK
 class QuantityChanger {
     constructor(container) {
@@ -785,46 +868,86 @@ class QuantityChanger {
 
 const modalHandler = new Modal();
 
+
+// --- LISTENERS INITIALIZE ----
 document.addEventListener("DOMContentLoaded", () => {
     new MobileMenu('.header-menu', 'is-active', '.header__toggler', '.header-menu__close');
+
     if (document.querySelector('.photo-upload')) {
         Array.from(document.querySelectorAll('.photo-upload:not(.photo-upload--custom-field)')).forEach(photoUpload => {
             new PhotoUploadHandler(photoUpload);
         })
     }
 
-    // PASSWORD INPUTS
-    if (document.querySelector('.custom-input--type_password')) {
-        document.querySelectorAll('.custom-input--type_password').forEach(passInput => {
-            passInput.querySelector('.custom-input__icon').addEventListener("click", e => {
-                passInput.querySelector('input').type = passInput.querySelector('input').type === 'text' ? 'password' : 'text';
-            })
-        })
-    }
+    // --- DROPDOWNS ----
+    const dropdownConfigs = [
+        { containerClass: '.coupon-block', triggerClass: '.coupon-block__heading' },
+        { containerClass: '.checkout-comment', triggerClass: '.checkout-comment__toggler' },
+        { containerClass: '.accordion', triggerClass: '.accordion__heading' },
+        { containerClass: '.order-item', triggerClass: '.order-item__heading' } 
+    ];
 
-    if (document.querySelector('.accordion')) {
-        toggleDropdowns('.accordion', '.accordion__heading');
-    }
+    // --- SINGLE CLICK LISTENER FOR PAGE ---
+    document.addEventListener('click', (event) => {
+        
+        // --- DROPDOWNS ---
+        for (const config of dropdownConfigs) {
+            const triggerClicked = event.target.closest(config.triggerClass);
+            
+            if (triggerClicked) {
+                const container = triggerClicked.closest(config.containerClass);
+                if (!container) continue;
 
+                const isCurrentlyActive = container.classList.contains('active');
 
-    if (document.querySelector('.custom-select')) document.querySelectorAll('.custom-select').forEach(sl => new CustomSelect(sl));
-    if (document.querySelector('.quant-block')) document.querySelectorAll('.quant-block').forEach(q => new QuantityChanger(q));
+                document.querySelectorAll(`${config.containerClass}.active`).forEach(activeContainer => {
+                    if (activeContainer !== container) {
+                        activeContainer.classList.remove('active');
+                        activeContainer.ariaExpanded = 'false';
+                    }
+                });
 
+                if (isCurrentlyActive) {
+                    container.classList.remove('active');
+                    container.ariaExpanded = 'false';
+                } else {
+                    container.classList.add('active');
+                    container.ariaExpanded = 'true';
+                }
 
-    // ORDERS
-    if (document.querySelector('.order-item')) {
-        toggleDropdowns('.order-item', '.order-item__heading');
-    }
+                return; 
+            }
+        }
+        
 
-    document.addEventListener("click", e => {
+        // --- CUSTOM SELECTS --- 
+        if (document.querySelector('.custom-select')) {
+            const customSelectNode = event.target.closest('.custom-select');
+            
+            if (!customSelectNode) {
+                document.querySelectorAll('.custom-select.active').forEach(el => el.classList.remove('active'));
+            } else {
+                let instance = customSelectInstances.get(customSelectNode);
+                if (!instance) {
+                    instance = new CustomSelect(customSelectNode);
+                }
+
+                if (event.target.closest('.custom-select__heading')) {
+                    instance.toggle();
+                } else if (event.target.closest('.custom-select__option')) {
+                    instance.selectOption(event.target.closest('.custom-select__option'));
+                }
+            }
+        }
+
         // OPEN MODAL
-        if (e.target.closest('[data-modal-open]')) {
-            const target = e.target.closest('[data-modal-open]');
+        if (event.target.closest('[data-modal-open]')) {
+            const target = event.target.closest('[data-modal-open]');
             const modalId = target.dataset.modalOpen;
 
             if (modalId) {
                 if (document.querySelector(`[data-modal="${modalId}"]`)) {
-                    e.preventDefault();
+                    event.preventDefault();
                     const modal = document.querySelector(`[data-modal="${modalId}"]`);
                     modalHandler.openModal(modal);
                 }
@@ -832,15 +955,53 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // CLOSE MODAL
-        if (e.target.closest('[data-modal-close]')) {
-            const target = e.target.closest('[data-modal-close]');
+        if (event.target.closest('[data-modal-close]')) {
+            const target = event.target.closest('[data-modal-close]');
             const modal = target.closest('.backdrop');
             if (modal) modalHandler.closeModal(modal);
         }
 
-        if (e.target.closest('.alert__close')) {
-            e.target.closest('.alert').remove();
+        if (event.target.closest('.alert__close')) {
+            event.target.closest('.alert').remove();
         }
-    })
-    
+
+
+        // --- PASS TOGGLER ---
+        if (event.target.closest('.custom-input--type_password .custom-input__icon')) {
+            const wrapper = event.target.closest('.custom-input--type_password');
+            wrapper.querySelector('input').type = wrapper.querySelector('input').type === 'text' ? 'password' : 'text';
+        }
+    });
+    // --- END SINGLE CLICK LISTENER ----
+
+    // --- SIGNLE INPUT LISTENER ----
+    document.addEventListener('input', (event) => {
+        if (event.target.matches('.custom-select__search input')) {
+            const customSelectNode = event.target.closest('.custom-select');
+            if (customSelectNode) {
+                let instance = customSelectInstances.get(customSelectNode);
+                if (!instance) instance = new CustomSelect(customSelectNode);
+                
+                instance.filterOptions(event.target.value.toLowerCase().trim());
+            }
+        }
+
+        if (event.target.closest('.custom-input--type_textarea-count')) {
+            const textarea = event.target;
+            const container = textarea.closest('.custom-input--type_textarea-count');
+            
+            if (container && textarea.tagName === 'TEXTAREA') {
+                const counter = container.querySelector('.custom-input__count');
+                
+                if (counter) {
+                    const maxLength = textarea.getAttribute('maxlength') || 150;
+                    const currentLength = textarea.value.length;
+                    counter.textContent = `${currentLength}/${maxLength}`;
+                }
+            }
+        }
+    });
+    // --- END SINGLE INPUT LISTENER ----
+
+    // if (document.querySelector('.quant-block')) document.querySelectorAll('.quant-block').forEach(q => new QuantityChanger(q));
 })
