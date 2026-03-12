@@ -13,6 +13,9 @@ class ControllerCommonHome extends Controller {
 			$this->document->addLink($canonical, 'canonical');
 		}
 
+
+       
+        // Консультація: фіксуємо ID та перевіряємо авторизацію
         if (isset($this->request->get['consult_modal'])) {
             $this->session->data['tg_id'] = $this->request->get['consult_modal'];
             $this->session->data['show_consult_warning'] = true;

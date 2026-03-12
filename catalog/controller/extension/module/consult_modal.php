@@ -71,18 +71,18 @@ class ControllerExtensionModuleConsultModal extends Controller {
 
                 $this->model_extension_module_consultation->addConsultation($this->request->post, $uploaded_photos);
 
-                $tg_id = $this->session->data['tg_id'];
+                // $tg_id = $this->session->data['tg_id'];
                 unset($this->session->data['tg_id']);
                 unset($this->session->data['show_consult_warning']);
 
-                $bot_main_link = $this->config->get('config_telegram_bot_url');
+                $bot_main_link = $this->config->get('config_telegram_redirect_bot_url');
             
                 if (!$bot_main_link) {
                     $bot_main_link = 'https://t.me/your_default_bot';
                 }
 
                 $json['success'] = true;
-                $json['redirect'] = rtrim($bot_main_link, '/') . '' . $tg_id;
+                $json['redirect'] = rtrim($bot_main_link, '/');
             }
         }
 

@@ -254,7 +254,8 @@ class ControllerSettingSetting extends Controller {
         $custom_general_fields = [
             'config_custom_header_text',
             'config_custom_footer_text',
-            'config_telegram_bot_url'
+            'config_telegram_bot_url',
+            'config_telegram_redirect_bot_url'
         ];
 
         // Consultation Settings (Added Status)
