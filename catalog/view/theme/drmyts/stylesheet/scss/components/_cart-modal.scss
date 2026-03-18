@@ -42,13 +42,22 @@
         flex-grow: 1;
         overflow-y: auto;
 
+        // &::-webkit-scrollbar {
+        //     width: .2rem;
+        //     background-color: rgba(28, 28, 28, 0.10);
+        // }
+
+        // &::-webkit-scrollbar-thumb {
+        //     background-color: var(--color-red);
+        // }
+
         &::-webkit-scrollbar {
+            background-color: transparent;
             width: .2rem;
-            background-color: rgba(28, 28, 28, 0.10);
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: var(--color-red);
+            background-color: transparent;
         }
     }
 

@@ -67,7 +67,7 @@
                         {% endif %}
                     </div>
                     <div class="sign-form__field custom-input {% if error_telephone %} invalid {% endif %}">
-                        <input class="custom-input__input" type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" />
+                        <input class="custom-input__input" type="tel" name="telephone" data-simple-mask="+38(099)999-99-99" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone" />
                         {% if error_telephone %}
                             <div class="custom-input__error">{{ error_telephone }}</div>
                         {% endif %}

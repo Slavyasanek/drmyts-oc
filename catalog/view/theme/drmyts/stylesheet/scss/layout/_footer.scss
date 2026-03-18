@@ -105,11 +105,17 @@
 
         &__nav {
             max-width: 50%;
-            gap: 3rem;
+            gap: 4.7rem;
         }
 
         &__menu-wr {
-            width: calc((100% - 8rem) / 3);
+            width: calc((100% - 9.4rem) / 3);
+            
+
+            &:last-child {
+                width: auto;
+                margin-inline-start: auto;
+            }
         }
 
         &__bottom-menu {

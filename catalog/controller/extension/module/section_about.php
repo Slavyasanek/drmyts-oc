@@ -9,7 +9,7 @@ class ControllerExtensionModuleSectionAbout extends Controller {
         $data['subtitle'] = $setting['subtitle'] ?? '';
        
         $data['title'] = isset($setting['title']) ? html_entity_decode($setting['title'], ENT_QUOTES, 'UTF-8') : '';
-        $data['help_block_text'] = $setting['help_block_text'] ?? '';
+        $data['help_block_text'] = html_entity_decode($setting['help_block_text'], ENT_QUOTES, 'UTF-8') ?? '';
 
         if (!empty($setting['image'])) {
             $data['image'] = $this->model_tool_image->resize($setting['image'], 350, 448);

@@ -1,4 +1,4 @@
-2026-03-12 15:14:45 - MOD: Modification Default
+2026-03-18 14:34:26 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -86,7 +86,7 @@ LINE: 39
 
 FILE: catalog/controller/account/edit.php
 CODE: $data['breadcrumbs'] = array();
-LINE: 41
+LINE: 42
 
 FILE: catalog/controller/account/password.php
 CODE: $data['breadcrumbs'] = array();
@@ -272,16 +272,20 @@ CODE: $data['customer_name'] = '';
 LINE: 389
 CODE: if ($product_info['minimum']) {
 LINE: 372
+CODE: $product_option_value_data[] = array(
+LINE: 345
+CODE: $data['product_id'] = (int)$this->request->get['product_id'];
+LINE: 275
 CODE: if (!is_null($product_info['special']) && (float)$product_info['special'] >= 0) {
-LINE: 310
+LINE: 331
 CODE: $results = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
-LINE: 444
+LINE: 468
 CODE: $data['products'] = array();
-LINE: 430
+LINE: 454
 CODE: $data['products'][] = array(
-LINE: 502
+LINE: 526
 CODE: 'rating'      => $rating,
-LINE: 517
+LINE: 541
 ----------------------------------------------------------------
 MOD: Products hidden price
 
@@ -346,40 +350,9 @@ FILE: catalog/controller/checkout/cart.php
 CODE: $this->load->language('checkout/cart');
 LINE: 9
 ----------------------------------------------------------------
-MOD: Review Images
-CODE: public function review() {
-LINE: 649
-CODE: $data['reviews'][] = array(
-LINE: 677
-CODE: 'rating'     => (int)$result['rating'],
-LINE: 683
-CODE: $pagination->limit = 5;
-LINE: 691
-CODE: $results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
-LINE: 664
-CODE: if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
-LINE: 756
-
-FILE: admin/controller/catalog/review.php
-CODE: public function delete() {
-LINE: 125
-CODE: if (isset($this->request->post['author'])) {
-LINE: 517
-CODE: $data['header'] = $this->load->controller('common/header');
-LINE: 421
-LINE: 611
-
-FILE: admin/model/catalog/review.php
-CODE: public function addReview($data) {
-LINE: 5
-CODE: public function editReview($review_id, $data) {
-LINE: 25
-CODE: $this->db->query("DELETE FROM " . DB_PREFIX . "review WHERE review_id = '" . (int)$review_id . "'");
-LINE: 46
-CODE: public function getReview($review_id) {
-LINE: 57
-CODE: $sql .= " ORDER BY " . $data['sort'] . " " . $data['order'];
-NOT FOUND - OPERATIONS ABORTED!
+MOD: Remove from wishlist
+CODE: public function add() {
+LINE: 166
 ----------------------------------------------------------------
 MOD: Shop
 CODE: $data['products'][] = array(

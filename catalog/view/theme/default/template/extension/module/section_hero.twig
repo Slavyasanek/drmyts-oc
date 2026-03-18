@@ -52,7 +52,7 @@
                         </div>
                         <h2 class="benefit-card__title text--center">
                             <span class="text--color_accent text--size_h3-full text--size_h2-desk">{{ card.num }}</span>
-                            <span class="text--size_sm">{{ card.text }}</span>
+                            <span class="text--size_sm">{{ card.text|raw }}</span>
                         </h2>
                     </div>
                 {% endfor %}

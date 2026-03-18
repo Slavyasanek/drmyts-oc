@@ -170,6 +170,20 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
             $old_price = null;
 
             $product_info = $this->model_catalog_product->getProduct($product['product_id']);
+            
+            // Start with base product stock
+            $maximum = isset($product_info['quantity']) ? $product_info['quantity'] : 1;
+
+            // Check selected options for bottlenecks
+            if (!empty($product['option'])) {
+                foreach ($product['option'] as $cart_option) {
+                    if (isset($cart_option['subtract']) && $cart_option['subtract'] && isset($cart_option['quantity'])) {
+                        if ($cart_option['quantity'] < $maximum) {
+                            $maximum = $cart_option['quantity'];
+                        }
+                    }
+                }
+            }
 
             if ($product_info['special']) {
                 $old_price = $this->simplecheckout->formatCurrency($this->tax->calculate($product_info['price'], $product['tax_class_id'], $this->config->get('config_tax')));
@@ -217,7 +231,8 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
                     'price'     => $price,
                     'old_price' => $old_price,
                     'total'     => $total,
-                    'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id'])
+                    'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id']),
+                    'maximum' => $maximum
                 );
             } elseif ($version >= 156) {
                 $profile_description = '';

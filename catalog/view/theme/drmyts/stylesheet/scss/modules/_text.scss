@@ -11,6 +11,10 @@
         text-transform: none;
     }
 
+    &_dark {
+        color: var(--color-dark);
+    }
+
     &_gray {
         color: var(---color-secodnary-text);
     }

@@ -108,7 +108,8 @@
 .btn--border {
     &_gray {
         border: .1rem solid var(--color-half-dark);
-
+        color: var(--color-dark);
+        
         svg {
             stroke: var(--color-dark);
         }
@@ -166,9 +167,10 @@
     }
     
     &_M {
-        padding: 1.6rem 3.2rem;
+        padding: 1.7rem 3.2rem;
         font-size: 1.4rem;
         line-height: 130%;
+        font-weight: 500;
         border-radius: 1.2rem;
     }
 }

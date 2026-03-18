@@ -224,6 +224,41 @@ var voucher = {
 }
 
 var wishlist = {
+    'toggle': function(buttonElement, product_id) {
+        var $btn = $(buttonElement);
+        var isLiked = $btn.hasClass('liked'); 
+        var ajaxUrl = isLiked ? 'index.php?route=account/wishlist/remove' : 'index.php?route=account/wishlist/add';
+
+        $.ajax({
+            url: ajaxUrl,
+            type: 'post',
+            data: 'product_id=' + product_id,
+            dataType: 'json',
+            success: function(json) {
+                $('.alert-dismissible').remove();
+
+                if (json['redirect']) {
+                    location = json['redirect'];
+                }
+
+                if (json['success']) {
+                    if (isLiked) {
+                        $btn.removeClass('liked');
+                    } else {
+                        $btn.addClass('liked');
+                    }
+                    
+                    $('#content').before('<div class="alert alert--info alert--fixed alert-dismissible">  <button type="button" class="btn btn--icon alert__close" data-dismiss="alert">&times;</button>' + json['success'] + '</div>');
+                }
+
+                $('#wishlist-total').html(json['total']);
+                $('#wishlist-total').attr('title', json['total']);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    },
 	'add': function(product_id) {
 		$.ajax({
 			url: 'index.php?route=account/wishlist/add',
@@ -233,28 +268,55 @@ var wishlist = {
 			success: function(json) {
 				$('.alert-dismissible').remove();
 
-				if (json['redirect']) {
-					location = json['redirect'];
-				}
+                if (json['redirect']) {
+                    location = json['redirect'];
+                }
 
-				if (json['success']) {
+                if (json['success']) {
                     $('[onclick="wishlist.add(\'' + product_id + '\');"]').addClass('liked');
 					$('#content').before('<div class="alert alert--info alert--fixed alert-dismissible">  <button type="button" class="btn btn--icon alert__close" data-dismiss="alert">&times;</button>' + json['success'] + '</div>');
 				}
 
-				$('#wishlist-total').html(json['total']);
-				$('#wishlist-total').attr('title', json['total']);
+                $('#wishlist-total').html(json['total']);
+                $('#wishlist-total').attr('title', json['total']);
 
-				$('html, body').animate({ scrollTop: 0 }, 'slow');
-			},
-			error: function(xhr, ajaxOptions, thrownError) {
-				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-			}
-		});
-	},
-	'remove': function() {
+                // $('html, body').animate({ scrollTop: 0 }, 'slow');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    },
+    'remove': function(product_id) {
+        $.ajax({
+            url: 'index.php?route=account/wishlist/remove',
+            type: 'post',
+            data: 'product_id=' + product_id,
+            dataType: 'json',
+            success: function(json) {
+                $('.alert-dismissible').remove();
 
-	}
+                if (json['redirect']) {
+                    location = json['redirect'];
+                }
+
+                if (json['success']) {
+                    // Remove the 'liked' state from the button
+                    $('[onclick="wishlist.add(\'' + product_id + '\');"]').removeClass('liked');
+                    $('[onclick="wishlist.remove(\'' + product_id + '\');"]').removeClass('liked');
+                    
+                    $('#content').before('<div class="alert alert--info alert--fixed alert-dismissible">  <button type="button" class="btn btn--icon alert__close" data-dismiss="alert">&times;</button>' + json['success'] + '</div>');
+                }
+
+                $('#wishlist-total').html(json['total']);
+                $('#wishlist-total').attr('title', json['total']);
+               
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
 }
 
 var compare = {
@@ -809,62 +871,6 @@ class CustomSelect {
     }
 }
 
-// QUANTITY BLOCK
-class QuantityChanger {
-    constructor(container) {
-        this.container = typeof container === 'string' ? document.querySelector(container) : container;
-        if (!this.container) {
-            console.error('Quantity block was not found');
-            return;
-        }
-        this.input = container.querySelector('.quant-block__input');
-        this.minusBtn = container.querySelector('[data-operation="minus"]');
-        this.plusBtn = container.querySelector('[data-operation="plus"]');
-        
-        this.min = parseInt(this.input.getAttribute('min')) || 1;
-        this.max = parseInt(this.input.getAttribute('max')) || Infinity;
-
-        this.init();
-    }
-
-    init() {
-        this.minusBtn.addEventListener('click', () => this.changeValue(-1));
-        this.plusBtn.addEventListener('click', () => this.changeValue(1));
-        if (this.input) this.input.addEventListener('change', () => this.validateInput());
-        this.updateButtonStates();
-    }
-
-    changeValue(delta) {
-        let currentValue = parseInt(this.input.value) || this.min;
-        const newValue = currentValue + delta;
-
-        if (newValue >= this.min && newValue <= this.max) {
-            this.input.value = newValue;
-            // this.input.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-    
-        this.updateButtonStates();
-    } 
-
-    validateInput() {
-        let val = parseInt(this.input.value);
-
-        if (isNaN(val) || val < this.min) {
-            val = this.min;
-        } else if (val > this.max) {
-            val = this.max;
-        }
-
-        this.input.value = val;
-        this.updateButtonStates();
-    }
-
-    updateButtonStates() {
-        const val = parseInt(this.input.value);
-        this.minusBtn.disabled = (val <= this.min);
-        this.plusBtn.disabled = (val >= this.max);
-    }
-}
 
 const modalHandler = new Modal();
 
@@ -900,12 +906,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const isCurrentlyActive = container.classList.contains('active');
 
-                document.querySelectorAll(`${config.containerClass}.active`).forEach(activeContainer => {
-                    if (activeContainer !== container) {
-                        activeContainer.classList.remove('active');
-                        activeContainer.ariaExpanded = 'false';
-                    }
-                });
+                // document.querySelectorAll(`${config.containerClass}.active`).forEach(activeContainer => {
+                //     if (activeContainer !== container) {
+                //         activeContainer.classList.remove('active');
+                //         activeContainer.ariaExpanded = 'false';
+                //     }
+                // });
 
                 if (isCurrentlyActive) {
                     container.classList.remove('active');
@@ -1002,6 +1008,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
     // --- END SINGLE INPUT LISTENER ----
-
-    // if (document.querySelector('.quant-block')) document.querySelectorAll('.quant-block').forEach(q => new QuantityChanger(q));
 })
+
+// INITIALIZE INPUT MASKS
+var initMasks = function() {
+    // Check if the inputmask plugin is loaded properly
+    if ($.fn.inputmask) { 
+        // Find all inputs with the mask attribute and loop through them
+        $(document).find("input[data-simple-mask]").each(function() {
+            var $input = $(this);
+            var mask = $input.attr("data-simple-mask");
+
+            if (mask) {
+                try {
+                    // Apply the mask directly to the current element
+                    $input.inputmask({
+                        mask: mask,
+                        clearMaskOnLostFocus: true,
+                        clearIncomplete: true,
+                    });
+                } catch (err) {
+                    console.error("Inputmask failed for element:", $input, err);
+                }
+            }
+        });
+    }
+};
+
+initMasks();

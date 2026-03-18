@@ -29,6 +29,7 @@ $_['button_cart']           = 'Купити';
 $_['button_cancel']         = 'Скасувати';
 $_['button_compare']        = 'До порівняння';
 $_['button_wishlist']       = 'Додати у вішліст';
+$_['button_in_wishlist']       = 'У вішлісті';
 $_['button_checkout']       = 'Оформлення замовлення';
 $_['button_confirm']        = 'Підтвердження замовлення';
 $_['button_coupon']         = 'Застосування купона';

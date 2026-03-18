@@ -13,6 +13,10 @@
         @include mixins.square(1.6rem);
         z-index: 1;
 
+        svg {
+            fill: none;
+        }
+
         &.liked {
             svg {
                 fill: var(--color-red);

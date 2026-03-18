@@ -143,11 +143,11 @@
                                 {% endif %}
     							{% for option_value in option.product_option_value %}
                                     {% if option_value.color_code %}
-                                        <input class="product-vairants__option anim" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="{{ option.name }}_{{ option_value.product_option_value_id }}" data-option-name="{{ option_value.name }}">
+                                        <input class="product-vairants__option anim" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="{{ option.name }}_{{ option_value.product_option_value_id }}" data-option-name="{{ option_value.name }}" data-quantity="{{ option_value.quantity }}">
     					                <label class="product-variants__color-label" for="{{ option.name }}_{{ option_value.product_option_value_id }}" style="background: {{ option_value.color_code}};" title="{{ option_value.name }}">{{ option_value.name }}</label>
                                     {% else %}
                                 
-    								<input class="product-vairants__option anim" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="{{ option.name }}_{{ option_value.product_option_value_id }}">
+    								<input class="product-vairants__option anim" type="radio" name="option[{{ option.product_option_id }}]" value="{{ option_value.product_option_value_id }}" id="{{ option.name }}_{{ option_value.product_option_value_id }}" data-quantity="{{ option_value.quantity }}">
     								<label class="product-variants__label" for="{{ option.name }}_{{ option_value.product_option_value_id }}" >{{ option_value.name }}
     								</label>
                                     {% endif %}
@@ -159,11 +159,11 @@
                 {% endif %}
 
                 {% if not hide_price %}
-                    <div class="quant-block cart-item__quant-block flex-row product-page__quantity"> 
+                    <div class="quant-block flex-row product-page__quantity"> 
                         <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="minus">
                             {{ macros.svg('minus', '') }}
                         </button>
-                        <input class="quant-block__input text--center" type="number"  name="quantity" min="{{ minimum }}" max="{{ maximum }}" value="{{ minimum }}">
+                        <input class="quant-block__input text--center" type="number"  name="quantity" min="{{ minimum }}" max="{{ maximum }}" value="{{ minimum }}" data-base-max="{{ maximum }}">
 
                         <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="plus">
                             {{ macros.svg('plus', '') }}
@@ -205,12 +205,15 @@
     			</div>
 
     			<div class="product-page__help-links flex-row-wrap j-between">
-    				<button class="btn flex-row product-page__icon-title text--upp text--size_label" type="button" onclick="wishlist.add('{{ product_id }}');">
-    					{{ macros.svg('heart', '') }}
-    					<span>{{ button_wishlist }}</span>
+    				<button class="btn text--color_dark flex-row product-page__icon-title text--upp text--size_label {% if in_wishlist %} liked {% endif %}" type="button" onclick="wishlist.toggle(this, '{{ product_id }}');">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 19" role="presentation">
+                            <path class="product-card__like-icon--empty" d="M11.12 18.21C10.78 18.33 10.22 18.33 9.88 18.21C6.98 17.22 0.5 13.09 0.5 6.09C0.5 3 2.99 0.5 6.06 0.5C7.88 0.5 9.49 1.38 10.5 2.74C11.51 1.38 13.13 0.5 14.94 0.5C18.01 0.5 20.5 3 20.5 6.09C20.5 13.09 14.02 17.22 11.12 18.21Z"  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="product-page__icon-title-text--liked">{{ button_in_wishlist }}</span>
+    					<span class="product-page__icon-title-text--default">{{ button_wishlist }}</span>
     				</button>
 
-    				<button class="btn flex-row product-page__icon-title text--upp text--size_label" type="button">
+    				<button class="btn text--color_dark flex-row product-page__icon-title text--upp text--size_label" type="button">
     					{{ macros.svg('need-help', '') }}
     					<span>{{ button_need_help }}</span>
     				</button>

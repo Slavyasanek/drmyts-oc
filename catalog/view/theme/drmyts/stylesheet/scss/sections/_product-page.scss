@@ -5,6 +5,9 @@
 
     &__breadcrumbs {
         margin-block-end: 3.2rem;
+        padding-inline: 1.6rem;
+        margin-inline: -1.6rem;
+
     }
 
     &__title {
@@ -34,11 +37,38 @@
         padding-block-start: 3.2rem;
     }
 
+    &__icon-title-text {
+        &--liked {
+            display: none;
+        }
+    }
+
     &__icon-title {
         gap: .8rem;
         font-weight: 500;
+        
         svg {
+            fill: none;
             @include mixins.square(1.6rem);
+        }
+
+        &.liked {
+            color: var(--color-red);
+
+            svg {
+                fill: var(--color-red);
+                stroke: var(--color-red);
+            }
+
+            .product-page__icon-title-text {
+                &--default {
+                    display: none;
+                }
+
+                &--liked {
+                    display: block;
+                }
+            }
         }
     }
 

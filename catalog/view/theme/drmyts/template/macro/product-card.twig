@@ -10,9 +10,9 @@
                 {% if special %}
                     <span class="sale-badge product-card__sale abs text--color_white text--size_sm flex-center">-{{ discount }}%</span>
                 {% endif %}
-                <button class="btn icon product-card__add-to-wish abs {{ in_wishlist ? 'liked' : '' }}" type="button" onclick="wishlist.add('{{ product_id }}');">
-                    <svg role="presentation">
-                        <use href="catalog/view/theme/drmyts/assets/svg/sprite.svg#heart"></use>
+                <button class="btn icon product-card__add-to-wish abs {{ in_wishlist ? 'liked' : '' }}" type="button" onclick="wishlist.toggle(this, '{{ product_id }}');">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 19" role="presentation">
+                        <path class="product-card__like-icon--empty" d="M11.12 18.21C10.78 18.33 10.22 18.33 9.88 18.21C6.98 17.22 0.5 13.09 0.5 6.09C0.5 3 2.99 0.5 6.06 0.5C7.88 0.5 9.49 1.38 10.5 2.74C11.51 1.38 13.13 0.5 14.94 0.5C18.01 0.5 20.5 3 20.5 6.09C20.5 13.09 14.02 17.22 11.12 18.21Z"  stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>

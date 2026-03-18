@@ -52,7 +52,7 @@
                         </div>
                         <div class="account-details__field custom-input {% if error_telephone %}invalid{% endif %}">
                             <label class="custom-input__label text--color_gray" for="user_tel">{{ entry_telephone }}</label>
-                            <input class="custom-input__input" type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" id="input-telephone"  />
+                            <input class="custom-input__input" type="tel" name="telephone" value="{{ telephone }}" placeholder="{{ entry_telephone }}" data-simple-mask="+38(099)999-99-99" id="input-telephone"  />
                             {% if error_telephone %}
                             <div class="custom-input__error d-none">{{ error_telephone }}</div>
                             {% endif %}

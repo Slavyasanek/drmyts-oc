@@ -34,6 +34,14 @@
         li:not(:last-child) {
             margin-block-end: .4rem;
         }
+
+        a {
+            text-decoration: underline;
+
+            @include mixins.hover {
+                color: var(--color-red);
+            }
+        }
     }
    
 

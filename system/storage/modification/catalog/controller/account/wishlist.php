@@ -73,7 +73,7 @@ class ControllerAccountWishList extends Controller {
 				if ($product_info['image']) {
 					$image = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_wishlist_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_wishlist_height'));
 				} else {
-					$image = false;
+					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_wishlist_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_wishlist_height'));
 				}
 
 				if ($product_info['quantity'] <= 0) {
@@ -124,6 +124,46 @@ class ControllerAccountWishList extends Controller {
 		$this->response->setOutput($this->load->view('account/wishlist', $data));
 	}
 
+
+                public function remove() {
+                    $this->load->language('account/wishlist');
+
+                    $json = array();
+
+                    if (isset($this->request->post['product_id'])) {
+                        $product_id = $this->request->post['product_id'];
+                    } else {
+                        $product_id = 0;
+                    }
+
+                    if ($this->customer->isLogged()) {
+                        // Remove from logged-in customer's wishlist
+                        $this->load->model('account/wishlist');
+
+                        $this->model_account_wishlist->deleteWishlist($product_id);
+
+                        $json['success'] = $this->language->get('text_remove');
+                        $json['total'] = sprintf($this->language->get('text_wishlist'), $this->model_account_wishlist->getTotalWishlist());
+                    } else {
+                        // Remove from session wishlist (if not logged in)
+                        if (isset($this->session->data['wishlist'])) {
+                            $key = array_search($product_id, $this->session->data['wishlist']);
+
+                            if ($key !== false) {
+                                unset($this->session->data['wishlist'][$key]);
+                                // Re-index the array just in case
+                                $this->session->data['wishlist'] = array_values($this->session->data['wishlist']);
+                            }
+                        }
+
+                        $json['success'] = $this->language->get('text_remove');
+                        $json['total'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
+                    }
+
+                    $this->response->addHeader('Content-Type: application/json');
+                    $this->response->setOutput(json_encode($json));
+                }
+            
 	public function add() {
 		$this->load->language('account/wishlist');
 

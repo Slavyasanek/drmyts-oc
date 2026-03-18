@@ -53,8 +53,8 @@
                             <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-onclick="decreaseProductQuantity" data-operation="minus" {{ product['quantity'] <= 1 ? 'disabled' : '' }}>
                                 {{ macros.svg('minus') }}
                             </button>
-                            <input class="quant-block__input text--center" type="number" data-onchange="changeProductQuantity" {{ quantity_step_as_minimum ? 'data-minimum="' ~ product['minimum'] ~ '"' : '' }} name="quantity[{{ product['cart_id'] is not empty ? product['cart_id'] : product['key'] }}]" value="{{ product['quantity'] }}">
-                            <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-onclick="increaseProductQuantity" data-operation="plus">
+                            <input class="quant-block__input text--center" type="number" data-onchange="changeProductQuantity" {{ quantity_step_as_minimum ? 'data-minimum="' ~ product['minimum'] ~ '"' : '' }} name="quantity[{{ product['cart_id'] is not empty ? product['cart_id'] : product['key'] }}]" value="{{ product['quantity'] }}" max="{{ product['maximum'] }}" data-maximum="{{ product['maximum'] }}">
+                            <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-onclick="increaseProductQuantity" data-operation="plus" {{ product['quantity'] >= product['maximum'] ? 'disabled' : '' }}>
                                 {{ macros.svg('plus') }}
                             </button>
                         </div>

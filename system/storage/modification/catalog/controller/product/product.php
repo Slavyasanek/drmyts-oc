@@ -258,6 +258,27 @@ class ControllerProductProduct extends Controller {
 			$data['tab_review'] = sprintf($this->language->get('tab_review'), $product_info['reviews']);
 
 			$data['product_id'] = (int)$this->request->get['product_id'];
+
+            // --- WISHLIST CHECK START ---
+            $data['in_wishlist'] = false;
+
+            if ($this->customer->isLogged()) {
+                $this->load->model('account/wishlist');
+                $wishlist_results = $this->model_account_wishlist->getWishlist();
+                
+                foreach ($wishlist_results as $result) {
+                    if ($result['product_id'] == $product_id) {
+                        $data['in_wishlist'] = true;
+                        break;
+                    }
+                }
+            } else {
+                if (isset($this->session->data['wishlist']) && in_array($product_id, $this->session->data['wishlist'])) {
+                    $data['in_wishlist'] = true;
+                }
+            }
+            // --- WISHLIST CHECK END ---
+            
 			$data['manufacturer'] = $product_info['manufacturer'];
 			$data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);
 			$data['model'] = $product_info['model'];
@@ -281,7 +302,7 @@ class ControllerProductProduct extends Controller {
 			if ($product_info['image']) {
 				$data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
 			} else {
-				$data['popup'] = '';
+				$data['popup'] = $this->model_tool_image->resize('placeholder.png', $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
 			}
 
 			if ($product_info['image']) {
@@ -352,6 +373,9 @@ class ControllerProductProduct extends Controller {
 						}
 
 						$product_option_value_data[] = array(
+
+            'quantity' => $option_value['quantity'],
+            
 							'product_option_value_id' => $option_value['product_option_value_id'],
 							'option_value_id'         => $option_value['option_value_id'],
 							'name'                    => $option_value['name'],
@@ -645,9 +669,6 @@ class ControllerProductProduct extends Controller {
 	}
 
 	public function review() {
-
-        $this->load->model('tool/image'); 
-            
 		$this->load->language('product/product');
 
 		$this->load->model('catalog/review');
@@ -662,26 +683,13 @@ class ControllerProductProduct extends Controller {
 
 		$review_total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
 
-		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 3, 3);
+		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
 
 		foreach ($results as $result) {
-
-            $review_images = array();
-            $images = $this->model_catalog_review->getReviewImages($result['review_id']);
-            foreach ($images as $img) {
-                $review_images[] = array(
-                    'thumb' => $this->model_tool_image->resize($img['image'], 100, 100),
-                    'popup' => $this->model_tool_image->resize($img['image'], 800, 800)
-                );
-            }
-            
 			$data['reviews'][] = array(
 				'author'     => $result['author'],
 				'text'       => nl2br($result['text']),
 				'rating'     => (int)$result['rating'],
-
-                'images'     => $review_images,
-            
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}
@@ -689,9 +697,7 @@ class ControllerProductProduct extends Controller {
 		$pagination = new Pagination();
 		$pagination->total = $review_total;
 		$pagination->page = $page;
-		
-        $pagination->limit = 3;
-            
+		$pagination->limit = 5;
 		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $this->request->get['product_id'] . '&page={page}');
 
 		$data['pagination'] = $pagination->render();
@@ -717,45 +723,6 @@ class ControllerProductProduct extends Controller {
 
 			if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
 				$json['error'] = $this->language->get('error_rating');
-
-            if ((utf8_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
-                $json['error'] = $this->language->get('error_email');
-            }
-
-            $this->request->post['images'] = array();
-
-            if (!empty($this->request->files['review_photos']['name'][0])) {
-                $files = $this->request->files['review_photos'];
-                $directory = DIR_IMAGE . 'catalog/reviews/';
-
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0777, true);
-                }
-
-                foreach ($files['name'] as $key => $name) {
-                    if ($files['error'][$key] == 0) {
-                        $filename = html_entity_decode($name, ENT_QUOTES, 'UTF-8');
-                        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-                        $allowed = array('jpg', 'jpeg', 'png', 'webp');
-
-                        if (!in_array($extension, $allowed)) {
-                            $json['error'] = $this->language->get('error_filetype');
-                            break;
-                        }
-
-                        if ($files['size'][$key] > 2000000) { // 2MB
-                            $json['error'] = $this->language->get('error_max_file');
-                            break;
-                        }
-
-                        $new_filename = md5(time() . $filename) . '.' . $extension;
-                        move_uploaded_file($files['tmp_name'][$key], $directory . $new_filename);
-                        
-                        $this->request->post['images'][] = 'catalog/reviews/' . $new_filename;
-                    }
-                }
-            }
-            
 			}
 
 			// Captcha

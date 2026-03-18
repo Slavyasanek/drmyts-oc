@@ -53,8 +53,8 @@
                                 <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="minus" onclick="cart.update('{{ product.cart_id }}', '{{ product.quantity - 1}}')">
                                     {{ macros.svg('minus', '') }}
                                 </button>
-                                <input class="quant-block__input text--center" type="number" name="item_count" min="1" max="5" value="{{ product.quantity }}">
-                                <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="plus" onclick="cart.update('{{ product.cart_id }}', '{{ product.quantity + 1}}')">
+                                <input class="quant-block__input text--center" type="number" name="item_count" min="{{ product.minimum }}" max="{{ product.maximum }}" value="{{ product.quantity }}">
+                                <button class="quant-block__btn btn flex-center btn--border_gray" type="button" data-operation="plus" onclick="cart.update('{{ product.cart_id }}', '{{ product.quantity + 1}}')" {% if product.quantity >= product.maximum %}disabled{% endif %}>
                                     {{ macros.svg('plus', '') }}
                               </button>
                             </div>

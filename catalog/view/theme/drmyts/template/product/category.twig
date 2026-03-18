@@ -8,6 +8,8 @@
 <main id="content">
 	{{ content_top }}
 
+    {{ sections.pageTitle(heading_title, breadcrumbs) }}
+
 	<section class="shop">
 		<div class="container shop__container d-grid {% if not column_left %} shop__container--clean {% endif %}">
 			<div class="shop__heading shop-heading flex-row-wrap j-between">

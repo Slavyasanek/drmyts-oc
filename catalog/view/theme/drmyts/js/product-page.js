@@ -113,14 +113,14 @@ if (galleryEls.main.querySelectorAll('.splide__slide').length > 1 && typeof Spli
         if (galleryEls.prevBtn) galleryEls.prevBtn.addEventListener("click", () => mainSlider.go("<"));
         if (galleryEls.nextBtn) galleryEls.nextBtn.addEventListener("click", () => mainSlider.go(">"))
     }
-
-    const lightbox = new PhotoSwipeLightbox({
-        gallery: galleryEls.main.querySelector('.splide__list'),
-        children: 'a',
-        pswpModule: PhotoSwipe 
-    });
-    lightbox.init();
 }
+
+const lightbox = new PhotoSwipeLightbox({
+    gallery: galleryEls.main.querySelector('.splide__list'),
+    children: 'a',
+    pswpModule: PhotoSwipe 
+});
+lightbox.init();
 
 // PRODDUCT REVIEWS
 if (document.querySelector('.product-reviews')) {
@@ -191,8 +191,7 @@ if (document.querySelector('.product-reviews')) {
         })
         .then(r => r.json())
         .then(json => {
-            document.querySelectorAll('.alert--error').forEach(e => e.remove());
-
+            document.querySelectorAll('.alert--error, .alert--success').forEach(e => e.remove());
             if (json.error) {
                 reviewForm.before(Object.assign(document.createElement('div'), {
                     className: 'alert alert--error text--center alert--in-txt',
@@ -339,80 +338,193 @@ const highlighteErrors = (errors) => {
     document.querySelectorAll('.text-danger').forEach(e => e.parentElement.classList.add('has-error'));
 }
 
+// QUANTITY BLOCK
+class QuantityChanger {
+    constructor(container) {
+        this.container = typeof container === 'string' ? document.querySelector(container) : container;
+        if (!this.container) {
+            console.error('Quantity block was not found');
+            return;
+        }
+        // Save the instance to the DOM element so we can access it from outside
+        this.container.__quantityChanger = this;
 
-buttons.cart?.addEventListener('click', () => {
-    const formData = formProductData();
-    loading(true);
+        this.input = this.container.querySelector('.quant-block__input');
+        this.minusBtn = this.container.querySelector('[data-operation="minus"]');
+        this.plusBtn = this.container.querySelector('[data-operation="plus"]');
+        
+        this.min = parseInt(this.input.getAttribute('min')) || 1;
+        this.max = parseInt(this.input.getAttribute('max')) || Infinity;
 
-    fetch('index.php?route=checkout/cart/add', {
-        method: 'POST',
-        body: formData
-    })
-    .then(r => r.json())
-    .then(json => {
-        removeErrors();
+        this.init();
+    }
 
-        if (json.error) highlighteErrors(json.error);
-        if (json.success) {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+    init() {
+        this.minusBtn.addEventListener('click', () => this.changeValue(-1));
+        this.plusBtn.addEventListener('click', () => this.changeValue(1));
+        if (this.input) this.input.addEventListener('change', () => this.validateInput());
+        this.updateButtonStates();
+    }
 
-            fetch('index.php?route=common/cart/info')
-                .then(r => r.text())
-                .then(html => {
-                    const temp = document.createElement('div');
-                    temp.innerHTML = html;
+    changeValue(delta) {
+        let currentValue = parseInt(this.input.value) || this.min;
+        const newValue = currentValue + delta;
 
-                    const cart = document.getElementById('cart');
-                    if (cart) {
-                        cart.innerHTML = temp.querySelector('#cart').innerHTML;
-                        modalHandler.openModal(cart.querySelector('.backdrop'));
+        if (newValue >= this.min && newValue <= this.max) {
+            this.input.value = newValue;
+            // this.input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    
+        this.updateButtonStates();
+    } 
+
+    validateInput() {
+        let val = parseInt(this.input.value);
+
+        if (isNaN(val) || val < this.min) {
+            val = this.min;
+        } else if (val > this.max) {
+            val = this.max;
+        }
+
+        this.input.value = val;
+        this.updateButtonStates();
+    }
+
+    // NEW METHOD: Update max dynamically
+    setMax(newMax) {
+        this.max = parseInt(newMax) || Infinity;
+        this.input.setAttribute('max', this.max);
+        this.validateInput(); // Re-validate in case current value is now above the new max
+    }
+
+    updateButtonStates() {
+        const val = parseInt(this.input.value);
+        this.minusBtn.disabled = (val <= this.min);
+        this.plusBtn.disabled = (val >= this.max);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // COLOR OPTIONS TITLE
+    if (document.querySelector('.product-variants__options--color')) {
+        Array.from(document.querySelectorAll('.product-variants__options--color')).forEach(colorOptions => {
+            const outputSpan = colorOptions.querySelector('.product-variants__chosen');
+
+            colorOptions.addEventListener("click", e => {
+
+                if (e.target.closest('.product-vairants__option')) {
+                    const content = e.target.closest('.product-vairants__option').dataset.optionName;
+                    if (content) outputSpan.textContent = content;
+                } else if (e.target.closest('.product-variants__color-label')) {
+                    const content = e.target.closest('.product-variants__color-label').textContent;
+                    if (content) outputSpan.textContent = content;
+                }
+            })
+        })
+    }
+
+    if (document.querySelector('.product-page__quantity')) {
+        // --- QUANTITY BLOCK ---
+        const quantityChanger = new QuantityChanger('.product-page__quantity');
+
+        // --- OPTION CHANGE LISTENER ---
+        document.addEventListener('change', (e) => {
+            if (e.target.matches('input[name^="option["], select[name^="option["]')) {
+                
+                let baseMax = parseInt(quantityChanger.input.getAttribute('data-base-max')) || Infinity;
+                let selectedOptions = document.querySelectorAll('input[name^="option["]:checked, select[name^="option["] option:checked');
+                
+                // Start with Infinity so option quantities can properly set the limit
+                let currentMax = Infinity;
+                let hasOptionQuantity = false;
+
+                selectedOptions.forEach(opt => {
+                    let optQuantity = parseInt(opt.getAttribute('data-quantity'));
+                    if (!isNaN(optQuantity)) {
+                        hasOptionQuantity = true;
+                        // Find the bottleneck ONLY among selected options
+                        if (optQuantity < currentMax) {
+                            currentMax = optQuantity;
+                        }
                     }
                 });
-        }
-    })
-    .catch(err => alert(err))
-    .finally(() => {
-        loading(false);
-    })
-});
 
-buttons.fastBuy?.addEventListener('click', () => {
-    const formData = formProductData();
-    loading(true);
+                // Fallback to base product max ONLY if no options with quantities are selected
+                if (!hasOptionQuantity || currentMax === Infinity) {
+                    currentMax = baseMax;
+                }
 
-    fetch('index.php?route=checkout/cart/add', {
-        method: 'POST',
-        body: formData
-    })
-    .then(r => r.json())
-    .then(json => {
-        removeErrors();
+                // Update all quantity changer instances on the page
+                document.querySelectorAll('.product-page__quantity').forEach(q => {
+                    if (q.__quantityChanger) {
+                        q.__quantityChanger.setMax(currentMax);
+                    }
+                });
+            }
+        });
+    }
 
-        if (json.error) highlighteErrors(json.error);
+    // ADD TO CART
+    buttons.cart?.addEventListener('click', () => {
+        const formData = formProductData();
+        loading(true);
 
-        if (json.success) {
-            window.location.href = checkoutUrl;
-        }
-    })
-    .catch(err => console.error('Помилка швидкої покупки:', err))
-    .finally(() => {
-        loading(false);
+        fetch('index.php?route=checkout/cart/add', {
+            method: 'POST',
+            body: formData
+        })
+        .then(r => r.json())
+        .then(json => {
+            removeErrors();
+
+            if (json.error) highlighteErrors(json.error);
+            if (json.success) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                fetch('index.php?route=common/cart/info')
+                    .then(r => r.text())
+                    .then(html => {
+                        const temp = document.createElement('div');
+                        temp.innerHTML = html;
+
+                        const cart = document.getElementById('cart');
+                        if (cart) {
+                            cart.innerHTML = temp.querySelector('#cart').innerHTML;
+                            modalHandler.openModal(cart.querySelector('.backdrop'));
+                        }
+                    });
+            }
+        })
+        .catch(err => alert(err))
+        .finally(() => {
+            loading(false);
+        })
+    });
+
+    // IMMEDIATE PURCHASE
+    buttons.fastBuy?.addEventListener('click', () => {
+        const formData = formProductData();
+        loading(true);
+
+        fetch('index.php?route=checkout/cart/add', {
+            method: 'POST',
+            body: formData
+        })
+        .then(r => r.json())
+        .then(json => {
+            removeErrors();
+
+            if (json.error) highlighteErrors(json.error);
+
+            if (json.success) {
+                window.location.href = checkoutUrl;
+            }
+        })
+        .catch(err => console.error('Помилка швидкої покупки:', err))
+        .finally(() => {
+            loading(false);
+        });
     });
 });
 
-if (document.querySelector('.product-variants__options--color')) {
-    Array.from(document.querySelectorAll('.product-variants__options--color')).forEach(colorOptions => {
-        const outputSpan = colorOptions.querySelector('.product-variants__chosen');
-
-        colorOptions.addEventListener("click", e => {
-
-            if (e.target.closest('.product-vairants__option')) {
-                const content = e.target.closest('.product-vairants__option').dataset.optionName;
-                if (content) outputSpan.textContent = content;
-            } else if (e.target.closest('.product-variants__color-label')) {
-                const content = e.target.closest('.product-variants__color-label').textContent;
-                if (content) outputSpan.textContent = content;
-            }
-        })
-    })
-}

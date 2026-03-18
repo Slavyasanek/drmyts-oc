@@ -5,12 +5,6 @@ class ModelCatalogReview extends Model {
 
 		$review_id = $this->db->getLastId();
 
-        if (isset($data['images'])) {
-            foreach ($data['images'] as $image) {
-                $this->db->query("INSERT INTO " . DB_PREFIX . "review_image SET review_id = '" . (int)$review_id . "', image = '" . $this->db->escape($image) . "'");
-            }
-        }
-
 		if (in_array('review', (array)$this->config->get('config_mail_alert'))) {
 			$this->load->language('mail/review');
 			$this->load->model('catalog/product');
@@ -72,9 +66,4 @@ class ModelCatalogReview extends Model {
 
 		return $query->row['total'];
 	}
-
-    public function getReviewImages($review_id) {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "review_image WHERE review_id = '" . (int)$review_id . "'");
-        return $query->rows;
-    }
 }

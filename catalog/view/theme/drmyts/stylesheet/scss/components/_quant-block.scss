@@ -8,6 +8,7 @@
         svg {
             stroke: var(--color-dark);
             @include mixins.square(1.6rem);
+            outline: none;
         }
 
         &.disabled, &:disabled {

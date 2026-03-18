@@ -1747,8 +1747,12 @@
 
             var $quantity = $target.parents(".quantity").find("input");
             var quantity = parseFloat($quantity.val());
+            const max = parseFloat($quantity.attr("data-maximum"));
             var step = +$quantity.attr("data-minimum") || 1;
-            console.log(quantity);
+            if (quantity >= max) {
+                $target.parents(".quantity").find('[data-operation="plus"]').attr("disabled", "disabled");
+                return;
+            }
             if (!isNaN(quantity)) {
                 $quantity.val(quantity + step);
 

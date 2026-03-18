@@ -29,7 +29,7 @@ class ControllerExtensionModuleSectionHero extends Controller {
                 $data['cards'][] = [
                     'icon' => $setting['card_icon_' . $i] ?? 'note',
                     'num'  => $setting['card_num_' . $i],
-                    'text' => $setting['card_text_' . $i]
+                    'text' => html_entity_decode($setting['card_text_' . $i], ENT_QUOTES, 'UTF-8')
                 ];
             }
         }

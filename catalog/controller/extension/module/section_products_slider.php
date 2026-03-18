@@ -42,10 +42,11 @@ class ControllerExtensionModuleSectionProductsSlider extends Controller {
                     }
 
                     $in_wishlist = false;
+                    $this->load->model('account/wishlist');
+                    $wishlist_full_data = $this->model_account_wishlist->getWishlist();
                     
                     if ($this->customer->isLogged() && isset($this->session->data['wishlist'])) {
-                        $this->load->model('account/wishlist');
-                        $wishlist_full_data = $this->model_account_wishlist->getWishlist();
+                        
                         $wishlist_ids = array_column($wishlist_full_data, 'product_id');
                         if (in_array($product_id, $wishlist_ids)) {
                             $in_wishlist = true;

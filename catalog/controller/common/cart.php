@@ -53,7 +53,7 @@ class ControllerCommonCart extends Controller {
 
 		$this->load->model('tool/image');
 		$this->load->model('tool/upload');
-
+        $this->load->model('catalog/product');
 		$data['products'] = array();
 
 		foreach ($this->cart->getProducts() as $product) {
@@ -96,6 +96,20 @@ class ControllerCommonCart extends Controller {
 				$total = false;
 			}
 
+            $product_info = $this->model_catalog_product->getProduct($product['product_id']);
+            $minimum = (isset($product_info['minimum']) && $product_info['minimum'] > 0) ? $product_info['minimum'] : 1;
+            $maximum = isset($product_info['quantity']) ? $product_info['quantity'] : 1;
+
+            if (!empty($product['option'])) {
+                foreach ($product['option'] as $cart_option) {
+                    if (isset($cart_option['subtract']) && $cart_option['subtract'] && isset($cart_option['quantity'])) {
+                        if ($cart_option['quantity'] < $maximum) {
+                            $maximum = $cart_option['quantity'];
+                        }
+                    }
+                }
+            }
+
 			$data['products'][] = array(
 				'cart_id'   => $product['cart_id'],
 				'thumb'     => $image,
@@ -106,6 +120,8 @@ class ControllerCommonCart extends Controller {
 				'quantity'  => $product['quantity'],
 				'price'     => $price,
 				'total'     => $total,
+                'minimum'   => $minimum, 
+                'maximum'   => $maximum, 
 				'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 			);
 		}
