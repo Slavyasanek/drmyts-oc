@@ -1,4 +1,4 @@
-2026-03-18 14:34:26 - MOD: Modification Default
+2026-03-18 15:43:55 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -353,6 +353,47 @@ LINE: 9
 MOD: Remove from wishlist
 CODE: public function add() {
 LINE: 166
+----------------------------------------------------------------
+MOD: Review Images
+CODE: public function review() {
+LINE: 673
+CODE: $data['reviews'][] = array(
+LINE: 701
+CODE: 'rating'     => (int)$result['rating'],
+LINE: 707
+CODE: $pagination->limit = 5;
+LINE: 715
+CODE: $results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
+LINE: 688
+CODE: if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
+LINE: 780
+
+FILE: catalog/model/catalog/review.php
+CODE: $review_id = $this->db->getLastId();
+LINE: 12
+CODE: public function getTotalReviewsByProductId($product_id) {
+LINE: 76
+
+FILE: admin/controller/catalog/review.php
+CODE: public function delete() {
+LINE: 125
+CODE: if (isset($this->request->post['author'])) {
+LINE: 517
+CODE: $data['header'] = $this->load->controller('common/header');
+LINE: 421
+LINE: 611
+
+FILE: admin/model/catalog/review.php
+CODE: public function addReview($data) {
+LINE: 5
+CODE: public function editReview($review_id, $data) {
+LINE: 26
+CODE: $this->db->query("DELETE FROM " . DB_PREFIX . "review WHERE review_id = '" . (int)$review_id . "'");
+LINE: 59
+CODE: public function getReview($review_id) {
+LINE: 70
+CODE: $sql .= " ORDER BY " . $data['sort'] . " " . $data['order'];
+NOT FOUND - OPERATIONS ABORTED!
 ----------------------------------------------------------------
 MOD: Shop
 CODE: $data['products'][] = array(

@@ -669,6 +669,9 @@ class ControllerProductProduct extends Controller {
 	}
 
 	public function review() {
+
+        $this->load->model('tool/image'); 
+            
 		$this->load->language('product/product');
 
 		$this->load->model('catalog/review');
@@ -683,13 +686,26 @@ class ControllerProductProduct extends Controller {
 
 		$review_total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
 
-		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
+		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 3, 3);
 
 		foreach ($results as $result) {
+
+            $review_images = array();
+            $images = $this->model_catalog_review->getReviewImages($result['review_id']);
+            foreach ($images as $img) {
+                $review_images[] = array(
+                    'thumb' => $this->model_tool_image->resize($img['image'], 100, 100),
+                    'popup' => $this->model_tool_image->resize($img['image'], 800, 800)
+                );
+            }
+            
 			$data['reviews'][] = array(
 				'author'     => $result['author'],
 				'text'       => nl2br($result['text']),
 				'rating'     => (int)$result['rating'],
+
+                'images'     => $review_images,
+            
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			);
 		}
@@ -697,7 +713,9 @@ class ControllerProductProduct extends Controller {
 		$pagination = new Pagination();
 		$pagination->total = $review_total;
 		$pagination->page = $page;
-		$pagination->limit = 5;
+		
+        $pagination->limit = 3;
+            
 		$pagination->url = $this->url->link('product/product/review', 'product_id=' . $this->request->get['product_id'] . '&page={page}');
 
 		$data['pagination'] = $pagination->render();
@@ -724,6 +742,45 @@ class ControllerProductProduct extends Controller {
 			if (empty($this->request->post['rating']) || $this->request->post['rating'] < 0 || $this->request->post['rating'] > 5) {
 				$json['error'] = $this->language->get('error_rating');
 			}
+
+            if ((utf8_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
+                $json['error'] = $this->language->get('error_email');
+            }
+
+            $this->request->post['images'] = array();
+
+            if (!empty($this->request->files['review_photos']['name'][0])) {
+                $files = $this->request->files['review_photos'];
+                $directory = DIR_IMAGE . 'catalog/reviews/';
+
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0777, true);
+                }
+
+                foreach ($files['name'] as $key => $name) {
+                    if ($files['error'][$key] == 0) {
+                        $filename = html_entity_decode($name, ENT_QUOTES, 'UTF-8');
+                        $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+                        $allowed = array('jpg', 'jpeg', 'png', 'webp');
+
+                        if (!in_array($extension, $allowed)) {
+                            $json['error'] = $this->language->get('error_filetype');
+                            break;
+                        }
+
+                        if ($files['size'][$key] > 2000000) { // 2MB
+                            $json['error'] = $this->language->get('error_max_file');
+                            break;
+                        }
+
+                        $new_filename = md5(time() . $filename) . '.' . $extension;
+                        move_uploaded_file($files['tmp_name'][$key], $directory . $new_filename);
+                        
+                        $this->request->post['images'][] = 'catalog/reviews/' . $new_filename;
+                    }
+                }
+            }
+            
 
 			// Captcha
 			if ($this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page'))) {
