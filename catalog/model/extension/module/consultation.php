@@ -15,6 +15,7 @@ class ModelExtensionModuleConsultation extends Model {
             skin_tzone     = '" . $this->db->escape($data['t-zone'] ?? '') . "',
             skin_problems  = '" . $this->db->escape(json_encode($skin_problems, JSON_UNESCAPED_UNICODE)) . "',
             allergy        = '" . $this->db->escape($data['allergy'] ?? '') . "',
+            allergies      = '" . $this->db->escape($data['allergies'] ?? '') . "',
             diagnosis      = '" . $this->db->escape($data['diagnosis'] ?? '') . "',
             photos         = '" . $this->db->escape(json_encode($photos)) . "',
             spf            = '" . $this->db->escape($data['spf'] ?? '') . "',

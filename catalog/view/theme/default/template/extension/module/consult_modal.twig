@@ -49,9 +49,25 @@
                             <input class="custom-input__input" type="text" name="user_city" placeholder="{{ entry_city }}" required />
                             <div class="custom-input__error d-none">{{ error_required }}</div>
                         </div>
-                        <div class="consult-form__field custom-input">
-                            <input class="custom-input__input" type="text" name="is_pregnant" placeholder="{{ entry_pregnant }}" required />
-                            <div class="custom-input__error d-none">{{ error_required }}</div>
+                        <div class="consult-form__variable-field consult-form__field">
+                            <div class="consult-form__field-heading">
+                                <h5 class="consult-form__field-title text--w_500 m-0">{{ entry_pregnant }}</h5>
+                            </div>
+                            <div class="flex-row consult-form__options">
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="is_pregnant" value="{{ text_yes }}" id="is_pregnant_yes" />
+                                    </div>
+                                    <label for="is_pregnant_yes">{{ text_yes }}</label>
+                                </div>
+                                <div class="consult-modal__radio custom-checkbox custom-checkbox--red flex-row custom-checkbox--rounded">
+                                    <div class="custom-checkbox__wrapper rel">
+                                        <input type="radio" name="is_pregnant" value="{{ text_no }}" id="is_pregnant_no" />
+                                    </div>
+                                    <label for="is_pregnant_no">{{ text_no }}</label>
+                                </div>
+                            </div>
+                            <div class="consult-form__error d-none">{{ error_required }}</div>
                         </div>
                     </div>
                 </div>
@@ -224,6 +240,10 @@
                                 </div>
                             </div>
                             <div class="consult-form__error d-none">{{ error_required }}</div>
+                        </div>
+                        <div class="consult-form__field custom-input d-none" data-field="allergies">
+                            <input class="custom-input__input" type="text" name="allergies" placeholder="{{ entry_allergies }}"/>
+                            <div class="custom-input__error d-none">{{ error_required }}</div>
                         </div>
                         <div class="consult-form__variable-field consult-form__field">
                             <div class="consult-form__field-heading">
@@ -411,6 +431,18 @@ class ConsultForm {
                     hiddenFields.forEach(f => f.classList.remove(this.classes.hide));
                 } else {
                     hiddenFields.forEach(f => f.classList.add(this.classes.hide));
+                }
+            });
+        });
+
+        const allergyRadios = this.form.querySelectorAll('input[name="allergy"]');
+        const allergyInput = this.form.querySelector('[data-field="allergies"]');
+        allergyRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                if (e.target.id === 'allergy_yes') {
+                    allergyInput.classList.remove(this.classes.hide);
+                } else {
+                    allergyInput.classList.add(this.classes.hide);
                 }
             });
         });
