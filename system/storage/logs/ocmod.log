@@ -1,4 +1,4 @@
-2026-03-18 15:43:55 - MOD: Modification Default
+2026-03-18 17:38:17 - MOD: Modification Default
 
 FILE: system/engine/action.php
 REGEX: ~(require|include)(_once)?\(([^)]+)~
@@ -395,6 +395,84 @@ LINE: 70
 CODE: $sql .= " ORDER BY " . $data['sort'] . " " . $data['order'];
 NOT FOUND - OPERATIONS ABORTED!
 ----------------------------------------------------------------
+MOD: Shipping Data Admin
+
+FILE: admin/controller/sale/order.php
+CODE: public function getForm(
+LINE: 525
+
+FILE: admin/model/sale/order.php
+CODE: public function getOrderProducts(
+LINE: 237
+
+FILE: admin/language/uk-ua/sale/order.php
+CODE: // Text
+LINE: 23
+
+FILE: admin/view/template/sale/order_list.twig
+CODE: {{ footer }}
+LINE: 583
+
+FILE: admin/view/template/sale/order_info.twig
+CODE: {{ footer }}
+LINE: 855
+----------------------------------------------------------------
+MOD: Shipping Data for Default checkout
+
+FILE: catalog/controller/checkout/checkout.php
+CODE: public function index() {
+LINE: 10
+
+FILE: catalog/view/theme/default/template/checkout/checkout.twig
+CODE: {{ footer }}
+LINE: 1226
+
+FILE: catalog/view/theme/drmyts/template/checkout/checkout.twig
+CODE: {{ footer }}
+LINE: 1226
+
+FILE: catalog/view/theme/default/template/checkout/shipping_method.twig
+CODE: </label>
+LINE: 16
+
+FILE: catalog/view/theme/drmyts/template/checkout/shipping_method.twig
+CODE: </label>
+LINE: 16
+----------------------------------------------------------------
+MOD: Shipping Data for Simple checkout and registration
+
+FILE: catalog/controller/checkout/simplecheckout.php
+CODE: public function index(
+LINE: 16
+
+FILE: catalog/model/tool/simpleapimain.php
+CODE: extends Model {
+LINE: 200
+
+FILE: catalog/model/tool/simpleapicustom.php
+CODE: extends Model {
+LINE: 200
+
+FILE: catalog/view/theme/default/template/checkout/simplecheckout.twig
+CODE: {{ simple_footer }}
+NOT FOUND - OPERATIONS ABORTED!
+
+FILE: catalog/view/theme/drmyts/template/checkout/simplecheckout.twig
+CODE: {{ simple_footer }}
+NOT FOUND - OPERATIONS ABORTED!
+CODE: {% include simple_footer %}
+LINE: 629
+CODE: {% include simple_footer %}
+LINE: 643
+
+FILE: catalog/view/theme/default/template/checkout/simplecheckout_shipping.twig
+CODE: </label>
+LINE: 55
+
+FILE: catalog/view/theme/drmyts/template/checkout/simplecheckout_shipping.twig
+CODE: </label>
+LINE: 38
+----------------------------------------------------------------
 MOD: Shop
 CODE: $data['products'][] = array(
 LINE: 275
@@ -447,4 +525,54 @@ CODE: 'special'     => $special,
 LINE: 270
 CODE: $data['column_left'] = $this->load->controller('common/column_left');
 LINE: 495
+----------------------------------------------------------------
+MOD: Simple Custom Data
+CODE: $store_info = $this->model_setting_setting->getSetting('config', $order_info['store_id']);
+LINE: 1622
+LINE: 1839
+CODE: $shipping_address = str_replace(
+LINE: 1725
+LINE: 1923
+CODE: $payment_address = str_replace
+LINE: 1691
+CODE: $customer_group_info = $this->model_customer_customer_group->getCustomerGroup
+LINE: 947
+CODE: $data['shipping_address'] = str_replace(
+LINE: 1046
+CODE: $data['payment_address'] = str_replace(
+LINE: 1011
+CODE: $data['ip'] = $order_info['ip'];
+LINE: 1424
+CODE: id="tab-customer"
+LINE: 65
+CODE: <input type="hidden" name="address[{{ address_row }}][address_id]" value="{{ address.address_id }}" />
+LINE: 331
+
+FILE: admin/view/template/sale/order_form.twig
+CODE: id="tab-customer"
+LINE: 36
+CODE: id="tab-payment"
+LINE: 411
+CODE: id="tab-shipping"
+LINE: 630
+
+FILE: catalog/controller/mail/order.php
+CODE: function add
+LINE: 48
+CODE: $data['title'] = sprintf($language->get('text
+LINE: 74
+CODE: data['payment_address']
+LINE: 181
+CODE: data['shipping_address']
+LINE: 232
+
+FILE: catalog/controller/account/address.php
+CODE: $find = array(
+LINE: 193
+CODE: data['addresses'][] = array(
+LINE: 244
+CODE: data['payment_address']
+LINE: 327
+CODE: data['shipping_address']
+LINE: 384
 ----------------------------------------------------------------
