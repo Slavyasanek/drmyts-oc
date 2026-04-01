@@ -33,6 +33,11 @@
 
         &__title {
             text-align: center;
+            justify-content: center;
+
+            .section-title__accent {
+                margin-inline-start: 0;
+            }
         }
 
         &__slider {

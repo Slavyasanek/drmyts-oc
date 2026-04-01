@@ -44,12 +44,22 @@
         &__heading {
             grid-template-columns: repeat(2, 1fr);
         }
+
+        &__title {
+            height: max-content;
+        }
     }
 }
 
 @include mixins.min-LXL {
     .follow {
         padding-block: 6.4rem 12.8rem;
+
+        &__title {
+            .section-title__accent {
+                margin-inline-start: -0.4rem;
+            }
+        }
 
         &__slider {
             max-width: 100%;

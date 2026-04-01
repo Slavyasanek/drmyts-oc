@@ -1,4 +1,8 @@
 .section-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    
     &__accent {
         // width: min(30%, auto);
         // min-width: 30%;

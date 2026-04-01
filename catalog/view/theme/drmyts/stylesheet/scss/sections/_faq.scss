@@ -15,6 +15,10 @@
 
         &__title {
             margin-block-end: 4.8rem;
+
+            .section-title__accent {
+                margin-inline-start: -0.4rem;
+            }
         }
     }
 }
